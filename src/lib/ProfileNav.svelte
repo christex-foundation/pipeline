@@ -13,16 +13,11 @@
   
     function handleClick(section) {
       currentSection = section.id;
-      
-      // If using SvelteKit, uncomment the next line
-      // goto(section.href);
-  
-      // If not using SvelteKit, dispatch a custom event
       dispatch('navigate', { href: section.href, id: section.id });
     }
   </script>
   
-  <nav class="flex flex-wrap gap-10 justify-between items-center w-full text-3xl whitespace-nowrap max-md:max-w-full">
+  <nav class="flex flex-wrap items-center justify-between w-full gap-10 text-3xl whitespace-nowrap max-md:max-w-full">
     {#each navSections as section (section.id)}
       <a 
         href={section.href} 
@@ -30,8 +25,8 @@
         class:font-semibold={isActive(section.id)}
         on:click|preventDefault={() => handleClick(section)}
       >
-        <div class="flex gap-2 items-center">
-          <img loading="lazy" src={section.icon} alt="" class="object-contain self-stretch my-auto w-10 shrink-0 aspect-square" />
+        <div class="flex items-center gap-2">
+          <img loading="lazy" src={section.icon} alt="" class="self-stretch object-contain w-10 my-auto shrink-0 aspect-square" />
           <span class="self-stretch my-auto">{section.label}</span>
         </div>
         {#if isActive(section.id)}

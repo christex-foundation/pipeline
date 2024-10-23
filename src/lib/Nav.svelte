@@ -24,7 +24,7 @@
     });
 </script>
 
-<header class="flex justify-between items-center px-60 pt-11 pb-6 bg-cyan-950 max-md:px-5">
+<header class="flex items-center justify-between pb-6 px-60 pt-11 bg-cyan-950 max-md:px-5">
   <div class="flex flex-wrap gap-10 justify-between items-center self-stretch my-auto min-w-[240px] w-[1298px]">
     <Logo />  
     <nav class="flex gap-10 justify-center items-center self-stretch my-auto text-sm font-medium leading-none text-center text-lime-300 min-w-[240px] max-md:max-w-full">
@@ -44,7 +44,7 @@
           />
         </button>
         {#if isResourcesOpen}
-          <div class="absolute top-full left-1/2 z-10 py-2 mt-2 w-48 bg-cyan-900 rounded-md shadow-lg transform -translate-x-1/2">
+          <div class="absolute z-10 w-48 py-2 mt-2 transform -translate-x-1/2 rounded-md shadow-lg top-full left-1/2 bg-cyan-900">
             <a href="/about" class="block px-4 py-3 text-left text-lime-300 hover:bg-cyan-800">About Pipeline</a>
             <a href="/dpgs" class="block px-4 py-3 text-left text-lime-300 hover:bg-cyan-800">About DPGs</a>
           </div>
@@ -89,7 +89,7 @@
   });
 </script>
 
-<header class="flex justify-between items-center px-60 pt-11 pb-6 bg-cyan-950 max-md:px-5">
+<header class="flex justify-between items-center px-60 pt-11 pb-6 bg-cyan-950 max-md:px-5 w-[100%]">
   <div class="flex flex-wrap gap-10 justify-between items-center self-stretch my-auto min-w-[240px] w-[1298px]">
     <Logo />  
     <nav class="flex gap-10 justify-center items-center self-stretch my-auto text-sm font-medium leading-none text-center text-lime-300 min-w-[240px] max-md:max-w-full">
@@ -109,7 +109,7 @@
           />
         </button>
         {#if isResourcesOpen}
-          <div class="absolute top-full left-1/2 z-10 py-2 mt-2 w-48 bg-cyan-900 rounded-md shadow-lg transform -translate-x-1/2">
+          <div class="absolute z-10 w-48 py-2 mt-2 transform -translate-x-1/2 rounded-md shadow-lg top-full left-1/2 bg-cyan-900">
             <a href="/about" class="block px-4 py-3 text-left text-lime-300 hover:bg-cyan-800">About Pipeline</a>
             <a href="/dpgs" class="block px-4 py-3 text-left text-lime-300 hover:bg-cyan-800">About DPGs</a>
           </div>

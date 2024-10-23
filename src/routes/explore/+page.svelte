@@ -5,7 +5,6 @@
     import CategoryDropdown from '../../lib/CategoryDropdown.svelte';
     import SortDropdown from '../../lib/SortDropdown.svelte';
     import Card from '../../lib/Card.svelte';
-    import LearnMoreButton from '../../lib/LearnMoreButton.svelte';
     import Footer from '../../lib/Footer.svelte';
   import { onMount } from 'svelte';
   
@@ -80,7 +79,7 @@ onMount(() => {
 <div class="w-full min-h-screen bg-white">
     <Nav />
     <div class="w-full bg-[#d1ea9a]/90 py-16">
-        <div class="mx-auto max-w-4xl text-center">
+        <div class="max-w-4xl mx-auto text-center">
             <h1 class="text-[#08292c] text-[45.43px] font-semibold font-['PP Mori'] leading-[54.51px]">
                 Discover impact projects, donate directly,<br/>& participate in funding rounds.
                 
@@ -88,9 +87,9 @@ onMount(() => {
         </div>
     </div>
 
-    <div class="flex justify-center px-4 w-full">
+    <div class="flex justify-center w-full px-4">
         <main class="flex flex-col mt-24 w-full text-2xl max-w-[965px] max-md:mt-10 max-md:max-w-full">
-            <section class="flex flex-wrap gap-5 justify-between items-center w-full font-thin leading-none text-center text-lime-100 max-md:max-w-full">
+            <section class="flex flex-wrap items-center justify-between w-full gap-5 font-thin leading-none text-center text-lime-100 max-md:max-w-full">
                 <Search />
                 <CategoryDropdown />
                 <SortDropdown />
@@ -123,9 +122,12 @@ onMount(() => {
         {/if}
     </div>
 
-    <div class="flex justify-center items-center mt-8 mb-16">
-        <LearnMoreButton />
-    </div>
+    <div class="flex items-center justify-center">
+        <div class="px-[30px] py-[18px] bg-[#d1ea9a] rounded-full border-2 border-[#516027] inline-flex items-center">
+          <button class="text-[#516027] text-xl font-normal font-['Inter'] leading-snug">Load more</button>
+        </div>
+      </div>
+      
   
     <Footer />
 </div>

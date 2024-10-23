@@ -43,7 +43,6 @@
 
 
   function sendInvitation() {
-    // Implement send invitation logic here
     console.log('Sending invitation...');
   }
 
@@ -127,7 +126,7 @@
       <img
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/e31ab375db047d220f54398e16c4cc0f0001d612779f0974e0d8c39c0fea9107?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
         alt=""
-        class="object-cover absolute inset-0 w-full h-full"
+        class="absolute inset-0 object-cover w-full h-full"
         aria-hidden="true"
       />
     {/if}
@@ -138,7 +137,7 @@
     </h1>
   </div>
 
-  <main class="flex flex-col justify-center items-center px-10 py-5 mt-5 bg-white rounded-[37px] max-md:px-5 max-md:mt-10">
+  <main class="flex flex-col justify-center items-center px-10 py-5 mt-5 bg-white rounded-[37px] max-md:px-5 max-md:mt-10 ">
     <UserNav {navItems} bind:activeItem={activeNavItem} on:navChange={handleNavChange} />
     
     <section class="flex overflow-hidden flex-col items-center mt-5 max-w-full w-[80%] max-md:mt-10">
@@ -153,15 +152,15 @@
             <LinkInput label="Portfolio" bind:value={portfolio} />
             <LinkInput label="Github" bind:value={github} />
             <LinkInput label="LinkedIn" bind:value={linkedin} />
-            <LinkInput label="X" bind:value={twitter} /> <!-- X here is Twitter -->
+            <LinkInput label="X" bind:value={twitter} /> 
             <LinkInput label="Website" bind:value={website} />
             <LinkInput label="Others" bind:value={other} />
           </form>
         </section>
       {:else if activeNavItem === 'Funding'}
-        <section class="flex flex-col justify-center mt-14 w-full text-3xl font-semibold max-md:mt-10 max-md:max-w-full">
+        <section class="flex flex-col justify-center w-[80%] ml-20 text-3xl font-semibold mt-14 max-md:mt-10 max-md:max-w-full">
           <form class="flex flex-col w-full max-md:max-w-full">
-            <div class="flex flex-col mt-11 w-full max-md:mt-10 max-md:max-w-full">
+            <div class="flex flex-col w-full mt-11 max-md:mt-10 max-md:max-w-full">
               <label for="funding goal" class="max-md:max-w-full">Funding Goal</label>
               <input
                 id="bankAccount"
@@ -173,7 +172,7 @@
               />
             </div>
             
-            <div class="flex flex-col mt-11 w-full max-md:mt-10 max-md:max-w-full">
+            <div class="flex flex-col w-full mt-11 max-md:mt-10 max-md:max-w-full">
               <label for="bankAccount" class="max-md:max-w-full">Bank Account</label>
               <input
                 id="bankAccount"
@@ -191,7 +190,7 @@
               <hr class="shrink-0 self-stretch my-auto h-0.5 border-2 border-solid border-zinc-300 w-[165px]" />
             </div>
 
-            <div class="flex flex-col mt-11 w-full max-md:mt-10 max-md:max-w-full">
+            <div class="flex flex-col w-full mt-11 max-md:mt-10 max-md:max-w-full">
               <label for="walletAddress" class="max-md:max-w-full">Wallet Address</label>
               <input
                 id="walletAddress"
@@ -206,29 +205,29 @@
         </section>
       {/if}
 
-      <div class="flex justify-between mt-10 w-full">
+      <div class="flex justify-between w-full mt-10">
         {#if activeNavItem !== 'Basics'}
           <button
             on:click={navigateToPrevious}
-            class="px-12 py-8 text-xl font-medium text-lime-800 bg-white border-2 border-lime-800 rounded-[82px] max-md:px-5"
+            class="px-[112px] py-8 text-2xl font-medium text-lime-800 bg-white border-2 border-lime-800 rounded-[82px] max-md:px-5"
           >
             Previous
           </button>
         {:else}
-          <div></div> <!-- Empty div to maintain layout when there's no Previous button -->
+          <div></div>
         {/if}
         
         {#if activeNavItem !== 'Funding'}
           <button
             on:click={navigateToNext}
-            class="px-12 py-8 text-xl font-medium text-lime-100 bg-lime-800 rounded-[82px] max-md:px-5"
+            class="px-[112px] py-8 text-2xl font-medium text-lime-100 bg-lime-800 rounded-[82px] max-md:px-5"
           >
             Next
           </button>
         {:else}
           <button
             on:click={saveProject}
-            class="px-12 py-8 text-xl font-medium text-lime-100 bg-lime-800 rounded-[82px] max-md:px-5"
+            class="px-[112px] py-8 text-xl font-medium text-lime-100 bg-lime-800 rounded-[82px] max-md:px-5"
           >
           {loading ? 'Saving...' : 'Save'}
           </button>

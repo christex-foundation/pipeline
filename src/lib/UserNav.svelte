@@ -8,9 +8,9 @@
     }
   </script>
   
-  <nav class="flex flex-wrap gap-10 justify-center items-start text-2xl font-semibold leading-none text-center text-lime-800 max-md:max-w-full">
+  <nav class="flex flex-wrap items-start justify-center gap-32 text-2xl font-semibold leading-none text-center text-lime-800 max-md:max-w-full">
     {#each navItems as item}
-      <div class="flex flex-col justify-center items-center" style="width: {item.width};">
+      <div class="flex flex-col items-center justify-center" style="width: {item.width};">
         <button 
           on:click={() => handleClick(item)}
           class="gap-2.5 self-stretch whitespace-nowrap"
