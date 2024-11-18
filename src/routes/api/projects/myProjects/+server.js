@@ -1,6 +1,11 @@
 import { supabase } from '$lib/server/supabase.js';
 import { json } from '@sveltejs/kit';
 
+/**
+ * @deprecated
+ * Depricating in favour off /api/projects
+ * TODO: use builder pattern
+ */
 export async function GET({ request }) {
   const cookies = request.headers.get('cookie');
 

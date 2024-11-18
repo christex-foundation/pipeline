@@ -1,21 +1,19 @@
 <script>
-
-  import ProjectMembers from "./../../../lib/ProjectMembers.svelte";
-  import Contributors from "../../../lib/Contributors.svelte";
-  import Nav from "../../../lib/Nav.svelte";
-  import ProfileInfo from "../../../lib/ProfileInfo.svelte";
-  import Footer from "../../../lib/Footer.svelte";
-  import ProjectNav from "../../../lib/ProjectNav.svelte";
-  import ProjectAbout from "../../../lib/ProjectAbout.svelte";
-  import Card from "../../../lib/Card.svelte";
-  import DpgStatus from "../../../lib/dpgStatus.svelte";
-  import { page } from "$app/stores";
-  import { onMount } from "svelte";
-  import Updates from "../../../lib/Updates.svelte";
-  import UpdateDetail from "../../../lib/UpdateDetail.svelte";
-  import Resources from "../../../lib/Resources.svelte";
-  import { amountFormat } from "$lib/utils/amountFormat.js";
-
+  import ProjectMembers from './../../../lib/ProjectMembers.svelte';
+  import Contributors from '../../../lib/Contributors.svelte';
+  import Nav from '../../../lib/Nav.svelte';
+  import ProfileInfo from '../../../lib/ProfileInfo.svelte';
+  import Footer from '../../../lib/Footer.svelte';
+  import ProjectNav from '../../../lib/ProjectNav.svelte';
+  import ProjectAbout from '../../../lib/ProjectAbout.svelte';
+  import Card from '../../../lib/Card.svelte';
+  import DpgStatus from '../../../lib/dpgStatus.svelte';
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+  import Updates from '../../../lib/Updates.svelte';
+  import UpdateDetail from '../../../lib/UpdateDetail.svelte';
+  import Resources from '../../../lib/Resources.svelte';
+  import { amountFormat } from '$lib/utils/amountFormat.js';
 
   let id;
   $: id = $page.params.id;
@@ -288,7 +286,7 @@
       <div class="flex items-center gap-3 mt-6">
         {#if user.id === project.user_id}
           <a
-            href="/singleProject/{id}/edit"
+            href="/project/{id}/edit"
             class="w-full py-4 text-base font-semibold text-center text-white bg-[#0b383c] rounded-full"
           >
             <button>EDIT PROJECT</button>
@@ -384,7 +382,6 @@
         </div>
       </div>
     </section>
-
   </div>
 
   <div class="flex flex-col w-[80%] max-w-[60%] bg-white pl-4 overflow-y-auto">
@@ -401,8 +398,8 @@
       <section class="flex flex-col items-center w-full max-w-full mt-8 overflow-hidden">
         {#if activeNavItem === 'projectDetails'}
           <ProjectAbout {project} />
-          {:else if activeNavItem === 'dpgStatus'}
-          <DpgStatus /> 
+        {:else if activeNavItem === 'dpgStatus'}
+          <DpgStatus />
         {:else if activeNavItem === 'updates'}
           {#if showUpdateDetail}
             <UpdateDetail {selectedUpdate} on:goBack={handleGoBack} />
@@ -439,7 +436,6 @@
           {:else}
             <p>No resources</p>
           {/if}
-
         {/if}
       </section>
     </main>

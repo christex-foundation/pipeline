@@ -1,5 +1,5 @@
 import { error, redirect } from '@sveltejs/kit';
-import { projectStore } from '../../stores/projectStore';
+import { projectStore } from '$stores/projectStore.js';
 
 export const actions = {
   createProject: async ({ request }) => {

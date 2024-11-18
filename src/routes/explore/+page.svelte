@@ -1,12 +1,12 @@
 <script>
-  import Search from "./../../lib/Search.svelte";
-  import ProjectCategory from "../../lib/ProjectCategory.svelte";
-  import Nav from "../../lib/Nav.svelte";
-  import CategoryDropdown from "../../lib/CategoryDropdown.svelte";
-  import SortDropdown from "../../lib/SortDropdown.svelte";
-  import Card from "../../lib/Card.svelte";
-  import Footer from "../../lib/Footer.svelte";
-  import { onMount } from "svelte";
+  import Search from './../../lib/Search.svelte';
+  import ProjectCategory from '../../lib/ProjectCategory.svelte';
+  import Nav from '../../lib/Nav.svelte';
+  import CategoryDropdown from '../../lib/CategoryDropdown.svelte';
+  import SortDropdown from '../../lib/SortDropdown.svelte';
+  import Card from '../../lib/Card.svelte';
+  import Footer from '../../lib/Footer.svelte';
+  import { onMount } from 'svelte';
 
   let allProjects = [];
   let topProjects = [];
@@ -14,8 +14,8 @@
   let categoryResult = [];
   let loading = true;
   let error = null;
-  let searchTerm = "";
-  let selectedTag = "";
+  let searchTerm = '';
+  let selectedTag = '';
 
   // Pagination state
   let currentPage = 1;
@@ -30,15 +30,12 @@
 
   async function fetchAllProjects() {
     try {
-      const response = await fetch(
-        `/api/projects/allprojects?page=${currentPage}&limit=${itemsPerPage}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`/api/projects?page=${currentPage}&limit=${itemsPerPage}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -61,10 +58,10 @@
 
   async function fetchTopProjects() {
     try {
-      const response = await fetch("/api/projects/allprojects", {
-        method: "GET",
+      const response = await fetch('/api/projects', {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 
@@ -86,11 +83,11 @@
   async function searchProjects(term) {
     try {
       const response = await fetch(
-        `/api/projects/search?term=${term}&page=${searchPage}&limit=${itemsPerPage}`,
+        `/api/projects?term=${term}&page=${searchPage}&limit=${itemsPerPage}`,
         {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        },
       );
 
       if (!response.ok) throw new Error(response.statusText);
@@ -116,9 +113,9 @@
       const response = await fetch(
         `/api/projects/projectByCategory/${tag}?&page=${categoryPage}&limit=${itemsPerPage}`,
         {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        },
       );
 
       if (!response.ok) throw new Error(response.statusText);
@@ -170,7 +167,7 @@
       selectedTag = selectedCategory.title;
       projectByCategory(selectedCategory.id);
     } else {
-      selectedTag = "";
+      selectedTag = '';
     }
   }
 
@@ -182,25 +179,22 @@
 
 <div class="w-full bg-[#d1ea9a]/90 py-16 mb-16">
   <div class="max-w-4xl mx-auto text-center">
-    <h1
-      class="text-[#08292c] text-[45.43px] font-semibold font-['PP Mori'] leading-[54.51px]"
-    >
-      Discover impact projects, donate directly,<br />& participate in funding
-      rounds.
+    <h1 class="text-[#08292c] text-[45.43px] font-semibold font-['PP Mori'] leading-[54.51px]">
+      Discover impact projects, donate directly,<br />& participate in funding rounds.
     </h1>
   </div>
 </div>
 
-  <div class="flex justify-center w-full px-4">
-    <main class="flex flex-col mt-18 text-2xl max-w-[965px] max-md:mt-10 max-md:max-w-full">
-      <section
-        class="flex flex-wrap items-center justify-between w-full font-thin leading-none text-center text-lime-100 max-md:max-w-full"
-      >
-        <Search on:search={handleSearch} />
-      </section>
-      <ProjectCategory on:categorySelected={handleCategorySelected} />
-    </main>
-  </div>
+<div class="flex justify-center w-full px-4">
+  <main class="flex flex-col mt-18 text-2xl max-w-[965px] max-md:mt-10 max-md:max-w-full">
+    <section
+      class="flex flex-wrap items-center justify-between w-full font-thin leading-none text-center text-lime-100 max-md:max-w-full"
+    >
+      <Search on:search={handleSearch} />
+    </section>
+    <ProjectCategory on:categorySelected={handleCategorySelected} />
+  </main>
+</div>
 
 {#if searchTerm && searchResults.length > 0}
   <div
@@ -245,7 +239,7 @@
       <div class="flex items-center justify-center mt-8">
         <button
           on:click={loadMoreCategoryResults}
-          class="px-[30px] py-[12px] bg-[#d1ea9a] rounded-full border-2 border-[#516027] text-[#516027] text-xl font-normal  leading-snug"
+          class="px-[30px] py-[12px] bg-[#d1ea9a] rounded-full border-2 border-[#516027] text-[#516027] text-xl font-normal leading-snug"
           >Load more</button
         >
       </div>
@@ -293,9 +287,7 @@
       <div
         class="px-[30px] py-[12px] bg-[#d1ea9a] rounded-full border-2 border-[#516027] inline-flex items-center"
       >
-        <button
-          on:click={loadMoreProjects}
-          class="text-[#516027] text-xl font-normal  leading-snug"
+        <button on:click={loadMoreProjects} class="text-[#516027] text-xl font-normal leading-snug"
           >Load more</button
         >
       </div>
@@ -304,4 +296,3 @@
 {:else}
   <p class="text-center">No search results found.</p>
 {/if}
-
