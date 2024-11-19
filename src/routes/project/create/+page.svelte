@@ -6,6 +6,7 @@
   import UserNav from '$lib/UserNav.svelte';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
+  import ProjectBasicsTab from './project-basics-tab.svelte';
 
   let loading = false;
 
@@ -16,6 +17,8 @@
     { id: 'Links', label: 'Links', width: '184px' },
     { id: 'Funding', label: 'Funding', width: '184px' },
   ];
+
+  // console.log(Object.fromEntries(new URLSearchParams($page.url.search)));
 
   function handleNavChange(event) {
     activeNavItem = event.detail;
@@ -128,7 +131,7 @@
 
   <section class="flex overflow-hidden flex-col items-center mt-5 max-w-full w-[80%] max-md:mt-10">
     {#if activeNavItem === 'Basics'}
-      <ProjectBasics />
+      <ProjectBasicsTab />
     {:else if activeNavItem === 'Links'}
       <section
         class="flex flex-col justify-center mt-14 w-full text-3xl font-semibold max-w-[1038px] max-md:mt-10 max-md:max-w-full"
