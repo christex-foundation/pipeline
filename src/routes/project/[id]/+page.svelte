@@ -405,7 +405,7 @@
         {#if activeNavItem === 'projectDetails'}
           <ProjectAbout {project} />
         {:else if activeNavItem === 'dpgStatus'}
-          <DpgStatus />
+          <DpgStatus {project} />
         {:else if activeNavItem === 'updates'}
           {#if showUpdateDetail}
             <UpdateDetail {data} {selectedUpdate} on:goBack={handleGoBack} />

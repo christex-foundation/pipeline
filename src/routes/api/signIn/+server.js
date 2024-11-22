@@ -1,33 +1,13 @@
-import { supabase } from '$lib/server/supabase.js';
+//@ts-check
+import { login } from '$lib/server/service/authUserService.js';
 import { json } from '@sveltejs/kit';
 
 export async function POST({ request }) {
   try {
-    
     const body = await request.json();
+    const response = await login(body);
 
-    const { data, error } = await supabase.auth.signInWithPassword(body);
-
-    if (error) {
-      return json({ error: error.message }, { status: 400 });
-    }
-
-    if (data && data.session) {
-      const headers = new Headers();
-      headers.append(
-        'Set-Cookie',
-        `access_token=${data.session.access_token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=3600`,
-      );
-      headers.append(
-        'Set-Cookie',
-        `refresh_token=${data.session.refresh_token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=604800`,
-      );
-
-      // Return the response with headers
-      return json({ success: true, redirectTo: '/explore' }, { status: 200, headers });
-    }
-
-    return json({ error: 'No session data returned' }, { status: 400 });
+    return response;
   } catch (err) {
     console.error('Server error during sign-in:', err);
     return json({ error: 'Failed to sign in' }, { status: 500 });

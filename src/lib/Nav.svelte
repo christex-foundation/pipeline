@@ -1,13 +1,25 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
   import SearchBar from './SearchBar.svelte';
   import UserProfile from './UserProfile.svelte';
   import Logo from './Logo.svelte';
-  import { onMount, onDestroy } from 'svelte';
-  import { afterNavigate } from '$app/navigation';
+  import { onMount } from 'svelte';
 
   let isResourcesOpen = false;
   let isMenuOpen = false;
-  let dropdown;
+  let isMobileMenuOpen = false;
+
+  const dispatch = createEventDispatcher();
+
+
+  let searchTerm = '';
+  let searchPage = 1;
+  let itemsPerPage = 10;
+  let searchResults = [];
+  let allSearchLoaded = false;
+  let error = null;
+  let loading = false;
+  let searchResultsLoaded = false;
 
   export let data;
 
@@ -25,160 +37,238 @@
     }
   }
 
-  function handleScroll() {
-    if (isMenuOpen) {
-      isMenuOpen = false;
+  function toggleMobileMenu() {
+    isMobileMenuOpen = !isMobileMenuOpen;
+    if (!isMobileMenuOpen) {
+      isResourcesOpen = false;
     }
   }
 
-  function handleClickOutside(event) {
-    const dropdown = document.querySelector('.dropdown-menu');
-    if (isMenuOpen && dropdown && !dropdown.contains(event.target)) {
-      isMenuOpen = false;
+  async function searchProjects(term) {
+    try {
+      const response = await fetch(
+        `/api/projects?term=${term}&page=${searchPage}&limit=${itemsPerPage}`,
+        {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
+
+      if (!response.ok) throw new Error(response.statusText);
+
+      const data = await response.json();
+
+      if (data.projects.length < itemsPerPage) {
+        allSearchLoaded = true;
+      }
+
+      searchResults = data.projects;
+    } catch (e) {
+      error = e.message;
+      alert(error);
+    } finally {
+      loading = false;
+    }
+  }
+
+  function handleInput(event) {
+    searchTerm = event.target.value;
+    dispatch('search', { searchTerm });
+  }
+
+  function handleSearch(event) {
+    searchTerm = event.detail.searchTerm;
+    searchPage = 1; // set page to 1 when searching on new term
+    searchResults = [];
+    searchResultsLoaded = false;
+
+    if (searchTerm) {
+      searchProjects(searchTerm);
     }
   }
 
   onMount(() => {
-    window.addEventListener('scroll', handleScroll);
-    document.addEventListener('click', handleClickOutside);
-
+    document.addEventListener('click', closeResources);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('click', closeResources);
     };
   });
 
-  // close the resources dropdown on every navigation
-  afterNavigate(() => (isResourcesOpen = false));
+
 </script>
 
-<header class="flex items-center justify-between w-full px-6 py-4 bg-cyan-950 lg:px-16">
-  <div class="flex items-center justify-between w-full mt-2">
+
+
+<header class=" top-0 left-0 right-0 z-[9999] h-[84px] px-4 md:px-8 py-5 bg-[#0b383c] backdrop-blur-[15px] flex justify-between items-center">
+
+  <div class="flex items-center h-6 gap-4 md:gap-12 grow-0">
     <Logo />
+  </div>
 
-    <button
-      class="z-50 lg:hidden text-[#d1ea9a] focus:outline-none"
-      on:click={toggleMenu}
-      aria-label="Toggle Menu"
+  <div class="flex items-center md:hidden">
+    <button 
+      on:click={toggleMobileMenu}
+      class="text-white focus:outline-none"
+      aria-label="Toggle mobile menu"
     >
-      <svg
-        class="w-8 h-8"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M4 6h16M4 12h16m-7 6h7"
-        />
-      </svg>
+      {#if isMobileMenuOpen}
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      {:else}
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      {/if}
     </button>
+  </div>
 
-    <nav
-      class="items-center self-stretch hidden gap-10 my-auto text-sm font-medium leading-none text-center lg:flex text-[#d1ea9a]"
-    >
-      <a href="/explore" class="gap-0.5 self-stretch my-auto text-base">Explore Projects</a>
+  <div class="hidden md:flex w-full max-w-[480px] justify-center items-center">
+    <div class="w-full pl-4 pr-3 py-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center">
+      <input
+        type="text"
+        placeholder="Search Projects"
+        class="bg-transparent text-left text-[#a0a0a0] text-[13px] font-normal font-['Inter'] leading-tight tracking-tight outline-none flex-grow"
+        bind:value={searchTerm} on:input={handleInput}/>
+      <button aria-label="Search" class="relative w-5 h-5">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g id="MagnifyingGlass">
+            <path id="Vector" d="M8.75 15.001C12.2018 15.001 15 12.2028 15 8.75098C15 5.2992 12.2018 2.50098 8.75 2.50098C5.29822 2.50098 2.5 5.2992 2.5 8.75098C2.5 12.2028 5.29822 15.001 8.75 15.001Z" fill="#0D909C" fill-opacity="0.3" stroke="#A0A0A0" stroke-width="1.00699" stroke-linecap="round" stroke-linejoin="round"/>
+            <path id="Vector_2" d="M13.1697 13.1699L17.5001 17.5004" stroke="#A0A0A0" stroke-width="1.00699" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+        </svg>
+      </button>
+    </div>
+  </div>
 
+
+  <div class="hidden md:flex grow-0 h-[42.67px] justify-end items-center gap-4">
+    <div class="flex items-center gap-4">
+      <a href="/" class="text-white text-base font-semibold font-['Inter'] leading-none">
+        Tasks
+      </a>
       <div class="relative resources-dropdown">
         <button
-          on:click={toggleResources}
-          class="flex gap-0.5 items-center self-stretch my-auto whitespace-nowrap focus:outline-none"
-        >
-          <span class="self-stretch my-auto text-bas">Resources</span>
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/e816977c627d70abd1c95d4ce2ad2f32e49e85597447cdf82aaa7f9042ea8b80"
-            alt=""
-            class="object-contain shrink-0 self-stretch my-auto aspect-square w-[17px] transform transition-transform duration-200 {isResourcesOpen
-              ? 'rotate-180'
-              : ''}"
-          />
+        on:click={toggleResources}
+        class="flex items-center justify-between w-full px-4 py-4 border-b focus:outline-none border-cyan-800"
+      >
+          <span class="text-white text-base font-semibold font-['Inter'] leading-none">Resources</span>
+          <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[17px] transform transition-transform duration-200 {isResourcesOpen ? 'rotate-180' : ''}">
+            <g id="CaretDown" clip-path="url(#clip0_1224_8929)">
+              <path id="Vector" d="M10.0837 4.5L6.33374 8.25L2.58374 4.5" stroke="white" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_1224_8929">
+                <rect width="12" height="12" fill="white" transform="translate(0.334106)"/>
+              </clipPath>
+            </defs>
+          </svg>
         </button>
         {#if isResourcesOpen}
-          <div
-            class="absolute z-10 w-48 py-2 mt-2 transform -translate-x-1/2 rounded-md shadow-lg top-full left-1/2 bg-cyan-900"
-          >
+          <div class="absolute left-0 z-50 w-[15vh] mt-2 rounded-md shadow-lg bg-cyan-900 top-full">
             <a
               href="/resources/pipeline"
-              class="block px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 text-bas"
-              >About Pipeline</a
-            >
+              class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
+            >About Pipeline</a>
             <a
               href="/resources/digital-public-good"
-              class="block px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 text-bas"
-              >About DPGs</a
-            >
+              class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
+            >About DPGs</a>
           </div>
         {/if}
       </div>
-      <a href="/" class="gap-0.5 self-stretch my-auto text-base">Contact Us</a>
-    </nav>
-
-    <div class="hidden lg:flex gap-3.5 items-center self-stretch my-auto z-40">
-      <SearchBar />
+    </div>
+    <div>
       {#if data.isAuthenticated}
         <UserProfile {data} />
       {:else}
-        <a href="/sign-in" class="px-4 py-2 text-sm bg-[#d1ea9a] rounded-full">
+        <a 
+          href="/sign-in" 
+          class="px-4 py-4 bg-[#d1ea9a] rounded-3xl text-base font-semibold"
+        >
           Sign up / Log in
         </a>
       {/if}
     </div>
   </div>
 
-  {#if isMenuOpen}
-    <div
-      bind:this={dropdown}
-      class="fixed top-0 right-0 z-40 flex flex-col items-start w-1/2 p-5 h-96 bg-cyan-950 text-[#d1ea9a] shadow-lg lg:hidden overflow-y-auto"
-    >
-      <div class="w-full pt-4 mt-4 border-b border-cyan-800">
-        <div class="mb-2 ml-4">
-          <UserProfile />
+
+  {#if isMobileMenuOpen}
+    <div class="absolute top-[84px] left-0 right-0 bg-[#0b383c] md:hidden">
+      <div class="flex flex-col p-4 space-y-4">
+
+        <div class="w-full pl-4 pr-3 py-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center">
+          <input
+            type="text"
+            placeholder="Search Projects"
+            class="bg-transparent text-left text-[#a0a0a0] text-[13px] font-normal font-['Inter'] leading-tight tracking-tight outline-none flex-grow"
+            on:input={handleInput}/>
+          <button aria-label="Search" class="relative w-5 h-5">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="MagnifyingGlass">
+                <path id="Vector" d="M8.75 15.001C12.2018 15.001 15 12.2028 15 8.75098C15 5.2992 12.2018 2.50098 8.75 2.50098C5.29822 2.50098 2.5 5.2992 2.5 8.75098C2.5 12.2028 5.29822 15.001 8.75 15.001Z" fill="#0D909C" fill-opacity="0.3" stroke="#A0A0A0" stroke-width="1.00699" stroke-linecap="round" stroke-linejoin="round"/>
+                <path id="Vector_2" d="M13.1697 13.1699L17.5001 17.5004" stroke="#A0A0A0" stroke-width="1.00699" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+            </svg>
+          </button>
         </div>
-      </div>
 
-      <nav
-        class="flex flex-col items-start w-full gap-4 mt-4 text-sm font-medium leading-none text-left"
-      >
-        <a href="/explore" class="block w-full px-4 py-2 border-b border-cyan-800"
-          >Explore Projects</a
-        >
+        <a href="/" class="text-white text-base font-semibold font-['Inter']">
+          Tasks
+        </a>
 
-        <div class="relative w-full resources-dropdown">
+        <div class="relative resources-dropdown">
           <button
-            on:click={toggleResources}
-            class="flex items-center justify-between w-full px-4 py-4 border-b focus:outline-none border-cyan-800"
-          >
-            <span>Resources</span>
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/e816977c627d70abd1c95d4ce2ad2f32e49e85597447cdf82aaa7f9042ea8b80"
-              alt=""
-              class="w-[17px] transform transition-transform duration-200 {isResourcesOpen
-                ? 'rotate-180'
-                : ''}"
-            />
+          on:click={toggleResources}
+          class="flex items-center justify-between w-full px-4 py-4 border-b focus:outline-none border-cyan-800"
+        >
+            <span class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px]">Resources</span>
+            <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-[17px] transform transition-transform duration-200 {isResourcesOpen ? 'rotate-180' : ''}">
+              <g id="CaretDown" clip-path="url(#clip0_1224_8929)">
+                <path id="Vector" d="M10.0837 4.5L6.33374 8.25L2.58374 4.5" stroke="white" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              <defs>
+                <clipPath id="clip0_1224_8929">
+                  <rect width="12" height="12" fill="white" transform="translate(0.334106)"/>
+                </clipPath>
+              </defs>
+            </svg>
           </button>
           {#if isResourcesOpen}
-            <div class="absolute left-0 z-50 w-full mt-2 rounded-md shadow-lg bg-cyan-900">
+            <div class="absolute right-0 z-50 top-6 w-[25vh] mt-2 rounded-md shadow-lg bg-cyan-900">
               <a
                 href="/resources/pipeline"
                 class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
-                >About Pipeline</a
-              >
+              >About Pipeline</a>
               <a
                 href="/resources/digital-public-good"
                 class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
-                >About DPGs</a
-              >
+              >About DPGs</a>
             </div>
           {/if}
         </div>
-        <a href="/" class="block w-full px-4 py-2 border-b border-cyan-800">Contact Us</a>
-      </nav>
+        
+
+
+        <div>
+          {#if data.isAuthenticated}
+            <UserProfile {data} />
+          {:else}
+            <a 
+              href="/sign-in" 
+              class="block w-full text-center px-4 py-4 bg-[#d1ea9a] rounded-3xl text-base font-semibold"
+            >
+              Sign up / Log in
+            </a>
+          {/if}
+        </div>
+      </div>
     </div>
   {/if}
 </header>
+

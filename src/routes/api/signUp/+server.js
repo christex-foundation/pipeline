@@ -1,35 +1,15 @@
-import { supabase, adminAuthClient } from '$lib/server/supabase.js';
-import { json, redirect } from '@sveltejs/kit';
+//@ts-check
+import { register } from '$lib/server/service/authUserService.js';
+import { json } from '@sveltejs/kit';
 
 export async function POST({ request }) {
   try {
-    const { email, password, name } = await request.json();
+    const body = await request.json();
+    const response = await register(body);
 
-    const { data: signUpData, error: signUpError } = await adminAuthClient.createUser({
-      email,
-      password,
-      email_confirm: true,
-      user_metadata: {
-        name,
-      },
-    });
-
-    if (signUpError) {
-      return json({ error: signUpError.message }, { status: 400 });
-    }
-
-    const { data: userData, error: profileError } = await supabase
-      .from('profile')
-      .insert([{ user_id: signUpData.user.id, name: name }]);
-
-    if (profileError) {
-      return json({ error: profileError.message }, { status: 500 });
-    }
-
-    throw redirect(303, '/waiting-confirmation');
+    return response;
   } catch (err) {
-    return new Response(JSON.stringify({ error: 'Failed to sign up' }), {
-      status: 500,
-    });
+    console.error('Server error during sign-in:', err);
+    return json({ error: 'Failed to sign in' }, { status: 500 });
   }
 }

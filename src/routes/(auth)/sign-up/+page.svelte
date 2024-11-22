@@ -5,12 +5,7 @@
 </script>
 
 <section class="basis-full py-5">
-  <form
-    method="POST"
-    class="flex flex-col max-w-md mx-auto"
-    use:enhance={() => {
-    }}
-  >
+  <form method="POST" class="flex flex-col max-w-md mx-auto" use:enhance>
     <h2 class="text-4xl font-semibold">Register</h2>
     <p class="mb-4 opacity-50">Enter your Info to signup for Pipeline</p>
     <div class="flex flex-col gap-2 font-medium">

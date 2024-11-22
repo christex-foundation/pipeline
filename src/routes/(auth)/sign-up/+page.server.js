@@ -32,6 +32,7 @@ export const actions = {
 
       redirect(307, '/profile');
     } catch (error) {
+      console.log(error)
       if (error.status === 307) {
         redirect(307, '/profile');
       }

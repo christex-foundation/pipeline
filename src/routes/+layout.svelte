@@ -2,9 +2,11 @@
   import './app.css';
   import Nav from '$lib/Nav.svelte';
   import Footer from '$lib/Footer.svelte';
-  import { page } from '$app/stores'; // access the current page route
+  import { page } from '$app/stores';
+  import { setContext } from 'svelte';
 
   export let data;
+  setContext('sharedData', data);
 </script>
 
 <div class="w-full min-h-screen bg-white">
