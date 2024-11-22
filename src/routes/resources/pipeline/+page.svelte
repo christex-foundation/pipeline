@@ -1,35 +1,31 @@
 <script>
   import Journey from '../../../lib/Journey.svelte';
-  import Step from '../../../lib/Step.svelte';
   import { steps } from './pipelineSteps.js';
   import howPipelineWorksImg from './how.png';
 </script>
 
-<div
-  class="w-[100%] h-[417px] bg-[#d1ea9a]/70 justify-center items-center gap-2.5 inline-flex mb-20"
->
-  <div class="flex-col justify-start items-center gap-[14.67px] inline-flex">
-    <div
-      class="text-center text-black text-[89.62px] font-semibold font-['PP Mori'] leading-[98.58px]"
-    >
-      How Pipeline Works
-    </div>
-  </div>
+<div class="h-40 md:h-[45dvh] bg-[#d1ea9a]/70 mb-20 grid place-content-center">
+  <h1 class="text-center text-4xl md:text-7xl font-semibold">How Pipeline Works</h1>
 </div>
 
 <main>
-  <img
-    src={howPipelineWorksImg}
-    alt="How Pipeline Works Illustations"
-    class="object-cover w-full"
-  />
+  <img src={howPipelineWorksImg} alt="How Pipeline Works Illustations" class="object-cover" />
 
-  <section class="flex items-center justify-center w-full text-black px-7 max-md:px-5">
-    <div class="flex flex-col items-center w-full max-w-[1101px]">
-      {#each steps as step}
-        <Step number={step.number} title={step.title} description={step.description} />
-      {/each}
-    </div>
+  <section class="grid max-w-4xl mx-auto px-4 md:px-10">
+    {#each steps as step}
+      <article class="gap-3 md:gap-5 mt-24 flex items-center justify-center">
+        <span
+          class="text-sm self-start w-28 h-7 font-semibold bg-lime-300 rounded-full border-lime-800 border-2 md:h-10 md:w-20 grid place-content-center"
+        >
+          {step.number}
+        </span>
+
+        <div class="grid gap-2">
+          <h2 class="text-2xl min-w-fit font-semibold max-md:-mt-1">{step.title}</h2>
+          <p class="text-lg font-light leading-7">{step.description}</p>
+        </div>
+      </article>
+    {/each}
   </section>
 
   <div class="w-full max-w-[1076px] mx-auto mt-16">
