@@ -4,8 +4,17 @@
   import Journey from '$lib/Journey.svelte';
 </script>
 
-<div class="h-40 md:h-[45dvh] bg-[#d1ea9a]/70 mb-20 grid place-content-center">
-  <h1 class="text-center text-4xl md:text-7xl font-semibold">How Pipeline Works</h1>
+<div
+  class="relative h-[60dvh] flex justify-center items-center mb-20 max-sm:h-[200px]"
+  style="background-image: url('https://s3-alpha-sig.figma.com/img/f7f4/7999/74709a5d690ece6b2d8e0fbee98a787a?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VfTXvDJj1skdr1Z5aGJlVyu9I1sG~SJUBaa4WUh4yJg6lC0r1f8SYOKmgCRQ6LMZejsFjUMIXvZ7i~Er0kckUkLIHZ~b9fL6wjXnX6Tih1Cu7KSqlIYUXK9DiU~36arhFVXllX-Fr12qi1llpQoKd5~DW45WaKvpsSotQayYPSWchGGq-b~Dc0NreyAasTrYxUjD4usnTVnw1hadbD~Pb8lNSpn46mFZMhRrV5lqIU2XjLjRqOJHX~Kq2jnYcXkzBD1nYRIPfJlydUxP47KqMSRWEU3wRLY-PVaalaEnZmMOLaLO4nAtIlTpjB6jm4FyfahmuD0-cYMjbzseeVNxjA__');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;"
+>
+  <div class="absolute inset-0 bg-[#d1ea9a]/90"></div>
+  <h1 class="z-10 text-center text-8xl font-medium font-[Inter] max-sm:text-[50px]">
+    How Pipeline Works
+  </h1>
 </div>
 
 <main>

@@ -122,9 +122,9 @@
       {#if data.isAuthenticated}
         <UserProfile {data} />
       {:else}
-        <a href="/sign-in" class="px-4 py-4 bg-[#d1ea9a] rounded-3xl max-md:px-3 max-md:py-3"
-          >Sign up / Log in</a
-        >
+        <a href="/sign-in" class="px-4 py-2 text-sm bg-[#d1ea9a] rounded-full">
+          Sign up / Log in
+        </a>
       {/if}
     </div>
   </div>

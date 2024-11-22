@@ -17,36 +17,30 @@
   });
 </script>
 
-<section class="relative min-h-[417px] flex flex-col justify-center items-center">
-  {#if imageLoaded}
-    <img
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/2e79f9f0f0676cc1340e4648692e7dd2c076c54bc6408583026e9461be5dccd4?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
-      alt=""
-      class="absolute inset-0 object-cover w-full h-full"
-      aria-hidden="true"
-    />
-  {/if}
-  <div
-    class="relative z-10 flex flex-col items-center self-stretch my-auto min-w-[240px] max-w-full"
-  >
-    <h1
-      class="text-8xl font-semibold text-center text-black leading-[99px] max-md:text-4xl max-md:leading-[49px]"
-    >
-      <slot></slot>
-    </h1>
-  </div>
 
-  <img
-    src="https://s3-alpha-sig.figma.com/img/f7f4/7999/74709a5d690ece6b2d8e0fbee98a787a?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=E2R3CiXJIjn2rAVeMIETSpzE7BntJ~MuC7dHH5dj-7Z06svc~icmbBG2eACWP1az6FFZLjIkI9u8MMuyKVwI4R54UiS4LbDe574SV7QTWOa8cUWr1inS-3mJ3I0xv4qLkgg3Jush0j-a2TlIftJfQvQSkBUtATyUjtmUiuNINTmM7RgVvAH2p9dqQ3OYRIj5Rs9bZwcwJ4TOhzib1Bdnc0InSsbhSHxT7xWia5xBa44vCfmvTntMmCo9EsokwGrnYxKAQspwc4pfn8qHZ4oiS-hUTKifXKcdGNZEYPYbpRXFFl~a~gXbHIYcM1Zu6sRPYPpmUv8ZdEboIWl1DA8DFw__"
-    alt="Digital Public Goods Background"
-    class="absolute inset-0 w-full h-full object-cover z-[-1] opacity-50"
-  />
-</section>
+<div
+  class="relative w-full h-[417px] flex justify-center items-center mb-10 max-sm:h-[200px]"
+  style="background-image: url('https://s3-alpha-sig.figma.com/img/f7f4/7999/74709a5d690ece6b2d8e0fbee98a787a?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VfTXvDJj1skdr1Z5aGJlVyu9I1sG~SJUBaa4WUh4yJg6lC0r1f8SYOKmgCRQ6LMZejsFjUMIXvZ7i~Er0kckUkLIHZ~b9fL6wjXnX6Tih1Cu7KSqlIYUXK9DiU~36arhFVXllX-Fr12qi1llpQoKd5~DW45WaKvpsSotQayYPSWchGGq-b~Dc0NreyAasTrYxUjD4usnTVnw1hadbD~Pb8lNSpn46mFZMhRrV5lqIU2XjLjRqOJHX~Kq2jnYcXkzBD1nYRIPfJlydUxP47KqMSRWEU3wRLY-PVaalaEnZmMOLaLO4nAtIlTpjB6jm4FyfahmuD0-cYMjbzseeVNxjA__');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;"
+>
+  <div class="absolute inset-0 bg-[#d1ea9a]/90"></div>
+  <div class="z-10 inline-flex flex-col items-center justify-start">
+    <div
+      class="text-center text-black text-[89.62px] font-medium font-['Inter'] leading-[0.9] max-sm:text-[50px] max-sm:leading-[1]"
+    >
+    What are <br> Digital Public Goods
+    </div>
+  </div>
+</div>
+
+
 
 <div class="max-w-[1076px] px-4 py-8 mx-auto text-start">
   <h1 class="mb-4 text-[43.06px] font-semibold text-gray-800 max-sm:text-3xl">What are DPGs?</h1>
   <p
-    class="text-black text-[22.78px] font-normal font-['PP Mori'] leading-[45.89px] max-sm:text-lg max-sm:leading-normal"
+    class="text-lg text-gray-700 max-sm:text-base"
   >
     Digital public goods are the resources, data sheets, AI models, and software available to all
     citizens for free contributing to sustainable development. These are non-excludable which means
@@ -291,8 +285,4 @@
       </p>
     </div>
   </div>
-</div>
-
-<div class="w-full max-w-[1076px] mx-auto mt-16">
-  <Journey />
 </div>

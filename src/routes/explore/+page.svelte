@@ -6,7 +6,7 @@
   import SortDropdown from '../../lib/SortDropdown.svelte';
   import Card from '../../lib/Card.svelte';
   import Footer from '../../lib/Footer.svelte';
-  import { invalidateAll } from '$app/navigation';
+  import { onMount } from 'svelte';
 
   let allProjects = [];
   let topProjects = [];
@@ -27,6 +27,58 @@
   let allCategoryLoaded = false;
   let searchResultsLoaded = false;
   let categoryResultLoaded = false;
+
+  async function fetchAllProjects() {
+    try {
+      const response = await fetch(`/api/projects?page=${currentPage}&limit=${itemsPerPage}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+
+      if (data.projects.length < itemsPerPage) {
+        allProjectsLoaded = true;
+      }
+
+      allProjects = [...allProjects, ...data.projects];
+    } catch (error) {
+      error = e.message;
+      alert(error);
+    } finally {
+      loading = false;
+    }
+  }
+
+  async function fetchTopProjects() {
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+
+      topProjects = data.projects.slice(0, 3);
+    } catch (error) {
+      error = e.message;
+      alert(error);
+    } finally {
+      loading = false;
+    }
+  }
 
   async function searchProjects(term) {
     try {
@@ -83,6 +135,11 @@
     }
   }
 
+  function loadMoreProjects() {
+    currentPage += 1;
+    fetchAllProjects();
+  }
+
   function loadMoreSearchResults() {
     searchPage += 1;
     searchProjects(searchTerm);
@@ -114,126 +171,116 @@
     }
   }
 
-  export let data;
+  onMount(() => {
+    fetchAllProjects();
+    fetchTopProjects();
+  });
 </script>
 
-<div class="w-full bg-[#d1ea9a]/90 py-16 mb-16">
-  <div class="max-w-4xl mx-auto text-center">
-    <h1 class="text-[#08292c] text-[45.43px] font-semibold font-['PP Mori'] leading-[54.51px]">
-      Discover impact projects, donate directly,<br />& participate in funding rounds.
-    </h1>
-  </div>
-</div>
+<div class="flex flex-col justify-center w-full max-w-[1470px] mx-auto gap-6 px-6 mt-8 md:flex-row">
 
-<div class="flex justify-center w-full px-4">
-  <main class="flex flex-col mt-18 text-2xl max-w-[965px] max-md:mt-10 max-md:max-w-full">
-    <section
-      class="flex flex-wrap items-center justify-between w-full font-thin leading-none text-center text-lime-100 max-md:max-w-full"
+
+  <aside class="w-full md:w-[28%] max-md:overflow-x-auto mt-[-15px] md:mb-0">
+    <div 
+      class="flex p-4 space-x-2 overflow-x-scroll rounded-md shadow-sm md:flex-col md:overflow-x-visible md:space-x-0 md:space-y-2"
+      style="position: sticky; top: 0; height: fit-content;"
     >
-      <Search on:search={handleSearch} />
-    </section>
-    <ProjectCategory on:categorySelected={handleCategorySelected} />
-  </main>
-</div>
-
-{#if searchTerm && searchResults.length > 0}
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1156px] mx-auto px-[13.70px] pt-[13.70px] pb-[20.55px] text-5xl font-semibold mt-12"
-  >
-    Search results for: "{searchTerm}"
-  </div>
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1156px] mx-auto px-[13.70px] pt-[13.70px] pb-[20.55px]"
-  >
-    {#each searchResults as project}
-      <Card {project} />
-    {/each}
-  </div>
-  {#if !searchResultsLoaded && !allSearchLoaded}
-    <div class="flex items-center justify-center mt-8">
-      <button
-        on:click={loadMoreSearchResults}
-        class="px-[30px] py-[12px] bg-[#d1ea9a] rounded-full border-2 border-[#516027] text-[#516027] text-xl font-normal leading-snug"
-      >
-        Load more
-      </button>
+      <h2 class="hidden mb-4 text-xl font-semibold text-gray-800 md:block">
+        SDGs
+      </h2>
+      <ProjectCategory 
+        on:categorySelected={handleCategorySelected} 
+        class="flex md:flex-col min-w-max md:min-w-0"
+      />
     </div>
-  {/if}
+  </aside>
 
-  <!-- Category Results -->
-{:else if selectedTag}
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1156px] mx-auto px-[13.70px] pt-[13.70px] pb-[20.55px] text-5xl font-semibold mt-12"
-  >
-    Projects in: "{selectedTag}"
-  </div>
-  {#if categoryResult.length > 0}
-    <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1156px] mx-auto px-[13.70px] pt-[13.70px] pb-[20.55px]"
-    >
-      {#each categoryResult as project}
+
+  <section class="grid flex-1 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+    {#if searchTerm && searchResults.length > 0}
+      <div class="text-xl font-semibold text-gray-700 col-span-full">
+        Search results for: "{searchTerm}"
+      </div>
+      {#each searchResults as project}
         <Card {project} />
       {/each}
-    </div>
+      {#if !searchResultsLoaded && !allSearchLoaded}
+        <div class="flex items-center justify-center mt-8 col-span-full">
+          <button
+            on:click={loadMoreSearchResults}
+            class="px-8 py-2 bg-[#d1ea9a] rounded-full border-2 border-[#516027] text-[#516027] text-lg font-medium"
+          >
+            Load more
+          </button>
+        </div>
+      {/if}
 
-    {#if !categoryResultLoaded && !allCategoryLoaded}
-      <div class="flex items-center justify-center mt-8">
-        <button
-          on:click={loadMoreCategoryResults}
-          class="px-[30px] py-[12px] bg-[#d1ea9a] rounded-full border-2 border-[#516027] text-[#516027] text-xl font-normal leading-snug"
-          >Load more</button
-        >
+    {:else if selectedTag}
+      <div class="text-xl font-semibold text-gray-700 col-span-full">
+        Projects in: "{selectedTag}"
       </div>
+      {#if categoryResult.length > 0}
+        {#each categoryResult as project}
+          <Card {project} />
+        {/each}
+        {#if !categoryResultLoaded && !allCategoryLoaded}
+          <div class="flex items-center justify-center mt-8 col-span-full">
+            <button
+              on:click={loadMoreCategoryResults}
+              class="px-8 py-2 bg-[#d1ea9a] rounded-full border-2 border-[#516027] text-[#516027] text-lg font-medium"
+            >
+              Load more
+            </button>
+          </div>
+        {/if}
+      {:else}
+        <p class="text-center text-gray-600 col-span-full">
+          No projects found for "{selectedTag}".
+        </p>
+      {/if}
+
+    {:else if !searchTerm}
+      <div class="text-xl font-semibold text-gray-700 col-span-full">
+        Top Projects
+      </div>
+      {#if topProjects.length > 0}
+        {#each topProjects as project}
+          <Card {project} />
+        {/each}
+      {:else}
+        <p class="text-center text-gray-600 col-span-full">No projects found.</p>
+      {/if}
+
+      <div class="mt-8 text-xl font-semibold text-gray-700 col-span-full">
+        All Projects
+      </div>
+      {#if allProjects.length > 0}
+        {#each allProjects as project}
+          <Card {project} />
+        {/each}
+        {#if !allProjectsLoaded}
+        <div class="flex justify-end w-full mt-8">
+          <div
+            class="w-[42%] h-[37px] px-6 py-3 bg-[#bde25b] rounded-[999px] border-2 border-[#516027] flex justify-center items-center gap-1 lg:mr-[-670px]"
+          >
+            <button
+              on:click={loadMoreProjects}
+              class="text-center text-[#516027] text-base font-extrabold font-['Inter'] leading-[13px]"
+            >
+              Load more
+            </button>
+          </div>
+        </div>
+        {/if}
+      {:else}
+        <p class="text-center text-gray-600 col-span-full">No projects found.</p>
+      {/if}
+
+    {:else}
+      <p class="text-center text-gray-600 col-span-full">
+        No search results found.
+      </p>
     {/if}
-  {:else}
-    <p>No projects found for "{selectedTag}".</p>
-  {/if}
-{:else if !searchTerm}
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1156px] mx-auto px-[13.70px] pt-[13.70px] pb-[20.55px] text-5xl font-semibold mt-12"
-  >
-    Top Projects
-  </div>
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1156px] mx-auto px-[13.70px] pt-[13.70px] pb-[20.55px]"
-  >
-    {#each data.topProjects as project}
-      <Card {project} />
-    {:else}
-      <p>No projects found.</p>
-    {/each}
-  </div>
-
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1156px] mx-auto px-[13.70px] pt-[13.70px] pb-[20.55px] text-5xl font-semibold mt-20"
-  >
-    All Projects
-  </div>
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1156px] mx-auto px-[13.70px] pt-[13.70px] pb-[20.55px]"
-  >
-    {#each data.allProjects as project}
-      <Card {project} />
-    {:else}
-      <p>No projects found.</p>
-    {/each}
-  </div>
-
-  {#if !allProjectsLoaded}
-    <div class="flex items-center justify-center">
-      <div
-        class="px-[30px] py-[12px] bg-[#d1ea9a] rounded-full border-2 border-[#516027] inline-flex items-center"
-      >
-        <button
-          on:click={() => {
-            currentPage += 1;
-            invalidateAll();
-          }}
-          class="text-[#516027] text-xl font-normal leading-snug">Load more</button
-        >
-      </div>
-    </div>
-  {/if}
-{:else}
-  <p class="text-center">No search results found.</p>
-{/if}
+  </section>
+</div>
