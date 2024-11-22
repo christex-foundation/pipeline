@@ -45,3 +45,7 @@ DPG Pipeline is a web-based platform built with **SvelteKit** and **NodeJS** usi
    ```sh
    npm run dev
    ```
+
+## Want to Contribute?
+
+Follow the [Contributing Guide](./CONTRIBUTING.md) for steps and requirements.

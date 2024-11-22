@@ -34,6 +34,34 @@ Thank you for your interest in contributing to Pipeline! We welcome contribution
 - Write clear, concise comments.
 - Keep functions small and focused on a single task.
 
+## Supabase Guide For Tables
+
+- Create your supabase project with the [Supabase setup guide](https://supabase.com/docs/guides/getting-started),
+- Select the **Database** tab on the sidebar
+- Select on **Tables**
+- Click on **New Table** and add the following tables with their fields _(leave the default fields untouched)_:
+
+> Table Name: projects
+
+| Name           | Type | Default Value     | Primary | Is Unique | Nullable | Define As Array |
+| -------------- | ---- | ----------------- | ------- | --------- | -------- | --------------- |
+| id             | uuid | gen_random_uuid() | Yes     | True      |          |                 |
+| title          | text |                   |         |           |          |                 |
+| bio            | text |                   |         |           |          |                 |
+| tags           | text |                   |         |           |          | Yes             |
+| country        | text |                   |         |           |          |                 |
+| details        | text |                   |         |           |          |                 |
+| email          | text |                   |         | True      |          |                 |
+| portfolio      | text |                   |         | True      |          |                 |
+| github_repo    | text |                   |         | True      |          |                 |
+| linkedin       | text |                   |         | True      |          |                 |
+| twitter        | text |                   |         | True      |          |                 |
+| website        | text |                   |         | True      |          |                 |
+| other          | text |                   |         |           |          |                 |
+| bank_acct      | text |                   |         | True      |          |                 |
+| wallet_address | text |                   |         | True      |          |                 |
+| funding_goal   | text |                   |         |           |          |                 |
+
 ## Reporting Issues
 
 If you find a bug or have a suggestion for improvement:
