@@ -7,7 +7,7 @@
 <section class="basis-full flex items-center justify-center">
   <form method="POST" use:enhance>
     <h2 class="mb-2 text-4xl font-semibold">Sign in</h2>
-    <p class="mb-8 opacity-50">Enter your info to sign up</p>
+    <p class="mb-8 opacity-50">Enter your info to sign in</p>
     <div class="flex flex-col gap-2 font-medium">
       <label for="email" class="block">Email</label>
       <input
@@ -44,6 +44,13 @@
         Remember me
       </label>
       <a href="#forgot-password" class="font-semibold text-neutral-400">Forgot Password?</a>
+    </div>
+
+    <div class="flex items-center justify-center w-full gap-3 mt-6 text-md leading-none">
+      <span class="font-medium text-black">
+        Don't have an account?
+      </span>
+      <a href="/sign-up" class="text-teal-900 font-semibold"> Sign up </a>
     </div>
   </form>
 </section>
