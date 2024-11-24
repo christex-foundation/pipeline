@@ -5,9 +5,9 @@
 </script>
 
 <section class="basis-full py-5">
-  <form method="POST" class="flex flex-col max-w-md mx-auto" use:enhance>
+  <form method="POST" class="flex flex-col gap-1 max-w-md mx-auto" use:enhance>
     <h2 class="text-4xl font-semibold">Register</h2>
-    <p class="mb-4 opacity-50">Enter your Info to signup for Pipeline</p>
+    <p class="opacity-50">Enter your Info to signup for Pipeline</p>
     <div class="flex flex-col gap-2 font-medium">
       <label for="name" class="block">Name</label>
       <input
@@ -19,7 +19,7 @@
       />
     </div>
 
-    <div class="flex flex-col gap-2 mt-4 font-medium">
+    <div class="flex flex-col gap-2 font-medium">
       <label for="email" class="block">Email</label>
       <input
         type="email"
@@ -30,7 +30,7 @@
       />
     </div>
 
-    <div class="flex flex-col gap-2 mt-4 font-medium">
+    <div class="flex flex-col gap-2  font-medium">
       <label for="password" class="block">Password</label>
       <input
         type="password"
@@ -43,7 +43,7 @@
 
     <button
       type="submit"
-      class="py-4 mt-8 w-full font-light text-white bg-teal-900 rounded-full"
+      class="py-4 mt-4 w-full font-light text-white bg-teal-900 rounded-full"
       disabled={loading}
     >
       {loading ? 'Signing up...' : 'Sign up'}
@@ -55,7 +55,7 @@
     </label>
   </form>
 
-  <div class="flex flex-col items-center w-full gap-6 mt-10">
+  <div class="flex flex-col items-center w-full gap-6 mt-3">
     <p class="text-sm text-neutral-400">or continue with</p>
 
     <div class="flex gap-4 mb-6">
@@ -85,4 +85,10 @@
       </button>
     </div>
   </div>
+  <div class="flex items-center justify-center w-full gap-3 text-md leading-none">
+      <span class="font-medium text-black">
+        Have an account?
+      </span>
+      <a href="/sign-in" class="text-teal-900 font-semibold"> Sign in </a>
+    </div>
 </section>
