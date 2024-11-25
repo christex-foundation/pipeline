@@ -61,6 +61,9 @@ Thank you for your interest in contributing to Pipeline! We welcome contribution
 | bank_acct      | text |                   |         | True      |          |                 |
 | wallet_address | text |                   |         | True      |          |                 |
 | funding_goal   | text |                   |         |           |          |                 |
+| user_id        | text |                   |         |           |          |                 |
+| image          | text |                   |         |           |          |                 |
+| banner_image   | text |                   |         |           |          |                 |
 
 ## Reporting Issues
 
