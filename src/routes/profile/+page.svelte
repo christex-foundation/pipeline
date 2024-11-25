@@ -1,7 +1,5 @@
 <script>
-  import ProfileInfo from '../../lib/ProfileInfo.svelte';
-  import ProjectSection from '../../lib/ProjectSection.svelte';
-  import { onMount } from 'svelte';
+  import ProjectSection from './ProjectSection.svelte';
 
   let userProjects = [];
   let loading = true;
@@ -40,9 +38,12 @@
   // onMount(() => {
   //   fetchMyProjects();
   // });
+
+  const tabs = ['projects created', 'projects contributed', 'notifications'];
+  let selectedTab = tabs[0];
 </script>
 
-<main class="max-w-6xl border-4 mx-auto">
+<main class="max-w-6xl mx-auto">
   <section class="min-h-80 mt-10">
     <div class="relative">
       <img src={bannerImg} alt="user profile banner" loading="lazy" class="h-56 w-full bg-center" />
@@ -144,13 +145,5 @@
     </div>
   </section>
 
-  <!-- <div class="md:w-2/3"> -->
-  <!-- {#await data.userProjects}
-        <p>Loading projects...</p>
-      {:then userProjects}
-        <p>Error: {error}</p>
-      {/await} -->
-  <!-- <ProjectSection projects={userProjects} /> -->
-  <!-- {/if} -->
-  <!-- </div> -->
+  <ProjectSection />
 </main>
