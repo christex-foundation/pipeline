@@ -18,6 +18,7 @@ import {
 } from '$lib/server/repo/categoryRepo';
 import { getDpgStatuses, getAllDpgStatuses, getProjectDpgStatuses } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
+import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
 
 export async function getProjectsWithDetails(term, page, limit) {
@@ -137,6 +138,28 @@ export async function getTeamMembers(projectId) {
   }));
 
   return membersWithProfiles;
+}
+
+export async function getUserBookmarkedProjects(userId, page, limit) {
+  const start = (page - 1) * limit;
+  const end = start + limit - 1;
+
+  const exisitingBookmarks = await getExistingBookmarksByUserId(userId, start, end);
+
+  if (exisitingBookmarks.length === 0) {
+    return [];
+  }
+
+  const projectIds = exisitingBookmarks.map((project) => project.project_id);
+
+  const projects = await getProjectsByIds(projectIds);
+
+  //additional data
+  const projectCategories = await getProjectCategories(projectIds);
+  const categories = await getCategories(projectCategories.map((pc) => pc.category_id));
+  const dpgStatuses = await getDpgStatuses(projectIds);
+
+  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses);
 }
 
 export async function storeProject(user, projectData) {

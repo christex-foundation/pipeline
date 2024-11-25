@@ -1,9 +1,8 @@
-import { supabase } from '$lib/server/supabase.js';
 import { json } from '@sveltejs/kit';
 import { storeProject } from '$lib/server/service/projectService.js';
 
 export async function POST({ request, locals }) {
-  let user = locals.authUser;
+  let user = locals.authUser.user;
 
   try {
     const projectData = await request.json();

@@ -1,12 +1,16 @@
 <script>
   import { enhance } from '$app/forms';
-
+  import Logo from '$lib/Logo.svelte';
   let loading = false;
 </script>
 
-<section class="basis-full py-5">
-  <form method="POST" class="flex flex-col max-w-md mx-auto" use:enhance>
-    <h2 class="text-4xl font-semibold">Register</h2>
+<section class="flex flex-col items-center justify-center w-full max-w-[1235px] max-md:px-5 max-md:mt-10 mt-20">
+  
+  <form method="POST" class="flex flex-col w-[60%] max-md:w-[90%] mx-auto" use:enhance>
+    <div class="hidden mb-10 max-md:block">
+      <Logo/>
+    </div>
+    <h2 class="mb-2 text-4xl font-semibold">Register</h2>
     <p class="mb-4 opacity-50">Enter your Info to signup for Pipeline</p>
     <div class="flex flex-col gap-2 font-medium">
       <label for="name" class="block">Name</label>
@@ -14,7 +18,7 @@
         type="text"
         id="name"
         name="name"
-        class="w-full border border-black rounded-full py-3 px-4"
+        class="w-full px-4 py-2 border border-black rounded-full"
         required
       />
     </div>
@@ -25,7 +29,7 @@
         type="email"
         id="email"
         name="email"
-        class="w-full border border-black py-3 rounded-full px-4"
+        class="w-full px-4 py-2 border border-black rounded-full"
         required
       />
     </div>
@@ -36,26 +40,31 @@
         type="password"
         id="password"
         name="password"
-        class="w-full border border-black py-3 rounded-full px-4"
+        class="w-full px-4 py-2 border border-black rounded-full"
         required
       />
     </div>
 
+    <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
+      Already have an account?
+            <a href="/sign-in" class="font-semibold text-neutral-400 hover:text-[#0b383c]">Sign In</a>
+          </div>
+
     <button
       type="submit"
-      class="py-4 mt-8 w-full font-light text-white bg-teal-900 rounded-full"
+      class="w-full py-4 mt-8 font-light text-white bg-teal-900 rounded-full"
       disabled={loading}
     >
       {loading ? 'Signing up...' : 'Sign up'}
     </button>
 
-    <label class="flex items-center gap-2 mt-6 text-sm font-light mx-auto">
+    <label class="flex w-full gap-2 mx-auto mt-6 text-sm font-light align-start max-md:mt-2">
       <input type="checkbox" name="rememberMe" />
       Remember me
     </label>
   </form>
 
-  <div class="flex flex-col items-center w-full gap-6 mt-10">
+  <!-- <div class="flex flex-col items-center w-full gap-6 mt-10 ">
     <p class="text-sm text-neutral-400">or continue with</p>
 
     <div class="flex gap-4 mb-6">
@@ -80,9 +89,9 @@
           class="w-6 h-6"
         />
       </button>
-      <button class="px-6 py-2 self-center text-sm text-teal-900 rounded-full bg-lime-400">
+      <button class="self-center px-6 py-2 text-sm text-teal-900 rounded-full bg-lime-400">
         Connect wallet
       </button>
     </div>
-  </div>
+  </div> -->
 </section>

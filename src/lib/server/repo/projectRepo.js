@@ -34,6 +34,7 @@ export async function getProjectsByUserId(userId, start, end) {
     .from('projects')
     .select('*')
     .eq('user_id', userId)
+    .range(start, end)
     .order('created_at', { ascending: false });
   if (error) throw new Error(error.message);
   return data || [];
