@@ -1,46 +1,11 @@
 <script>
   import ProjectSection from './ProjectSection.svelte';
 
-  let userProjects = [];
-  let loading = true;
-  let error = null;
-
-  export let data;
   const bannerImg =
     'https://cdn.builder.io/api/v1/image/assets/TEMP/8030ec6426e85620456b5636b4a5396ca24f43b5e55a6739527e90baef3c9203?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8';
   const userImg = 'https://i.pinimg.com/474x/76/4d/59/764d59d32f61f0f91dec8c442ab052c5.jpg';
 
-  // async function fetchMyProjects() {
-  //   try {
-  //     const response = await fetch('/api/projects/myProjects', {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error(response.statusText);
-  //     }
-
-  //     const data = await response.json();
-
-  //     userProjects = data.projects;
-  //   } catch (error) {
-  //     console.log(error);
-  //     error = e.message;
-  //     alert(error);
-  //   } finally {
-  //     loading = false;
-  //   }
-  // }
-
-  // onMount(() => {
-  //   fetchMyProjects();
-  // });
-
-  const tabs = ['projects created', 'projects contributed', 'notifications'];
-  let selectedTab = tabs[0];
+  export let data;
 </script>
 
 <main class="max-w-6xl mx-auto">
@@ -145,5 +110,5 @@
     </div>
   </section>
 
-  <ProjectSection />
+  <ProjectSection projects={data.projects} />
 </main>
