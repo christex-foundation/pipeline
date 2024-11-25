@@ -1,12 +1,7 @@
 <script>
-  import ProjectMembers from './../../../lib/ProjectMembers.svelte';
   import Contributors from '../../../lib/Contributors.svelte';
-  import Nav from '../../../lib/Nav.svelte';
-  import ProfileInfo from '../../../lib/ProfileInfo.svelte';
-  import Footer from '../../../lib/Footer.svelte';
   import ProjectNav from '../../../lib/ProjectNav.svelte';
   import ProjectAbout from '../../../lib/ProjectAbout.svelte';
-  import Card from '../../../lib/Card.svelte';
   import DpgStatus from '../../../lib/dpgStatus.svelte';
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
@@ -20,7 +15,6 @@
 
   let project = {};
   let projectUpdates = [];
-  let projectTeam = [];
   let projectResource = [];
   let loading = true;
   let user = null;
@@ -124,29 +118,6 @@
     }
   }
 
-  async function getProjectMembers() {
-    try {
-      const response = await fetch(`/api/projects/singleProject/${id}/projectMembers`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const data = await response.json();
-
-      projectTeam = data.members;
-    } catch (error) {
-      alert(error);
-    } finally {
-      loading = false;
-    }
-  }
-
   async function getProjectResources() {
     try {
       const response = await fetch(`/api/projects/singleProject/${id}/contribution/resources`, {
@@ -226,7 +197,6 @@
           'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/projectProf.png?t=2024-11-20T16%3A05%3A41.191Z');
     await getSingleProject();
     await getProjectUpdates();
-    await getProjectMembers();
     await getProjectResources();
     if (data.isAuthenticated) {
       user = data.user;
