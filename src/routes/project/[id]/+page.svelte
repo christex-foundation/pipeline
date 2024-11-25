@@ -1,13 +1,13 @@
 <script>
-  import Contributors from '../../../lib/Contributors.svelte';
-  import ProjectNav from '../../../lib/ProjectNav.svelte';
-  import ProjectAbout from '../../../lib/ProjectAbout.svelte';
-  import DpgStatus from '../../../lib/dpgStatus.svelte';
+  import Contributors from './Contributors.svelte';
+  import ProjectNav from '$lib/ProjectNav.svelte';
+  import ProjectAbout from '$lib/ProjectAbout.svelte';
+  import DpgStatus from '$lib/dpgStatus.svelte';
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
-  import Updates from '../../../lib/Updates.svelte';
-  import UpdateDetail from '../../../lib/UpdateDetail.svelte';
-  import Resources from '../../../lib/Resources.svelte';
+  import Updates from '$lib/Updates.svelte';
+  import UpdateDetail from '$lib/UpdateDetail.svelte';
+  import Resources from '$lib/Resources.svelte';
   import { amountFormat } from '$lib/utils/amountFormat.js';
 
   let id;
