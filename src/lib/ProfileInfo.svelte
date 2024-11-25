@@ -42,7 +42,7 @@
           <img
             loading="lazy"
             src={user.image_url && user.image_url !== '' ? user.image_url : defaultImageUrl}
-            alt="Profile picture"
+            alt="Profile"
             class="object-contain absolute z-0 gap-2.5 items-center max-w-full aspect-[1.01] bottom-[-65px] left-[30px] rounded-[106px] w-[120px] h-[120px]"
           />
         {/if}
