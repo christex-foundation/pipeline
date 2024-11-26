@@ -76,7 +76,7 @@
 <div class="relative flex items-center">
   <button
     on:click={toggleDropdown}
-    class="flex items-center justify-center p-2.5 bg-lime-100 h-[43px] rounded-[51px] w-[43px]"
+    class="flex items-center p-2.5 bg-lime-100 h-[43px] rounded-[51px] w-[43px] justify-between px-2"
     aria-label="User profile"
     aria-expanded={isOpen}
     aria-haspopup="true"
@@ -88,16 +88,19 @@
         alt="User avatar"
         class="w-[25px] aspect-square object-contain"
       />
+      <span class="ml-4 text-white md:hidden whitespace-nowrap text-ellipsis">{user.display_name}</span>
     {/if}
+    
   </button>
+
 
   {#if isOpen}
     <div
       bind:this={dropdownNode}
-      class="absolute right-0 top-full z-50 mt-2 bg-teal-600 rounded-2xl shadow-lg w-[280px]  max-md:-translate-x-[60px]"
+      class="absolute right-0 top-full z-[9999] mt-2 bg-teal-600 rounded-2xl shadow-lg w-[280px]  max-md:-translate-x-[60px]"
     >
       <nav class="flex flex-col py-6">
-        <div class="flex items-center gap-3 ml-6">
+        <div class="flex items-center gap-3 ml-6 max-md:hidden">
           <div class="flex p-3 border-2 border-white rounded-3xl bg-zinc-300">
             <img
               loading="lazy"
@@ -109,7 +112,7 @@
           <span class="text-white">{user.display_name}</span>
         </div>
 
-        <hr class="w-full mt-4 border-stone-300" />
+        <hr class="w-full mt-4 border-stone-300 max-md:hidden" />
 
         <ul class="flex flex-col px-6 mt-6 text-sm text-white">
           <li class="flex items-center gap-4">
@@ -132,9 +135,9 @@
           </li>
         </ul>
 
-        <hr class="w-full mt-7 border-stone-300" />
+        <hr class="w-full mt-7 border-stone-300 " />
 
-        <ul class="flex flex-col px-6 mt-6 text-sm text-white">
+        <ul class="flex flex-col px-6 mt-6 text-sm text-white ">
           <li class="flex items-center gap-4">
             <img
               loading="lazy"
@@ -157,4 +160,6 @@
       </nav>
     </div>
   {/if}
+  
 </div>
+
