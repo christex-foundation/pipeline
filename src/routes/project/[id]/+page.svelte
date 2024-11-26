@@ -187,15 +187,15 @@
     selectedUpdate = null;
   }
 
+  $: banner = project.banner_image
+    ? project.banner_image
+    : 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/banner.png?t=2024-11-20T15%3A45%3A51.937Z';
+
+  $: image = project.image
+    ? project.image
+    : 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/projectProf.png?t=2024-11-20T16%3A05%3A41.191Z';
+
   onMount(async () => {
-    project.banner_image
-      ? (banner = project.image)
-      : (banner =
-          'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/banner.png?t=2024-11-20T15%3A45%3A51.937Z');
-    project.image
-      ? (image = project.image)
-      : (image =
-          'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/projectProf.png?t=2024-11-20T16%3A05%3A41.191Z');
     await getSingleProject();
     await getProjectUpdates();
     await getProjectResources();

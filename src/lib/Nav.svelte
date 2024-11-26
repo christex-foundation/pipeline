@@ -99,7 +99,7 @@
 
 
 
-<header class=" top-0 left-0 right-0 z-[9999] h-[84px] px-4 md:px-8 py-5 bg-[#0b383c] backdrop-blur-[15px] flex justify-between items-center">
+<header class=" top-0 left-0 right-0 z-[99999] h-[84px] px-4 md:px-8 py-5 bg-[#0b383c] backdrop-blur-[15px] flex justify-between items-center relative">
 
   <div class="flex items-center h-6 gap-4 md:gap-12 grow-0">
     <Logo />
@@ -170,7 +170,8 @@
           </svg>
         </button>
         {#if isResourcesOpen}
-          <div class="absolute left-0 z-50 w-[15vh] mt-2 rounded-md shadow-lg bg-cyan-900 top-full">
+        
+          <div class="absolute left-0 z-100 w-[15vh] mt-2 rounded-md shadow-lg bg-cyan-900 top-full">
             <a
               href="/resources/pipeline"
               class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
@@ -180,6 +181,7 @@
               class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
             >About DPGs</a>
           </div>
+          
         {/if}
       </div>
     </div>
@@ -240,7 +242,7 @@
             </svg>
           </button>
           {#if isResourcesOpen}
-            <div class="absolute right-0 z-50 top-6 w-[25vh] mt-2 rounded-md shadow-lg bg-cyan-900">
+            <div class="absolute right-0 z-[9999] top-6 w-[25vh] mt-2 rounded-md shadow-lg bg-cyan-900">
               <a
                 href="/resources/pipeline"
                 class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
