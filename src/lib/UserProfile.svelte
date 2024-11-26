@@ -3,6 +3,7 @@
   import { goto } from '$app/navigation';
   import { invalidateAll } from '$app/navigation';
   import { browser } from '$app/environment';
+  import Icon from '@iconify/svelte';
 
   let isOpen = false;
   let dropdownNode;
@@ -88,16 +89,16 @@
         alt="User avatar"
         class="w-[25px] aspect-square object-contain"
       />
-      <span class="ml-4 text-white md:hidden whitespace-nowrap text-ellipsis">{user.display_name}</span>
+      <span class="ml-4 text-white md:hidden whitespace-nowrap text-ellipsis"
+        >{user.display_name}</span
+      >
     {/if}
-    
   </button>
-
 
   {#if isOpen}
     <div
       bind:this={dropdownNode}
-      class="absolute right-0 top-full z-[9999] mt-2 bg-teal-600 rounded-2xl shadow-lg w-[280px]  max-md:-translate-x-[60px]"
+      class="absolute right-0 top-full z-[9999] mt-2 bg-teal-600 rounded-2xl shadow-lg w-[280px] max-md:-translate-x-[60px]"
     >
       <nav class="flex flex-col py-6">
         <div class="flex items-center gap-3 ml-6 max-md:hidden">
@@ -116,50 +117,28 @@
 
         <ul class="flex flex-col px-6 mt-6 text-sm text-white">
           <li class="flex items-center gap-4">
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/b980984f37b77a34bf192f73bc2b8864dfe052a2488e8d5b5aa5b9d9bb6dcfae?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
-              class="w-[17px] aspect-square object-contain"
-              alt=""
-            />
+            <Icon icon="et:profile-male" class="text-lg" />
             <a href="/profile">Profile</a>
           </li>
           <li class="flex items-center gap-4 mt-6">
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/36ac60f5b7c31186fbac22d462a0e906fbc7bd63ae9a9caa9b8e5265e025d2d7?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
-              class="w-[17px] aspect-square object-contain"
-              alt=""
-            />
+            <Icon icon="stash:save-ribbon-light" class="text-lg" />
             <a href="/project/create">Create Project</a>
           </li>
         </ul>
 
-        <hr class="w-full mt-7 border-stone-300 " />
+        <hr class="w-full mt-7 border-stone-300" />
 
-        <ul class="flex flex-col px-6 mt-6 text-sm text-white ">
+        <ul class="flex flex-col px-6 mt-6 text-sm text-white">
           <li class="flex items-center gap-4">
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/134e2d421c52a6152b3b292772dd18c712e3b18e2360f2645b515c9ce5caf201?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
-              class="w-[18px] aspect-[1.06] object-contain"
-              alt=""
-            />
+            <Icon icon="stash:cog-light" class="text-xl" />
             <a href="/profile/edit">Settings</a>
           </li>
           <li class="flex items-center gap-4 mt-4">
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/a013c299c4e7d625b1100bfc8771c9e388f0dbf7c706bec63957c90cf739fe2b?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
-              class="w-[18px] aspect-square object-contain"
-              alt=""
-            />
+            <Icon icon="humbleicons:logout" class="text-lg" />
             <button on:click={handleLogout} class="text-left">Logout</button>
           </li>
         </ul>
       </nav>
     </div>
   {/if}
-  
 </div>
-
