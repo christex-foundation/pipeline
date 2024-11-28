@@ -106,7 +106,7 @@
     };
   });
 </script>
-
+<!-- 
 <div class="w-full bg-[#d1ea9a]/90 py-16">
   <div class="max-w-4xl mx-auto text-center">
     <h1 class="text-[#08292c] text-[45.43px] font-semibold font-['Inter'] leading-[54.51px]">
@@ -227,4 +227,181 @@
     </div>
   </section>
   </form>
+</main> -->
+
+
+<div class="w-full bg-[#d1ea9a]/90 py-16 mb-10">
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="text-[#08292c] text-[45.43px] font-semibold font-['Inter'] leading-[54.51px]">
+      Create a Project
+    </h1>
+  </div>
+</div>
+
+
+<!-- <main
+  class="flex flex-row justify-center items-start gap-10 px-10 py-5 bg-white rounded-[37px] max-md:flex-col max-md:gap-5 max-md:px-5 max-md:mt-10"
+>
+
+  <section class="flex flex-col flex-1 w-full max-w-[600px]">
+    <h2 class="mb-4 text-2xl font-semibold text-black ">Project Basics</h2>
+    <ProjectBasics />
+  </section>
+
+
+  <section class="flex flex-col flex-1 w-full max-w-[600px] gap-10 space-y-28">
+
+    <div class="flex flex-col">
+      <h2 class="mb-4 text-2xl font-semibold text-black">Links</h2>
+      <div class="flex flex-col gap-4">
+        <LinkInput label="Email" bind:value={email} on:change={updateStore} />
+        <LinkInput label="Github" bind:value={github} on:change={updateStore} />
+        <LinkInput label="LinkedIn" bind:value={linkedin} on:change={updateStore} />
+        <LinkInput label="X" bind:value={twitter} on:change={updateStore} />
+        <LinkInput label="Website" bind:value={website} on:change={updateStore} />
+        <LinkInput label="Others" bind:value={other} on:change={updateStore} />
+      </div>
+    </div>
+
+
+    <div class="flex flex-col">
+      <h2 class="mb-4 text-2xl font-semibold text-black">Funding</h2>
+      <div class="flex flex-col gap-6">
+        <div class="flex items-center w-full">
+          <label for="fundingGoal" class="w-1/3 text-base font-semibold">Funding Goal</label>
+          <input
+            id="fundingGoal"
+            bind:value={funding_goal}
+            on:change={updateStore}
+            type="number"
+            class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200"
+            aria-label="Funding Goal"
+          />
+        </div>
+
+        <hr class="my-4 border-neutral-300" />
+
+        <div class="flex items-center">
+          <label for="bankAccount" class="w-1/3 text-lg font-medium">Bank Account</label>
+          <input
+            id="bankAccount"
+            bind:value={bank_acct}
+            on:change={updateStore}
+            type="text"
+            class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200"
+            aria-label="Bank Account"
+          />
+        </div>
+
+        <div class="flex items-center justify-center text-neutral-400">
+          <hr class="flex-grow border-t-2 border-neutral-300" />
+          <span class="px-4 text-lg font-medium">or</span>
+          <hr class="flex-grow border-t-2 border-neutral-300" />
+        </div>
+
+        <div class="flex items-center">
+          <label for="walletAddress" class="w-1/3 text-lg font-medium">Wallet Address</label>
+          <input
+            id="walletAddress"
+            bind:value={wallet_address}
+            on:change={updateStore}
+            type="text"
+            class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200"
+            aria-label="Wallet Address"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</main> -->
+
+
+<main
+  class="flex flex-row justify-center items-start gap-10 px-10 py-5 bg-white rounded-[37px] max-md:flex-col max-md:gap-5 max-md:px-5 max-md:mt-10 flex-wrap"
+>
+  <!-- Left Section: Project Basics -->
+  <section class="flex flex-col flex-1 w-full max-w-[600px]">
+    <div class="p-4 border shadow-md bg-neutral-50 border-neutral-100 rounded-xl">
+      <h2 class="mb-4 text-2xl font-semibold text-black">Project Basics</h2>
+      <ProjectBasics />
+    </div>
+  </section>
+
+  <!-- Right Section: Links and Funding -->
+  <section class="flex flex-col flex-1 w-full max-w-[600px] gap-10">
+    <!-- Links Section -->
+    <div class="p-4 border shadow-md bg-neutral-50 border-neutral-200 rounded-xl">
+      <h2 class="mb-4 text-2xl font-semibold text-black">Links</h2>
+      <div class="flex flex-col gap-4 p-2 bg-white">
+        <LinkInput label="Email" bind:value={email} on:change={updateStore} />
+        <LinkInput label="Github" bind:value={github} on:change={updateStore} />
+        <LinkInput label="LinkedIn" bind:value={linkedin} on:change={updateStore} />
+        <LinkInput label="X" bind:value={twitter} on:change={updateStore} />
+        <LinkInput label="Website" bind:value={website} on:change={updateStore} />
+        <LinkInput label="Others" bind:value={other} on:change={updateStore} />
+      </div>
+    </div>
+
+    <!-- Funding Section -->
+    <div class="p-4 border shadow-md bg-neutral-50 border-neutral-200 rounded-xl">
+      <h2 class="mb-4 text-2xl font-semibold text-black ">Funding</h2>
+      <div class="flex flex-col gap-6 p-2 bg-white">
+        <div class="flex items-center w-full max-md:flex-col">
+          <label for="fundingGoal" class="w-1/3 text-base font-semibold max-md:w-full max-md:items-left max-md:py-2">Funding Goal</label>
+          <input
+            id="fundingGoal"
+            bind:value={funding_goal}
+            on:change={updateStore}
+            type="number"
+            class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+            aria-label="Funding Goal"
+          />
+        </div>
+
+        <hr class="my-4 border-neutral-300" />
+
+        <div class="flex items-center max-md:flex-col">
+          <label for="bankAccount" class="w-1/3 text-lg font-medium max-md:w-full max-md:items-left max-md:py-2">Bank Account</label>
+          <input
+            id="bankAccount"
+            bind:value={bank_acct}
+            on:change={updateStore}
+            type="text"
+            class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+            aria-label="Bank Account"
+          />
+        </div>
+
+        <div class="flex items-center justify-center text-neutral-400">
+          <hr class="flex-grow border-t-2 border-neutral-300" />
+          <span class="px-4 text-lg font-medium">or</span>
+          <hr class="flex-grow border-t-2 border-neutral-300" />
+        </div>
+
+        <div class="flex items-center max-md:flex-col">
+          <label for="walletAddress" class="w-1/3 text-lg font-medium max-md:w-full max-md:items-left max-md:py-2">Wallet Address</label>
+          <input
+            id="walletAddress"
+            bind:value={wallet_address}
+            on:change={updateStore}
+            type="text"
+            class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+            aria-label="Wallet Address"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+
+
+<!-- Save Button -->
+<div class="flex justify-end mt-10 w-[83%] max-md:justify-center max-md:ml-8">
+  <button
+    on:click={saveProject}
+    class="px-12 py-4 text-xl font-medium text-white bg-lime-800 rounded-[82px] max-md:px-8 max-md:py-3 "
+  >
+    {loading ? 'Saving...' : 'Save Project'}
+  </button>
+</div>
