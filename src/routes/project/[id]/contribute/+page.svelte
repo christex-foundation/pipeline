@@ -3,7 +3,6 @@
   import Apply from '$lib/apply.svelte';
   import { page } from '$app/stores';
 
-  let id;
   $: id = $page.params.id;
 
   let steps = [
