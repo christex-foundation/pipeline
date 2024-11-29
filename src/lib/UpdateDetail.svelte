@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher, onMount } from 'svelte';
   import DateTimeFormat from './DateTimeFormat.svelte';
+  import Icon from '@iconify/svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -92,22 +93,7 @@
             <div
               class="text-center text-[#222222] text-sm font-normal font-['Inter'] leading-[17.50px] flex gap-2 ml-[-10px]"
             >
-              <svg
-                width="13"
-                height="15"
-                viewBox="0 0 13 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g id="icon--chevron-left">
-                  <path
-                    id="Vector"
-                    d="M3.45996 6.65996L8.65996 11.86L9.65996 10.86L5.45996 6.65996L9.65996 2.45996L8.65996 1.45996"
-                    fill="black"
-                  />
-                </g>
-              </svg>
-
+              <Icon icon="mdi-light:chevron-left" class="text-2xl" />
               All Updates
             </div>
           </div>
