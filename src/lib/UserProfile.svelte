@@ -1,8 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
-  import { invalidateAll } from '$app/navigation';
-  import { browser } from '$app/environment';
+  import { enhance } from '$app/forms';
   import Icon from '@iconify/svelte';
 
   let isOpen = false;
@@ -41,37 +39,6 @@
       document.removeEventListener('click', handleGlobalClick);
     };
   });
-
-  async function handleLogout() {
-    try {
-      const response = await fetch('/api/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          if (browser) {
-            localStorage.clear();
-            sessionStorage.clear();
-          }
-
-          await invalidateAll();
-
-          goto('/sign-in');
-        } else {
-          console.error('Logout was not successful');
-        }
-      } else {
-        console.error('Logout request failed');
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-  }
 </script>
 
 <div class="relative flex items-center">
@@ -135,7 +102,9 @@
           </li>
           <li class="flex items-center gap-4 mt-4">
             <Icon icon="humbleicons:logout" class="text-lg" />
-            <button on:click={handleLogout} class="text-left">Logout</button>
+            <form action="/profile/?/logout" method="post" use:enhance>
+              <button type="submit" class="text-left">Logout</button>
+            </form>
           </li>
         </ul>
       </nav>

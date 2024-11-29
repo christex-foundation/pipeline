@@ -3,7 +3,7 @@
   import ProfileLinks from '../../../lib/ProfileLinks.svelte';
   import Settings from '../../../lib/Settings.svelte';
   import Interests from '../../../lib/Interests.svelte';
-  import { Icon } from '@iconify/svelte';
+  import Icon from '@iconify/svelte';
 
   let selectedTechInterests = [];
   let selectedCreativeInterests = [];
