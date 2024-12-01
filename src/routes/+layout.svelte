@@ -16,9 +16,11 @@
 </script>
 
 <div class="w-full min-h-screen bg-white">
-  <SearchModal 
-/>
-<NavigationProgress />
+  <SearchModal />
+
+  <!-- Page load indicator -->
+  <NavigationProgress />
+  
   <!-- temporary fix for the Nav & Footer component showing in the sign-in and sign-up pages -->
   {#if $page.url.pathname !== '/sign-in' && $page.url.pathname !== '/sign-up'}
     <Nav {data} />
