@@ -2,12 +2,16 @@
   import { goto } from '$app/navigation';
   import { enhance } from '$app/forms';
   import Logo from '$lib/Logo.svelte';
-  import { ArrowLeft, EyeIcon, EyeOffIcon } from 'lucide-svelte';
+  import { ArrowLeft, EyeIcon, EyeOffIcon, Home } from 'lucide-svelte';
 
   let loading = false;
   let showPass = false;
 
   function goBack() {
+    history.back();
+  }
+
+  function goHome() {
     history.back();
   }
 
@@ -19,15 +23,27 @@
 <section
   class="flex flex-col items-center justify-center w-full max-w-[1235px] max-md:px-5 max-md:mt-10 mt-20"
 >
-<div class="w-[60%] max-md:w-[90%] mx-auto mb-6">
-  <button
-    on:click={goBack}
-    class="absolute top-4 left-4 p-2 flex items-center justify-center text-teal-900 hover:text-white hover:bg-teal-800 border-2 border-gray-200 transition-colors w-[150px] sm:w-auto py-4 sm:py-2 rounded-full"
-  >
-    <ArrowLeft class="w-6 h-6 text-gray-200" />
-    <span class="hidden md:inline text-gray-200">Back</span>
-  </button>
-</div>
+  <div class="flex justify-evenly w-[60%] max-md:w-[90%] mx-auto mb-6">
+    <div>
+      <button
+        on:click={goBack}
+        class="absolute top-4 left-4 p-2 flex items-center justify-center text-teal-900 hover:text-white hover:bg-teal-800 border-2 border-gray-200 transition-colors w-[150px] sm:w-auto py-4 sm:py-2 rounded-full"
+      >
+        <ArrowLeft class="w-6 h-6 text-gray-200" />
+        <span class="hidden md:inline text-gray-200">Back</span>
+      </button>
+    </div>
+
+    <!-- <div>
+    <button
+      on:click={goHome}
+      class="absolute top-4 left-4 p-2 flex items-center justify-center text-teal-900 hover:text-white hover:bg-teal-800 border-2 border-gray-200 transition-colors w-[150px] sm:w-auto py-4 sm:py-2 rounded-full"
+    >
+      <Home class="w-6 h-6 text-gray-200" />
+      <span class="hidden md:inline text-gray-200"></span>
+    </button>
+  </div> -->
+  </div>
 
   <form method="POST" use:enhance class="w-[60%] max-md:w-[80%]">
     <div class="hidden mb-10 max-md:block">
