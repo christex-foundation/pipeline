@@ -1,12 +1,17 @@
 <script>
   import { enhance } from '$app/forms';
   import Logo from '$lib/Logo.svelte';
-  import { ArrowLeft } from 'lucide-svelte';
-  
+  import { ArrowLeft, EyeIcon, EyeOffIcon } from 'lucide-svelte';
+
   let loading = false;
+  let showPass = false;
 
   function goBack() {
     history.back();
+  }
+
+  function togglePass() {
+    showPass = !showPass;
   }
 </script>
 
@@ -14,14 +19,13 @@
   class="flex flex-col items-center justify-center w-full max-w-[1235px] max-md:px-5 max-md:mt-10 mt-20"
 >
   <div class="w-[60%] max-md:w-[90%] mx-auto mb-6">
-    <a
-    href="#"
-    on:click|preventDefault={goBack}
-    class="flex items-center justify-center text-teal-900 hover:text-white hover:bg-teal-800 border-2 border-teal-800 transition-colors w-[150px] py-4 rounded-full"
-  >
-    <ArrowLeft class="w-5 h-5 mr-2" />
-    <span class="font-medium">Back</span>
-  </a>
+    <button
+      on:click={goBack}
+      class="absolute top-4 left-4 p-2 flex items-center justify-center text-teal-900 hover:text-white hover:bg-teal-800 border-2 border-gray-200 transition-colors w-[150px] sm:w-auto py-4 sm:py-2 rounded-full"
+    >
+      <ArrowLeft class="w-6 h-6 text-gray-200" />
+      <span class="hidden md:inline text-gray-200">Back</span>
+    </button>
   </div>
 
   <form method="POST" class="flex flex-col w-[60%] max-md:w-[90%] mx-auto" use:enhance>
@@ -54,13 +58,27 @@
 
     <div class="flex flex-col gap-2 mt-4 font-medium">
       <label for="password" class="block">Password</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        class="w-full px-4 py-2 border border-black rounded-full"
-        required
-      />
+      <div class="relative">
+        <input
+          type={showPass ? 'text' : 'password'}
+          id="password"
+          name="password"
+          class="w-full px-4 py-2 border border-black rounded-full pr-10"
+          required
+        />
+        <button
+          type="button"
+          class="absolute right-3 top-1/2 transform -translate-y-1/2"
+          on:click={togglePass}
+          aria-label={showPass ? 'Hide password' : 'Show password'}
+        >
+          {#if showPass}
+            <EyeOffIcon class="w-5 h-5 text-gray-500" />
+          {:else}
+            <EyeIcon class="w-5 h-5 text-gray-500" />
+          {/if}
+        </button>
+      </div>
     </div>
 
     <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
