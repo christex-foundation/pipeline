@@ -21,11 +21,11 @@ import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
 
-export async function getProjectsWithDetails(term, page, limit) {
+export async function getProjectsWithDetails(term, page, limit, supabase) {
   const start = (page - 1) * limit;
   const end = start + limit - 1;
 
-  const projects = await getProjects(term, start, end);
+  const projects = await getProjects(term, start, end, supabase);
 
   if (projects.length === 0) {
     return [];
