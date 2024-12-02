@@ -1,6 +1,7 @@
 <script>
   import SignInForm from '$lib/SignInForm.svelte';
   import SignUp from '$lib/SignUp.svelte';
+  import LottieHandLoader from '$lib/LottieHandLoader.svelte';
 
   let loading = false;
   let name = '';
@@ -14,10 +15,10 @@
 
   const handleSignIn = async (event) => {
     const { email, password } = event.detail;
+    loading = true;
 
     try {
       console.log({ email, password });
-      loading = true;
 
       const response = await fetch('/api/signIn', {
         method: 'POST',
@@ -43,10 +44,10 @@
 
   const handleSignUp = async (event) => {
     const { name, email, password } = event.detail;
+    loading = true;
 
     try {
       console.log({ name, email, password });
-      loading = true;
 
       const response = await fetch('/api/signUp', {
         method: 'POST',
@@ -79,6 +80,9 @@
 
 <!-- -mb-16 is used to clear the margin used by the footer, causing funny white space  -->
 <main class="h-screen -mb-16 overflow-hidden bg-white md:pr-0 ">
+  {#if loading}
+    <LottieHandLoader />
+  {/if}
   <div class="flex flex-col h-full gap-5 md:flex-row">
     <section class="w-full h-full md:w-5/12 basis-full max-md:hidden">
       <div

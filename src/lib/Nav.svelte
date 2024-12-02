@@ -4,6 +4,7 @@
   import Logo from './Logo.svelte';
   import { onMount } from 'svelte';
   import { searchBarOpen } from './utils.js';
+  import SearchDropdown from './SearchDropdown.svelte';
 
   let isResourcesOpen = false;
   let isMobileMenuOpen = false;
