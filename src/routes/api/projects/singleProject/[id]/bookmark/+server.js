@@ -3,7 +3,7 @@ import { json } from '@sveltejs/kit';
 
 export async function POST({ params, request, locals }) {
   const { id: projectId } = params;
-  let user = locals.authUser;
+  let user = locals.authUser.user;
 
   try {
     const { data: existingBookmark, error: fetchError } = await supabase

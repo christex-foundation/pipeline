@@ -6,7 +6,7 @@ export async function POST({ params, request, locals }) {
   const { id, updateId } = params;
   const { body } = await request.json();
 
-  let user = locals.authUser;
+  let user = locals.authUser.user;
 
   try {
     await storeProjectUpdateComment({
