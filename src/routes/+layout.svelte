@@ -1,4 +1,6 @@
 <script>
+  import SearchModal from '$lib/SearchModal.svelte';
+
   import './app.css';
   import Nav from '$lib/Nav.svelte';
   import Footer from '$lib/Footer.svelte';
@@ -7,9 +9,14 @@
 
   export let data;
   setContext('sharedData', data);
+
+  
+  
 </script>
 
 <div class="w-full min-h-screen bg-white">
+  <SearchModal 
+/>
   <!-- temporary fix for the Nav & Footer component showing in the sign-in and sign-up pages -->
   {#if $page.url.pathname !== '/sign-in' && $page.url.pathname !== '/sign-up'}
     <Nav {data} />

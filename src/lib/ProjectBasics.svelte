@@ -152,14 +152,14 @@
 <section
   class="flex flex-col self-center p-10 w-full bg-white max-w-[1235px] max-md:px-5 max-md:mt-10 max-md:max-w-full"
 >
-  <div class="flex flex-col w-full mt-10 max-md:mt-10">
+  <div class="flex flex-col w-full mt-55 max-md:mt-10">
     <div class="flex flex-col w-full max-md:max-w-full ">
       <div
         class="flex flex-col items-start w-full leading-none max-md:max-w-full"
       >
         <div class="flex flex-col max-w-full w-[409px]">
           <h2 class="text-xl font-semibold text-black">Project Images</h2>
-          <p class="mt-2.5 text-base text-stone-300">
+          <p class="mt-2.5 text-sm text-stone-300">
             Click to change Project's Cover & Profile photo
           </p>
         </div>
@@ -223,10 +223,10 @@
         class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start"
       >
         <div class="flex flex-col">
-          <label for="projectTitle" class="text-xl font-semibold text-black"
+          <label for="projectTitle" class="text-base font-semibold text-black"
             >Project title</label
           >
-          <p class="mt-2.5 text-base text-stone-400">
+          <p class="mt-2.5 text-sm text-stone-400">
             What is the title of your project
           </p>
         </div>
@@ -236,7 +236,7 @@
             id="projectTitle"
             bind:value={title}
             on:change={updateStore}
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[50px] rounded-[75px] mt-2.5 px-4"
             aria-required="true"
           />
         </div>
@@ -245,20 +245,20 @@
       <div
         class="flex flex-row items-start justify-between w-full mt-9 max-md:flex-col max-md:items-start"
       >
-        <div class="flex flex-col">
-          <label for="projectBio" class="text-xl font-semibold text-black"
+        <div class="flex flex-col w-[45%] max-md:w-[100%]">
+          <label for="projectBio" class="text-black font-basesemibold text-"
             >Project bio</label
           >
-          <p class="mt-2.5 text-base text-stone-400">
+          <p class="mt-2.5 text-sm text-stone-400 ">
             Give a short description of your project
           </p>
         </div>
-        <div class="w-[50%] max-md:w-full">
+        <div class="w-[50%] max-md:w-[100%]">
           <textarea
             id="projectBio"
             bind:value={bio}
             on:change={updateStore}
-            class="w-full border-2 border-lime-800 min-h-[150px] rounded-[31px] mt-2.5 p-4"
+            class="w-full border-2 border-lime-800 min-h-[120px] rounded-[31px] mt-2.5 p-4"
             aria-required="true"
           ></textarea>
         </div>
@@ -267,17 +267,17 @@
       <div
         class="flex flex-row items-start justify-between w-full mt-9 max-md:flex-col max-md:items-start"
       >
-        <div class="flex flex-col">
-          <label for="projectTags" class="text-xl font-semibold text-black"
+        <div class="flex flex-col w-[45%] max-md:w-[100%]">
+          <label for="projectTags" class="text-base font-semibold text-black"
             >Project tags</label
           >
-          <p class="mt-2.5 text-base text-stone-400">
+          <p class="mt-2.5 text-sm text-stone-400">
             Select the keywords that best describe your project.
           </p>
         </div>
         <div class="relative w-[50%] mt-2.5 max-md:w-full">
           <div
-            class="flex flex-wrap items-center py-3 px-6 border-2 border-lime-800 min-h-[70px] rounded-[75px] bg-white"
+            class="flex flex-wrap items-center py-3 px-6 border-2 border-lime-800 min-h-[50px] rounded-[75px] bg-white"
           >
             <div class="flex flex-wrap items-center flex-grow gap-2 pr-8">
               {#each selectedTags as tag}
@@ -330,26 +330,53 @@
         </div>
       </div>
 
-      <div
+      <!-- <div
         class="flex flex-row items-start justify-between w-full mt-9 max-md:flex-col max-md:items-start"
       >
         <div class="flex flex-col">
-          <label for="projectCountry" class="text-xl font-semibold text-black"
+          <label for="projectCountry" class="text-base font-semibold text-black"
             >Country</label
           >
-          <p class="mt-2.5 text-base text-stone-400">
+          <p class="mt-2.5 text-sm text-stone-400">
             Choose the location where you are running the project.
           </p>
         </div>
         <div class="w-[50%] max-md:w-full">
           <div
-            class="flex items-center py-6 pr-20 pl-6 border-2 border-lime-800 min-h-[70px] rounded-[75px]"
+            class="flex items-center py-6 pr-20 pl-6 border-2 border-lime-800 h-[50px] rounded-[75px]"
           >
             <select
               id="projectCountry"
               bind:value={country}
               on:change={updateStore}
-              class="bg-transparent border-none outline-none"
+              class="bg-transparent border-none outline-none "
+              aria-label="Select project country"
+            >
+              <option value="" class="w-[50%]">Select a country</option>
+              {#each countryList as countryOption}
+                <option value={countryOption.name}>{countryOption.name}</option>
+              {/each}
+            </select>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="flex flex-row items-start justify-between w-full mt-12 max-md:flex-col max-md:items-start ">
+        <div class="flex flex-col w-[40%] max-md:w-[100%]">
+          <label for="projectCountry" class="text-base font-semibold text-black">
+            Country
+          </label>
+          <p class="mt-2.5 text-sm text-stone-400">
+            Choose the location where you are running the project.
+          </p>
+        </div>
+        <div class="w-[50%] max-md:w-full">
+          <div class="relative flex items-center border-2 border-lime-800 h-[50px] rounded-[75px]">
+            <select
+              id="projectCountry"
+              bind:value={country}
+              on:change={updateStore}
+              class="w-full h-full pl-4 pr-10 bg-transparent border-none outline-none appearance-none"
               aria-label="Select project country"
             >
               <option value="">Select a country</option>
@@ -357,18 +384,33 @@
                 <option value={countryOption.name}>{countryOption.name}</option>
               {/each}
             </select>
+            <!-- Custom Arrow Icon -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="absolute w-5 h-5 text-gray-600 pointer-events-none right-4"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.23 7.23a1 1 0 011.414 0L10 10.586l3.354-3.354a1 1 0 111.415 1.414l-4 4a1 1 0 01-1.415 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
           </div>
         </div>
       </div>
-
+      
+      
       <div
         class="flex flex-row items-start justify-between w-full mt-9 max-md:flex-col max-md:items-start"
       >
-        <div class="flex flex-col">
-          <label for="projectDetails" class="text-xl font-semibold text-black"
+        <div class="flex flex-col w-[45%] max-md:w-[100%]">
+          <label for="projectDetails" class="text-base font-semibold text-black"
             >Project details</label
           >
-          <p class="mt-2.5 text-base text-stone-400">
+          <p class="mt-2.5 text-sm text-stone-400">
             Tell potential contributors more about your project. <br /> Provide
             details that will motivate people to contribute.
             <br /> A good pitch is compelling, informative, and easy to digest.
@@ -379,7 +421,7 @@
             id="projectDetails"
             bind:value={details}
             on:change={updateStore}
-            class="w-full border-2 border-lime-800 rounded-[31px] mt-2.5 p-4 h-[100px]"
+            class="w-full border-2 border-lime-800 rounded-[31px] mt-2.5 p-4 h-[140px]"
             aria-required="true"
           ></textarea>
         </div>

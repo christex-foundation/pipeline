@@ -565,24 +565,24 @@
           <Card {project} />
         {/each}
         {#if !allProjectsLoaded}
-<div class="flex flex-row justify-end w-[1000px]">
-        <div 
-        class="flex cursor-pointer"
-        on:click={loadMoreProjects}
-        on:keydown={(e) => e.key === 'Enter' && loadMoreProjects()}
-        role="button"
-        tabindex="0"
+  <div class="flex items-center justify-center flex-grow w-full mt-8 col-span-full">
+    <div 
+      class="flex cursor-pointer"
+      on:click={loadMoreProjects}
+      on:keydown={(e) => e.key === 'Enter' && loadMoreProjects()}
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="px-[30px] py-[12px] bg-[#d1ea9a] rounded-full border-2 border-[#516027] items-center hover:bg-[#c1da8a] transition-colors duration-300"
       >
-        <div
-          class="px-[30px] py-[12px] bg-[#d1ea9a] rounded-full border-2 border-[#516027] items-center hover:bg-[#c1da8a] transition-colors duration-300"
-        >
-          <span class="text-[#516027] text-xl font-normal leading-snug">
-            Load more
-          </span>
-        </div>
+        <span class="text-[#516027] text-xl font-normal leading-snug">
+          Load more
+        </span>
       </div>
     </div>
-        {/if}
+  </div>
+{/if}
       {:else}
         <p class="text-center text-gray-600 col-span-full">No projects found.</p>
       {/if}
@@ -593,4 +593,7 @@
       </p>
     {/if}
   </section>
+
+  
+  
 </div>

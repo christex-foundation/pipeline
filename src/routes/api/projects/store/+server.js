@@ -1,4 +1,3 @@
-import { supabase } from '$lib/server/supabase.js';
 import { json } from '@sveltejs/kit';
 import { storeProject } from '$lib/server/service/projectService.js';
 

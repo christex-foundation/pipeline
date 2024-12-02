@@ -67,7 +67,7 @@
 </div> -->
 
 <div
-  class="relative w-full h-[417px] flex justify-center items-center mb-20 max-sm:h-[200px]"
+  class="relative w-full h-[417px] flex justify-center items-center mb-20 max-sm:h-[200px] z-0"
   style="background-image: url('https://s3-alpha-sig.figma.com/img/f7f4/7999/74709a5d690ece6b2d8e0fbee98a787a?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VfTXvDJj1skdr1Z5aGJlVyu9I1sG~SJUBaa4WUh4yJg6lC0r1f8SYOKmgCRQ6LMZejsFjUMIXvZ7i~Er0kckUkLIHZ~b9fL6wjXnX6Tih1Cu7KSqlIYUXK9DiU~36arhFVXllX-Fr12qi1llpQoKd5~DW45WaKvpsSotQayYPSWchGGq-b~Dc0NreyAasTrYxUjD4usnTVnw1hadbD~Pb8lNSpn46mFZMhRrV5lqIU2XjLjRqOJHX~Kq2jnYcXkzBD1nYRIPfJlydUxP47KqMSRWEU3wRLY-PVaalaEnZmMOLaLO4nAtIlTpjB6jm4FyfahmuD0-cYMjbzseeVNxjA__');
   background-size: cover;
   background-position: center;

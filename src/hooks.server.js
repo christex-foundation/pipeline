@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import { getUser } from '$lib/server/service/authUserService.js';
 
-const PROTECTED_ROUTES = ['/profile', '/project/create', ''];
+const PROTECTED_ROUTES = ['/profile', '/profile/edit', '/project/create'];
 
 export async function handle({ event, resolve }) {
   const cookies = event.request.headers.get('cookie');
@@ -17,7 +17,7 @@ export async function handle({ event, resolve }) {
   event.locals.authUser = user;
 
   if (PROTECTED_ROUTES.includes(path) && !accessToken) {
-    throw redirect(302, '/sign-in');
+    redirect(307, '/sign-in');
   }
 
   return resolve(event);

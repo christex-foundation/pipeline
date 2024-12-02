@@ -78,9 +78,9 @@
 </script>
 
 <!-- -mb-16 is used to clear the margin used by the footer, causing funny white space  -->
-<main class="h-screen overflow-hidden bg-white md:pr-0 -mb-16">
+<main class="h-screen -mb-16 overflow-hidden bg-white md:pr-0 ">
   <div class="flex flex-col h-full gap-5 md:flex-row">
-    <section class="w-full h-full md:w-5/12 basis-full">
+    <section class="w-full h-full md:w-5/12 basis-full max-md:hidden">
       <div
         class="flex items-center h-full gap-2.5 py-10 pr-2 pl-5 grow bg-cyan-950 md:py-24 md:pl-12"
       >
@@ -105,6 +105,6 @@
       </div>
     </section>
 
-    <slot></slot>
+    <slot class="flex-grow h-full"></slot>
   </div>
 </main>
