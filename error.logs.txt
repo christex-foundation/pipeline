@@ -1,0 +1,6 @@
+Current Error/Issues
+
+1.Nav.svelte:206 Uncaught (in promise) ReferenceError: SearchDropdown is not defined
+    at create_if_block (Nav.svelte:206:13)
+    at Object.update [as p] (Nav.svelte:212:24)
+
