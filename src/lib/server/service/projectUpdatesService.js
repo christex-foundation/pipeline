@@ -1,5 +1,6 @@
-import { getUpdates, storeProjectUpdate } from "../repo/projectUpdatesRepo";
-import { getMultipleProfiles } from "../repo/userProfileRepo";
+//@ts-check
+import { getUpdates, storeProjectUpdate } from '$lib/server/repo/projectUpdatesRepo.js';
+import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 export async function getProjectUpdates(projectId, supabase) {
   const updates = await getUpdates(projectId, supabase);
 
@@ -26,7 +27,6 @@ export async function getProjectUpdates(projectId, supabase) {
 }
 
 export async function createProjectUpdate(projectUpdateData, supabase) {
-  
-    await storeProjectUpdate(projectUpdateData, supabase);
-    return { success: true };
+  await storeProjectUpdate(projectUpdateData, supabase);
+  return { success: true };
 }

@@ -2,7 +2,7 @@
 import { allCategories } from '$lib/server/service/categoryService.js';
 import { json } from '@sveltejs/kit';
 
-export async function GET({ request, locals }) {
+export async function GET({ locals }) {
   try {
     let supabase = locals.supabase;
     

@@ -1,3 +1,4 @@
+//@ts-check
 import { storeComment, getComments } from '../repo/projectUpdateCommentRepo.js';
 import { getMultipleProfiles } from '../repo/userProfileRepo.js';
 

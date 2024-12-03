@@ -1,5 +1,4 @@
 //@ts-check
-//import { supabase } from '$lib/server/supabase.js';
 
 export async function getProjects(term, start, end, supabase) {
   const { data, error } = await supabase
@@ -40,8 +39,6 @@ export async function getProjectsByUserId(userId, start, end, supabase) {
   return data;
 }
 
-
-
 export async function createProject(projectData, supabase) {
   const { data, error } = await supabase.from('projects').insert(projectData).select();
   if (error) throw new Error(error.message);
@@ -63,5 +60,3 @@ export async function deleteProject(id, supabase) {
   if (error) throw new Error(error.message);
   return data[0];
 }
-
-

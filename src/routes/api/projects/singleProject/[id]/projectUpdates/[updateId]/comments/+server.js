@@ -1,4 +1,4 @@
-import { supabase } from '$lib/server/supabase.js';
+//@ts-check
 import { json } from '@sveltejs/kit';
 import { getUpdateComment } from '$lib/server/service/projectUpdateCommentService.js';
 

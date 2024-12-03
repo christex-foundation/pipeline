@@ -1,5 +1,4 @@
 //@ts-check
-//import { supabase } from '$lib/server/supabase.js';
 
 export async function getAllCategories(supabase) {
   const { data, error } = await supabase.from('categories').select('*');

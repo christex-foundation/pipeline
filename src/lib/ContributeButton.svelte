@@ -1,24 +1,22 @@
 <script>
-  import { getContext } from 'svelte';
-  const data = getContext('sharedData');
   export let project;
+  export let data;
 
   const getProjectLink = () => {
-    if (data?.isAuthenticated) {
+    if (data.isAuthenticated) {
       return project.user_id === data.user.id
         ? `/project/${project.id}`
-        : `/project/${project.id}/contribute`; 
+        : `/project/${project.id}/contribute`;
     }
-    return '/sign-in'; 
+    return '/sign-in';
   };
 
   const getButtonLabel = () => {
-    if (data?.isAuthenticated) {
+    if (data.isAuthenticated) {
       return project.user_id === data.user.id ? 'View' : 'Contribute';
     }
-    return 'Contribute'; 
+    return 'Contribute';
   };
-
 </script>
 
 <a
@@ -32,7 +30,7 @@
   </span>
 </a>
 
-{#if !data?.isAuthenticated}
+{#if !data.isAuthenticated}
   <!-- We can implement Tooltip or additional message for unauthenticated users -->
   <p class="text-sm text-gray-400 mt-2">Please sign in to contribute.</p>
 {/if}

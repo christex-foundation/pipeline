@@ -1,5 +1,4 @@
 //@ts-check
-//import { supabase } from '$lib/server/supabase.js';
 
 export async function getResources(projectId, supabase) {
   const { data, error } = await supabase

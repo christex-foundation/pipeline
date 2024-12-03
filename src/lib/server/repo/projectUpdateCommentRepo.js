@@ -1,4 +1,4 @@
-//import { supabase } from '$lib/server/supabase.js';
+//@ts-check
 
 export async function getComments(id, updateId, supabase) {
   const { data, error } = await supabase
@@ -13,7 +13,10 @@ export async function getComments(id, updateId, supabase) {
 }
 
 export async function storeComment(commentData, supabase) {
-  const { data, error } = await supabase.from('project_update_comment').insert(commentData).select();
+  const { data, error } = await supabase
+    .from('project_update_comment')
+    .insert(commentData)
+    .select();
   if (error) throw new Error(error.message);
   return data[0];
 }

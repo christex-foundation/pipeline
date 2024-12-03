@@ -18,7 +18,7 @@ export async function getExistingBookmarksByUserId(userId, start, end, supabase)
     .select('*')
     .eq('user_id', userId)
     .range(start, end)
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
 

@@ -1,4 +1,4 @@
-//import { supabase } from '$lib/server/supabase.js';
+//@ts-check
 
 export async function getMultipleProfiles(userIds, supabase) {
   const { data, error } = await supabase.from('profile').select('*').in('user_id', userIds);

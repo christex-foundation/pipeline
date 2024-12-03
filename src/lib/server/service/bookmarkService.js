@@ -1,5 +1,5 @@
 //@ts-check
-import { getExistingBookmarks, addBookmark, deleteBookmark } from '../repo/bookmarkRepo.js';
+import { getExistingBookmarks, addBookmark, deleteBookmark } from '$lib/server/repo/bookmarkRepo.js';
 
 export async function bookmarkProject(projectId, userId, supabase) {
   const existingBookmarks = await getExistingBookmarks(projectId, userId, supabase);

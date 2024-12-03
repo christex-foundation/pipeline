@@ -1,10 +1,10 @@
-import { supabase, adminAuthClient } from '$lib/server/supabase.js';
+import { adminAuthClient } from '$lib/server/supabase.js';
 
-export async function getAuthUser(accessToken) {
-  const { data: userData, error: userError } = await supabase.auth.getUser(accessToken);
+// export async function getAuthUser(accessToken) {
+//   const { data: userData, error: userError } = await supabase.auth.getUser(accessToken);
 
-  return userData;
-}
+//   return userData;
+// }
 
 export async function registerUser(registerData) {
   const { email, password } = registerData;

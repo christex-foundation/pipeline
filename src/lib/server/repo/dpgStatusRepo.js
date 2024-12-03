@@ -1,5 +1,3 @@
-//import { supabase } from '$lib/server/supabase.js';
-
 export async function getAllDpgStatuses(supabase) {
   const { data, error } = await supabase.from('dpg_status').select('*');
   if (error) throw new Error(error.message);

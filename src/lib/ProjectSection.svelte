@@ -3,6 +3,7 @@
 
   export let projects = [];
   export let bookmarkProjects;
+  export let data;
 
   let navSections = [
     { id: 'created', label: 'Projects created' },
@@ -35,7 +36,7 @@
       {#if currentSection === 'created'}
         <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
           {#each projects as project}
-            <Card {project} />
+            <Card {project} {data} />
           {:else}
             <p>No projects found.</p>
           {/each}
@@ -43,7 +44,7 @@
       {:else if currentSection === 'contributed'}
         <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
           {#each projects as project}
-            <Card {project} />
+            <Card {project} {data} />
           {:else}
             <p>No contributed projects found.</p>
           {/each}
@@ -51,7 +52,7 @@
       {:else if currentSection === 'following'}
         <div class="grid grid-cols-1 gap-4 mt-8 md:grid-cols-2 lg:grid-cols-3">
           {#each bookmarkProjects as project}
-            <Card {project} />
+            <Card {project} {data} />
           {:else}
             <p>No bookmarked projects found.</p>
           {/each}

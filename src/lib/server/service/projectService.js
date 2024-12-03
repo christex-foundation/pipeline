@@ -1,3 +1,4 @@
+//@ts-check
 import {
   getProject,
   getProjects,
@@ -5,8 +6,8 @@ import {
   updateDetails,
   getProjectsByUserId,
   getProjectsByIds,
-} from '$lib/server/repo/projectRepo';
-import { createTeamMember, teamMembers } from '$lib/server/repo/memberRepo';
+} from '$lib/server/repo/projectRepo.js';
+import { createTeamMember, teamMembers } from '$lib/server/repo/memberRepo.js';
 import {
   assignCategory,
   getCategories,
@@ -15,7 +16,7 @@ import {
   addTags,
   getProjectExistingCategories,
   removeTags,
-} from '$lib/server/repo/categoryRepo';
+} from '$lib/server/repo/categoryRepo.js';
 import { getDpgStatuses, getAllDpgStatuses, getProjectDpgStatuses } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
@@ -51,7 +52,6 @@ export async function getUserProjects(userId, page, limit, supabase) {
 
   const projects = await getProjectsByUserId(userId, start, end, supabase);
 
-
   if (projects.length === 0) {
     return [];
   }
@@ -60,8 +60,11 @@ export async function getUserProjects(userId, page, limit, supabase) {
 
   //additional data
   const projectCategories = await getProjectCategories(projectIds, supabase);
-  
-  const categoriesIds = await getCategories(projectCategories.map((pc) => pc.category_id), supabase);
+
+  const categoriesIds = await getCategories(
+    projectCategories.map((pc) => pc.category_id),
+    supabase,
+  );
   const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
   return mapProjectsWithTagsAndStatus(projects, projectCategories, categoriesIds, dpgStatuses);
@@ -83,7 +86,10 @@ export async function getProjectsByCategory(categoryId, page, limit, supabase) {
 
   const projectCategories = await getProjectCategories(projectIds, supabase);
 
-  const categories = await getCategories(projectCategories.map((pc) => pc.category_id), supabase);
+  const categories = await getCategories(
+    projectCategories.map((pc) => pc.category_id),
+    supabase,
+  );
   const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
   return mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses);
@@ -161,7 +167,10 @@ export async function getUserBookmarkedProjects(userId, page, limit, supabase) {
 
   //additional data
   const projectCategories = await getProjectCategories(projectIds, supabase);
-  const categories = await getCategories(projectCategories.map((pc) => pc.category_id), supabase);
+  const categories = await getCategories(
+    projectCategories.map((pc) => pc.category_id),
+    supabase,
+  );
   const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
   return mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses);

@@ -18,10 +18,11 @@
   }
 
   export let project;
+  export let data;
 
   const getImageLink = () => {
-    return project.banner_image 
-      ? project.banner_image 
+    return project.banner_image
+      ? project.banner_image
       : 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/banner.png?t=2024-11-20T15%3A45%3A51.937Z';
   };
 
@@ -66,6 +67,6 @@
       <span class="text-sm font-semibold">${amountFormat(project.funding_goal || 0)}</span>
     </div>
     <ProgressBar progress={project.current_funding} total={project.funding_goal} />
-    <ContributeButton {project} />
+    <ContributeButton {project} {data} />
   </div>
 </div>

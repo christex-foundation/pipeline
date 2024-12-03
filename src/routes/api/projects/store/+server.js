@@ -1,3 +1,4 @@
+//@ts-check
 import { json } from '@sveltejs/kit';
 import { storeProject } from '$lib/server/service/projectService.js';
 
