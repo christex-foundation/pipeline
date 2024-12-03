@@ -1,7 +1,7 @@
 import { getUpdates, storeProjectUpdate } from "../repo/projectUpdatesRepo";
 import { getMultipleProfiles } from "../repo/userProfileRepo";
-export async function getProjectUpdates(projectId) {
-  const updates = await getUpdates(projectId);
+export async function getProjectUpdates(projectId, supabase) {
+  const updates = await getUpdates(projectId, supabase);
 
   if (!updates) {
     return [];
@@ -9,7 +9,7 @@ export async function getProjectUpdates(projectId) {
 
   const userIds = updates.map((update) => update.user_id);
 
-  const profiles = await getMultipleProfiles(userIds);
+  const profiles = await getMultipleProfiles(userIds, supabase);
 
   const profilesByUserId = profiles.reduce((acc, profile) => {
     acc[profile.user_id] = profile;
@@ -25,8 +25,8 @@ export async function getProjectUpdates(projectId) {
   return projectUpdatesWithProfiles;
 }
 
-export async function createProjectUpdate(projectUpdateData) {
+export async function createProjectUpdate(projectUpdateData, supabase) {
   
-    await storeProjectUpdate(projectUpdateData);
+    await storeProjectUpdate(projectUpdateData, supabase);
     return { success: true };
 }

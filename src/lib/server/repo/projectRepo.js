@@ -13,13 +13,13 @@ export async function getProjects(term, start, end, supabase) {
   return data || [];
 }
 
-export async function getProject(id) {
+export async function getProject(id, supabase) {
   const { data, error } = await supabase.from('projects').select('*').eq('id', id).single();
   if (error) throw new Error(error.message);
   return data || {};
 }
 
-export async function getProjectsByIds(Ids) {
+export async function getProjectsByIds(Ids, supabase) {
   const { data, error } = await supabase
     .from('projects')
     .select('*')
@@ -29,7 +29,7 @@ export async function getProjectsByIds(Ids) {
   return data || {};
 }
 
-export async function getProjectsByUserId(userId, start, end) {
+export async function getProjectsByUserId(userId, start, end, supabase) {
   const { data, error } = await supabase
     .from('projects')
     .select('*')
@@ -37,18 +37,18 @@ export async function getProjectsByUserId(userId, start, end) {
     .range(start, end)
     .order('created_at', { ascending: false });
   if (error) throw new Error(error.message);
-  return data || [];
+  return data;
 }
 
 
 
-export async function createProject(projectData) {
+export async function createProject(projectData, supabase) {
   const { data, error } = await supabase.from('projects').insert(projectData).select();
   if (error) throw new Error(error.message);
   return data[0];
 }
 
-export async function updateDetails(projectData) {
+export async function updateDetails(projectData, supabase) {
   const { data, error } = await supabase
     .from('projects')
     .update(projectData)
@@ -58,7 +58,7 @@ export async function updateDetails(projectData) {
   return data[0];
 }
 
-export async function deleteProject(id) {
+export async function deleteProject(id, supabase) {
   const { data, error } = await supabase.from('projects').delete().eq('id', id).select();
   if (error) throw new Error(error.message);
   return data[0];

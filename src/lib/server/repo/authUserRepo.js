@@ -18,9 +18,18 @@ export async function registerUser(registerData) {
   return signUpData;
 }
 
-export async function loginUser(loginData) {
+export async function loginUser(loginData, supabase) {
   const { data, error } = await supabase.auth.signInWithPassword(loginData);
 
   if (error) throw new Error(error.message);
   return data;
+}
+
+export async function logoutUser(supabase) {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error('Error during sign-out:', error.message);
+    throw new Error('Failed to log out.');
+  }
 }

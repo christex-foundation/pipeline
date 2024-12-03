@@ -9,9 +9,6 @@
 
   export let data;
   setContext('sharedData', data);
-
-  
-  
 </script>
 
 <div class="w-full min-h-screen bg-white">

@@ -1,7 +1,7 @@
 //@ts-check
-import { supabase } from '$lib/server/supabase.js';
+//import { supabase } from '$lib/server/supabase.js';
 
-export async function getResources(projectId) {
+export async function getResources(projectId, supabase) {
   const { data, error } = await supabase
     .from('project_resource')
     .select('*')
@@ -11,7 +11,7 @@ export async function getResources(projectId) {
   return data || [];
 }
 
-export async function storeResource(resourceData) {
+export async function storeResource(resourceData, supabase) {
   const { data, error } = await supabase.from('project_resource').insert(resourceData).select();
   if (error) throw new Error(error.message);
   return data[0];

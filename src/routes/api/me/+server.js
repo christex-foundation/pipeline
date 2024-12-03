@@ -1,59 +1,23 @@
-import { supabase } from "$lib/server/supabase.js"; // Import your Supabase client
+//import { supabase } from "$lib/server/supabase.js"; // Import your Supabase client
+import { getProfile } from '$lib/server/repo/userProfileRepo.js';
+import { json } from '@sveltejs/kit';
 
-export async function GET({ request }) {
-  const cookies = request.headers.get("cookie");
+export async function GET({ request, locals }) {
+  let authUser = locals.authUser;
+  let supabase = locals.supabase;
 
-  if (!cookies) {
-    return new Response(JSON.stringify({ error: "No cookies found" }), {
-      status: 401,
-    });
-  }
-
-  // Parse cookies to extract the access token
-  const accessToken = cookies
-    .split(";")
-    .find((cookie) => cookie.trim().startsWith("access_token="))
-    ?.split("=")[1];
-
-  if (!accessToken) {
-    return new Response(JSON.stringify({ error: "No access token found" }), {
-      status: 401,
-    });
-  }
-
-  // Get user data from Supabase using the access token
-  const { data, error } = await supabase.auth.getUser(accessToken);
-
-  // Get User Profile from Supabase
-  const { data: profileData, error: profileError } = await supabase
-    .from("profile")
-    .select("*")
-    .eq("user_id", data.user.id)
-    .single();
-
-  //console.log('profileData:', profileData);
-  if (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 401,
-    });
-  }
-
-  if (!data || !data.user) {
-    return new Response(JSON.stringify({ error: "User not found" }), {
-      status: 404,
-    });
-  }
+  const profile = await getProfile(authUser.id, supabase);
 
   const user = {
-    id: data.user.id,
-    email: data.user.email,
-    display_name: profileData.name,
-    bio: profileData.bio,
-    interests: profileData.interests,
-    skills: profileData.skills,
-    image_url: profileData.image,
-    points: profileData.points,
+    id: authUser.id,
+    email: authUser.email,
+    display_name: profile.name,
+    bio: profile.bio,
+    interests: profile.interests,
+    skills: profile.skills,
+    image_url: profile.image,
+    points: profile.points,
   };
 
-  return new Response(JSON.stringify({ user }), { status: 200 });
+  return json({ user }, { status: 200 });
 }

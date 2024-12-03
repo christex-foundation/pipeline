@@ -1,5 +1,4 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
   import UserProfile from './UserProfile.svelte';
   import Logo from './Logo.svelte';
   import { onMount } from 'svelte';

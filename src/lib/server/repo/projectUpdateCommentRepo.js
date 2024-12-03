@@ -1,6 +1,6 @@
-import { supabase } from '$lib/server/supabase.js';
+//import { supabase } from '$lib/server/supabase.js';
 
-export async function getComments(id, updateId) {
+export async function getComments(id, updateId, supabase) {
   const { data, error } = await supabase
     .from('project_update_comment')
     .select('*')
@@ -12,7 +12,7 @@ export async function getComments(id, updateId) {
   return data || [];
 }
 
-export async function storeComment(commentData) {
+export async function storeComment(commentData, supabase) {
   const { data, error } = await supabase.from('project_update_comment').insert(commentData).select();
   if (error) throw new Error(error.message);
   return data[0];

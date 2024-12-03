@@ -1,7 +1,7 @@
 //@ts-check
-import { supabase } from '$lib/server/supabase.js';
+//import { supabase } from '$lib/server/supabase.js';
 
-export async function getExistingBookmarks(projectId, userId) {
+export async function getExistingBookmarks(projectId, userId, supabase) {
   const { data, error } = await supabase
     .from('bookmark_project')
     .select('*')
@@ -12,7 +12,7 @@ export async function getExistingBookmarks(projectId, userId) {
   return data;
 }
 
-export async function getExistingBookmarksByUserId(userId, start, end) {
+export async function getExistingBookmarksByUserId(userId, start, end, supabase) {
   const { data, error } = await supabase
     .from('bookmark_project')
     .select('*')
@@ -25,7 +25,7 @@ export async function getExistingBookmarksByUserId(userId, start, end) {
   return data;
 }
 
-export async function addBookmark(projectId, userId) {
+export async function addBookmark(projectId, userId, supabase) {
   console.log(userId);
   const { data, error } = await supabase
     .from('bookmark_project')
@@ -41,7 +41,7 @@ export async function addBookmark(projectId, userId) {
   return data[0];
 }
 
-export async function deleteBookmark(projectId, userId) {
+export async function deleteBookmark(projectId, userId, supabase) {
   const { data, error } = await supabase
     .from('bookmark_project')
     .delete()

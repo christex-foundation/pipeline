@@ -22,8 +22,7 @@ export async function GET({ url, locals }) {
 }
 
 export async function POST({ request, locals }) {
-  let user = locals.authUser.user;
-
+  let user = locals.authUser;
   try {
     const {
       title,
