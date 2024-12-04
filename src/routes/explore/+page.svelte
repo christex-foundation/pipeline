@@ -23,8 +23,6 @@
   let searchResultsLoaded = false;
   let categoryResultLoaded = false;
 
-  export let data;
-
   async function fetchAllProjects() {
     try {
       const response = await fetch(`/api/projects?page=${currentPage}&limit=${itemsPerPage}`, {
@@ -194,7 +192,7 @@
         Search results for: "{searchTerm}"
       </div>
       {#each searchResults as project}
-        <Card {project} {data} />
+        <Card {project} />
       {/each}
       {#if !searchResultsLoaded && !allSearchLoaded}
         <div class="flex items-center justify-center mt-8 col-span-full">
@@ -212,7 +210,7 @@
       </div>
       {#if categoryResult.length > 0}
         {#each categoryResult as project}
-          <Card {project} {data} />
+          <Card {project} />
         {/each}
         {#if !categoryResultLoaded && !allCategoryLoaded}
           <div class="flex items-center justify-center mt-8 col-span-full">
@@ -233,7 +231,7 @@
       <div class="text-xl font-semibold text-gray-700 col-span-full">Top Projects</div>
       {#if topProjects.length > 0}
         {#each topProjects as project}
-          <Card {project} {data} />
+          <Card {project} />
         {/each}
       {:else}
         <p class="text-center text-gray-600 col-span-full">No projects found.</p>
@@ -242,7 +240,7 @@
       <div class="mt-8 text-xl font-semibold text-gray-700 col-span-full">All Projects</div>
       {#if allProjects.length > 0}
         {#each allProjects as project}
-          <Card {project} {data} />
+          <Card {project} />
         {/each}
         {#if !allProjectsLoaded}
           <div class="flex items-center justify-center flex-grow w-full mt-8 col-span-full">

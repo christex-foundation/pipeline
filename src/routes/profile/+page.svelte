@@ -7,7 +7,6 @@
   let bookmarkProjects = [];
   let loading = true;
   let error = null;
-  export let data;
 
   async function fetchMyProjects() {
     try {
@@ -80,7 +79,7 @@
       {:else if error}
         <p>Error: {error}</p>
       {:else}
-        <ProjectSection {projects} {bookmarkProjects} {data} />
+        <ProjectSection {projects} {bookmarkProjects} />
       {/if}
     </div>
   </div>

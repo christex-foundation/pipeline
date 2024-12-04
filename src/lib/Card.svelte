@@ -18,7 +18,7 @@
   }
 
   export let project;
-  export let data;
+  
 
   const getImageLink = () => {
     return project.banner_image
@@ -67,6 +67,6 @@
       <span class="text-sm font-semibold">${amountFormat(project.funding_goal || 0)}</span>
     </div>
     <ProgressBar progress={project.current_funding} total={project.funding_goal} />
-    <ContributeButton {project} {data} />
+    <ContributeButton {project}  />
   </div>
 </div>
