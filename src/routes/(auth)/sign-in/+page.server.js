@@ -23,18 +23,14 @@ export const actions = {
         },
         body: JSON.stringify(data),
       });
-
       if (!response.ok) {
         const result = await response.json();
         return fail(400, { error: result.message || 'Failed to sign in' });
       }
-
-      redirect(307, '/profile');
     } catch (error) {
-      if (error.status === 307) {
-        redirect(307, '/profile');
-      }
-      return fail(500, { error: error.message || 'Something went wrong' });
+      return fail(400, { error: error.message || 'Something went wrong' });
     }
+
+    redirect(307, '/profile');
   },
 };

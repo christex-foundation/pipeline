@@ -51,6 +51,7 @@
 		"novel-svelte": "^0.1.7",
 		"openai": "^4.68.0",
 		"svelte-french-toast": "^1.2.0",
+		"svelte-sonner": "^0.3.28",
 		"svelte-styled-components": "^0.0.1",
 		"tailwind-editor": "^0.3.3",
 		"zod": "^3.23.8"

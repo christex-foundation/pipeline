@@ -1,84 +1,10 @@
 <script>
-  import SignInForm from '$lib/SignInForm.svelte';
-  import SignUp from '$lib/SignUp.svelte';
-
-  let loading = false;
-  let name = '';
-  let email = '';
-  let password = '';
-  let isSignUp = false;
-
-  const toggleForm = () => {
-    isSignUp = !isSignUp;
-  };
-
-  const handleSignIn = async (event) => {
-    const { email, password } = event.detail;
-
-    try {
-      console.log({ email, password });
-      loading = true;
-
-      const response = await fetch('/api/signIn', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        window.location.href = result.redirectTo || '/explore';
-      } else {
-        alert(`Sign-in error: ${result.error}`);
-      }
-    } catch (error) {
-      alert(`Sign-in failed: ${error.message}`);
-    } finally {
-      loading = false;
-    }
-  };
-
-  const handleSignUp = async (event) => {
-    const { name, email, password } = event.detail;
-
-    try {
-      console.log({ name, email, password });
-      loading = true;
-
-      const response = await fetch('/api/signUp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        alert('Sign-up successful!');
-      } else {
-        alert(`Sign-up error: ${result.error}`);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      }
-    } finally {
-      loading = false;
-    }
-  };
+  import { Toaster } from 'svelte-sonner';
 </script>
 
+<Toaster richColors position="top-right" closeButton />
 <!-- -mb-16 is used to clear the margin used by the footer, causing funny white space  -->
-<main class="h-screen -mb-16 overflow-hidden bg-white md:pr-0 ">
+<main class="h-screen -mb-16 overflow-hidden bg-white md:pr-0">
   <div class="flex flex-col h-full gap-5 md:flex-row">
     <section class="w-full h-full md:w-5/12 basis-full max-md:hidden">
       <div
@@ -105,6 +31,6 @@
       </div>
     </section>
 
-    <slot class="flex-grow h-full"></slot>
+    <slot></slot>
   </div>
 </main>
