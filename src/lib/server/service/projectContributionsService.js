@@ -1,12 +1,13 @@
-import { getResources, storeResource } from '../repo/projectContributionsRepo.js';
-import { getMultipleProfiles } from '../repo/userProfileRepo.js';
+//@ts-check
+import { getResources, storeResource } from '$lib/server/repo/projectContributionsRepo.js';
+import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 
-export async function getProjectResource(projectId) {
-  const resources = await getResources(projectId);
+export async function getProjectResource(projectId, supabase) {
+  const resources = await getResources(projectId, supabase);
 
   const userIds = resources.map((resource) => resource.user_id);
 
-  const profiles = await getMultipleProfiles(userIds);
+  const profiles = await getMultipleProfiles(userIds, supabase);
 
   const profilesByUserId = profiles.reduce((acc, profile) => {
     acc[profile.user_id] = profile;
@@ -21,8 +22,8 @@ export async function getProjectResource(projectId) {
   return resourcesWithProfiles;
 }
 
-export async function storeProjectResource(resourceData) {
-  const res = await storeResource(resourceData);
+export async function storeProjectResource(resourceData, supabase) {
+  const res = await storeResource(resourceData, supabase);
 
   return res;
 }

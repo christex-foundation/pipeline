@@ -8,7 +8,8 @@
   let error = null;
   export let data;
 
-  const defaultImageUrl = 'https://i.pinimg.com/474x/76/4d/59/764d59d32f61f0f91dec8c442ab052c5.jpg';
+  const defaultImageUrl =
+    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 
   function toggleDropdown(event) {
     event.stopPropagation();

@@ -397,6 +397,7 @@
               <slot name="header">Resources</slot>
             </div>
           </div>
+          
 
          {#if projectResource.length > 0}
          {#each projectResource as resource}
