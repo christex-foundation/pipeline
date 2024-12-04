@@ -1,14 +1,14 @@
-import { getAuthUser, loginUser, registerUser } from '$lib/server/repo/authUserRepo.js';
+import { loginUser, registerUser, logoutUser } from '$lib/server/repo/authUserRepo.js';
 import { createProfile } from '$lib/server/repo/userProfileRepo.js';
 import { json } from '@sveltejs/kit';
 
-export async function getUser(token) {
-  const user = await getAuthUser(token);
-  return user;
-}
+// export async function getUser(token) {
+//   const user = await getAuthUser(token);
+//   return user;
+// }
 
-export async function login(loginData) {
-  const data = await loginUser(loginData);
+export async function login(loginData, supabase) {
+  const data = await loginUser(loginData, supabase);
 
   if (data && data.session) {
     const headers = new Headers();
@@ -37,4 +37,8 @@ export async function register(registerData) {
 
     return await login({ email: registerData.email, password: registerData.password });
   }
+}
+
+export async function signOut(supabase) {
+  await logoutUser(supabase);
 }

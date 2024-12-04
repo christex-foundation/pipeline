@@ -1,5 +1,4 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
   import UserProfile from './UserProfile.svelte';
   import Logo from './Logo.svelte';
   import { onMount } from 'svelte';
@@ -137,8 +136,29 @@
     <div class="absolute top-[84px] left-0 right-0 bg-[#0b383c] md:hidden">
       <div class="flex flex-col p-4 space-y-4">
         <!-- Mobile Search -->
-        <SearchDropdown />
+        <div class="w-full max-w-[480px] justify-center items-center mb-2">
+          <div
+            class="w-full pl-4 pr-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center align-center py-2"
+          >
+            <button
+              type="button"
+              class="flex justify-between w-full mt-2"
+              on:click={() => ($searchBarOpen = !$searchBarOpen)}
+            >
+              <span
+                class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px]"
+                >Resources</span
+              >
+              <Icon
+                icon="radix-icons:caret-down"
+                class="text-2xl text-white transform transition-transform duration-200 {isResourcesOpen &&
+                  'rotate-180'}"
+              />
+            </button>
+          </div>
+        </div>
 
+        <!-- Other Menu Items -->
         <a href="/" class="text-white text-base font-semibold font-['Inter']"> Tasks </a>
 
         <!-- Mobile Resources Dropdown -->
@@ -147,14 +167,35 @@
             on:click={toggleResources}
             class="flex items-center justify-between w-full px-4 py-4 border-b focus:outline-none border-cyan-800"
           >
-            <span class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px]"
-              >Resources</span
+            <span class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px]">
+              Resources
+            </span>
+            <svg
+              width="13"
+              height="12"
+              viewBox="0 0 13 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-[17px] transform transition-transform duration-200 {isResourcesOpen
+                ? 'rotate-180'
+                : ''}"
             >
-            <Icon
-              icon="radix-icons:caret-down"
-              class="text-2xl text-white transform transition-transform duration-200 {isResourcesOpen &&
-                'rotate-180'}"
-            />
+              <g id="CaretDown" clip-path="url(#clip0_1224_8929)">
+                <path
+                  id="Vector"
+                  d="M10.0837 4.5L6.33374 8.25L2.58374 4.5"
+                  stroke="white"
+                  stroke-width="1.67"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_1224_8929">
+                  <rect width="12" height="12" fill="white" transform="translate(0.334106)" />
+                </clipPath>
+              </defs>
+            </svg>
           </button>
 
           {#if isResourcesOpen}
