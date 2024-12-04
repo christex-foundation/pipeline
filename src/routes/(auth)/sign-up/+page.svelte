@@ -1,11 +1,35 @@
 <script>
+  import { ArrowLeft, EyeIcon, EyeOffIcon } from 'lucide-svelte';
+  import LottieLoader from '$lib/components/LottieLoader.svelte';
+
   import { enhance } from '$app/forms';
   import Logo from '$lib/Logo.svelte';
-  import { ArrowLeft, EyeIcon, EyeOffIcon } from 'lucide-svelte';
+  import Toast from '$lib/components/Toast.svelte';
+  import { page } from '$app/stores';
+  import LottieDotsLoader from '$lib/components/LottieDotsLoader.svelte';
 
-  let loading = false;
+  let isLoading = false;
+  let showToast = false;
+  let toastMessage = '';
+  let toastType = 'success';
   let showPass = false;
 
+  $: if ($page.form?.toastMessage) {
+    isLoading = false;
+    showToast = true;
+    toastMessage = $page.form.toastMessage;
+    toastType = $page.form.error ? 'error' : 'success';
+  }
+
+  function handleSubmit() {
+    isLoading = true;
+  }
+
+  function handleCloseToast() {
+    showToast = false;
+    toastMessage = '';
+  }
+  
   function goBack() {
     history.back();
   }
@@ -14,6 +38,14 @@
     showPass = !showPass;
   }
 </script>
+
+{#if showToast}
+  <Toast 
+    message={toastMessage} 
+    type={toastType} 
+    onClose={handleCloseToast} 
+  />
+{/if}
 
 <section
   class="flex flex-col items-center justify-center w-full max-w-[1235px] max-md:px-5 max-md:mt-10 mt-20"
@@ -28,7 +60,7 @@
     </button>
   </div>
 
-  <form method="POST" class="flex flex-col w-[60%] max-md:w-[90%] mx-auto" use:enhance>
+  <form method="POST" class="flex flex-col w-[60%] max-md:w-[90%] mx-auto" use:enhance on:submit={handleSubmit}>
     <div class="hidden mb-10 max-md:block">
       <Logo />
     </div>
@@ -88,11 +120,16 @@
 
     <button
       type="submit"
-      class="w-full py-4 mt-8 font-light text-white bg-teal-900 rounded-full"
-      disabled={loading}
+      disabled={isLoading}
+      class="w-full h-[60px] max-h-[60px] p-2 mt-8 font-light text-white bg-teal-900 rounded-full flex justify-center items-center"
     >
-      {loading ? 'Signing up...' : 'Sign up'}
+      {#if isLoading}
+        <LottieDotsLoader />
+      {:else}
+        Sign In
+      {/if}
     </button>
+
 
     <label class="flex w-full gap-2 mx-auto mt-6 text-sm font-light align-start max-md:mt-2">
       <input type="checkbox" name="rememberMe" />

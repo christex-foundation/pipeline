@@ -1,12 +1,35 @@
 <script>
-  import { goto } from '$app/navigation';
-  import { enhance } from '$app/forms';
-  import Logo from '$lib/Logo.svelte';
+  import LottieDotsLoader from '$lib/components/LottieDotsLoader.svelte';
   import { ArrowLeft, EyeIcon, EyeOffIcon, Home } from 'lucide-svelte';
 
-  let loading = false;
-  let showPass = false;
+  // import { goto } from '$app/navigation';
+  import { enhance } from '$app/forms';
+  import Logo from '$lib/Logo.svelte';
+  import Toast from '$lib/components/Toast.svelte';
+  import { page } from '$app/stores';
 
+  let isLoading = false;
+  let showPass = false;
+  let showToast = false;
+  let toastMessage = '';
+  let toastType = 'success';
+
+  // Handle form action results
+  $: if ($page.form?.toastMessage) {
+    isLoading = false;
+    showToast = true;
+    toastMessage = $page.form.toastMessage;
+    toastType = $page.form.error ? 'error' : 'success';
+  }
+
+  function handleSubmit() {
+    isLoading = true;
+  }
+
+  function handleCloseToast() {
+    showToast = false;
+    toastMessage = '';
+  }
   function goBack() {
     history.back();
   }
@@ -19,6 +42,10 @@
     showPass = !showPass;
   }
 </script>
+
+{#if showToast}
+  <Toast message={toastMessage} type={toastType} onClose={handleCloseToast} />
+{/if}
 
 <section
   class="flex flex-col items-center justify-center w-full max-w-[1235px] max-md:px-5 max-md:mt-10 mt-20"
@@ -45,7 +72,7 @@
   </div> -->
   </div>
 
-  <form method="POST" use:enhance class="w-[60%] max-md:w-[80%]">
+  <form method="POST" use:enhance class="w-[60%] max-md:w-[80%]" on:submit={handleSubmit}>
     <div class="hidden mb-10 max-md:block">
       <Logo />
     </div>
@@ -57,7 +84,7 @@
         type="email"
         id="email"
         name="email"
-        class="w-full px-4 py-2 border border-black rounded-full"
+        class="w-full px-4 py-2 border border-black rounded-full h-[60px] max-h-[60px]"
         required
       />
     </div>
@@ -69,7 +96,7 @@
           type={showPass ? 'text' : 'password'}
           id="password"
           name="password"
-          class="w-full px-4 py-2 border border-black rounded-full pr-10"
+          class="w-full px-4 py-2 border border-black rounded-full pr-10 h-[60px] max-h-[60px]"
           required
         />
         <button
@@ -93,12 +120,17 @@
 
     <button
       type="submit"
-      class="w-full py-3 mt-8 font-light text-white bg-teal-900 rounded-full"
-      disabled={loading}
+      disabled={isLoading}
+      class="w-full h-[60px] max-h-[60px] p-2 mt-8 font-light text-white bg-teal-900 rounded-full flex justify-center items-center"
     >
-      {loading ? 'Signing in...' : 'Sign in'}
+      {#if isLoading}
+        <LottieDotsLoader />
+      {:else}
+        Sign In
+      {/if}
     </button>
-
+    <!-- 
+    <button class="bg-teal-700 p-4 w-full px-4 py-2 bg-primary text-white rounded-lg flex items-center justify-center">Testing</button> -->
     <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
       <label class="flex items-center gap-2 font-medium text-black">
         <input type="checkbox" name="rememberMe" />

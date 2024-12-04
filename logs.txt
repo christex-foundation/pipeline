@@ -4,3 +4,10 @@ Current Error/Issues
     at create_if_block (Nav.svelte:206:13)
     at Object.update [as p] (Nav.svelte:212:24)
 
+
+
+
+Implemented features.
+- Added a loading indicator lottie to the login and signup btn
+- Created a toaster which displays success and error messages for user auth
+- 

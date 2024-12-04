@@ -2,7 +2,8 @@
 import { register } from '$lib/server/service/authUserService.js';
 import { json } from '@sveltejs/kit';
 
-export async function POST({ request }) {
+export async function POST({ request, locals }) {
+  let supabase = locals.supabase;
   try {
     const body = await request.json();
     const response = await register(body);

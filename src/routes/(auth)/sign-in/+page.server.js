@@ -3,7 +3,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { loginSchema } from '$lib/server/validator/authSchema.js';
 
-/** @type {import('./$types').Actions} */
+/** @type {import('./$types.js').Actions} */
 export const actions = {
   default: async ({ request, fetch }) => {
     const form = Object.fromEntries(await request.formData());
@@ -12,7 +12,7 @@ export const actions = {
     if (!success) {
       const errors = validationError.flatten().fieldErrors;
       const firstError = Object.values(errors).flat().at(0);
-      return fail(400, { error: firstError });
+      return fail(400, { error: firstError, toastMessage: 'Validation failed' });
     }
 
     try {
@@ -24,17 +24,32 @@ export const actions = {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        const result = await response.json();
-        return fail(400, { error: result.message || 'Failed to sign in' });
+        console.error(`Sign-in error: ${result.error}`);
+        return fail(400, { 
+          error: result.error,
+          toastMessage: result.toastMessage || `Error: Invalid Login Credentials`,
+          toastType: 'error'
+        });
       }
 
-      redirect(307, '/profile');
+      return { 
+        toastMessage: result.toastMessage || 'Sign-in successful',
+        toastType: 'success'
+      };
+      
     } catch (error) {
+      console.log(`Server error during sign-in: ${error.message}`);
       if (error.status === 307) {
-        redirect(307, '/profile');
+        throw redirect(307, '/profile');
       }
-      return fail(500, { error: error.message || 'Something went wrong' });
+      return fail(500, { 
+        error: error.message || 'Something went wrong',
+        toastMessage: 'Server error',
+        toastType: 'error'
+      });
     }
   },
 };

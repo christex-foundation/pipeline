@@ -94,7 +94,9 @@
     </button>
   </div>
 
-  <div class="hidden md:flex w-full max-w-[480px] justify-center items-center">
+  <div
+    class="hidden md:flex w-full max-w-[480px] lg:max-w-[350px] md:max-w-[250px] justify-center items-center"
+  >
     <div
       class="w-full pl-4 pr-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center align-center"
     >
@@ -202,7 +204,7 @@
       {#if data.isAuthenticated}
         <UserProfile {data} />
       {:else}
-        <a href="/sign-in" class="px-4 py-4 bg-[#d1ea9a] rounded-3xl text-base font-semibold">
+        <a href="/sign-in" class="p-4 max-md:p-2 bg-[#d1ea9a] rounded-3xl text-base font-semibold">
           Sign up / Log in
         </a>
       {/if}
