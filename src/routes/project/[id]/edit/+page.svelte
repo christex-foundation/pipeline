@@ -1,31 +1,31 @@
 <script>
-  import Nav from "../../../../lib/Nav.svelte";
-  import Footer from "../../../../lib/Footer.svelte";
-  import ProjectBasics from "../../../../lib/ProjectBasics.svelte";
-  import TeamForm from "../../../../lib/TeamForm.svelte";
-  import { projectStore } from "../../../../stores/projectStore.js";
-  import CreatorProfile from "../../../../lib/CreatorProfile.svelte";
-  import { get } from "svelte/store";
-  import { page } from "$app/stores";
-  import LinkInput from "../../../../lib/LinkInput.svelte";
-  import UserNav from "../../../../lib/UserNav.svelte";
-  import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
+  import Nav from '../../../../lib/Nav.svelte';
+  import Footer from '../../../../lib/Footer.svelte';
+  import ProjectBasics from '../../ProjectBasics.svelte';
+  import TeamForm from '../../../../lib/TeamForm.svelte';
+  import { projectStore } from '../../../../stores/projectStore.js';
+  import CreatorProfile from '../../../../lib/CreatorProfile.svelte';
+  import { get } from 'svelte/store';
+  import { page } from '$app/stores';
+  import LinkInput from '../../LinkInput.svelte';
+  import UserNav from '../../../../lib/UserNav.svelte';
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
 
   let id;
   $: id = $page.params.id;
 
   let loading = false;
   let project = {};
-  let title = "";
+  let title = '';
 
-  let activeNavItem = "Basics";
+  let activeNavItem = 'Basics';
   export let data;
 
   const navItems = [
-    { id: "Basics", label: "Basics", width: "184px" },
-    { id: "Links", label: "Links", width: "184px" },
-    { id: "Funding", label: "Funding", width: "184px" },
+    { id: 'Basics', label: 'Basics', width: '184px' },
+    { id: 'Links', label: 'Links', width: '184px' },
+    { id: 'Funding', label: 'Funding', width: '184px' },
   ];
 
   let funding_goal,
@@ -44,18 +44,14 @@
   }
 
   function navigateToPrevious() {
-    const currentIndex = navItems.findIndex(
-      (item) => item.id === activeNavItem
-    );
+    const currentIndex = navItems.findIndex((item) => item.id === activeNavItem);
     if (currentIndex > 0) {
       activeNavItem = navItems[currentIndex - 1].id;
     }
   }
 
   function navigateToNext() {
-    const currentIndex = navItems.findIndex(
-      (item) => item.id === activeNavItem
-    );
+    const currentIndex = navItems.findIndex((item) => item.id === activeNavItem);
     if (currentIndex < navItems.length - 1) {
       activeNavItem = navItems[currentIndex + 1].id;
     }
@@ -71,7 +67,7 @@
       console.log(fetchedProject);
       projectStore.set(fetchedProject); // Initialize projectStore with data
 
-      title = fetchedProject.title || "Loading!!"; 
+      title = fetchedProject.title || 'Loading!!';
 
       // Destructure to set local variables for form bindings
       ({
@@ -115,10 +111,10 @@
 
       const projectData = get(projectStore);
 
-      const response = await fetch("/api/projects/store", {
-        method: "POST",
+      const response = await fetch('/api/projects/store', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(projectData),
       });
@@ -126,8 +122,8 @@
       const result = await response.json();
 
       if (response.ok) {
-        alert("Project updated successfully!");
-        goto("/profile");
+        alert('Project updated successfully!');
+        goto('/profile');
       } else {
         alert(`Project creation error: ${result.error}`);
       }
@@ -146,7 +142,7 @@
     getSingleProject();
     const img = new Image();
     img.src =
-      "https://cdn.builder.io/api/v1/image/assets/TEMP/e31ab375db047d220f54398e16c4cc0f0001d612779f0974e0d8c39c0fea9107?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8";
+      'https://cdn.builder.io/api/v1/image/assets/TEMP/e31ab375db047d220f54398e16c4cc0f0001d612779f0974e0d8c39c0fea9107?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8';
     img.onload = () => {
       imageLoaded = true;
     };
@@ -155,20 +151,16 @@
 
 <div class="w-full bg-[#d1ea9a]/90 py-16">
   <div class="max-w-4xl mx-auto text-center">
-    <h1
-      class="text-[#08292c] text-[45.43px] font-semibold font-['PP Mori'] leading-[54.51px]"
-    >
+    <h1 class="text-[#08292c] text-[45.43px] font-semibold font-['PP Mori'] leading-[54.51px]">
       Let's Build The Future Together
     </h1>
   </div>
 </div>
 
-<div 
+<div
   class="relative flex flex-col items-left justify-left gap-2 p-4 text-left text-black min-h-[217px] ml-[290px]"
 >
-  <h1
-    class="text-4xl font-semibold leading-[99px] max-md:text-4xl max-md:leading-[49px]"
-  >
+  <h1 class="text-4xl font-semibold leading-[99px] max-md:text-4xl max-md:leading-[49px]">
     Edit Project - {title}
   </h1>
 </div>
@@ -290,85 +282,83 @@
   </section>
 </main> -->
 
-
 <main
   class="flex flex-row justify-center items-start gap-10 px-10 py-5 bg-white rounded-[37px] max-md:flex-col max-md:gap-5 max-md:px-5 max-md:mt-10"
 >
-    <!-- Left Column: Basics -->
-    <aside class="lex flex-col flex-1 w-full max-w-[600px]">
-      <h2 class="mb-4 text-2xl font-semibold ">Basics</h2>
-      <ProjectBasics />
-    </aside>
+  <!-- Left Column: Basics -->
+  <aside class="lex flex-col flex-1 w-full max-w-[600px]">
+    <h2 class="mb-4 text-2xl font-semibold">Basics</h2>
+    <ProjectBasics />
+  </aside>
 
-    <!-- Right Column: Links and Funding -->
-    <section class="flex flex-col flex-1 w-full max-w-[600px] gap-10 space-y-28">
-      <!-- Links Section -->
-      <div class="flex flex-col">
-        <h2 class="mb-5 text-2xl font-semibold">Links</h2>
-        <div class="flex flex-col gap-4">
-          <LinkInput label="Email" bind:value={email} />
-          <LinkInput label="Portfolio" bind:value={portfolio} />
-          <LinkInput label="Github" bind:value={github} />
-          <LinkInput label="LinkedIn" bind:value={linkedin} />
-          <LinkInput label="X" bind:value={twitter} />
-          <LinkInput label="Website" bind:value={website} />
-          <LinkInput label="Others" bind:value={other} />
+  <!-- Right Column: Links and Funding -->
+  <section class="flex flex-col flex-1 w-full max-w-[600px] gap-10 space-y-28">
+    <!-- Links Section -->
+    <div class="flex flex-col">
+      <h2 class="mb-5 text-2xl font-semibold">Links</h2>
+      <div class="flex flex-col gap-4">
+        <LinkInput label="Email" bind:value={email} />
+        <LinkInput label="Portfolio" bind:value={portfolio} />
+        <LinkInput label="Github" bind:value={github} />
+        <LinkInput label="LinkedIn" bind:value={linkedin} />
+        <LinkInput label="X" bind:value={twitter} />
+        <LinkInput label="Website" bind:value={website} />
+        <LinkInput label="Others" bind:value={other} />
+      </div>
+    </div>
+
+    <!-- Funding Section -->
+    <div class="flex flex-col">
+      <h2 class="mb-5 text-2xl font-semibold">Funding</h2>
+      <div class="flex flex-col gap-6">
+        <div class="flex items-center w-full">
+          <label for="fundingGoal" class="w-1/3 text-lg font-semibold">Funding Goal</label>
+          <input
+            id="fundingGoal"
+            bind:value={funding_goal}
+            on:change={updateStore}
+            type="number"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            aria-label="Funding Goal"
+          />
+        </div>
+
+        <hr class="my-8 border-neutral-300" />
+
+        <div class="flex items-center mt-10 mb-6">
+          <label for="bankAccount" class="w-1/3 text-lg font-medium">Bank Account</label>
+          <input
+            id="bankAccount"
+            bind:value={bank_acct}
+            on:change={updateStore}
+            type="text"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            aria-label="Bank Account"
+          />
+        </div>
+
+        <div class="flex items-center justify-center my-4 text-neutral-400">
+          <hr class="flex-grow border-t-2 border-neutral-300" />
+          <span class="px-4 text-lg font-medium">or</span>
+          <hr class="flex-grow border-t-2 border-neutral-300" />
+        </div>
+
+        <div class="flex items-center mt-6">
+          <label for="walletAddress" class="w-1/3 text-lg font-medium">Wallet Address</label>
+          <input
+            id="walletAddress"
+            bind:value={wallet_address}
+            on:change={updateStore}
+            type="text"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            aria-label="Wallet Address"
+          />
         </div>
       </div>
-
-      <!-- Funding Section -->
-      <div class="flex flex-col">
-        <h2 class="mb-5 text-2xl font-semibold">Funding</h2>
-        <div class="flex flex-col gap-6">
-          <div class="flex items-center w-full">
-            <label for="fundingGoal" class="w-1/3 text-lg font-semibold">Funding Goal</label>
-            <input
-              id="fundingGoal"
-              bind:value={funding_goal}
-              on:change={updateStore}
-              type="number"
-              class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
-              aria-label="Funding Goal"
-            />
-          </div>
-
-          <hr class="my-8 border-neutral-300" />
-
-          <div class="flex items-center mt-10 mb-6">
-            <label for="bankAccount" class="w-1/3 text-lg font-medium">Bank Account</label>
-            <input
-              id="bankAccount"
-              bind:value={bank_acct}
-              on:change={updateStore}
-              type="text"
-              class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
-              aria-label="Bank Account"
-            />
-          </div>
-
-          <div class="flex items-center justify-center my-4 text-neutral-400">
-            <hr class="flex-grow border-t-2 border-neutral-300" />
-            <span class="px-4 text-lg font-medium">or</span>
-            <hr class="flex-grow border-t-2 border-neutral-300" />
-          </div>
-
-          <div class="flex items-center mt-6">
-            <label for="walletAddress" class="w-1/3 text-lg font-medium">Wallet Address</label>
-            <input
-              id="walletAddress"
-              bind:value={wallet_address}
-              on:change={updateStore}
-              type="text"
-              class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
-              aria-label="Wallet Address"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
+  </section>
 
   <!-- Action Buttons -->
-
 </main>
 
 <div class="flex justify-between w-full max-w-[1200px] mx-auto mt-10">
@@ -383,6 +373,6 @@
     on:click={updateProject}
     class="px-[112px] py-4 text-xl font-medium text-lime-100 bg-lime-800 rounded-[82px] max-md:px-5"
   >
-    {loading ? "Updating..." : "Update"}
+    {loading ? 'Updating...' : 'Update'}
   </button>
 </div>

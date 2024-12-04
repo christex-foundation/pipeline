@@ -6,7 +6,7 @@ export async function POST({ params, request, locals }) {
   const { id } = params;
   const { title, body } = await request.json();
 
-  let user = locals.authUser;
+  let user = locals.authUser.user;
 
   try {
     await createProjectUpdate({ project_id: id, title, body, user_id: user.id });

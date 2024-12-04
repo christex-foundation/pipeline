@@ -7,7 +7,7 @@ export async function POST({ request, locals }) {
   try {
     const projectData = await request.json();
 
-    await storeProject(user.user, projectData);
+    await storeProject(user, projectData);
 
     return json({ success: true }, { status: 200 });
   } catch (error) {

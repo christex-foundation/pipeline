@@ -1,33 +1,34 @@
-import { error, redirect } from '@sveltejs/kit';
-import { projectStore } from '$stores/projectStore.js';
+import { createProjectSchema } from '$lib/server/validator/projectSchema.js';
+import { error, fail, redirect } from '@sveltejs/kit';
 
+/** @type {import('./$types').Actions} */
 export const actions = {
-  createProject: async ({ request, fetch }) => {
-    const formData = await request.formData();
+  default: async ({ request, fetch }) => {
+    const { image, banner_image, ...form } = Object.fromEntries(await request.formData());
+    const { data, error: validationError, success } = createProjectSchema.safeParse(form);
 
-    const projectData = JSON.parse(formData.get('projectData'));
+    if (!success) {
+      const errors = validationError.flatten().fieldErrors;
+      const firstError = Object.values(errors).flat().at(0);
+      fail(400, { error: firstError });
+    }
 
     try {
-      projectStore.set(projectData);
-
       const response = await fetch(`/api/projects/store`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(projectData),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
-        const result = await response.json();
-        throw new Error(result.message || 'Failed to save project');
+        fail(400, 'Failed to save project');
       }
-
-      // Redirect to profile after successful save
-      throw redirect(303, '/profile');
-    } catch (error) {
-      throw new Error(500, 'Failed to save project. Please try again later.');
+    } catch (_) {
+      fail(500, 'Failed to save project. Please try again later.');
     }
+
+    // TODO: redirect to the new project instead of profile
+    redirect(307, '/profile');
   },
 };
 

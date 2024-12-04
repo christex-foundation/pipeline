@@ -56,7 +56,7 @@
   <div class="flex items-center md:hidden">
     <button
       on:click={toggleMobileMenu}
-      class="text-white focus:outline-none"
+      class="text-white focus:outline-none md:hidden"
       aria-label="Toggle mobile menu"
     >
       {#if isMobileMenuOpen}

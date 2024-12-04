@@ -4,7 +4,7 @@ import { json } from '@sveltejs/kit';
 export async function POST({ request, params, locals }) {
   const id = params.id;
 
-  let user = locals.authUser;
+  let user = locals.authUser.user;
 
   try {
     const { resourceType, resourceTitle, resourceLink, country, interest } = await request.json();

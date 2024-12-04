@@ -1,5 +1,5 @@
 <script>
-  import { projectStore } from './../stores/projectStore.js';
+  import { projectStore } from '../../stores/projectStore.js';
   import { get } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
 
@@ -179,6 +179,7 @@
         <input
           type="file"
           id="banner-upload"
+          name="banner_image"
           class="hidden"
           accept={authorizedExtensions.join(',')}
           on:change={handleBannerUpload}
@@ -203,6 +204,7 @@
           type="file"
           id="profile-upload"
           class="hidden"
+          name="image"
           accept={authorizedExtensions.join(',')}
           on:change={handleProfileUpload}
         />
@@ -221,10 +223,11 @@
           <input
             type="text"
             id="projectTitle"
+            name="title"
             bind:value={title}
             on:change={updateStore}
             class="w-full border-2 border-lime-800 min-h-[50px] rounded-[75px] mt-2.5 px-4"
-            aria-required="true"
+            required
           />
         </div>
       </div>
@@ -239,10 +242,11 @@
         <div class="w-[50%] max-md:w-[100%]">
           <textarea
             id="projectBio"
+            name="bio"
             bind:value={bio}
             on:change={updateStore}
             class="w-full border-2 border-lime-800 min-h-[120px] rounded-[31px] mt-2.5 p-4"
-            aria-required="true"
+            required
           ></textarea>
         </div>
       </div>
@@ -272,6 +276,7 @@
               {/each}
               <input
                 type="text"
+                name="tags"
                 bind:value={inputValue}
                 placeholder="Type to add tags"
                 class="flex-grow bg-transparent border-none outline-none"
@@ -309,37 +314,6 @@
         </div>
       </div>
 
-      <!-- <div
-        class="flex flex-row items-start justify-between w-full mt-9 max-md:flex-col max-md:items-start"
-      >
-        <div class="flex flex-col">
-          <label for="projectCountry" class="text-base font-semibold text-black"
-            >Country</label
-          >
-          <p class="mt-2.5 text-sm text-stone-400">
-            Choose the location where you are running the project.
-          </p>
-        </div>
-        <div class="w-[50%] max-md:w-full">
-          <div
-            class="flex items-center py-6 pr-20 pl-6 border-2 border-lime-800 h-[50px] rounded-[75px]"
-          >
-            <select
-              id="projectCountry"
-              bind:value={country}
-              on:change={updateStore}
-              class="bg-transparent border-none outline-none "
-              aria-label="Select project country"
-            >
-              <option value="" class="w-[50%]">Select a country</option>
-              {#each countryList as countryOption}
-                <option value={countryOption.name}>{countryOption.name}</option>
-              {/each}
-            </select>
-          </div>
-        </div>
-      </div> -->
-
       <div
         class="flex flex-row items-start justify-between w-full mt-12 max-md:flex-col max-md:items-start"
       >
@@ -353,13 +327,14 @@
           <div class="relative flex items-center border-2 border-lime-800 h-[50px] rounded-[75px]">
             <select
               id="projectCountry"
+              name="country"
               bind:value={country}
               on:change={updateStore}
               class="w-full h-full pl-4 pr-10 bg-transparent border-none outline-none appearance-none"
-              aria-label="Select project country"
+              required
             >
-              <option value="">Select a country</option>
-              {#each countryList as countryOption}
+              <option selected disabled>--- Select a country ---</option>
+              {#each countryList as countryOption (countryOption.name)}
                 <option value={countryOption.name}>{countryOption.name}</option>
               {/each}
             </select>
@@ -373,9 +348,9 @@
         class="flex flex-row items-start justify-between w-full mt-9 max-md:flex-col max-md:items-start"
       >
         <div class="flex flex-col w-[45%] max-md:w-[100%]">
-          <label for="projectDetails" class="text-base font-semibold text-black"
-            >Project details</label
-          >
+          <label for="projectDetails" class="text-base font-semibold text-black">
+            Project details
+          </label>
           <p class="mt-2.5 text-sm text-stone-400">
             Tell potential contributors more about your project. <br /> Provide details that will
             motivate people to contribute.
@@ -385,10 +360,11 @@
         <div class="w-[50%] max-md:w-full">
           <textarea
             id="projectDetails"
+            name="details"
             bind:value={details}
             on:change={updateStore}
             class="w-full border-2 border-lime-800 rounded-[31px] mt-2.5 p-4 h-[140px]"
-            aria-required="true"
+            required
           ></textarea>
         </div>
       </div>
