@@ -397,41 +397,6 @@
               <slot name="header">Resources</slot>
             </div>
           </div>
-          
-          <!-- {#if projectResource.length > 0}
-          {#each projectResource as resource}
-            <div class="flex items-start justify-start w-full p-10 bg-white">
-
-              <img class="w-[120px] h-[120px] p-[15px] rounded-full border-green -mt-4" src={resource.user_profile.photo || defaultImageUrl} />
-        
-              <div class="flex flex-col items-start justify-start w-full ml-6">
-                <div class="flex items-center justify-between w-full">
-                  <div class="flex items-center">
-                    <div class="text-black text-[19px] font-semibold font-['Inter']">
-                      {resource.user_profile.name}
-                    </div>
-                    <div class="px-[9.65px] py-[6.44px] bg-[#e9f5d3] rounded-md justify-center items-center gap-[6.44px] flex ml-2">
-                      <div class="text-[#516027] text-[10.46px] font-semibold font-['Inter'] leading-[10.46px]">
-                        {resource.type_resource.charAt(0).toUpperCase() + resource.type_resource.slice(1)}
-                      </div>
-                    </div>
-                  </div>
-                  <a href="/">
-                  <button class="px-[9.06px] py-[5.12px] rounded-[39.71px] border-2 border-[#516027] justify-center items-center gap-[7.94px] flex">
-                    <div class="text-[#516027] text-[10px] font-normal font-['Inter'] leading-tight">View  {resource.type_resource.charAt(0).toUpperCase() + resource.type_resource.slice(1)}</div>
-                  </button>
-                </a>
-                </div>
-                <div class="text-[#c4c4c4] text-[17px] font-normal font-['Inter'] mt-4">
-                  {resource.reason}
-                </div>
-              </div>
-            </div>
-          {/each}
-        {:else}
-          <p>No resources</p>
-        {/if}
-         -->
 
          {#if projectResource.length > 0}
          {#each projectResource as resource}
