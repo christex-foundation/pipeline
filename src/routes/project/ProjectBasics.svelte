@@ -264,12 +264,17 @@
         </div>
         <div class="relative w-[50%] mt-2.5 max-md:w-full">
           <div
-            class="flex flex-wrap items-center py-3 px-6 border-2 border-lime-800 min-h-[50px] rounded-[75px] bg-white"
+            class="flex flex-wrap items-center py-3 px-6 border-2 border-lime-800 min-h-[50px] rounded-[31px] bg-white"
           >
             <div class="flex flex-wrap items-center flex-grow gap-2 pr-8">
               {#each selectedTags as tag}
                 <span class="flex items-center px-3 py-1 rounded-full text-lime-800 bg-lime-200">
-                  {tag.title}
+                  <img
+                  src={tag.image}
+                  alt={tag.title}
+                  class="relative w-6 h-6 border-2 rounded shadow"
+                />
+          
                   <button
                     on:click={() => removeTag(tag)}
                     class="ml-2 text-lime-800 hover:text-lime-900">×</button
@@ -281,7 +286,7 @@
                 name="tags"
                 bind:value={inputValue}
                 placeholder="Type to add tags"
-                class="flex-grow bg-transparent border-none outline-none"
+                class="flex-grow bg-transparent border-none outline-none rounded-[31px]"
               />
             </div>
             <button
