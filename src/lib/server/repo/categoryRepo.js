@@ -1,12 +1,11 @@
 //@ts-check
-import { supabase } from '$lib/server/supabase.js';
 
-export async function getAllCategories() {
+export async function getAllCategories(supabase) {
   const { data, error } = await supabase.from('categories').select('*');
   if (error) throw new Error(error.message);
   return data || [];
 }
-export async function getProjectCategories(projectIds) {
+export async function getProjectCategories(projectIds, supabase) {
   const { data, error } = await supabase
     .from('category_project')
     .select('project_id, category_id')
@@ -16,7 +15,7 @@ export async function getProjectCategories(projectIds) {
   return data || [];
 }
 
-export async function getProjectsByCategoryId(categoryId, start, end) {
+export async function getProjectsByCategoryId(categoryId, start, end, supabase) {
   const { data, error } = await supabase
     .from('category_project')
     .select('project_id')
@@ -27,7 +26,7 @@ export async function getProjectsByCategoryId(categoryId, start, end) {
   return data;
 }
 
-export async function getProjectExistingCategories(projectId) {
+export async function getProjectExistingCategories(projectId, supabase) {
   const { data, error } = await supabase
     .from('category_project')
     .select('category_id')
@@ -37,14 +36,14 @@ export async function getProjectExistingCategories(projectId) {
   return data || [];
 }
 
-export async function getCategories(categoryIds) {
+export async function getCategories(categoryIds, supabase) {
   const { data, error } = await supabase.from('categories').select('*').in('id', categoryIds);
 
   if (error) throw new Error(error.message);
   return data || [];
 }
 
-export async function addTags(projectId, tagsToAdd) {
+export async function addTags(projectId, tagsToAdd, supabase) {
   const insertData = tagsToAdd.map((tagId) => ({
     project_id: projectId,
     category_id: tagId,
@@ -54,7 +53,7 @@ export async function addTags(projectId, tagsToAdd) {
   if (error) throw new Error(error.message);
 }
 
-export async function removeTags(projectId, tagsToRemove) {
+export async function removeTags(projectId, tagsToRemove, supabase) {
   const { error } = await supabase
     .from('category_project')
     .delete()
@@ -64,7 +63,7 @@ export async function removeTags(projectId, tagsToRemove) {
   if (error) throw new Error(error.message);
 }
 
-export async function assignCategory(categoryData) {
+export async function assignCategory(categoryData, supabase) {
   const { data, error } = await supabase.from('category_project').insert(categoryData).select();
   if (error) throw new Error(error.message);
   return data[0];

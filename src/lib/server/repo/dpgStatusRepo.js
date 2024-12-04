@@ -1,11 +1,9 @@
-import { supabase } from '$lib/server/supabase.js';
-
-export async function getAllDpgStatuses() {
+export async function getAllDpgStatuses(supabase) {
   const { data, error } = await supabase.from('dpg_status').select('*');
   if (error) throw new Error(error.message);
   return data || [];
 }
-export async function getDpgStatuses(projectIds) {
+export async function getDpgStatuses(projectIds, supabase) {
   const { data, error } = await supabase
     .from('project_dpg_status')
     .select('project_id')
@@ -15,7 +13,7 @@ export async function getDpgStatuses(projectIds) {
   return data || [];
 }
 
-export async function getProjectDpgStatuses(projectId) {
+export async function getProjectDpgStatuses(projectId, supabase) {
   const { data, error } = await supabase
     .from('project_dpg_status')
     .select('status_id')

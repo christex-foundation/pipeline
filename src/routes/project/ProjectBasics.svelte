@@ -7,7 +7,10 @@
   let Editor;
   import { countries } from 'countries-list';
 
-  const countryList = Object.values(countries);
+  // const countryList = Object.values(countries);
+  const countryList = Object.values(countries).sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
 
   let title = get(projectStore).title;
   let bio = get(projectStore).bio;
@@ -332,7 +335,7 @@
               class="w-full h-full pl-4 pr-10 bg-transparent border-none outline-none appearance-none"
               required
             >
-              <option selected disabled>--- Select a country ---</option>
+            <option value="" disabled selected hidden>--- Select a country ---</option>
               {#each countryList as countryOption (countryOption.name)}
                 <option value={countryOption.name}>{countryOption.name}</option>
               {/each}

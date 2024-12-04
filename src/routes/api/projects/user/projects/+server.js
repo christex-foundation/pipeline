@@ -10,11 +10,11 @@ import { getUserProjects } from '$lib/server/service/projectService.js';
 export async function GET({ request, url, locals }) {
   const page = parseInt(url.searchParams.get('page') || '1', 10);
   const limit = parseInt(url.searchParams.get('limit') || '6', 10);
-  let user = locals.authUser.user;
-  
+  let user = locals.authUser;
+  let supabase = locals.supabase;
 
   try {
-    const projects = await getUserProjects(user.id, page, limit);
+    const projects = await getUserProjects(user.id, page, limit, supabase);
 
     return json({ projects: projects }, { status: 200 });
   } catch (error) {

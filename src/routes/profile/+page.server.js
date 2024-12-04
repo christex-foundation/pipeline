@@ -1,8 +1,12 @@
+//@ts-check
 import { redirect } from '@sveltejs/kit';
+import { signOut } from '$lib/server/service/authUserService.js';
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-  logout: ({ cookies }) => {
+  logout: async ({ cookies, locals }) => {
+    await signOut(locals.supabase);
+
     for (const token of ['access_token', 'refresh_token']) {
       cookies.set(token, '', {
         path: '/',

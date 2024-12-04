@@ -4,20 +4,24 @@ import { json } from '@sveltejs/kit';
 export async function POST({ request, params, locals }) {
   const id = params.id;
 
-  let user = locals.authUser.user;
+  let user = locals.authUser;
+  let supabase = locals.supabase;
 
   try {
     const { resourceType, resourceTitle, resourceLink, country, interest } = await request.json();
 
-    await storeProjectResource({
-      project_id: id,
-      user_id: user.id,
-      type_resource: resourceType,
-      title: resourceTitle,
-      link: resourceLink,
-      country,
-      reason: interest,
-    });
+    await storeProjectResource(
+      {
+        project_id: id,
+        user_id: user.id,
+        type_resource: resourceType,
+        title: resourceTitle,
+        link: resourceLink,
+        country,
+        reason: interest,
+      },
+      supabase,
+    );
 
     return json({ success: true, message: 'Application submitted successfully' }, { status: 200 });
   } catch (error) {

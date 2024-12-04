@@ -4,7 +4,7 @@ import { updateProject } from '$lib/server/service/projectService.js';
 
 export async function PUT({ request, params, locals }) {
   const projectId = params.id;
-  let user = locals.authUser.user;
+  let user = locals.authUser;
 
   try {
     const {

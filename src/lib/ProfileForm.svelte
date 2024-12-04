@@ -3,7 +3,9 @@
     let profileImage = null;
     import { countries } from 'countries-list';
   
-    const countryList = Object.values(countries);
+    const countryList = Object.values(countries).sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
     
     function handleBannerUpload(event) {
       const file = event.target.files[0];
@@ -108,13 +110,13 @@
           <label for="projectCountry" class="text-xl font-semibold text-black">Country</label>
         </div>
         <div class="w-[70%] max-md:w-full">
-          <div class="flex items-center py-6 pr-20 pl-6 border-2 border-lime-800 min-h-[70px] rounded-[75px]">
+          <div class="flex items-center py-6 pr-22 pl-4 border-2 border-lime-800 min-h-[70px] rounded-[75px] relative px-6">
             <select
               id="country"
-              class="text-xl bg-transparent border-none outline-none "
+              class="w-full pl-4 pr-10 text-xl bg-transparent border-none outline-none"
               aria-label="Select project country"
             >
-              <option value="" class="">Select a country</option>
+              <option value="" class="w-full">Select a country</option>
               {#each countryList as countryOption}
                 <option value={countryOption.name}>{countryOption.name}</option>
               {/each}
@@ -122,6 +124,7 @@
           </div>
         </div>
       </div>
+      
       
 
       <div class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start">

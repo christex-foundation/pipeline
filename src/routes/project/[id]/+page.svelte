@@ -25,6 +25,7 @@
 
   let isFollowing = false;
   let isAddingUpdate = false;
+  const defaultImageUrl = 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 
   async function getSingleProject() {
     try {
@@ -405,8 +406,14 @@
                 comments={64}
               >
                 <span slot="header">My Resources</span>
-                <img slot="icon" src="icon.png" alt="Resource icon" />
-                <img slot="profile-icon" src="profile-icon.png" alt="User" />
+                <img loading="lazy" slot="icon" src="https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/banner.png" alt="Resource icon" />
+                <img
+                  slot="profile-icon"
+                  src={resource.user_profile.image && resource.user_profile.image !== ''
+                    ? resource.user_profile.image
+                    : defaultImageUrl}
+                  alt="User"
+                />
               </Resources>
             {/each}
           {:else}

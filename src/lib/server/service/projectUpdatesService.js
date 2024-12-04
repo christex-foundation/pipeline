@@ -1,7 +1,8 @@
-import { getUpdates, storeProjectUpdate } from "../repo/projectUpdatesRepo";
-import { getMultipleProfiles } from "../repo/userProfileRepo";
-export async function getProjectUpdates(projectId) {
-  const updates = await getUpdates(projectId);
+//@ts-check
+import { getUpdates, storeProjectUpdate } from '$lib/server/repo/projectUpdatesRepo.js';
+import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
+export async function getProjectUpdates(projectId, supabase) {
+  const updates = await getUpdates(projectId, supabase);
 
   if (!updates) {
     return [];
@@ -9,7 +10,7 @@ export async function getProjectUpdates(projectId) {
 
   const userIds = updates.map((update) => update.user_id);
 
-  const profiles = await getMultipleProfiles(userIds);
+  const profiles = await getMultipleProfiles(userIds, supabase);
 
   const profilesByUserId = profiles.reduce((acc, profile) => {
     acc[profile.user_id] = profile;
@@ -25,8 +26,7 @@ export async function getProjectUpdates(projectId) {
   return projectUpdatesWithProfiles;
 }
 
-export async function createProjectUpdate(projectUpdateData) {
-  
-    await storeProjectUpdate(projectUpdateData);
-    return { success: true };
+export async function createProjectUpdate(projectUpdateData, supabase) {
+  await storeProjectUpdate(projectUpdateData, supabase);
+  return { success: true };
 }
