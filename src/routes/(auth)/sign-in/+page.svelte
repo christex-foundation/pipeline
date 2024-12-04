@@ -6,7 +6,6 @@
   let loading = false;
   export let form;
 
-  $: console.log(form);
   $: if (form?.error) {
     toast.error(form.error);
   }
