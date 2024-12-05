@@ -414,7 +414,7 @@
                      </div>
                    </div>
                  </div>
-                 <a href="/">
+                 <a target="_blank" href={resource.link}>
                  <button class="px-[9.06px] py-[5.12px] rounded-[39.71px] border-2 border-[#516027] justify-center items-center gap-[7.94px] flex">
                    <div class="text-[#516027] text-[10px] font-normal font-['Inter'] leading-tight">View  {resource.type_resource.charAt(0).toUpperCase() + resource.type_resource.slice(1)}</div>
                  </button>
