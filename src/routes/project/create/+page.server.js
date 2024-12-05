@@ -13,7 +13,7 @@ export const actions = {
     if (!success) {
       const errors = validationError.flatten().fieldErrors;
       const firstError = Object.values(errors).flat().at(0);
-      fail(400, { error: firstError });
+     return fail(400, { error: firstError });
     }
 
     data.tags = tags;
@@ -34,10 +34,10 @@ export const actions = {
       });
 
       if (!response.ok) {
-        fail(400, 'Failed to save project');
+       return fail(400, 'Failed to save project');
       }
     } catch (_) {
-      fail(500, 'Failed to save project. Please try again later.');
+      return fail(500, 'Failed to save project. Please try again later.');
     }
 
     //TODO: redirect to the new project instead of profile

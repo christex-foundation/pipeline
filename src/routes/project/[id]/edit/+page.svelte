@@ -1,12 +1,17 @@
 <script>
   import ProjectBasics from '../../ProjectBasics.svelte';
-
   import { enhance } from '$app/forms';
+  import { toast } from 'svelte-sonner';
 
   export let data;
   const { project } = data;
+  export let form;
 
   let loading = false;
+
+  $: if (form.error) {
+    toast.error(form?.error);
+  }
 </script>
 
 <div class="w-full bg-[#d1ea9a]/90 py-16 mb-10">
@@ -17,10 +22,23 @@
   </div>
 </div>
 
-<form action="" method="post" enctype="multipart/form-data" use:enhance>
+<form
+  action=""
+  method="post"
+  enctype="multipart/form-data"
+  use:enhance={() => {
+    return async ({ result }) => {
+      loading = true;
+
+      if (result.type === 'redirect') {
+        toast.success('Project updated successfully');
+      }
+      loading = false;
+    };
+  }}
+>
   <input
     type="hidden"
-   
     name="old_image"
     bind:value={project.image}
     class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
@@ -221,6 +239,7 @@
       <button
         type="submit"
         class="px-12 py-4 text-lg font-medium !bg-lime-800 text-white rounded-full max-md:px-8 max-md:py-3"
+        disabled={loading}
       >
         {loading ? 'Updating...' : 'Update Project'}
       </button>

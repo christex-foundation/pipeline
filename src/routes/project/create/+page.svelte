@@ -1,6 +1,7 @@
 <script>
   import ProjectBasics from '../ProjectBasics.svelte';
   import { enhance } from '$app/forms';
+  import { toast } from 'svelte-sonner';
 
   let loading = false;
 </script>
@@ -13,7 +14,21 @@
   </div>
 </div>
 
-<form action="" method="post" enctype="multipart/form-data" use:enhance>
+<form
+  action=""
+  method="post"
+  enctype="multipart/form-data"
+  use:enhance={() => {
+    return async ({ result }) => {
+      loading = true;
+
+      if (result.type === 'redirect') {
+        toast.success('project has been created successfully');
+      }
+      loading = false;
+    };
+  }}
+>
   <div
     class="flex flex-row justify-center items-start gap-10 px-10 py-5 rounded-[37px] max-md:flex-col max-md:gap-5 max-md:px-5 max-md:mt-10 flex-wrap"
   >
@@ -195,6 +210,7 @@
       <button
         type="submit"
         class="px-12 py-4 text-lg font-medium !bg-lime-800 text-white rounded-full max-md:px-8 max-md:py-3"
+        disabled={loading}
       >
         {loading ? 'Saving...' : 'Save Project'}
       </button>
