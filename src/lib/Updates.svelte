@@ -3,6 +3,8 @@
   import UpdateDetail from '../lib/UpdateDetail.svelte';
   import { createEventDispatcher } from 'svelte';
   import Icon from '@iconify/svelte';
+    import { onMount } from 'svelte';
+	import {dateTimeFormat} from '$lib/utils/dateTimeFormat.js'
 
   const dispatch = createEventDispatcher();
 
@@ -22,46 +24,64 @@
   }
 
   const truncatedContent = truncateContent(update.body);
+
+  const defaultImageUrl =
+    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
+
+    let date = '';
+    date = dateTimeFormat(update.created_at);
+
 </script>
 
-<div class="h-[567.35px] p-9 bg-white flex-col justify-start items-start inline-flex">
-  <div class="self-stretch h-[495.35px] flex-col justify-start items-start gap-6 flex">
-    <div class="h-[188.35px] pt-[1.75px] flex-col justify-start items-start gap-[13.30px] flex">
-      <div class="self-stretch text-[#282828] text-[32px] font-bold font-['Inter'] leading-10">
-        {update.title}
-      </div>
-      <div
-        class="self-stretch h-[62px] pb-5 border-b border-[#dcdedd] flex-col justify-start items-start gap-1 flex"
-      >
-        <div class="inline-flex items-center justify-start gap-3">
-          <img
-            class="w-[42px] h-[42px] relative rounded-[42px] border border-[#dcdedd]"
-            src="https://via.placeholder.com/42x42"
-            alt=""
-          />
-          <div class="w-[120.07px] flex-col justify-start items-start inline-flex">
-            <div class="inline-flex items-center self-stretch justify-start gap-2">
-              <div
-                class="w-[57.07px] h-6 text-[#282828] text-sm font-normal font-['Inter'] leading-normal"
-              >
-                {update.userProfile.name}
-              </div>
-              <div
-                class="px-[5px] py-[0.25px] bg-[#05ce78] rounded-[3px] flex-col justify-center items-start inline-flex"
-              >
-                <div class="text-white text-xs font-bold font-['Inter'] leading-[18px]">
-                  {update.user_id === update.userProfile.user_id ? 'Creator' : 'Member'}
+
+
+<div class="inline-flex flex-col items-start justify-start bg-white p-9">
+    <div class="flex flex-col items-start self-stretch justify-start gap-2">
+        <div class=" pt-[1.75px] flex-col justify-start items-start gap-[13.30px] flex">
+            <div class="self-stretch text-[#282828] text-[32px] font-bold font-['Inter'] leading-10">{update.title}</div>
+            <div class="self-stretch h-[62px] pb-5 border-b border-[#dcdedd] flex-col justify-start items-start gap-1 flex">
+                <div class="inline-flex items-center justify-start gap-3">
+
+      <img
+        loading="lazy"
+        src={update.userProfile.image && update.userProfile.image !== '' ? update.userProfile.image : defaultImageUrl}
+        alt="User Profile"
+        class="w-[42px] h-[42px] relative rounded-[42px] border border-[#dcdedd]"
+      />
+
+                    <div class="inline-flex flex-col justify-between w-full ">
+                        <div class="inline-flex items-center self-stretch justify-between gap-2">
+                            <div class=" h-6 text-[#282828] text-sm font-normal font-['Inter'] leading-normal">{update.userProfile.name}</div>
+                            <div class="px-[5px] py-[0.25px] bg-[#05ce78] rounded-[3px] flex-col justify-center items-start inline-flex">
+                                <div class="text-white text-xs font-bold font-['Inter'] leading-[18px]">{update.user_id === update.userProfile.user_id ? 'Creator' : 'Member'}</div>
+                            </div>
+                        </div>
+                        <div class="self-stretch h-[18px] text-[#282828]/50 text-[13px] font-normal font-['Inter'] leading-[18px]">{date}</div>
+                    </div>
                 </div>
               </div>
             </div>
-            <div
-              class="self-stretch h-[18px] text-[#282828]/50 text-[13px] font-normal font-['Inter'] leading-[18px]"
-            >
-              <DateTimeFormat date={update.created_at} />
+        </div>
+        <div class="flex flex-col items-start self-stretch justify-start gap-1">
+            <div class="self-stretch pb-2 flex-col justify-start items-start gap-[30px] flex">
+                <div class="self-stretch text-[#282828] text-base font-normal font-['Inter'] leading-[29px]">{@html truncatedContent}</div>
             </div>
           </div>
         </div>
-      </div>
+        <div class="w-[744.66px] bg-gradient-to-b from-white to-white"></div>
+        <div class="w-[744.66px] justify-between items-center inline-flex">
+            <div class="flex items-center justify-start gap-6">
+
+                <div class="flex items-center justify-start gap-2">
+                    <Icon icon="mdi:message-bubble-outline" class="text-2xl"/>
+                    <div class="w-[15.25px] h-6 text-[#9b9e9e] text-sm font-normal font-['Inter'] leading-normal">16</div>
+                </div>
+            </div>
+            <button on:click={showDetail} class="px-[19px] py-[11.50px] bg-white border border-[#d1d1d1] justify-center items-center gap-1.5 flex">
+                <div class="text-center text-[#222222] text-sm font-normal">Read more</div>
+                <Icon icon="weui:arrow-filled" class="text-2xl"/>
+              </button>
+        </div>
     </div>
     <div class="self-stretch h-[216px] flex-col justify-start items-start gap-1 flex">
       <div class="self-stretch h-[216px] pb-2 flex-col justify-start items-start gap-[30px] flex">
