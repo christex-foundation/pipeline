@@ -29,7 +29,6 @@ export const createProjectSchema = z.object({
     .string({ required_error: 'project bio is required' })
     .trim()
     .min(5, { message: 'bio is too short' }),
-  tags: z.array(z.string()).default([]),
   country: z.enum(
     Object.values(countries).map((country) => country.name),
     { required_error: 'country is required' },
@@ -50,5 +49,22 @@ export const createProjectSchema = z.object({
     .default(0),
   bank_acct: z.string().trim().optional(),
   wallet_address: z.string().trim().optional(),
-  // TODO: add the banner and profile image checks here
+  // banner_image: z
+  //   .instanceof(File)
+  //   .optional()
+  //   .refine((file) => ["image/jpeg", "image/png"].includes(file.type), {
+  //     message: "Only JPEG and PNG images are allowed for the banner.",
+  //   })
+  //   .refine((file) => file.size <= 10 * 1024 * 1024, { // 10 MB
+  //     message: "Banner image size should not exceed 10MB.",
+  //   }),
+  // image: z
+  //   .instanceof(File)
+  //   .optional()
+  //   .refine((file) => ["image/jpeg", "image/png"].includes(file.type), {
+  //     message: "Only JPEG and PNG images are allowed for the profile.",
+  //   })
+  //   .refine((file) => file.size <= 5 * 1024 * 1024, { // 5 MB
+  //     message: " image size should not exceed 5MB.",
+  //   }),
 });

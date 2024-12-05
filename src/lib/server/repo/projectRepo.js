@@ -45,11 +45,11 @@ export async function createProject(projectData, supabase) {
   return data[0];
 }
 
-export async function updateDetails(projectData, supabase) {
+export async function updateDetails(id, projectData, supabase) {
   const { data, error } = await supabase
     .from('projects')
     .update(projectData)
-    .eq('id', projectData.id)
+    .eq('id', id)
     .select();
   if (error) throw new Error(error.message);
   return data[0];
