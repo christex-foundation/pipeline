@@ -66,7 +66,10 @@
 
       const data = await response.json();
 
-      topProjects = data.projects.slice(0, 3);
+      //taking random 3 projects for now
+      const shuffledProjects = data.projects.sort(() => Math.random() - 0.5);
+
+      topProjects = shuffledProjects.slice(0, 3);
     } catch (error) {
       error = e.message;
       alert(error);

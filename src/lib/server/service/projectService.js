@@ -177,9 +177,18 @@ export async function getUserBookmarkedProjects(userId, page, limit, supabase) {
 }
 
 export async function storeProject(user, projectData, supabase) {
-  //const validatedData = projectSchema.parse(projectData);
+  let { tags, ...projectFields } = projectData.data;
 
-  const { tags, ...projectFields } = projectData;
+  if (typeof tags === 'string') {
+    try {
+      tags = JSON.parse(tags);
+    } catch (error) {
+      console.error('Failed to parse tags string:', error);
+      tags = [];
+    }
+  } else if (!Array.isArray(tags)) {
+    tags = tags ? [tags] : [];
+  }
 
   const project = await createProject({ ...projectFields, user_id: user.id }, supabase);
 
@@ -192,8 +201,21 @@ export async function storeProject(user, projectData, supabase) {
   return { project, teamMember };
 }
 
-export async function updateProject(userId, projectId, projectData, tags, supabase) {
-  await updateDetails(projectId, { ...projectData, user_id: userId });
+export async function updateProject(userId, projectId, projectData, supabase) {
+  let { tags, ...projectFields } = projectData.data;
+
+  if (typeof tags === 'string') {
+    try {
+      tags = JSON.parse(tags);
+    } catch (error) {
+      console.error('Failed to parse tags string:', error);
+      tags = [];
+    }
+  } else if (!Array.isArray(tags)) {
+    tags = tags ? [tags] : [];
+  }
+  
+  await updateDetails(projectId, { ...projectFields, user_id: userId }, supabase);
 
   const existingTags = await getProjectExistingCategories(projectId, supabase);
   const existingTagIds = existingTags.map((tag) => tag.category_id);

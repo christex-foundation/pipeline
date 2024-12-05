@@ -1,21 +1,11 @@
-//@ts-check
-import { supabase } from '$lib/server/supabase.js';
+// import { supabase } from '$lib/server/supabase.js';
 import { json } from '@sveltejs/kit';
-
-export async function POST({ request }) {
-  const formData = await request.formData();
-
-  const file = formData.get('file');
-
-  if (!file) {
-    return json({ error: 'No file provided' }, { status: 400 });
-  }
-
-  //append current timestamp to the file name
+export async function uploadImage(file, supabase) {
   const timestamp = Date.now();
   const originalFileName = file.name;
   const fileExtension = originalFileName.split('.').pop();
-  const fileNameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.')) || originalFileName;
+  const fileNameWithoutExtension =
+    originalFileName.substring(0, originalFileName.lastIndexOf('.')) || originalFileName;
   const newFileName = `${fileNameWithoutExtension}-${timestamp}.${fileExtension}`;
 
   const { data, error } = await supabase.storage
@@ -30,5 +20,13 @@ export async function POST({ request }) {
     .from('pipeline-images')
     .getPublicUrl(`uploads/${newFileName}`);
 
-  return json({ url: imgData.publicUrl });
+  return imgData.publicUrl;
+}
+
+export async function deleteImage(fileName, supabase) {
+  const { data, error } = await supabase.storage
+    .from('pipeline-images')
+    .remove([`uploads/${fileName}`]);
+  if (error) throw new Error(error.message);
+  return data;
 }
