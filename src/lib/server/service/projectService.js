@@ -214,7 +214,7 @@ export async function updateProject(userId, projectId, projectData, supabase) {
   } else if (!Array.isArray(tags)) {
     tags = tags ? [tags] : [];
   }
-  
+
   await updateDetails(projectId, { ...projectFields, user_id: userId }, supabase);
 
   const existingTags = await getProjectExistingCategories(projectId, supabase);

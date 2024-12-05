@@ -15,7 +15,8 @@ export async function POST({ request }) {
   const timestamp = Date.now();
   const originalFileName = file.name;
   const fileExtension = originalFileName.split('.').pop();
-  const fileNameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.')) || originalFileName;
+  const fileNameWithoutExtension =
+    originalFileName.substring(0, originalFileName.lastIndexOf('.')) || originalFileName;
   const newFileName = `${fileNameWithoutExtension}-${timestamp}.${fileExtension}`;
 
   const { data, error } = await supabase.storage

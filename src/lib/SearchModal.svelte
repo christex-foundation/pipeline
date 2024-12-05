@@ -59,15 +59,15 @@
 {#if $searchBarOpen}
   <div
     transition:fade={{ duration: 200 }}
-    class="fixed inset-0 z-[100000] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+    class="fixed inset-0 z-[100000] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
     on:click|self={closeModal}
   >
     <div
-      class="w-full max-w-2xl bg-[#0b383c] rounded-xl shadow-2xl overflow-hidden mb-[30vh]"
+      class="mb-[30vh] w-full max-w-2xl overflow-hidden rounded-xl bg-[#0b383c] shadow-2xl"
       on:click|stopPropagation
     >
       <!-- Search Input -->
-      <div class="p-6 border-b border-cyan-800">
+      <div class="border-b border-cyan-800 p-6">
         <div class="relative">
           <input
             autofocus
@@ -75,13 +75,13 @@
             bind:value={term}
             on:input={searchProjects}
             placeholder="Search projects, resources, and more..."
-            class="w-full px-4 py-3 text-white border rounded-md bg-white/10 border-cyan-800 focus:outline-none focus:ring-2 focus:ring-cyan-600"
+            class="w-full rounded-md border border-cyan-800 bg-white/10 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-600"
           />
 
           <!-- Close button -->
           <button
             on:click={closeModal}
-            class="absolute text-white transform -translate-y-1/2 right-2 top-1/2 hover:text-gray-300"
+            class="absolute right-2 top-1/2 -translate-y-1/2 transform text-white hover:text-gray-300"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -112,8 +112,8 @@
         {:else if searchResults.length > 0}
           <ul class="divide-y divide-cyan-800">
             {#each searchResults as project (project.id)}
-              <li class="px-6 py-4 cursor-pointer hover:bg-cyan-900">
-                <div class="text-[#d1ea9a] font-semibold">
+              <li class="cursor-pointer px-6 py-4 hover:bg-cyan-900">
+                <div class="font-semibold text-[#d1ea9a]">
                   <a href="/project/{project.id}">{project.title}</a>
                 </div>
                 <div class="text-sm text-white/70">{project.bio}</div>

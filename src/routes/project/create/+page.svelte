@@ -5,9 +5,9 @@
   let loading = false;
 </script>
 
-<div class="w-full bg-[#d1ea9a]/90 py-16 mb-10">
-  <div class="max-w-4xl mx-auto text-center">
-    <h1 class="text-[#08292c] text-[45.43px] font-semibold font-['Inter'] leading-[54.51px]">
+<div class="mb-10 w-full bg-[#d1ea9a]/90 py-16">
+  <div class="mx-auto max-w-4xl text-center">
+    <h1 class="font-['Inter'] text-[45.43px] font-semibold leading-[54.51px] text-[#08292c]">
       Create a Project
     </h1>
   </div>
@@ -15,26 +15,26 @@
 
 <form action="" method="post" enctype="multipart/form-data" use:enhance>
   <div
-    class="flex flex-row justify-center items-start gap-10 px-10 py-5 rounded-[37px] max-md:flex-col max-md:gap-5 max-md:px-5 max-md:mt-10 flex-wrap"
+    class="flex flex-row flex-wrap items-start justify-center gap-10 rounded-[37px] px-10 py-5 max-md:mt-10 max-md:flex-col max-md:gap-5 max-md:px-5"
   >
     <!-- Left Section: Project Basics -->
-    <section class="flex flex-col flex-1 w-full max-w-[600px]">
-      <div class="p-4 border shadow-md bg-neutral-50 border-neutral-100 rounded-xl">
+    <section class="flex w-full max-w-[600px] flex-1 flex-col">
+      <div class="rounded-xl border border-neutral-100 bg-neutral-50 p-4 shadow-md">
         <h2 class="mb-4 text-2xl font-semibold text-black">Project Basics</h2>
         <ProjectBasics />
       </div>
     </section>
 
     <!-- Right Section: Links and Funding -->
-    <section class="flex flex-col flex-1 w-full max-w-[600px] gap-10">
+    <section class="flex w-full max-w-[600px] flex-1 flex-col gap-10">
       <!-- Links Section -->
-      <div class="p-4 border shadow-md bg-neutral-50 border-neutral-200 rounded-xl">
+      <div class="rounded-xl border border-neutral-200 bg-neutral-50 p-4 shadow-md">
         <h2 class="mb-4 text-2xl font-semibold text-black">Links</h2>
-        <div class="flex flex-col gap-4 p-2 bg-white">
-          <div class="flex items-center justify-between mt-4 max-md:flex-col">
+        <div class="flex flex-col gap-4 bg-white p-2">
+          <div class="mt-4 flex items-center justify-between max-md:flex-col">
             <label
               for="email"
-              class="w-1/3 text-base font-semibold max-md:w-full max-md:items-left"
+              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
             >
               Email
             </label>
@@ -43,14 +43,14 @@
               type="email"
               id="email"
               name="email"
-              class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
             />
           </div>
 
-          <div class="flex items-center justify-between mt-4 max-md:flex-col">
+          <div class="mt-4 flex items-center justify-between max-md:flex-col">
             <label
               for="github"
-              class="w-1/3 text-base font-semibold max-md:w-full max-md:items-left"
+              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
             >
               Github
             </label>
@@ -59,14 +59,14 @@
               type="url"
               id="github"
               name="github"
-              class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
             />
           </div>
 
-          <div class="flex items-center justify-between mt-4 max-md:flex-col">
+          <div class="mt-4 flex items-center justify-between max-md:flex-col">
             <label
               for="linkedin"
-              class="w-1/3 text-base font-semibold max-md:w-full max-md:items-left"
+              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
             >
               LinkedIn
             </label>
@@ -75,14 +75,14 @@
               type="url"
               id="linkedin"
               name="linkedin"
-              class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
             />
           </div>
 
-          <div class="flex items-center justify-between mt-4 max-md:flex-col">
+          <div class="mt-4 flex items-center justify-between max-md:flex-col">
             <label
               for="twitter"
-              class="w-1/3 text-base font-semibold max-md:w-full max-md:items-left"
+              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
             >
               X
             </label>
@@ -91,14 +91,14 @@
               type="url"
               id="twitter"
               name="twitter"
-              class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
             />
           </div>
 
-          <div class="flex items-center justify-between mt-4 max-md:flex-col">
+          <div class="mt-4 flex items-center justify-between max-md:flex-col">
             <label
               for="website"
-              class="w-1/3 text-base font-semibold max-md:w-full max-md:items-left"
+              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
             >
               Website
             </label>
@@ -107,14 +107,14 @@
               type="url"
               id="website"
               name="website"
-              class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
             />
           </div>
 
-          <div class="flex items-center justify-between mt-4 max-md:flex-col">
+          <div class="mt-4 flex items-center justify-between max-md:flex-col">
             <label
               for="other"
-              class="w-1/3 text-base font-semibold max-md:w-full max-md:items-left"
+              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
             >
               Other
             </label>
@@ -123,20 +123,20 @@
               type="url"
               id="other"
               name="other"
-              class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
             />
           </div>
         </div>
       </div>
 
       <!-- Funding Section -->
-      <div class="p-4 border shadow-md bg-neutral-50 border-neutral-200 rounded-xl">
+      <div class="rounded-xl border border-neutral-200 bg-neutral-50 p-4 shadow-md">
         <h2 class="mb-4 text-2xl font-semibold text-black">Funding</h2>
-        <div class="flex flex-col gap-6 p-2 bg-white">
-          <div class="flex items-center w-full max-md:flex-col">
+        <div class="flex flex-col gap-6 bg-white p-2">
+          <div class="flex w-full items-center max-md:flex-col">
             <label
               for="fundingGoal"
-              class="w-1/3 text-base font-semibold max-md:w-full max-md:items-left max-md:py-2"
+              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full max-md:py-2"
             >
               Funding Goal
             </label>
@@ -145,7 +145,7 @@
               type="number"
               name="funding_goal"
               min="0"
-              class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
             />
           </div>
 
@@ -154,7 +154,7 @@
           <div class="flex items-center max-md:flex-col">
             <label
               for="bankAccount"
-              class="w-1/3 text-lg font-medium max-md:w-full max-md:items-left max-md:py-2"
+              class="max-md:items-left w-1/3 text-lg font-medium max-md:w-full max-md:py-2"
             >
               Bank Account
             </label>
@@ -162,7 +162,7 @@
               id="bankAccount"
               name="bank_acct"
               type="number"
-              class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
             />
           </div>
 
@@ -175,7 +175,7 @@
           <div class="flex items-center max-md:flex-col">
             <label
               for="walletAddress"
-              class="w-1/3 text-lg font-medium max-md:w-full max-md:items-left max-md:py-2"
+              class="max-md:items-left w-1/3 text-lg font-medium max-md:w-full max-md:py-2"
             >
               Wallet Address
             </label>
@@ -183,7 +183,7 @@
               id="walletAddress"
               name="wallet_address"
               type="text"
-              class="border border-lime-800 border-solid rounded-full px-6 py-2 w-2/3 max-w-lg min-h-[48px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200 max-md:w-[100%]"
+              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
               aria-label="Wallet Address"
             />
           </div>
@@ -191,10 +191,10 @@
       </div>
     </section>
 
-    <div class="flex justify-end mt-10 w-[83%] max-md:justify-center max-md:ml-8">
+    <div class="mt-10 flex w-[83%] justify-end max-md:ml-8 max-md:justify-center">
       <button
         type="submit"
-        class="px-12 py-4 text-lg font-medium !bg-lime-800 text-white rounded-full max-md:px-8 max-md:py-3"
+        class="rounded-full !bg-lime-800 px-12 py-4 text-lg font-medium text-white max-md:px-8 max-md:py-3"
       >
         {loading ? 'Saving...' : 'Save Project'}
       </button>

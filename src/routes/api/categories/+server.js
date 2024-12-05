@@ -5,7 +5,7 @@ import { json } from '@sveltejs/kit';
 export async function GET({ locals }) {
   try {
     let supabase = locals.supabase;
-    
+
     const categories = await allCategories(supabase);
 
     return json({ categories: categories }, { status: 200 });

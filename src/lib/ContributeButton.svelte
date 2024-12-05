@@ -22,10 +22,10 @@
 
 <a
   href={getProjectLink()}
-  class="flex items-center justify-center w-full mt-5 text-xs font-medium leading-loose border border-solid whitespace-nowrap rounded-[48px] bg-cyan-950 border-teal-950 text-zinc-100"
+  class="mt-5 flex w-full items-center justify-center whitespace-nowrap rounded-[48px] border border-solid border-teal-950 bg-cyan-950 text-xs font-medium leading-loose text-zinc-100"
 >
   <span
-    class="overflow-hidden gap-2 self-stretch px-7 py-3.5 my-auto rounded-3xl max-md:px-5 text-xl"
+    class="my-auto gap-2 self-stretch overflow-hidden rounded-3xl px-7 py-3.5 text-xl max-md:px-5"
   >
     {getButtonLabel()}
   </span>
@@ -33,5 +33,5 @@
 
 {#if !$page.data.isAuthenticated}
   <!-- We can implement Tooltip or additional message for unauthenticated users -->
-  <p class="text-sm text-gray-400 mt-2">Please sign in to contribute.</p>
+  <p class="mt-2 text-sm text-gray-400">Please sign in to contribute.</p>
 {/if}

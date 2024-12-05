@@ -55,16 +55,16 @@
   };
 </script>
 
-<form on:submit|preventDefault={handleApplySubmit} class="w-full max-w-6xl px-6 py-12 mx-auto">
-  <div class="flex flex-wrap items-center justify-end mb-12">
-    <label for="category" class="w-full mb-4 text-xl md:w-1/3 md:mb-0 md:pr-8">
+<form on:submit|preventDefault={handleApplySubmit} class="mx-auto w-full max-w-6xl px-6 py-12">
+  <div class="mb-12 flex flex-wrap items-center justify-end">
+    <label for="category" class="mb-4 w-full text-xl md:mb-0 md:w-1/3 md:pr-8">
       Type of resource
     </label>
     <div class="w-full md:w-2/3">
       <select
         id="category"
         bind:value={resourceType}
-        class="w-full border-2 border-[#0b383c] rounded-[25px] px-6 py-4 text-lg focus:outline-none focus:border-[#0b383c] transition-colors duration-200"
+        class="w-full rounded-[25px] border-2 border-[#0b383c] px-6 py-4 text-lg transition-colors duration-200 focus:border-[#0b383c] focus:outline-none"
         aria-label="Select the resource type"
       >
         <option value="">Select resource type</option>
@@ -75,8 +75,8 @@
     </div>
   </div>
 
-  <div class="flex flex-wrap items-center justify-end mb-12">
-    <label for="resourceTitle" class="w-full mb-4 text-xl md:w-1/3 md:mb-0 md:pr-8">
+  <div class="mb-12 flex flex-wrap items-center justify-end">
+    <label for="resourceTitle" class="mb-4 w-full text-xl md:mb-0 md:w-1/3 md:pr-8">
       Resource Title
     </label>
     <div class="w-full md:w-2/3">
@@ -84,14 +84,14 @@
         id="resourceTitle"
         bind:value={resourceTitle}
         type="text"
-        class="w-full border-2 border-lime-800 rounded-[25px] px-6 py-4 text-lg focus:outline-none focus:border-[#0b383c] transition-colors duration-200"
+        class="w-full rounded-[25px] border-2 border-lime-800 px-6 py-4 text-lg transition-colors duration-200 focus:border-[#0b383c] focus:outline-none"
         aria-label="Enter the resource title"
       />
     </div>
   </div>
 
-  <div class="flex flex-wrap items-center justify-end mb-12">
-    <label for="resourceLink" class="w-full mb-4 text-xl md:w-1/3 md:mb-0 md:pr-8">
+  <div class="mb-12 flex flex-wrap items-center justify-end">
+    <label for="resourceLink" class="mb-4 w-full text-xl md:mb-0 md:w-1/3 md:pr-8">
       Resource Link
     </label>
     <div class="w-full md:w-2/3">
@@ -99,19 +99,19 @@
         id="resourceLink"
         bind:value={resourceLink}
         type="text"
-        class="w-full border-2 border-lime-800 rounded-[25px] px-6 py-4 text-lg focus:outline-none focus:border-[#0b383c] transition-colors duration-200"
+        class="w-full rounded-[25px] border-2 border-lime-800 px-6 py-4 text-lg transition-colors duration-200 focus:border-[#0b383c] focus:outline-none"
         aria-label="Enter the resource link"
       />
     </div>
   </div>
 
-  <div class="flex flex-wrap items-center justify-end mb-12">
-    <label for="country" class="w-full mb-4 text-xl md:w-1/3 md:mb-0 md:pr-8"> Country </label>
+  <div class="mb-12 flex flex-wrap items-center justify-end">
+    <label for="country" class="mb-4 w-full text-xl md:mb-0 md:w-1/3 md:pr-8"> Country </label>
     <div class="w-full md:w-2/3">
       <select
         id="country"
         bind:value={country}
-        class="w-full border-2 border-lime-800 rounded-[25px] px-6 py-4 text-lg focus:outline-none focus:border-[#0b383c] transition-colors duration-200"
+        class="w-full rounded-[25px] border-2 border-lime-800 px-6 py-4 text-lg transition-colors duration-200 focus:border-[#0b383c] focus:outline-none"
         aria-label="Select your country"
       >
         <option value="">Select your country</option>
@@ -123,23 +123,23 @@
   </div>
 
   <!-- Interest Section -->
-  <div class="flex flex-wrap items-start justify-end mb-12">
-    <label for="interest" class="w-full mb-4 text-xl md:w-1/3 md:mb-0 md:pr-8"> Comment </label>
+  <div class="mb-12 flex flex-wrap items-start justify-end">
+    <label for="interest" class="mb-4 w-full text-xl md:mb-0 md:w-1/3 md:pr-8"> Comment </label>
     <div class="w-full md:w-2/3">
       <textarea
         id="interest"
         bind:value={interest}
-        class="w-full border-2 border-lime-800 rounded-[25px] px-6 py-4 text-lg min-h-[150px] focus:outline-none focus:border-[#0b383c] transition-colors duration-200"
+        class="min-h-[150px] w-full rounded-[25px] border-2 border-lime-800 px-6 py-4 text-lg transition-colors duration-200 focus:border-[#0b383c] focus:outline-none"
         placeholder="Comment"
       ></textarea>
     </div>
   </div>
 
   <!-- Submit Button -->
-  <div class="flex justify-end w-full mt-12">
+  <div class="mt-12 flex w-full justify-end">
     <button
       type="submit"
-      class="w-[20%] px-4 py-4 bg-teal-900 text-gray-200 text-lg font-medium rounded-[40px] hover:bg-teal-800 transition-colors duration-300"
+      class="w-[20%] rounded-[40px] bg-teal-900 px-4 py-4 text-lg font-medium text-gray-200 transition-colors duration-300 hover:bg-teal-800"
       disabled={loading}
     >
       {loading ? 'SUBMITTING...' : 'SUBMIT'}

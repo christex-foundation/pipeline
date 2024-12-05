@@ -4,11 +4,12 @@
   let loading = false;
 </script>
 
-<section class="flex flex-col items-center justify-center w-full max-w-[1235px] max-md:px-5 max-md:mt-10 mt-20">
-  
-  <form method="POST" class="flex flex-col w-[60%] max-md:w-[90%] mx-auto" use:enhance>
-    <div class="hidden mb-10 max-md:block">
-      <Logo/>
+<section
+  class="mt-20 flex w-full max-w-[1235px] flex-col items-center justify-center max-md:mt-10 max-md:px-5"
+>
+  <form method="POST" class="mx-auto flex w-[60%] flex-col max-md:w-[90%]" use:enhance>
+    <div class="mb-10 hidden max-md:block">
+      <Logo />
     </div>
     <h2 class="mb-2 text-4xl font-semibold">Register</h2>
     <p class="mb-4 opacity-50">Enter your Info to signup for Pipeline</p>
@@ -18,47 +19,47 @@
         type="text"
         id="name"
         name="name"
-        class="w-full px-4 py-2 border border-black rounded-full"
+        class="w-full rounded-full border border-black px-4 py-2"
         required
       />
     </div>
 
-    <div class="flex flex-col gap-2 mt-4 font-medium">
+    <div class="mt-4 flex flex-col gap-2 font-medium">
       <label for="email" class="block">Email</label>
       <input
         type="email"
         id="email"
         name="email"
-        class="w-full px-4 py-2 border border-black rounded-full"
+        class="w-full rounded-full border border-black px-4 py-2"
         required
       />
     </div>
 
-    <div class="flex flex-col gap-2 mt-4 font-medium">
+    <div class="mt-4 flex flex-col gap-2 font-medium">
       <label for="password" class="block">Password</label>
       <input
         type="password"
         id="password"
         name="password"
-        class="w-full px-4 py-2 border border-black rounded-full"
+        class="w-full rounded-full border border-black px-4 py-2"
         required
       />
     </div>
 
-    <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
+    <div class="mt-6 flex w-full flex-wrap items-center justify-between gap-6 text-sm leading-none">
       Already have an account?
-            <a href="/sign-in" class="font-semibold text-neutral-400 hover:text-[#0b383c]">Sign In</a>
-          </div>
+      <a href="/sign-in" class="font-semibold text-neutral-400 hover:text-[#0b383c]">Sign In</a>
+    </div>
 
     <button
       type="submit"
-      class="w-full py-4 mt-8 font-light text-white bg-teal-900 rounded-full"
+      class="mt-8 w-full rounded-full bg-teal-900 py-4 font-light text-white"
       disabled={loading}
     >
       {loading ? 'Signing up...' : 'Sign up'}
     </button>
 
-    <label class="flex w-full gap-2 mx-auto mt-6 text-sm font-light align-start max-md:mt-2">
+    <label class="align-start mx-auto mt-6 flex w-full gap-2 text-sm font-light max-md:mt-2">
       <input type="checkbox" name="rememberMe" />
       Remember me
     </label>

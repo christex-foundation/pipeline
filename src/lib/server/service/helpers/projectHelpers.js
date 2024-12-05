@@ -21,4 +21,3 @@ export function mapProjectsWithTagsAndStatus(projects, projectCategories, catego
     };
   });
 }
-
