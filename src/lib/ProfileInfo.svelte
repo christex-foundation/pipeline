@@ -3,8 +3,9 @@
 
   let user = {};
   let error = null;
-  const defaultImageUrl = 'https://i.pinimg.com/474x/76/4d/59/764d59d32f61f0f91dec8c442ab052c5.jpg';
-
+  const defaultImageUrl = 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png?t=2024-12-06T11%3A37%3A26.554Z';
+  const defaultBannerUrl = 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/banner.png?t=2024-12-06T11%3A37%3A50.969Z';
+  
   onMount(async () => {
     try {
       const response = await fetch('/api/me', {
@@ -17,6 +18,7 @@
       if (response.ok) {
         const result = await response.json();
         user = result.user;
+        console.log(user);
       } else {
         const result = await response.json();
         error = result.error;
