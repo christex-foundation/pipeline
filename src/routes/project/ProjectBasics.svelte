@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { countries } from 'countries-list';
+  import Icon from '@iconify/svelte';
 
   export let project = {};
 
@@ -273,19 +274,7 @@
               {/each}
             </select>
             <!-- Custom Arrow Icon -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="absolute w-5 h-5 text-gray-600 pointer-events-none right-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5.23 7.23a1 1 0 011.414 0L10 10.586l3.354-3.354a1 1 0 111.415 1.414l-4 4a1 1 0 01-1.415 0l-4-4a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              />
-            </svg>
+            <Icon icon="radix-icons:caret-down" class="text-2xl" />
           </div>
         </div>
       </div>
