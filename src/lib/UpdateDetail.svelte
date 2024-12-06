@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher, onMount } from 'svelte';
   import { dateTimeFormat } from './utils/dateTimeFormat.js';
+  import { toast } from 'svelte-sonner';
 
   const dispatch = createEventDispatcher();
 
@@ -62,6 +63,7 @@
       );
 
       if (!response.ok) {
+        toast.error('could not add comment to this project update.');
         throw new Error(response.statusText);
       }
 
@@ -69,10 +71,9 @@
 
       await getUpdateComments();
 
-      alert('Comment added successfully');
+      toast.success('Comment added successfully');
     } catch (error) {
-      error = e.message;
-      alert(error);
+      toast.error(error.message);
     } finally {
       loading = false;
     }
@@ -84,7 +85,6 @@
 
   const defaultImageUrl =
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
-
 </script>
 
 <div class=" h-full px-[18px] flex-col justify-start items-start inline-flex font-['Inter']">
@@ -134,19 +134,18 @@
         class="self-stretch h-[62px] pb-5 border-b border-[#dcdedd] flex-col justify-start items-start gap-1 flex"
       >
         <div class="inline-flex items-center justify-start gap-3">
-            
-      <img
-      loading="lazy"
-      src={selectedUpdate.userProfile.image && selectedUpdate.userProfile.image !== '' ? selectedUpdate.userProfile.image : defaultImageUrl}
-      alt="User Profile"
-      class="w-[42px] h-[42px] relative rounded-[42px] border border-[#dcdedd]"
-    />
+          <img
+            loading="lazy"
+            src={selectedUpdate.userProfile.image && selectedUpdate.userProfile.image !== ''
+              ? selectedUpdate.userProfile.image
+              : defaultImageUrl}
+            alt="User Profile"
+            class="w-[42px] h-[42px] relative rounded-[42px] border border-[#dcdedd]"
+          />
 
-          <div class="inline-flex flex-col items-start justify-start ">
-            <div class="inline-flex items-center self-stretch justify-between gap-2 ">
-              <div
-                class=" h-6 text-[#282828] text-sm font-normal font-['Inter'] leading-normal"
-              >
+          <div class="inline-flex flex-col items-start justify-start">
+            <div class="inline-flex items-center self-stretch justify-between gap-2">
+              <div class=" h-6 text-[#282828] text-sm font-normal font-['Inter'] leading-normal">
                 {selectedUpdate.userProfile.name}
               </div>
               <div
@@ -219,7 +218,9 @@
                 <div class="inline-flex flex-col items-start justify-start h-9">
                   <img
                     class="w-9 h-9 relative rounded-[36px] border border-[#dcdedd]"
-                    src={comment.userProfile.image && comment.userProfile.image !== '' ? comment.userProfile.image : defaultImageUrl}
+                    src={comment.userProfile.image && comment.userProfile.image !== ''
+                      ? comment.userProfile.image
+                      : defaultImageUrl}
                     alt=""
                   />
                 </div>
