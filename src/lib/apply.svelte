@@ -1,5 +1,7 @@
 <script>
+  import { goto } from '$app/navigation';
   import { countries } from 'countries-list';
+  import { toast } from 'svelte-sonner';
 
   export let id;
   let loading = false;
@@ -42,13 +44,13 @@
       const result = await response.json();
 
       if (response.ok) {
-        alert('Application submitted successfully!');
-        window.location.href = `/project/${id}`;
+        toast.success('Application submitted successfully!');
+        goto(`/project/${id}`);
       } else {
-        alert(`Error: ${response.statusText}`);
+        toast.error(`Error: ${response.statusText}`);
       }
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
     } finally {
       loading = false;
     }
