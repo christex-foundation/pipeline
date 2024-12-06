@@ -1,6 +1,6 @@
 <script>
   import ProjectBasics from '../ProjectBasics.svelte';
-  import { enhance } from '$app/forms';
+  import { applyAction, enhance } from '$app/forms';
   import { toast } from 'svelte-sonner';
 
   let loading = false;
@@ -22,9 +22,12 @@
     return async ({ result }) => {
       loading = true;
 
-      if (result.type === 'redirect') {
-        toast.success('project has been created successfully');
+      if (result.type === 'failure') {
+        toast.warn(result?.data?.error || 'could not create project');
       }
+
+      toast.success('project has been created successfully');
+      await applyAction(result);
       loading = false;
     };
   }}

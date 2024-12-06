@@ -19,11 +19,11 @@
       loading = true;
 
       return async ({ result }) => {
-        await applyAction(result);
-
         if (result.type === 'redirect') {
           toast.success('login successful');
         }
+
+        await applyAction(result);
         loading = false;
       };
     }}

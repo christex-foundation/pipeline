@@ -38,6 +38,7 @@ export const actions = {
     if (!success) {
       const errors = validationError.flatten().fieldErrors;
       const firstError = Object.values(errors).flat().at(0);
+      console.log('Edit Project:', firstError);
       return fail(400, { error: firstError });
     }
 
@@ -69,10 +70,10 @@ export const actions = {
       });
 
       if (!response.ok) {
-        return fail(400, 'Failed to save project');
+        return fail(400, { error: 'Failed to save project' });
       }
     } catch (_) {
-      return fail(500, 'Failed to save project. Please try again later.');
+      return fail(500, { error: 'Failed to save project. Please try again later.' });
     }
 
     redirect(307, `/project/${id}`);

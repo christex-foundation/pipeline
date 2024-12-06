@@ -1,15 +1,15 @@
 <script>
   import ProjectBasics from '../../ProjectBasics.svelte';
-  import { enhance } from '$app/forms';
+  import { applyAction, enhance } from '$app/forms';
   import { toast } from 'svelte-sonner';
 
   export let data;
   const { project } = data;
-  export let form;
 
   let loading = false;
 
-  $: if (form.error) {
+  export let form;
+  $: if (form?.error) {
     toast.error(form?.error);
   }
 </script>
@@ -30,9 +30,12 @@
     return async ({ result }) => {
       loading = true;
 
-      if (result.type === 'redirect') {
-        toast.success('Project updated successfully');
+      if (result.type === 'failure') {
+        toast.warn(result?.data?.error || 'failed to edit project');
       }
+
+      toast.success('Project updated successfully');
+      await applyAction(result);
       loading = false;
     };
   }}
