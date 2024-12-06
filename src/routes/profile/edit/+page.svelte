@@ -1,76 +1,78 @@
 <script>
-  import ProfileForm from "../../../lib/ProfileForm.svelte";
-  import ProfileLinks from "../../../lib/ProfileLinks.svelte";
-  import Settings from "../../../lib/Settings.svelte";
-  import Interests from "../../../lib/Interests.svelte";
+  import ProfileForm from '../../../lib/ProfileForm.svelte';
+  import ProfileLinks from '../../../lib/ProfileLinks.svelte';
+  import Settings from '../../../lib/Settings.svelte';
+  import Interests from '../../../lib/Interests.svelte';
+  import Icon from '@iconify/svelte';
+
   let selectedTechInterests = [];
   let selectedCreativeInterests = [];
   let selectedCommunityProjects = [];
 
-  let activeNavItem = "Profile";
+  let activeNavItem = 'Profile';
   const navItems = [
     {
-      id: "Profile",
-      label: "Profile",
-      width: "184px",
-      icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/00eacd2e9203d40d579eb83c6c31b8c06134308627c218c88c9580bed4d5d7ef",
+      id: 'Profile',
+      label: 'Profile',
+      width: '184px',
+      icon: 'proicons:person-2',
     },
     {
-      id: "Links",
-      label: "Links",
-      width: "184px",
-      icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/ff10f4c0c448ee5208fc4e0b90f38cc53d69a7eda9bd7dc84eb1e7c779e81c4b",
+      id: 'Links',
+      label: 'Links',
+      width: '184px',
+      icon: 'ci:link',
     },
     {
-      id: "Interests",
-      label: "Interests",
-      width: "184px",
-      icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/09ba2f33466a78bf2d1e32dc9330bb0cc72747f64701080ac91f542e8459d18f",
+      id: 'Interests',
+      label: 'Interests',
+      width: '184px',
+      icon: 'uit:bag',
     },
     {
-      id: "Settings",
-      label: "Settings",
-      width: "184px",
-      icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/2ecfa6fbb29ac713eea63adc3b16821ea9f1a98b868badda74b6497e863f76db",
+      id: 'Settings',
+      label: 'Settings',
+      width: '184px',
+      icon: 'mdi:cog-outline',
     },
   ];
 
   let techInterests = [
-    "Education",
-    "Food & Beverages",
-    "Energy / Green tech",
-    "Health / Fitness",
-    "Tech Startups",
-    "Artificial Intelligence & Machine Learning",
-    "Robotics",
-    "Blockchain & Cryptocurrencies",
-    "Cybersecurity",
-    "Augmented Reality (AR) & Virtual Reality (VR)",
+    'Education',
+    'Food & Beverages',
+    'Energy / Green tech',
+    'Health / Fitness',
+    'Tech Startups',
+    'Artificial Intelligence & Machine Learning',
+    'Robotics',
+    'Blockchain & Cryptocurrencies',
+    'Cybersecurity',
+    'Augmented Reality (AR) & Virtual Reality (VR)',
   ];
 
   let creativeInterests = [
-    "Graphic Design",
-    "Photography",
-    "Video Production",
-    "Music Production",
-    "Writing & Storytelling",
-    "Digital Art",
-    "Fashion Design",
-    "Creative Coding",
-    "Animation",
-    "User Experience (UX) Design",
+    'Graphic Design',
+    'Photography',
+    'Video Production',
+    'Music Production',
+    'Writing & Storytelling',
+    'Digital Art',
+    'Fashion Design',
+    'Creative Coding',
+    'Animation',
+    'User Experience (UX) Design',
   ];
 
   let communityProjects = [
-    "Social Impact Initiatives",
-    "Environmental Sustainability",
-    "Education",
-    "Local Development",
-    "Health and Wellness",
-    "Public Art Projects",
-    "Crisis Response",
-    "Civic Engagement",
-    "Cultural Events",
+    'Social Impact Initiatives',
+    'Environmental Sustainability',
+    'Education',
+    'Local Development',
+    'Health and Wellness',
+    'Public Art Projects',
+    'Crisis Response',
+    'Civic Engagement',
+    'Cultural Events',
   ];
 
   function handleNavChange(event) {
@@ -86,50 +88,44 @@
   >
     <h1 class="font-semibold leading-none text-black text-4xl ml-[11%] max-md:text-4xl">
       Username
-    </h1>       
+    </h1>
     <a
       href="/profile"
       class="flex gap-2.5 justify-center items-center self-start px-6 py-3.5 text-xl leading-none text-lime-800 bg-lime-200 border-2 border-lime-800 border-solid rounded-[50px] max-md:px-5 mr-10"
     >
-      <img
-        loading="lazy"
-        src="https://cdn.builder.io/api/v1/image/assets/TEMP/64135a94b56ce48af9a1c4223db4ad995409393478b6a070980d63978b32c01e"
-        alt=""
-        class="self-stretch object-contain w-6 my-auto shrink-0 aspect-square"
-      />
+      <Icon icon="mdi:person-outline" class="text-2xl" />
       <span class="self-stretch my-auto">View Profile</span>
     </a>
   </section>
 
   <section class="w-full mb-12">
-    <div class="flex justify-center items-center px-10 py-5 mt-5 bg-white rounded-[37px] max-md:px-5 max-md:mt-10 space-x-24 ">
+    <div
+      class="flex justify-center items-center px-10 py-5 mt-5 bg-white rounded-[37px] max-md:px-5 max-md:mt-10 space-x-24"
+    >
       {#each navItems as navItem}
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <div
-          class="flex items-center self-center justify-center mx-2 transition-all duration-300 ease-in-out cursor-pointer pb-02 "
+        <button
+          type="button"
+          class="flex items-center self-center justify-center mx-2 transition-all duration-300 ease-in-out cursor-pointer pb-02"
           class:selected={activeNavItem === navItem.id}
           class:border-b-4={activeNavItem === navItem.id}
           on:click={() => (activeNavItem = navItem.id)}
           style="min-width: 134px; border-color: #d1ea9a"
         >
-          <img src={navItem.icon} alt={navItem.label} class="w-6 h-6" />
+          <Icon icon={navItem.icon} class="text-2xl" />
           <span class="text-2xl text-center">
             {navItem.label}
           </span>
-        </div>
+        </button>
       {/each}
     </div>
   </section>
 
-  <section
-    class="flex overflow-hidden flex-col items-center mt-5 max-w-full w-[82%] max-md:mt-10"
-  >
-    {#if activeNavItem === "Profile"}
+  <section class="flex overflow-hidden flex-col items-center mt-5 max-w-full w-[82%] max-md:mt-10">
+    {#if activeNavItem === 'Profile'}
       <ProfileForm />
-    {:else if activeNavItem === "Links"}
+    {:else if activeNavItem === 'Links'}
       <ProfileLinks />
-    {:else if activeNavItem === "Interests"}
+    {:else if activeNavItem === 'Interests'}
       <div class="w-[80%]">
         <h2 class="mb-4 text-xl text-black">Select 3 or more to continue</h2>
 
@@ -166,15 +162,15 @@
       >
         save & continue
       </button>
-    {:else if activeNavItem === "Settings"}
+    {:else if activeNavItem === 'Settings'}
       <Settings />
     {/if}
   </section>
 </main>
 
 <style>
-  div.selected {
+  button.selected {
     transform: scale(1.1);
-    font-weight: bold; 
+    font-weight: bold;
   }
 </style>
