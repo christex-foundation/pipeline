@@ -5,9 +5,12 @@
   import Nav from '$lib/Nav.svelte';
   import Footer from '$lib/Footer.svelte';
   import { page } from '$app/stores';
+  import { Toaster } from 'svelte-sonner';
 
   export let data;
 </script>
+
+<Toaster richColors position="top-right" closeButton />
 
 <div class="w-full min-h-screen bg-white">
   <SearchModal />

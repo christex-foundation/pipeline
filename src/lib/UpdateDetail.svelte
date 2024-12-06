@@ -2,6 +2,7 @@
   import { createEventDispatcher, onMount } from 'svelte';
   import Icon from '@iconify/svelte';
   import { dateTimeFormat } from './utils/dateTimeFormat.js';
+  import { toast } from 'svelte-sonner';
 
   const dispatch = createEventDispatcher();
 
@@ -63,6 +64,7 @@
       );
 
       if (!response.ok) {
+        toast.error('could not add comment to this project update.');
         throw new Error(response.statusText);
       }
 
@@ -70,10 +72,9 @@
 
       await getUpdateComments();
 
-      alert('Comment added successfully');
+      toast.success('Comment added successfully');
     } catch (error) {
-      error = e.message;
-      alert(error);
+      toast.error(error.message);
     } finally {
       loading = false;
     }
