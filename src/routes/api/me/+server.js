@@ -17,6 +17,11 @@ export async function GET({ request, locals }) {
     skills: profile.skills,
     image_url: profile.image,
     points: profile.points,
+    banner_url: profile.banner,
+    github: profile.github,
+    discord: profile.discord,
+    twitter: profile.twitter,
+    website: profile.web,
   };
 
   return json({ user }, { status: 200 });

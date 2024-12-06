@@ -35,8 +35,8 @@
       }
 
       toast.success('Project updated successfully');
-      await applyAction(result);
       loading = false;
+      await applyAction(result);
     };
   }}
 >

@@ -4,7 +4,24 @@
 
   let user = {};
   let error = null;
-  const defaultImageUrl = 'https://i.pinimg.com/474x/76/4d/59/764d59d32f61f0f91dec8c442ab052c5.jpg';
+  let image;
+  let banner;
+  const defaultImageUrl =
+    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png?t=2024-12-06T11%3A37%3A26.554Z';
+  const defaultBannerUrl =
+    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/banner.png?t=2024-12-06T11%3A37%3A50.969Z';
+
+  const socialLinks = [
+    { key: 'github', icon: 'mingcute:github-fill', prefix: '' },
+    { key: 'discord', icon: 'ph:discord-logo-fill', prefix: '' },
+    { key: 'twitter', icon: 'prime:twitter', prefix: '' },
+    { key: 'website', icon: 'material-symbols-light:globe', prefix: '' },
+    { key: 'email', icon: 'material-symbols-light:mail', prefix: 'mailto:' },
+  ];
+
+  $: image = user.image_url ? user.image_url : defaultImageUrl;
+
+  $: banner = user.banner_url ? user.banner_url : defaultBannerUrl;
 
   onMount(async () => {
     try {
@@ -18,6 +35,7 @@
       if (response.ok) {
         const result = await response.json();
         user = result.user;
+        console.log(user);
       } else {
         const result = await response.json();
         error = result.error;
@@ -34,19 +52,17 @@
       <div class="relative flex flex-col w-full max-md:max-w-full">
         <img
           loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/8030ec6426e85620456b5636b4a5396ca24f43b5e55a6739527e90baef3c9203?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
+          src={banner}
           alt="Profile background"
           class="object-cover z-0 w-full aspect-[3.33] h-[250px] rounded-[43px] max-md:max-w-full"
         />
 
-        {#if user && user.id}
-          <img
-            loading="lazy"
-            src={user.image_url && user.image_url !== '' ? user.image_url : defaultImageUrl}
-            alt="Profile picture"
-            class="object-contain absolute z-0 gap-2.5 items-center max-w-full aspect-[1.01] bottom-[-65px] left-[30px] rounded-[106px] w-[120px] h-[120px]"
-          />
-        {/if}
+        <img
+          loading="lazy"
+          src={image}
+          alt="User's profile picture"
+          class="object-contain absolute z-0 gap-2.5 items-center max-w-full aspect-[1.01] bottom-[-65px] left-[30px] rounded-[106px] w-[120px] h-[120px]"
+        />
       </div>
     </div>
   </div>
@@ -60,21 +76,13 @@
       {user?.display_name || ''}
     </h1>
     <div class="flex flex-wrap items-center self-stretch gap-2 mt-20">
-      <a href="/">
-        <Icon icon="mingcute:github-fill" class="text-2xl" />
-      </a>
-      <a href="/">
-        <Icon icon="ph:discord-logo-fill" class="text-2xl" />
-      </a>
-      <a href="/">
-        <Icon icon="prime:twitter" class="text-2xl" />
-      </a>
-      <a href="/">
-        <Icon icon="material-symbols-light:globe" class="text-2xl" />
-      </a>
-      <a href="/">
-        <Icon icon="material-symbols-light:mail" class="text-2xl" />
-      </a>
+      {#each socialLinks as { key, icon, prefix }}
+        {#if user[key]}
+          <a href="{prefix}{user[key]}" target="_blank" rel="noopener noreferrer" aria-label={key}>
+            <Icon {icon} class="text-2xl" />
+          </a>
+        {/if}
+      {/each}
     </div>
   </div>
   <p class="text-2xl font-light leading-9 text-black mt-11 max-md:mt-10 max-md:max-w-full">
@@ -83,7 +91,7 @@
   <div
     class="flex flex-wrap items-center justify-between w-full gap-4 mt-11 max-md:mt-10 max-md:max-w-full"
   >
-    <div
+    <!-- <div
       class="flex flex-wrap gap-4 items-center self-stretch my-auto whitespace-nowrap min-w-[240px] max-md:max-w-full"
     >
       <h2 class="self-stretch my-auto text-lg leading-none text-center text-black">Interests</h2>
@@ -106,7 +114,7 @@
           </span>
         {/if}
       </div>
-    </div>
+    </div> -->
   </div>
   <div
     class="flex flex-wrap items-center justify-around w-full gap-2 text-2xl font-medium leading-none mt-11 max-md:mt-10 max-md:max-w-full"
