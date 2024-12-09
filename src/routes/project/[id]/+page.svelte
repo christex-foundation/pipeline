@@ -1,13 +1,12 @@
 <script>
-  import Contributors from '../../../lib/Contributors.svelte';
-  import ProjectNav from '../../../lib/ProjectNav.svelte';
-  import ProjectAbout from '../../../lib/ProjectAbout.svelte';
-  import DpgStatus from '../../../lib/dpgStatus.svelte';
+  import { enhance } from '$app/forms';
+  import ProjectNav from '$lib/ProjectNav.svelte';
+  import ProjectAbout from '$lib/ProjectAbout.svelte';
+  import DpgStatus from '$lib/dpgStatus.svelte';
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
-  import Updates from '../../../lib/Updates.svelte';
-  import UpdateDetail from '../../../lib/UpdateDetail.svelte';
-  import Resources from '../../../lib/Resources.svelte';
+  import Updates from '$lib/Updates.svelte';
+  import UpdateDetail from '$lib/UpdateDetail.svelte';
   import { amountFormat } from '$lib/utils/amountFormat.js';
   import Icon from '@iconify/svelte';
   import { dateFormat } from '$lib/utils/dateTimeFormat.js';
@@ -16,16 +15,14 @@
   let id;
   $: id = $page.params.id;
 
-  let project = {};
-  let projectUpdates = [];
-  let projectResource = [];
-  let loading = true;
   let user = null;
-  let error = null;
   let image;
   let banner;
   let date;
   export let data;
+  let project = data.project;
+  let projectUpdates = data.updates;
+  let projectResource = data.resources;
 
   const defaultImageUrl =
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
@@ -33,37 +30,12 @@
   let isFollowing = false;
   let isAddingUpdate = false;
 
-  async function getSingleProject() {
-    try {
-      const response = await fetch(`/api/projects/singleProject/${id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const data = await response.json();
-      project = data.project;
-    } catch (error) {
-      error = e.message;
-      alert(error);
-    } finally {
-      loading = false;
-    }
-  }
-
-  async function toggleFollow() {
-    isFollowing = !isFollowing;
-    await bookmarkProject();
-  }
+  // async function toggleFollow() {
+  //   isFollowing = !isFollowing;
+  //   await bookmarkProject();
+  // }
 
   let showUpdatePopup = false;
-  let updateTitle = '';
-  let updateBody = '';
 
   function openUpdatePopup() {
     showUpdatePopup = true;
@@ -71,102 +43,6 @@
 
   function closeUpdatePopup() {
     showUpdatePopup = false;
-    updateTitle = '';
-    updateBody = '';
-  }
-
-  async function submitUpdate() {
-    isAddingUpdate = true;
-    try {
-      const response = await fetch(`/api/projects/singleProject/${id}/projectUpdates/store`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title: updateTitle, body: updateBody }),
-      });
-
-      if (!response.ok) {
-        toast.error('could not add new updates');
-        throw new Error(response.statusText);
-      }
-
-      closeUpdatePopup();
-
-      await getProjectUpdates();
-
-      toast.success('Update added successfully');
-    } catch (e) {
-      toast.error(e.message);
-    } finally {
-      isAddingUpdate = false;
-    }
-  }
-
-  async function getProjectUpdates() {
-    try {
-      const response = await fetch(`/api/projects/singleProject/${id}/projectUpdates`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const data = await response.json();
-
-      projectUpdates = data.projectUpdates;
-    } catch (error) {
-      alert(error);
-    } finally {
-      loading = false;
-    }
-  }
-
-  async function getProjectResources() {
-    try {
-      const response = await fetch(`/api/projects/singleProject/${id}/contribution/resources`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const data = await response.json();
-      console.log(data);
-
-      projectResource = data.resources;
-    } catch (error) {
-      alert(error);
-    } finally {
-      loading = false;
-    }
-  }
-
-  async function bookmarkProject() {
-    try {
-      const response = await fetch(`/api/projects/singleProject/${id}/bookmark`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      alert('Project bookmarked successfully');
-    } catch (e) {
-      alert(e.message);
-    }
   }
 
   let activeNavItem = 'projectDetails';
@@ -194,6 +70,7 @@
     showUpdateDetail = false;
     selectedUpdate = null;
   }
+
   $: date = dateFormat(project.created_at);
 
   $: banner = project.banner_image
@@ -205,9 +82,6 @@
     : 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/projectProf.png?t=2024-11-20T16%3A05%3A41.191Z';
 
   onMount(async () => {
-    await getSingleProject();
-    await getProjectUpdates();
-    await getProjectResources();
     if (data.isAuthenticated) {
       user = data.user;
     }
@@ -287,59 +161,80 @@
           >
             <button>CONTRIBUTE</button>
           </a>
-          <button
-            on:click={toggleFollow}
-            class="border-2 text-center text-base font-semibold py-4 rounded-full w-full lg:w-[50%]"
-            class:bg-[#e9f5d3]={isFollowing}
-            class:text-black={isFollowing}
+          <form
+            class="w-[50%]"
+            action="?/bookmark"
+            method="POST"
+            use:enhance={() => {
+              return async ({ result }) => {
+                if (result.type === 'success') {
+                  alert('Project bookmarked successfully');
+                }
+              };
+            }}
           >
-            {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
-          </button>
+            <button
+              type="submit"
+              class="border-2 text-center text-base font-semibold py-4 rounded-full w-full"
+              class:bg-[#e9f5d3]={isFollowing}
+              class:text-black={isFollowing}
+            >
+              {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
+            </button>
+          </form>
         {/if}
       </div>
     {/if}
 
     {#if showUpdatePopup}
-      <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="relative bg-white p-8 rounded-lg shadow-lg w-[400px] max-w-full">
-          <button
-            on:click={closeUpdatePopup}
-            class="absolute text-2xl font-bold text-gray-500 top-2 right-2 hover:text-gray-700"
-            style="z-index: 1000;"
-          >
-            &times;
-          </button>
+      <form
+        action="?/addUpdate"
+        method="POST"
+        use:enhance={() => {
+          return async ({ result }) => {
+            if (result.type === 'success') {
+              closeUpdatePopup();
+            }
+          };
+        }}
+      >
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div class="relative bg-white p-8 rounded-lg shadow-lg w-[400px] max-w-full">
+            <!-- Close Button -->
+            <button
+              on:click={closeUpdatePopup}
+              class="absolute text-2xl font-bold text-gray-500 top-2 right-2 hover:text-gray-700"
+              style="z-index: 1000;"
+            >
+              &times;
+            </button>
 
-          <h2 class="mb-4 text-xl font-bold">Add Update</h2>
-          <label class="block mb-2 text-sm font-medium text-gray-700">
-            Title
-            <input
-              type="text"
-              bind:value={updateTitle}
-              class="w-full p-2 mt-1 border rounded-lg"
-              require
-            />
-          </label>
-          <label class="block mb-4 text-sm font-medium text-gray-700">
-            Body
-            <textarea
-              bind:value={updateBody}
-              rows="4"
-              class="w-full p-2 mt-1 border rounded-lg resize-none"
-              require
-            ></textarea>
-          </label>
-          <button
-            on:click={submitUpdate}
-            class="w-full py-2 text-black rounded-lg bg-lime-300"
-            disabled={isAddingUpdate}
-          >
-            {isAddingUpdate ? 'Adding Update...' : 'Add Update'}
-          </button>
+            <h2 class="mb-4 text-xl font-bold">Add Update</h2>
+            <label class="block mb-2 text-sm font-medium text-gray-700">
+              Title
+              <input type="text" name="title" class="w-full p-2 mt-1 border rounded-lg" require />
+            </label>
+            <label class="block mb-4 text-sm font-medium text-gray-700">
+              Body
+              <textarea
+                rows="4"
+                name="body"
+                class="w-full p-2 mt-1 border rounded-lg resize-none"
+                require
+              ></textarea>
+            </label>
+            <button
+              type="submit"
+              class="w-full py-2 text-black rounded-lg bg-lime-300"
+              disabled={isAddingUpdate}
+            >
+              {isAddingUpdate ? 'Adding Update...' : 'Add Update'}
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
     {/if}
-    
+
     <section
       class="flex gap-6 justify-between items-center p-6 mt-8 w-full bg-lime-300 rounded-[20px] text-teal-950 max-md:mt-6"
     >
@@ -379,84 +274,94 @@
 
       <section class="flex flex-col items-center w-full max-w-full mt-8">
         {#if activeNavItem === 'projectDetails'}
-            <ProjectAbout {project} />
+          <ProjectAbout {project} />
         {:else if activeNavItem === 'dpgStatus'}
-            <DpgStatus {project} />
+          <DpgStatus {project} />
         {:else if activeNavItem === 'updates'}
-            {#if showUpdateDetail}
-                <UpdateDetail {data} {selectedUpdate} on:goBack={handleGoBack} />
-            {:else if projectUpdates.length > 0}
-                {#each projectUpdates as update}
-                    <Updates on:showDetail={handleShowDetail} {update} />
-                {/each}
-            {:else}
-                <p>No updates</p>
-            {/if}
+          {#if showUpdateDetail}
+            <UpdateDetail {data} {selectedUpdate} on:goBack={handleGoBack} />
+          {:else if projectUpdates.length > 0}
+            {#each projectUpdates as update}
+              <Updates on:showDetail={handleShowDetail} {update} />
+            {/each}
+          {:else}
+            <p>No updates</p>
+          {/if}
         {:else if activeNavItem === 'contributors'}
-            <div class="w-full px-4 md:px-10">
-                <div class="inline-flex items-center self-stretch justify-start gap-1 mb-6">
-                    <div class="text-center text-black text-2xl md:text-[32px] font-normal font-['Roboto'] leading-loose">
-                        <slot name="header">Resources</slot>
-                    </div>
-                </div>
-    
-                {#if projectResource.length > 0}
-                    <div class="w-full space-y-4">
-                        {#each projectResource as resource}
-                            <div
-                                class="flex flex-col items-start justify-start w-full px-4 py-5 bg-white border border-gray-100 rounded-lg shadow-md md:flex-row md:px-10"
-                            >
-                                <div class="flex justify-center w-full mb-4 md:w-auto md:mb-0 md:mr-6">
-                                    <img
-                                        class="w-[100px] h-[100px] md:w-[120px] md:h-[120px] p-[15px] rounded-full border-green"
-                                        src={resource.user_profile.photo || defaultImageUrl}
-                                        alt={resource.user_profile.name}
-                                    />
-                                </div>
-    
-                                <div class="flex flex-col items-start justify-start w-full">
-                                    <div class="flex flex-col items-start justify-between w-full mb-4 md:flex-row md:items-center">
-                                        <div class="flex flex-col items-start mb-2 md:flex-row md:items-center md:mb-0">
-                                            <div class="text-black text-lg md:text-[19px] font-semibold font-['Inter'] mr-0 md:mr-2">
-                                                {resource.user_profile.name}
-                                            </div>
-                                            <div
-                                                class="px-[9.65px] py-[6.44px] bg-[#e9f5d3] rounded-md justify-center items-center gap-[6.44px] inline-flex mt-1 md:mt-0"
-                                            >
-                                                <div
-                                                    class="text-[#516027] text-[10.46px] font-semibold font-['Inter'] leading-[10.46px]"
-                                                >
-                                                    {resource.type_resource.charAt(0).toUpperCase() +
-                                                        resource.type_resource.slice(1)}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a target="_blank" href={resource.link} class="w-full md:w-auto">
-                                            <button
-                                                class="w-full md:w-auto px-[9.06px] py-[5.12px] rounded-[39.71px] border-2 border-[#516027] justify-center items-center gap-[7.94px] flex"
-                                            >
-                                                <div
-                                                    class="text-[#516027] text-[10px] font-normal font-['Inter'] leading-tight"
-                                                >
-                                                    View {resource.type_resource.charAt(0).toUpperCase() +
-                                                        resource.type_resource.slice(1)}
-                                                </div>
-                                            </button>
-                                        </a>
-                                    </div>
-                                    <div class="text-[#c4c4c4] text-base md:text-[17px] font-normal font-['Inter']">
-                                        {resource.reason}
-                                    </div>
-                                </div>
-                            </div>
-                        {/each}
-                    </div>
-                {:else}
-                    <p class="italic text-center text-gray-500">No resources</p>
-                {/if}
+          <div class="w-full px-4 md:px-10">
+            <div class="inline-flex items-center self-stretch justify-start gap-1 mb-6">
+              <div
+                class="text-center text-black text-2xl md:text-[32px] font-normal font-['Roboto'] leading-loose"
+              >
+                <slot name="header">Resources</slot>
+              </div>
             </div>
+
+            {#if projectResource.length > 0}
+              <div class="w-full space-y-4">
+                {#each projectResource as resource}
+                  <div
+                    class="flex flex-col items-start justify-start w-full px-4 py-5 bg-white border border-gray-100 rounded-lg shadow-md md:flex-row md:px-10"
+                  >
+                    <div class="flex justify-center w-full mb-4 md:w-auto md:mb-0 md:mr-6">
+                      <img
+                        class="w-[100px] h-[100px] md:w-[120px] md:h-[120px] p-[15px] rounded-full border-green"
+                        src={resource.user_profile.photo || defaultImageUrl}
+                        alt={resource.user_profile.name}
+                      />
+                    </div>
+
+                    <div class="flex flex-col items-start justify-start w-full">
+                      <div
+                        class="flex flex-col items-start justify-between w-full mb-4 md:flex-row md:items-center"
+                      >
+                        <div
+                          class="flex flex-col items-start mb-2 md:flex-row md:items-center md:mb-0"
+                        >
+                          <div
+                            class="text-black text-lg md:text-[19px] font-semibold font-['Inter'] mr-0 md:mr-2"
+                          >
+                            {resource.user_profile.name}
+                          </div>
+                          <div
+                            class="px-[9.65px] py-[6.44px] bg-[#e9f5d3] rounded-md justify-center items-center gap-[6.44px] inline-flex mt-1 md:mt-0"
+                          >
+                            <div
+                              class="text-[#516027] text-[10.46px] font-semibold font-['Inter'] leading-[10.46px]"
+                            >
+                              {resource.type_resource.charAt(0).toUpperCase() +
+                                resource.type_resource.slice(1)}
+                            </div>
+                          </div>
+                        </div>
+                        <a target="_blank" href={resource.link} class="w-full md:w-auto">
+                          <button
+                            class="w-full md:w-auto px-[9.06px] py-[5.12px] rounded-[39.71px] border-2 border-[#516027] justify-center items-center gap-[7.94px] flex"
+                          >
+                            <div
+                              class="text-[#516027] text-[10px] font-normal font-['Inter'] leading-tight"
+                            >
+                              View {resource.type_resource.charAt(0).toUpperCase() +
+                                resource.type_resource.slice(1)}
+                            </div>
+                          </button>
+                        </a>
+                      </div>
+                      <div
+                        class="text-[#c4c4c4] text-base md:text-[17px] font-normal font-['Inter']"
+                      >
+                        {resource.reason}
+                      </div>
+                    </div>
+                  </div>
+                {/each}
+              </div>
+            {:else}
+              <p class="italic text-center text-gray-500">No resources</p>
             {/if}
-          </section>
-        </main>
-      </div>
-    </div>
+          </div>
+        {/if}
+      </section>
+    </main>
+  </div>
+</div>

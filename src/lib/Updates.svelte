@@ -13,8 +13,6 @@
 
   export let update;
 
-  console.log(update);
-
   const maxLength = 850;
 
   function truncateContent(content) {

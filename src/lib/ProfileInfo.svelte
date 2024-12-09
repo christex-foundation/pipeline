@@ -35,7 +35,6 @@
       if (response.ok) {
         const result = await response.json();
         user = result.user;
-        console.log(user);
       } else {
         const result = await response.json();
         error = result.error;

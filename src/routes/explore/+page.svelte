@@ -78,32 +78,32 @@
     }
   }
 
-  async function searchProjects(term) {
-    try {
-      const response = await fetch(
-        `/api/projects?term=${term}&page=${searchPage}&limit=${itemsPerPage}`,
-        {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        },
-      );
+  // async function searchProjects(term) {
+  //   try {
+  //     const response = await fetch(
+  //       `/api/projects?term=${term}&page=${searchPage}&limit=${itemsPerPage}`,
+  //       {
+  //         method: 'GET',
+  //         headers: { 'Content-Type': 'application/json' },
+  //       },
+  //     );
 
-      if (!response.ok) throw new Error(response.statusText);
+  //     if (!response.ok) throw new Error(response.statusText);
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (data.projects.length < itemsPerPage) {
-        allSearchLoaded = true;
-      }
+  //     if (data.projects.length < itemsPerPage) {
+  //       allSearchLoaded = true;
+  //     }
 
-      searchResults = data.projects;
-    } catch (e) {
-      error = e.message;
-      alert(error);
-    } finally {
-      loading = false;
-    }
-  }
+  //     searchResults = data.projects;
+  //   } catch (e) {
+  //     error = e.message;
+  //     alert(error);
+  //   } finally {
+  //     loading = false;
+  //   }
+  // }
 
   async function projectByCategory(tag) {
     categoryResultLoaded = true;
@@ -148,16 +148,16 @@
     projectByCategory(selectedTag);
   }
 
-  function handleSearch(event) {
-    searchTerm = event.detail.searchTerm;
-    searchPage = 1; // set page to 1 when searching on new term
-    searchResults = [];
-    searchResultsLoaded = false;
+  // function handleSearch(event) {
+  //   searchTerm = event.detail.searchTerm;
+  //   searchPage = 1; // set page to 1 when searching on new term
+  //   searchResults = [];
+  //   searchResultsLoaded = false;
 
-    if (searchTerm) {
-      searchProjects(searchTerm);
-    }
-  }
+  //   if (searchTerm) {
+  //     searchProjects(searchTerm);
+  //   }
+  // }
 
   function handleCategorySelected(event) {
     const selectedCategory = event.detail;
