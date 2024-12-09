@@ -9,6 +9,7 @@
   let loading = false;
 
   export let form;
+
   $: if (form?.error) {
     toast.error(form?.error);
   }
@@ -32,6 +33,8 @@
 
       if (result.type === 'failure') {
         toast.warn(result?.data?.error || 'failed to edit project');
+      } else if (result.type === 'error') {
+        toast.error('could not update project');
       }
 
       toast.success('Project updated successfully');
@@ -241,7 +244,7 @@
     <div class="flex justify-end mt-10 w-[83%] max-md:justify-center max-md:ml-8">
       <button
         type="submit"
-        class="px-12 py-4 text-lg font-medium !bg-lime-800 text-white rounded-full max-md:px-8 max-md:py-3 disabled:bg-gray-500"
+        class="px-12 py-4 text-lg font-medium bg-lime-800 text-white rounded-full max-md:px-8 max-md:py-3 disabled:bg-gray-500"
         disabled={loading}
       >
         {loading ? 'Updating...' : 'Update Project'}

@@ -63,6 +63,7 @@
           alt="User's profile picture"
           class="object-contain absolute z-0 gap-2.5 items-center max-w-full aspect-[1.01] bottom-[-65px] left-[30px] rounded-[106px] w-[120px] h-[120px]"
         />
+
       </div>
     </div>
   </div>

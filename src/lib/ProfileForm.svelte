@@ -22,21 +22,23 @@
     }
   </script>
   
-  <form class="flex flex-col w-[80%] text-[30.91px] font-normal font-['Inter'] leading-[34px]">
-    <div class="self-stretch h-[295.61px] relative mb-[141px]">
+  <form class="flex flex-col w-[80%] text-[30.91px] font-normal font-['Inter'] leading-[34px] max-lg:w-full p-4 border shadow-md bg-neutral-50 border-neutral-200 rounded-xl ">
+    <span class="mb-10 font-semibold">Profile</span>
+    <div class="p-6 bg-white">
+    <div class="self-stretch h-[295.61px] relative mb-[100px]">
       <label for="banner-upload" class="cursor-pointer">
         <div class="w-full h-full bg-[#d9d9d9] rounded-[37.69px] flex justify-center items-center overflow-hidden">
           {#if bannerImage}
             <img src={bannerImage} alt="Banner" class="object-cover w-full h-full" />
           {:else}
-            <div class="text-center">Click to upload banner image</div>
+            <div class="text-center max-lg:text-xl">Click to upload banner image</div>
           {/if}
         </div>
       </label>
       <input type="file" id="banner-upload" class="hidden" accept="image/*" on:change={handleBannerUpload} />
       
       <label for="profile-upload" class="cursor-pointer">
-        <div class="absolute bottom-[-92.6px] left-[46.69px] w-[185.19px] h-[185.19px] bg-[#d9d9d9] rounded-full border-8 border-white flex justify-center items-center overflow-hidden">
+        <div class="absolute bottom-[-92.6px] left-[46.69px] w-[185.19px] max-lg:left-[20.69px] max-md:left-[46.69px] h-[185.19px] bg-[#d9d9d9] rounded-full border-8 border-white flex justify-center items-center overflow-hidden">
           {#if profileImage}
             <img src={profileImage} alt="Profile" class="object-cover w-full h-full rounded-full" />
           {:else}
@@ -47,7 +49,7 @@
       <input type="file" id="profile-upload" class="hidden" accept="image/*" on:change={handleProfileUpload} />
     </div>
   
-    <div class="flex flex-col justify-center w-full gap-6 mt-44 max-md:mt-10 max-md:max-w-full">
+    <div class="flex flex-col justify-center w-full gap-6 mt-10 max-md:mt-10 max-md:max-w-full">
       <div class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start">
         <div class="flex flex-col mt-8">
           <label for="firstName" class="text-xl font-semibold text-black">First Name</label>
@@ -57,7 +59,7 @@
             type="text"
             id="firstName"
 
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4 max-lg:w-full max-lg:min-h-[55px]"
             aria-required="true"
           />
         </div>
@@ -71,7 +73,7 @@
           <input
             type="text"
             id="lastName"
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4 max-lg:min-h-[55px]"
             aria-required="true"
           />
         </div>
@@ -85,7 +87,7 @@
           <input
             type="text"
             id="username"
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4 max-lg:min-h-[55px]"
             aria-required="true"
           />
         </div>
@@ -99,7 +101,7 @@
           <input
             type="email"
             id="email"
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4 max-lg:min-h-[55px]"
             aria-required="true"
           />
         </div>
@@ -110,7 +112,7 @@
           <label for="projectCountry" class="text-xl font-semibold text-black">Country</label>
         </div>
         <div class="w-[70%] max-md:w-full">
-          <div class="flex items-center py-6 pr-22 pl-4 border-2 border-lime-800 min-h-[70px] rounded-[75px] relative px-6">
+          <div class="flex items-center py-6 pr-22 pl-4 border-2 border-lime-800 min-h-[70px] rounded-[75px] relative px-6 max-lg:h-[10px] max-lg:py-2">
             <select
               id="country"
               class="w-full pl-4 pr-10 text-xl bg-transparent border-none outline-none"
@@ -142,8 +144,8 @@
       </div>
 
       </div>
+    </div>
     
-    <button type="submit" class="self-end mt-[47px] px-[29.89px] py-6 bg-[#516027] rounded-[127.56px] text-[#ebebeb] text-xl font-medium font-['Inter'] leading-[32.91px]">
-      save & continue
-    </button>
   </form>
+
+  
