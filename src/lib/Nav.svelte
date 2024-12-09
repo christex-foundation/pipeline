@@ -52,10 +52,10 @@
     <Logo />
   </div>
 
-  <div class="flex items-center md:hidden">
+  <div class="flex items-center md:flex lg:flex">
     <button
       on:click={toggleMobileMenu}
-      class="text-white focus:outline-none md:hidden"
+      class="text-white focus:outline-none lg:hidden"
       aria-label="Toggle mobile menu"
     >
       {#if isMobileMenuOpen}
@@ -66,22 +66,22 @@
     </button>
   </div>
 
-  <div class="hidden md:flex w-full max-w-[480px] justify-center items-center">
+  <div class="hidden lg:flex w-full max-w-[480px] justify-center items-center">
     <div
       class="w-full pl-4 pr-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center align-center"
     >
       <button
         type="button"
-        class="flex justify-between w-full p-2 items-center"
+        class="flex items-center justify-between w-full p-2"
         on:click={() => ($searchBarOpen = !$searchBarOpen)}
       >
-        <span class="text-white/50 text-sm">Search for a project....</span>
+        <span class="text-sm text-white/50">Search for a project....</span>
         <Icon icon="mdi:search" class="text-2xl text-white/50" />
       </button>
     </div>
   </div>
 
-  <div class="hidden md:flex grow-0 h-[42.67px] justify-end items-center gap-4">
+  <div class="hidden lg:flex grow-0 h-[42.67px] justify-end items-center gap-4">
     <div class="flex items-center gap-4">
       <a href="/" class="text-white text-base font-semibold font-['Inter'] leading-none"> Tasks </a>
 
@@ -133,12 +133,12 @@
 
   <!-- Mobile Menu -->
   {#if isMobileMenuOpen}
-    <div class="absolute top-[84px] left-0 right-0 bg-[#0b383c] md:hidden">
-      <div class="flex flex-col p-4 space-y-4">
+    <div class="absolute top-[84px] left-0 right-0 bg-[#0b383c] lg:hidden w-[100%]">
+      <div class="flex flex-col w-full px-8 py-4 space-y-4 ">
         <!-- Mobile Search -->
         <div class="w-full max-w-[480px] justify-center items-center mb-2">
           <div
-            class="w-full pl-4 pr-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center align-center py-2"
+            class="w-full pl-4 pr-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center align-center py-2 max-lg:w-full"
           >
             <button
               type="button"
@@ -146,14 +146,14 @@
               on:click={() => ($searchBarOpen = !$searchBarOpen)}
             >
               <span
-                class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px]"
-                >Resources</span
+                class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px] max-lg:px-8"
+                >Search for a project...</span
               >
-              <Icon
+              <!-- <Icon
                 icon="radix-icons:caret-down"
                 class="text-2xl text-white transform transition-transform duration-200 {isResourcesOpen &&
                   'rotate-180'}"
-              />
+              /> -->
             </button>
           </div>
         </div>

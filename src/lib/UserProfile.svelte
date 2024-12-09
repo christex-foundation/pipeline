@@ -57,7 +57,7 @@
         alt="User avatar"
         class="w-[25px] aspect-square object-contain"
       />
-      <span class="ml-4 text-white md:hidden whitespace-nowrap text-ellipsis"
+      <span class="ml-4 text-white lg:hidden whitespace-nowrap text-ellipsis"
         >{user.display_name}</span
       >
     {/if}
@@ -66,10 +66,10 @@
   {#if isOpen}
     <div
       bind:this={dropdownNode}
-      class="absolute right-0 top-full z-[9999] mt-2 bg-teal-600 rounded-2xl shadow-lg w-[280px] max-md:-translate-x-[60px]"
+      class="absolute right-0 top-full z-[9999] mt-2 bg-teal-600 rounded-2xl shadow-lg w-[280px] max-lg:-translate-x-[60px] max-lg:left-40 max-md:left-20"
     >
       <nav class="flex flex-col py-6">
-        <div class="flex items-center gap-3 ml-6 max-md:hidden">
+        <div class="flex items-center gap-3 ml-6 max-lg:hidden">
           <div class="flex p-3 border-2 border-white rounded-3xl bg-zinc-300">
             <img
               loading="lazy"
@@ -81,7 +81,7 @@
           <span class="text-white">{user.display_name}</span>
         </div>
 
-        <hr class="w-full mt-4 border-stone-300 max-md:hidden" />
+        <hr class="w-full mt-4 border-stone-300 max-lg:hidden" />
 
         <ul class="flex flex-col px-6 mt-6 text-sm text-white">
           <li class="flex items-center gap-4">
