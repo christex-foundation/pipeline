@@ -9,6 +9,7 @@
   import UpdateDetail from '../../../lib/UpdateDetail.svelte';
   import Resources from '../../../lib/Resources.svelte';
   import { amountFormat } from '$lib/utils/amountFormat.js';
+  import Icon from '@iconify/svelte';
   import { dateFormat } from '$lib/utils/dateTimeFormat.js';
 
   let id;
@@ -240,11 +241,7 @@ svelte-ignore a11y-no-redundant-roles -->
           {project.title || 'Project Title'}
         </h1>
         <div class="flex items-center gap-1 mt-2 text-base text-neutral-600">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/edd6d143a10aa89a67f0101c84563e276eb2ea6bc943000847a62b3bcaeb9863?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
-            alt="Date icon"
-            class="object-contain w-[24px] h-[24px]"
-          />
+          <Icon icon="ph:calendar" class="text-2xl" />
           <time datetime="2024-10">Created: {date}</time>
         </div>
       </div>

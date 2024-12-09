@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher, onMount } from 'svelte';
+  import Icon from '@iconify/svelte';
   import { dateTimeFormat } from './utils/dateTimeFormat.js';
 
   const dispatch = createEventDispatcher();
@@ -84,10 +85,9 @@
 
   const defaultImageUrl =
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
-
 </script>
 
-<div class=" h-full px-[18px] flex-col justify-start items-start inline-flex font-['Inter']">
+<div class="h-full px-[18px] flex-col justify-start items-start inline-flex font-['Inter'] w-full">
   <div class="self-stretch h-[89px] pb-12 flex-col justify-start items-start flex">
     <div
       class="px-[19px] py-[11.50px] bg-white border border-[#d1d1d1] justify-center items-center inline-flex"
@@ -101,22 +101,7 @@
             <div
               class="text-center text-[#222222] text-sm font-normal font-['Inter'] leading-[17.50px] flex gap-2 ml-[-10px]"
             >
-              <svg
-                width="13"
-                height="15"
-                viewBox="0 0 13 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g id="icon--chevron-left">
-                  <path
-                    id="Vector"
-                    d="M3.45996 6.65996L8.65996 11.86L9.65996 10.86L5.45996 6.65996L9.65996 2.45996L8.65996 1.45996"
-                    fill="black"
-                  />
-                </g>
-              </svg>
-
+              <Icon icon="mdi-light:chevron-left" class="text-2xl" />
               All Updates
             </div>
           </div>
@@ -134,19 +119,18 @@
         class="self-stretch h-[62px] pb-5 border-b border-[#dcdedd] flex-col justify-start items-start gap-1 flex"
       >
         <div class="inline-flex items-center justify-start gap-3">
-            
-      <img
-      loading="lazy"
-      src={selectedUpdate.userProfile.image && selectedUpdate.userProfile.image !== '' ? selectedUpdate.userProfile.image : defaultImageUrl}
-      alt="User Profile"
-      class="w-[42px] h-[42px] relative rounded-[42px] border border-[#dcdedd]"
-    />
+          <img
+            loading="lazy"
+            src={selectedUpdate.userProfile.image && selectedUpdate.userProfile.image !== ''
+              ? selectedUpdate.userProfile.image
+              : defaultImageUrl}
+            alt="User Profile"
+            class="w-[42px] h-[42px] relative rounded-[42px] border border-[#dcdedd]"
+          />
 
-          <div class="inline-flex flex-col items-start justify-start ">
-            <div class="inline-flex items-center self-stretch justify-between gap-2 ">
-              <div
-                class=" h-6 text-[#282828] text-sm font-normal font-['Inter'] leading-normal"
-              >
+          <div class="inline-flex flex-col items-start justify-start">
+            <div class="inline-flex items-center self-stretch justify-between gap-2">
+              <div class=" h-6 text-[#282828] text-sm font-normal font-['Inter'] leading-normal">
                 {selectedUpdate.userProfile.name}
               </div>
               <div
@@ -212,21 +196,23 @@
       >
         {#each comments as comment}
           <div
-            class="self-stretch h-[113px] px-[19px] pt-[19px] pb-[13px] bg-white border border-[#e8e8e8] flex-col justify-start items-start gap-[18px] flex"
+            class="self-stretch px-[19px] pt-[19px] pb-[13px] bg-white border border-[#e8e8e8] flex-col justify-start items-start gap-[18px] flex"
           >
             <div class="inline-flex items-start self-stretch justify-start">
               <div class="flex items-start self-stretch justify-start gap-3">
                 <div class="inline-flex flex-col items-start justify-start h-9">
                   <img
                     class="w-9 h-9 relative rounded-[36px] border border-[#dcdedd]"
-                    src={comment.userProfile.image && comment.userProfile.image !== '' ? comment.userProfile.image : defaultImageUrl}
+                    src={comment.userProfile.image && comment.userProfile.image !== ''
+                      ? comment.userProfile.image
+                      : defaultImageUrl}
                     alt=""
                   />
                 </div>
-                <div class="w-[195.45px] flex-col justify-start items-start inline-flex">
-                  <div class="inline-flex items-center self-stretch justify-start gap-3">
+                <div class="flex-col items-start justify-start w-full">
+                  <div class="items-center self-stretch justify-start gap-3 ">
                     <div
-                      class="w-[92.93px] h-[21px] text-[#282828] text-sm font-normal font-['Inter'] leading-[21px]"
+                      class="w-full h-[21px] text-[#282828] text-sm font-normal font-['Inter'] leading-[21px]"
                     >
                       {comment.userProfile.name}
                     </div>
@@ -239,11 +225,11 @@
                 </div>
               </div>
             </div>
-            <div class="inline-flex items-start self-stretch justify-center">
+            <div class="items-start self-stretch justify-center ">
               <div
-                class="inline-flex flex-col items-start self-stretch justify-start grow shrink basis-0"
+                class="flex-col items-start self-stretch justify-start grow shrink basis-0"
               >
-                <div class="flex flex-col items-start self-stretch justify-start h-6">
+                <div class="flex flex-col items-start self-stretch justify-start">
                   <div
                     class="self-stretch text-[#282828] text-sm font-normal font-['Inter'] leading-normal"
                   >

@@ -1,18 +1,16 @@
 
-
-  <form class="flex flex-col w-full text-[30.91px] font-normal font-['PP Mori'] leading-[34px]">
-   
-    <div class="flex flex-col gap-[47px] w-[75%] self-center">
+  <form class="flex flex-col w-[80%] h-full text-[30.91px] font-normal font-['Inter'] leading-[34px] max-lg:w-full p-4 border shadow-md bg-neutral-50 border-neutral-200 rounded-xl">
+    <span class="mb-10 font-semibold max-lg:mt-20 max-lg:ml-[0]">Links</span>
+    <div class="flex flex-col gap-[47px] w-full self-center max-lg:w-full bg-white p-6 rounded-lg shadow-md">
       <div class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start">
         <div class="flex flex-col mt-8">
-          <label for="twitter" class="text-xl font-semibold text-black">  X</label>
+          <label for="twitter" class="text-xl font-semibold text-black">X</label>
         </div>
         <div class="w-[70%] max-md:w-full">
           <input
             type="text"
             id="twitter"
-
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4 max-lg:min-h-[55px]"
             aria-required="true"
           />
         </div>
@@ -25,8 +23,7 @@
           <input
             type="text"
             id="github"
-
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4 max-lg:min-h-[55px]"
             aria-required="true"
           />
         </div>
@@ -39,22 +36,20 @@
           <input
             type="text"
             id="facebook"
-
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4 max-lg:min-h-[55px]"
             aria-required="true"
           />
         </div>
       </div>
       <div class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start">
         <div class="flex flex-col mt-8">
-          <label for="Youtube" class="text-xl font-semibold text-black">Youtube</label>
+          <label for="youtube" class="text-xl font-semibold text-black">YouTube</label>
         </div>
         <div class="w-[70%] max-md:w-full">
           <input
             type="text"
             id="youtube"
-
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4 max-lg:min-h-[55px]"
             aria-required="true"
           />
         </div>
@@ -67,7 +62,7 @@
           <input
             type="text"
             id="website"
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4 max-lg:min-h-[55px]"
             aria-required="true"
           />
         </div>
@@ -80,16 +75,11 @@
           <input
             type="text"
             id="others"
-
-            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4"
+            class="w-full border-2 border-lime-800 min-h-[70px] rounded-[75px] mt-2.5 px-4 max-lg:min-h-[55px]"
             aria-required="true"
           />
         </div>
       </div>
-    
-      </div>
-  
-    <button type="submit" class="self-end mt-[47px] px-[29.89px] py-6 bg-[#516027] rounded-[127.56px] text-[#ebebeb] text-xl font-medium font-['Inter'] leading-[32.91px] mr-[11%]">
-      save & continue
-    </button>
+    </div>
   </form>
+  
