@@ -331,7 +331,7 @@
           </label>
           <button
             on:click={submitUpdate}
-            class="w-full py-2 text-black rounded-lg bg-lime-300"
+            class="w-full py-2 text-black rounded-lg bg-lime-300 disabled:bg-gray-500"
             disabled={isAddingUpdate}
           >
             {isAddingUpdate ? 'Adding Update...' : 'Add Update'}

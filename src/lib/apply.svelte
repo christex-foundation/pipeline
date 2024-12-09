@@ -141,7 +141,7 @@
   <div class="flex justify-end w-full mt-12">
     <button
       type="submit"
-      class="w-[20%] px-4 py-4 bg-teal-900 text-gray-200 text-lg font-medium rounded-[40px] hover:bg-teal-800 transition-colors duration-300"
+      class="w-[20%] px-4 py-4 bg-teal-900 text-gray-200 text-lg font-medium rounded-[40px] hover:bg-teal-800 transition-colors duration-300 disabled:bg-gray-500"
       disabled={loading}
     >
       {loading ? 'SUBMITTING...' : 'SUBMIT'}

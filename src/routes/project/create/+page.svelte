@@ -214,7 +214,7 @@
     <div class="flex justify-end mt-10 w-[83%] max-md:justify-center max-md:ml-8">
       <button
         type="submit"
-        class="px-12 py-4 text-lg font-medium !bg-lime-800 text-white rounded-full max-md:px-8 max-md:py-3"
+        class="px-12 py-4 text-lg font-medium !bg-lime-800 text-white rounded-full max-md:px-8 max-md:py-3 disabled:bg-gray-500"
         disabled={loading}
       >
         {loading ? 'Saving...' : 'Save Project'}
