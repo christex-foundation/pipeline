@@ -23,3 +23,9 @@ export async function createProfile(profileData, supabase) {
   if (error) throw new Error(error.message);
   return data;
 }
+
+export async function updateProfile(id, profileData, supabase) {
+  const { data, error } = await supabase.from('profile').update(profileData).eq('user_id', id);
+  if (error) throw new Error(error.message);
+  return data;
+}

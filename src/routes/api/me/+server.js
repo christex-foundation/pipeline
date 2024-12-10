@@ -13,6 +13,7 @@ export async function GET({ request, locals }) {
     email: authUser.email,
     display_name: profile.name,
     bio: profile.bio,
+    country: profile.country,
     interests: profile.interests,
     skills: profile.skills,
     image_url: profile.image,

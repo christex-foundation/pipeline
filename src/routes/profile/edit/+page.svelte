@@ -1,15 +1,20 @@
 <script>
-  import ProfileForm from '../../../lib/ProfileForm.svelte';
-  import ProfileLinks from '../../../lib/ProfileLinks.svelte';
-  import Settings from '../../../lib/Settings.svelte';
-  import Interests from '../../../lib/Interests.svelte';
+  import ProfileForm from '$lib/ProfileForm.svelte';
+  import ProfileLinks from '$lib/ProfileLinks.svelte';
+  import Settings from '$lib/Settings.svelte';
+  import Interests from '$lib/Interests.svelte';
   import Icon from '@iconify/svelte';
+  import { applyAction, enhance } from '$app/forms';
+  import { toast } from 'svelte-sonner';
 
   let selectedTechInterests = [];
   let selectedCreativeInterests = [];
   let selectedCommunityProjects = [];
 
   let activeNavItem = 'Profile';
+  let loading = false;
+  export let data;
+  let user = data.user;
   const navItems = [
     {
       id: 'Profile',
@@ -71,33 +76,27 @@
 <main
   class="flex flex-col justify-center items-center px-10 py-5 mb-5 rounded-[37px] max-md:px-5 max-md:mt-10"
 >
-
   <section
-  class="flex items-center justify-between gap-5 w-full max-w-[1080px] mt-12 mb-10 px-5 max-lg:mt-4 max-lg:gap-2 max-md:mt-[-15px]"
->
-
-
-  <h1 class="text-4xl font-semibold text-black max-md:text-2xl">
-    Username
-  </h1>
-  <a
-    href="/profile"
-    class="flex items-center gap-2 px-4 py-2 text-lg border-2 rounded-full text-lime-800 bg-lime-200 border-lime-800 max-md:text-sm max-md:py-1 max-md:px-3"
+    class="flex items-center justify-between gap-5 w-full max-w-[1080px] mt-12 mb-10 px-5 max-lg:mt-4 max-lg:gap-2 max-md:mt-[-15px]"
   >
-    <img
-      loading="lazy"
-      src="https://cdn.builder.io/api/v1/image/assets/TEMP/64135a94b56ce48af9a1c4223db4ad995409393478b6a070980d63978b32c01e"
-      alt=""
-      class="w-6 h-6 shrink-0 max-md:w-4 max-md:h-4"
-    />
-    <span>View Profile</span>
-  </a>
-</section>
-
+    <h1 class="text-4xl font-semibold text-black max-md:text-2xl">Username</h1>
+    <a
+      href="/profile"
+      class="flex items-center gap-2 px-4 py-2 text-lg border-2 rounded-full text-lime-800 bg-lime-200 border-lime-800 max-md:text-sm max-md:py-1 max-md:px-3"
+    >
+      <img
+        loading="lazy"
+        src="https://cdn.builder.io/api/v1/image/assets/TEMP/64135a94b56ce48af9a1c4223db4ad995409393478b6a070980d63978b32c01e"
+        alt=""
+        class="w-6 h-6 shrink-0 max-md:w-4 max-md:h-4"
+      />
+      <span>View Profile</span>
+    </a>
+  </section>
 
   <section class="w-full mb-12 max-lg:mb-2">
     <div
-      class="flex justify-center items-center px-10 py-5 mt-5 bg-white rounded-[37px] gap-6 space-x-28 max-w-[1080px] mx-auto 
+      class="flex justify-center items-center px-10 py-5 mt-5 bg-white rounded-[37px] gap-6 space-x-28 max-w-[1080px] mx-auto
       max-md:w-[90%] max-md:space-x-0 max-md:space-y-4"
     >
       {#each navItems as navItem}
@@ -110,33 +109,51 @@
           on:click={() => (activeNavItem = navItem.id)}
           style="min-width: 134px; border-color: #d1ea9a"
         >
-
           <Icon icon={navItem.icon} class="text-2xl" />
           <span class="text-2xl text-center max-md:text-base">{navItem.label}</span>
         </div>
       {/each}
     </div>
   </section>
-  
-  <section
-  class="flex overflow-hidden flex-col items-center mt-5 max-w-full w-[82%] max-md:mt-10 max-lg:w-full"
->
-  {#if activeNavItem === "Profile"}
-    <div class="flex flex-row w-full gap-5 max-lg:flex-col">
-      <ProfileForm />
-      <ProfileLinks />
-    </div>
-    <button
-      type="submit"
-      class="self-end mt-[47px] px-[29.89px] py-6 bg-[#516027] rounded-[127.56px] text-[#ebebeb] text-xl font-medium font-['Inter'] leading-[32.91px] max-lg:self-end max-lg:w-[30%] max-lg:text-sm max-md:w-[50%]"
-    >
-      save & continue
-    </button>
-  {:else if activeNavItem === "Settings"}
-    <Settings />
-  {/if}
-</section>
 
+  <section
+    class="flex overflow-hidden flex-col items-center mt-5 max-w-full w-[82%] max-md:mt-10 max-lg:w-full"
+  >
+    {#if activeNavItem === 'Profile'}
+      <form
+        action="?/updateProfile"
+        method="POST"
+        class="flex overflow-hidden flex-col items-center mt-5 max-w-full w-[82%] max-md:mt-10 max-lg:w-full"
+        enctype="multipart/form-data"
+        use:enhance={() => {
+          return async ({ result }) => {
+            loading = true;
+            if (result.type === 'failure') {
+              toast.warn(result?.data?.error || 'failed to edit profile');
+            } else if (result.type === 'error') {
+              toast.error('could not update profile');
+            }
+            toast.success('Profile updated successfully');
+            loading = false;
+            await applyAction(result);
+          };
+        }}
+      >
+        <div class="flex flex-row w-full gap-5 max-lg:flex-col">
+          <ProfileForm {user} />
+          <ProfileLinks {user} />
+        </div>
+        <button
+          type="submit"
+          class="self-end flex justify-end mt-[47px] px-[29.89px] py-6 bg-[#516027] rounded-[127.56px] text-[#ebebeb] text-xl font-medium font-['Inter'] leading-[32.91px] max-lg:self-end max-lg:w-[30%] max-lg:text-sm max-md:w-[50%]"
+        >
+          {loading ? 'Updating...' : 'Update Profile'}
+        </button>
+      </form>
+    {:else if activeNavItem === 'Settings'}
+      <Settings />
+    {/if}
+  </section>
 </main>
 
 <style>

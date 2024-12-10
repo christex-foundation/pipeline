@@ -5,7 +5,6 @@
   export let data;
   let projects = data.allProjects || [];
   let bookmarkProjects = data.bookmarks || [];
-  
 </script>
 
 <!-- new code -->
