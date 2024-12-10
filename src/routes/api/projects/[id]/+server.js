@@ -8,7 +8,7 @@ export async function PUT({ request, params, locals }) {
 
   try {
     const projectData = await request.json();
-  
+
     await updateProject(user.id, projectId, projectData, supabase);
 
     return json({ success: true }, { status: 200 });

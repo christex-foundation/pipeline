@@ -3,13 +3,13 @@
   import Logo from './Logo.svelte';
 </script>
 
-<footer class="py-12 mt-16 text-lime-300 bg-teal-950 sm:py-16 lg:py-20">
-  <div class="container px-4 mx-auto sm:px-6 lg:px-8">
+<footer class="mt-16 bg-teal-950 py-12 text-lime-300 sm:py-16 lg:py-20">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col items-center">
       <Logo />
       <nav class="mt-8 sm:mt-12 lg:mt-14">
         <ul
-          class="flex flex-wrap justify-center gap-4 text-base sm:gap-6 lg:gap-10 sm:text-lg lg:text-xl"
+          class="flex flex-wrap justify-center gap-4 text-base sm:gap-6 sm:text-lg lg:gap-10 lg:text-xl"
         >
           <li>
             <a href="/explore" class="transition-colors duration-300 hover:text-lime-400">
@@ -33,13 +33,13 @@
         </ul>
       </nav>
 
-      <Icon icon="prime:twitter" class="text-4xl text-lime-300 block mt-8" />
+      <Icon icon="prime:twitter" class="mt-8 block text-4xl text-lime-300" />
     </div>
 
-    <hr class="my-8 border-opacity-50 border-lime-300 sm:my-10" />
+    <hr class="my-8 border-lime-300 border-opacity-50 sm:my-10" />
 
     <div
-      class="flex flex-col items-center justify-between text-sm sm:flex-row sm:text-base max-md:flex-col"
+      class="flex flex-col items-center justify-between text-sm max-md:flex-col sm:flex-row sm:text-base"
     >
       <p class="mb-4 sm:mb-0">© 2024 Pipeline Copyright and rights reserved</p>
       <div class="flex items-center">

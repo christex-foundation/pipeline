@@ -46,11 +46,7 @@ export async function createProject(projectData, supabase) {
 }
 
 export async function updateDetails(id, projectData, supabase) {
-  const { data, error } = await supabase
-    .from('projects')
-    .update(projectData)
-    .eq('id', id)
-    .select();
+  const { data, error } = await supabase.from('projects').update(projectData).eq('id', id).select();
   if (error) throw new Error(error.message);
   return data[0];
 }

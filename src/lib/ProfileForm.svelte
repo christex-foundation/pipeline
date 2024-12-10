@@ -1,24 +1,21 @@
-  <script>
-    let bannerImage = null;
-    let profileImage = null;
-    import { countries } from 'countries-list';
-  
-    const countryList = Object.values(countries).sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
-    
-    function handleBannerUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        bannerImage = URL.createObjectURL(file);
-      }
+<script>
+  let bannerImage = null;
+  let profileImage = null;
+  import { countries } from 'countries-list';
+
+  const countryList = Object.values(countries).sort((a, b) => a.name.localeCompare(b.name));
+
+  function handleBannerUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+      bannerImage = URL.createObjectURL(file);
     }
-  
-    function handleProfileUpload(event) {
-      const file = event.target.files[0];
-      if (file) {
-        profileImage = URL.createObjectURL(file);
-      }
+  }
+
+  function handleProfileUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+      profileImage = URL.createObjectURL(file);
     }
   </script>
   
@@ -64,6 +61,7 @@
           />
         </div>
       </div>
+    </div>
 
       <div class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start">
         <div class="flex flex-col mt-8">
@@ -92,6 +90,8 @@
           />
         </div>
       </div>
+    </div>
+  </div>
 
       <div class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start">
         <div class="flex flex-col mt-8">
