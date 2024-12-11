@@ -25,6 +25,7 @@
 		"svelte": "^4.0.0"
 	},
 	"devDependencies": {
+		"@iconify/svelte": "^4.0.2",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/package": "^2.0.0",
@@ -44,6 +45,7 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource/inter": "^5.1.0",
+		"@supabase/ssr": "^0.5.2",
 		"@supabase/supabase-js": "^2.45.4",
 		"axios": "^1.7.7",
 		"countries-list": "^3.1.1",
@@ -51,6 +53,7 @@
 		"novel-svelte": "^0.1.7",
 		"openai": "^4.68.0",
 		"svelte-french-toast": "^1.2.0",
+		"svelte-sonner": "^0.3.28",
 		"svelte-styled-components": "^0.0.1",
 		"tailwind-editor": "^0.3.3",
 		"zod": "^3.23.8"

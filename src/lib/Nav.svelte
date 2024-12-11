@@ -1,9 +1,9 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
   import UserProfile from './UserProfile.svelte';
   import Logo from './Logo.svelte';
   import { onMount } from 'svelte';
   import { searchBarOpen } from './utils.js';
+  import Icon from '@iconify/svelte';
 
   let isResourcesOpen = false;
   let isMobileMenuOpen = false;
@@ -52,92 +52,36 @@
     <Logo />
   </div>
 
-  <div class="flex items-center md:hidden">
+  <div class="flex items-center md:flex lg:flex">
     <button
       on:click={toggleMobileMenu}
-      class="text-white focus:outline-none"
+      class="text-white focus:outline-none lg:hidden"
       aria-label="Toggle mobile menu"
     >
       {#if isMobileMenuOpen}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
+        <Icon icon="mdi:close" class="text-2xl" />
       {:else}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
+        <Icon icon="mdi:hamburger-menu" class="text-2xl" />
       {/if}
     </button>
   </div>
 
-  <div class="hidden md:flex w-full max-w-[480px] justify-center items-center">
+  <div class="hidden lg:flex w-full max-w-[480px] justify-center items-center">
     <div
       class="w-full pl-4 pr-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center align-center"
     >
       <button
         type="button"
-        class="flex justify-between w-full mt-2"
+        class="flex items-center justify-between w-full p-2"
         on:click={() => ($searchBarOpen = !$searchBarOpen)}
       >
-        <div class="text-white text-sm font-['Inter']">Search for a project....</div>
-        <span aria-label="Search" class="relative h-7 w-7">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g id="MagnifyingGlass">
-              <path
-                id="Vector"
-                d="M8.75 15.001C12.2018 15.001 15 12.2028 15 8.75098C15 5.2992 12.2018 2.50098 8.75 2.50098C5.29822 2.50098 2.5 5.2992 2.5 8.75098C2.5 12.2028 5.29822 15.001 8.75 15.001Z"
-                fill="#0D909C"
-                fill-opacity="0.3"
-                stroke="#A0A0A0"
-                stroke-width="1.00699"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                id="Vector_2"
-                d="M13.1697 13.1699L17.5001 17.5004"
-                stroke="#A0A0A0"
-                stroke-width="1.00699"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-          </svg>
-        </span>
+        <span class="text-sm text-white/50">Search for a project....</span>
+        <Icon icon="mdi:search" class="text-2xl text-white/50" />
       </button>
     </div>
   </div>
 
-  <div class="hidden md:flex grow-0 h-[42.67px] justify-end items-center gap-4">
+  <div class="hidden lg:flex grow-0 h-[42.67px] justify-end items-center gap-4">
     <div class="flex items-center gap-4">
       <a href="/" class="text-white text-base font-semibold font-['Inter'] leading-none"> Tasks </a>
 
@@ -146,35 +90,14 @@
           on:click={toggleResources}
           class="flex items-center justify-between w-full px-4 py-4 border-b focus:outline-none border-cyan-800"
         >
-          <span class="text-white text-base font-semibold font-['Inter'] leading-none"
-            >Resources</span
-          >
-          <svg
-            width="13"
-            height="12"
-            viewBox="0 0 13 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-[17px] transform transition-transform duration-200 {isResourcesOpen
-              ? 'rotate-180'
-              : ''}"
-          >
-            <g id="CaretDown" clip-path="url(#clip0_1224_8929)">
-              <path
-                id="Vector"
-                d="M10.0837 4.5L6.33374 8.25L2.58374 4.5"
-                stroke="white"
-                stroke-width="1.67"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_1224_8929">
-                <rect width="12" height="12" fill="white" transform="translate(0.334106)" />
-              </clipPath>
-            </defs>
-          </svg>
+          <span class="text-white text-base font-semibold font-['Inter'] leading-none">
+            Resources
+          </span>
+          <Icon
+            icon="radix-icons:caret-down"
+            class="text-2xl text-white transform transition-transform duration-200 {isResourcesOpen &&
+              'rotate-180'}"
+          />
         </button>
 
         {#if isResourcesOpen}
@@ -210,11 +133,32 @@
 
   <!-- Mobile Menu -->
   {#if isMobileMenuOpen}
-    <div class="absolute top-[84px] left-0 right-0 bg-[#0b383c] md:hidden">
-      <div class="flex flex-col p-4 space-y-4">
+    <div class="absolute top-[84px] left-0 right-0 bg-[#0b383c] lg:hidden w-[100%]">
+      <div class="flex flex-col w-full px-8 py-4 space-y-4 ">
         <!-- Mobile Search -->
-        <SearchDropdown />
+        <div class="w-full max-w-[480px] justify-center items-center mb-2">
+          <div
+            class="w-full pl-4 pr-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center align-center py-2 max-lg:w-full"
+          >
+            <button
+              type="button"
+              class="flex justify-between w-full mt-2"
+              on:click={() => ($searchBarOpen = !$searchBarOpen)}
+            >
+              <span
+                class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px] max-lg:px-8"
+                >Search for a project...</span
+              >
+              <!-- <Icon
+                icon="radix-icons:caret-down"
+                class="text-2xl text-white transform transition-transform duration-200 {isResourcesOpen &&
+                  'rotate-180'}"
+              /> -->
+            </button>
+          </div>
+        </div>
 
+        <!-- Other Menu Items -->
         <a href="/" class="text-white text-base font-semibold font-['Inter']"> Tasks </a>
 
         <!-- Mobile Resources Dropdown -->
@@ -223,9 +167,9 @@
             on:click={toggleResources}
             class="flex items-center justify-between w-full px-4 py-4 border-b focus:outline-none border-cyan-800"
           >
-            <span class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px]"
-              >Resources</span
-            >
+            <span class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px]">
+              Resources
+            </span>
             <svg
               width="13"
               height="12"

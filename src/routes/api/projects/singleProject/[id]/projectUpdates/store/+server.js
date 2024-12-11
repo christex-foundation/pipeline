@@ -9,7 +9,7 @@ export async function POST({ params, request, locals }) {
   let user = locals.authUser;
 
   try {
-    await createProjectUpdate({ project_id: id, title, body, user_id: user.id });
+    await createProjectUpdate({ project_id: id, title, body, user_id: user.id }, supabase);
 
     return json({ success: true }, { status: 200 });
   } catch (error) {

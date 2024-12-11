@@ -1,66 +1,10 @@
 <script>
-  import ProfileInfo from '../../lib/ProfileInfo.svelte';
-  import ProjectSection from '../../lib/ProjectSection.svelte';
-  import { onMount } from 'svelte';
+  import ProfileInfo from '$lib/ProfileInfo.svelte';
+  import ProjectSection from '$lib/ProjectSection.svelte';
 
-  let projects = [];
-  let bookmarkProjects = [];
-  let loading = true;
-  let error = null;
-
-  async function fetchMyProjects() {
-    try {
-      const response = await fetch('/api/projects/user/projects', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const data = await response.json();
-
-      projects = data.projects;
-    } catch (error) {
-      console.log(error);
-      error = e.message;
-      alert(error);
-    } finally {
-      loading = false;
-    }
-  }
-
-  async function fetchBookmarkedProjects() {
-    try {
-      const response = await fetch('/api/projects/user/bookmarks', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const data = await response.json();
-
-      bookmarkProjects = data.projects;
-    } catch (error) {
-      console.log(error);
-      alert(error);
-    } finally {
-      loading = false;
-    }
-  }
-
-  onMount(() => {
-    fetchMyProjects();
-    fetchBookmarkedProjects();
-  });
+  export let data;
+  let projects = data.allProjects || [];
+  let bookmarkProjects = data.bookmarks || [];
 </script>
 
 <!-- new code -->
@@ -74,13 +18,7 @@
     </div>
 
     <div class="md:w-2/3">
-      {#if loading}
-        <p>Loading projects...</p>
-      {:else if error}
-        <p>Error: {error}</p>
-      {:else}
-        <ProjectSection {projects} {bookmarkProjects} />
-      {/if}
+      <ProjectSection {projects} {bookmarkProjects} />
     </div>
   </div>
 </div>

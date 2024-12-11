@@ -5,7 +5,6 @@ import { signupSchema } from '$lib/server/validator/authSchema.js';
 export const actions = {
   default: async ({ request, fetch }) => {
     const form = Object.fromEntries(await request.formData());
-
     const { data, error: validationError, success } = signupSchema.safeParse(form);
 
     if (!success) {
@@ -15,8 +14,6 @@ export const actions = {
     }
 
     try {
-      
-
       const response = await fetch('/api/signUp', {
         method: 'POST',
         headers: {
@@ -29,14 +26,10 @@ export const actions = {
         const result = await response.json();
         return fail(400, { error: result.message || 'Failed to sign in' });
       }
-
-      redirect(307, '/profile');
     } catch (error) {
-      console.log(error)
-      if (error.status === 307) {
-        redirect(307, '/profile');
-      }
-      return fail(500, { error: error.message || 'Something went wrong' });
+      return fail(400, { error: error.message || 'Something went wrong' });
     }
+
+    redirect(307, '/profile');
   },
 };

@@ -1,4 +1,4 @@
-import { supabase } from '$lib/server/supabase.js';
+//@ts-check
 import { json } from '@sveltejs/kit';
 import { storeProjectUpdateComment } from '$lib/server/service/projectUpdateCommentService.js';
 
@@ -7,14 +7,18 @@ export async function POST({ params, request, locals }) {
   const { body } = await request.json();
 
   let user = locals.authUser;
+  let supabase = locals.supabase;
 
   try {
-    await storeProjectUpdateComment({
-      project_id: id,
-      update_id: updateId,
-      body,
-      user_id: user.id,
-    });
+    await storeProjectUpdateComment(
+      {
+        project_id: id,
+        update_id: updateId,
+        body,
+        user_id: user.id,
+      },
+      supabase,
+    );
 
     return json({ success: true }, { status: 200 });
   } catch (error) {
