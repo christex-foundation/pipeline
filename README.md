@@ -2,13 +2,13 @@
 
 DPG Pipeline is a web-based platform built with **SvelteKit** and **NodeJS** using the **Supabase** framework, designed to support the development, funding, and sustainability of Digital Public Goods (DPGs). The platform enables users to contribute both financial and non-financial resources to DPG projects and helps projects meet the Digital Public Goods Standard.
 
-> The codebase is a work-in-progress (WIP) and is still under development.
+> **Note**: The codebase is currently a work-in-progress (WIP) and is still under active development.
 
 ## Prerequisites
 
-- Node.js (version 20.12.X or higher)
-- [Vercel CLI](https://vercel.com/cli) (for local development)
-- Supabase account for database and authentication
+- **Node.js** (version 20.12.X or higher)
+- **[Vercel CLI]**(https://vercel.com/cli) (for local development)
+- **Supabase Account** for database and authentication
 
 ## Local Development
 
