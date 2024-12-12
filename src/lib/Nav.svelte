@@ -46,9 +46,9 @@
 </script>
 
 <header
-  class="top-0 left-0 right-0 z-[99999] h-[84px] px-4 md:px-8 py-5 bg-[#0b383c] backdrop-blur-[15px] flex justify-between items-center relative"
+  class="relative left-0 right-0 top-0 z-[99999] flex h-[84px] items-center justify-between bg-[#0b383c] px-4 py-5 backdrop-blur-[15px] md:px-8"
 >
-  <div class="flex items-center h-6 gap-4 md:gap-12 grow-0">
+  <div class="flex h-6 grow-0 items-center gap-4 md:gap-12">
     <Logo />
   </div>
 
@@ -66,13 +66,13 @@
     </button>
   </div>
 
-  <div class="hidden lg:flex w-full max-w-[480px] justify-center items-center">
+  <div class="hidden w-full max-w-[480px] items-center justify-center lg:flex">
     <div
-      class="w-full pl-4 pr-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center align-center"
+      class="align-center flex w-full items-center justify-between rounded-[48.77px] bg-[#115d5b] pl-4 pr-3"
     >
       <button
         type="button"
-        class="flex items-center justify-between w-full p-2"
+        class="flex w-full items-center justify-between p-2"
         on:click={() => ($searchBarOpen = !$searchBarOpen)}
       >
         <span class="text-sm text-white/50">Search for a project....</span>
@@ -81,28 +81,28 @@
     </div>
   </div>
 
-  <div class="hidden lg:flex grow-0 h-[42.67px] justify-end items-center gap-4">
+  <div class="hidden h-[42.67px] grow-0 items-center justify-end gap-4 lg:flex">
     <div class="flex items-center gap-4">
-      <a href="/" class="text-white text-base font-semibold font-['Inter'] leading-none"> Tasks </a>
+      <a href="/" class="font-['Inter'] text-base font-semibold leading-none text-white"> Tasks </a>
 
-      <div class="relative resources-dropdown">
+      <div class="resources-dropdown relative">
         <button
           on:click={toggleResources}
-          class="flex items-center justify-between w-full px-4 py-4 border-b focus:outline-none border-cyan-800"
+          class="flex w-full items-center justify-between border-b border-cyan-800 px-4 py-4 focus:outline-none"
         >
-          <span class="text-white text-base font-semibold font-['Inter'] leading-none">
+          <span class="font-['Inter'] text-base font-semibold leading-none text-white">
             Resources
           </span>
           <Icon
             icon="radix-icons:caret-down"
-            class="text-2xl text-white transform transition-transform duration-200 {isResourcesOpen &&
+            class="transform text-2xl text-white transition-transform duration-200 {isResourcesOpen &&
               'rotate-180'}"
           />
         </button>
 
         {#if isResourcesOpen}
           <div
-            class="absolute left-0 z-100 w-[15vh] mt-2 rounded-md shadow-lg bg-cyan-900 top-full"
+            class="z-100 absolute left-0 top-full mt-2 w-[15vh] rounded-md bg-cyan-900 shadow-lg"
           >
             <a
               href="/resources/pipeline"
@@ -124,7 +124,7 @@
       {#if data.isAuthenticated}
         <UserProfile {data} />
       {:else}
-        <a href="/sign-in" class="px-4 py-4 bg-[#d1ea9a] rounded-3xl text-base font-semibold">
+        <a href="/sign-in" class="rounded-3xl bg-[#d1ea9a] px-4 py-4 text-base font-semibold">
           Sign up / Log in
         </a>
       {/if}
@@ -133,25 +133,25 @@
 
   <!-- Mobile Menu -->
   {#if isMobileMenuOpen}
-    <div class="absolute top-[84px] left-0 right-0 bg-[#0b383c] lg:hidden w-[100%]">
-      <div class="flex flex-col w-full px-8 py-4 space-y-4 ">
+    <div class="absolute left-0 right-0 top-[84px] w-[100%] bg-[#0b383c] lg:hidden">
+      <div class="flex w-full flex-col space-y-4 px-8 py-4">
         <!-- Mobile Search -->
-        <div class="w-full max-w-[480px] justify-center items-center mb-2">
+        <div class="mb-2 w-full max-w-[480px] items-center justify-center">
           <div
-            class="w-full pl-4 pr-3 bg-[#115d5b] rounded-[48.77px] flex justify-between items-center align-center py-2 max-lg:w-full"
+            class="align-center flex w-full items-center justify-between rounded-[48.77px] bg-[#115d5b] py-2 pl-4 pr-3 max-lg:w-full"
           >
             <button
               type="button"
-              class="flex justify-between w-full mt-2"
+              class="mt-2 flex w-full justify-between"
               on:click={() => ($searchBarOpen = !$searchBarOpen)}
             >
               <span
-                class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px] max-lg:px-8"
+                class="ml-[-18px] font-['Inter'] text-base font-semibold leading-none text-white max-lg:px-8"
                 >Search for a project...</span
               >
               <!-- <Icon
                 icon="radix-icons:caret-down"
-                class="text-2xl text-white transform transition-transform duration-200 {isResourcesOpen &&
+                class="transform text-2xl text-white transition-transform duration-200 {isResourcesOpen &&
                   'rotate-180'}"
               /> -->
             </button>
@@ -159,15 +159,15 @@
         </div>
 
         <!-- Other Menu Items -->
-        <a href="/" class="text-white text-base font-semibold font-['Inter']"> Tasks </a>
+        <a href="/" class="font-['Inter'] text-base font-semibold text-white"> Tasks </a>
 
         <!-- Mobile Resources Dropdown -->
-        <div class="relative resources-dropdown">
+        <div class="resources-dropdown relative">
           <button
             on:click={toggleResources}
-            class="flex items-center justify-between w-full px-4 py-4 border-b focus:outline-none border-cyan-800"
+            class="flex w-full items-center justify-between border-b border-cyan-800 px-4 py-4 focus:outline-none"
           >
-            <span class="text-white text-base font-semibold font-['Inter'] leading-none ml-[-18px]">
+            <span class="ml-[-18px] font-['Inter'] text-base font-semibold leading-none text-white">
               Resources
             </span>
             <svg
@@ -200,7 +200,7 @@
 
           {#if isResourcesOpen}
             <div
-              class="absolute right-0 z-[9999] top-6 w-[25vh] mt-2 rounded-md shadow-lg bg-cyan-900"
+              class="absolute right-0 top-6 z-[9999] mt-2 w-[25vh] rounded-md bg-cyan-900 shadow-lg"
             >
               <a
                 href="/resources/pipeline"
@@ -223,7 +223,7 @@
           {:else}
             <a
               href="/sign-in"
-              class="block w-full text-center px-4 py-4 bg-[#d1ea9a] rounded-3xl text-base font-semibold"
+              class="block w-full rounded-3xl bg-[#d1ea9a] px-4 py-4 text-center text-base font-semibold"
             >
               Sign up / Log in
             </a>

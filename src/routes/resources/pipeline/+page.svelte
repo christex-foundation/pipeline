@@ -48,7 +48,6 @@
   ];
 </script>
 
-
 <!-- <div
   class="relative w-full h-[417px] flex justify-center items-center mb-20"
   style="background-image: url('https://s3-alpha-sig.figma.com/img/f7f4/7999/74709a5d690ece6b2d8e0fbee98a787a?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VfTXvDJj1skdr1Z5aGJlVyu9I1sG~SJUBaa4WUh4yJg6lC0r1f8SYOKmgCRQ6LMZejsFjUMIXvZ7i~Er0kckUkLIHZ~b9fL6wjXnX6Tih1Cu7KSqlIYUXK9DiU~36arhFVXllX-Fr12qi1llpQoKd5~DW45WaKvpsSotQayYPSWchGGq-b~Dc0NreyAasTrYxUjD4usnTVnw1hadbD~Pb8lNSpn46mFZMhRrV5lqIU2XjLjRqOJHX~Kq2jnYcXkzBD1nYRIPfJlydUxP47KqMSRWEU3wRLY-PVaalaEnZmMOLaLO4nAtIlTpjB6jm4FyfahmuD0-cYMjbzseeVNxjA__');
@@ -67,7 +66,7 @@
 </div> -->
 
 <div
-  class="relative w-full h-[417px] flex justify-center items-center mb-20 max-sm:h-[200px] z-0"
+  class="relative z-0 mb-20 flex h-[417px] w-full items-center justify-center max-sm:h-[200px]"
   style="background-image: url('https://s3-alpha-sig.figma.com/img/f7f4/7999/74709a5d690ece6b2d8e0fbee98a787a?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VfTXvDJj1skdr1Z5aGJlVyu9I1sG~SJUBaa4WUh4yJg6lC0r1f8SYOKmgCRQ6LMZejsFjUMIXvZ7i~Er0kckUkLIHZ~b9fL6wjXnX6Tih1Cu7KSqlIYUXK9DiU~36arhFVXllX-Fr12qi1llpQoKd5~DW45WaKvpsSotQayYPSWchGGq-b~Dc0NreyAasTrYxUjD4usnTVnw1hadbD~Pb8lNSpn46mFZMhRrV5lqIU2XjLjRqOJHX~Kq2jnYcXkzBD1nYRIPfJlydUxP47KqMSRWEU3wRLY-PVaalaEnZmMOLaLO4nAtIlTpjB6jm4FyfahmuD0-cYMjbzseeVNxjA__');
   background-size: cover;
   background-position: center;
@@ -76,25 +75,24 @@
   <div class="absolute inset-0 bg-[#d1ea9a]/90"></div>
   <div class="z-10 inline-flex flex-col items-center justify-start">
     <div
-      class="text-center text-black text-[89.62px] font-medium font-['Inter'] leading-[0.9] max-sm:text-[50px] max-sm:leading-[1]"
+      class="text-center font-['Inter'] text-[89.62px] font-medium leading-[0.9] text-black max-sm:text-[50px] max-sm:leading-[1]"
     >
       How Pipeline Works
     </div>
   </div>
 </div>
 
-<main class="flex items-center justify-center w-full overflow-hidden">
-  <img src="/how.png" alt="Description of the image" class="object-cover w-full h-full" />
+<main class="flex w-full items-center justify-center overflow-hidden">
+  <img src="/how.png" alt="Description of the image" class="h-full w-full object-cover" />
 </main>
 
-<section class="flex items-center justify-center w-full text-black px-7 max-md:px-5">
-  <div class="flex flex-col items-center w-full max-w-[1101px]">
+<section class="flex w-full items-center justify-center px-7 text-black max-md:px-5">
+  <div class="flex w-full max-w-[1101px] flex-col items-center">
     {#each steps as step}
       <Step number={step.number} title={step.title} description={step.description} />
     {/each}
   </div>
 </section>
-
 
 <style>
   :global(body),

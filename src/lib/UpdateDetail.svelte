@@ -86,19 +86,19 @@
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 </script>
 
-<div class="h-full px-[18px] flex-col justify-start items-start inline-flex font-['Inter'] w-full">
-  <div class="self-stretch h-[89px] pb-12 flex-col justify-start items-start flex">
+<div class="inline-flex h-full w-full flex-col items-start justify-start px-[18px] font-['Inter']">
+  <div class="flex h-[89px] flex-col items-start justify-start self-stretch pb-12">
     <div
-      class="px-[19px] py-[11.50px] bg-white border border-[#d1d1d1] justify-center items-center inline-flex"
+      class="inline-flex items-center justify-center border border-[#d1d1d1] bg-white px-[19px] py-[11.50px]"
     >
       <div class="flex items-center justify-start">
-        <div class="flex items-center justify-center w-3 h-3">
-          <div class="relative flex flex-col items-start justify-start w-3 h-3"></div>
+        <div class="flex h-3 w-3 items-center justify-center">
+          <div class="relative flex h-3 w-3 flex-col items-start justify-start"></div>
         </div>
         <button class="inline-flex flex-col items-start justify-start pl-3" on:click={goBack}>
           <div class="flex flex-col items-center justify-start">
             <div
-              class="text-center text-[#222222] text-sm font-normal font-['Inter'] leading-[17.50px] flex gap-2 ml-[-10px]"
+              class="ml-[-10px] flex gap-2 text-center font-['Inter'] text-sm font-normal leading-[17.50px] text-[#222222]"
             >
               <Icon icon="mdi-light:chevron-left" class="text-2xl" />
               All Updates
@@ -108,14 +108,14 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-col items-start self-stretch justify-start gap-6">
-    <div class="flex flex-col items-start self-stretch justify-start gap-3">
-      <div class="inline-flex items-start self-stretch justify-start"></div>
-      <div class="self-stretch text-[#282828] text-[32px] font-bold font-['Inter'] leading-10">
+  <div class="flex flex-col items-start justify-start gap-6 self-stretch">
+    <div class="flex flex-col items-start justify-start gap-3 self-stretch">
+      <div class="inline-flex items-start justify-start self-stretch"></div>
+      <div class="self-stretch font-['Inter'] text-[32px] font-bold leading-10 text-[#282828]">
         {selectedUpdate.title}
       </div>
       <div
-        class="self-stretch h-[62px] pb-5 border-b border-[#dcdedd] flex-col justify-start items-start gap-1 flex"
+        class="flex h-[62px] flex-col items-start justify-start gap-1 self-stretch border-b border-[#dcdedd] pb-5"
       >
         <div class="inline-flex items-center justify-start gap-3">
           <img
@@ -124,18 +124,18 @@
               ? selectedUpdate.userProfile.image
               : defaultImageUrl}
             alt="User Profile"
-            class="w-[42px] h-[42px] relative rounded-[42px] border border-[#dcdedd]"
+            class="relative h-[42px] w-[42px] rounded-[42px] border border-[#dcdedd]"
           />
 
           <div class="inline-flex flex-col items-start justify-start">
-            <div class="inline-flex items-center self-stretch justify-between gap-2">
-              <div class=" h-6 text-[#282828] text-sm font-normal font-['Inter'] leading-normal">
+            <div class="inline-flex items-center justify-between gap-2 self-stretch">
+              <div class=" h-6 font-['Inter'] text-sm font-normal leading-normal text-[#282828]">
                 {selectedUpdate.userProfile.name}
               </div>
               <div
-                class="px-[5px] py-[0.25px] bg-[#05ce78] rounded-[3px] flex-col justify-center items-start inline-flex"
+                class="inline-flex flex-col items-start justify-center rounded-[3px] bg-[#05ce78] px-[5px] py-[0.25px]"
               >
-                <div class="text-white text-xs font-bold font-['Inter'] leading-[18px]">
+                <div class="font-['Inter'] text-xs font-bold leading-[18px] text-white">
                   {selectedUpdate.user_id === selectedUpdate.userProfile.user_id
                     ? 'Creator'
                     : 'Member'}
@@ -143,7 +143,7 @@
               </div>
             </div>
             <div
-              class="self-stretch h-[18px] text-[#282828]/50 text-[13px] font-normal font-['Inter'] leading-[18px]"
+              class="h-[18px] self-stretch font-['Inter'] text-[13px] font-normal leading-[18px] text-[#282828]/50"
             >
               {updateDate}
             </div>
@@ -151,36 +151,36 @@
         </div>
       </div>
     </div>
-    <div class="self-stretch pb-2 flex-col justify-start items-start gap-[30px] flex">
-      <div class="self-stretch text-[#282828] text-base font-normal font-['Inter'] leading-[29px]">
+    <div class="flex flex-col items-start justify-start gap-[30px] self-stretch pb-2">
+      <div class="self-stretch font-['Inter'] text-base font-normal leading-[29px] text-[#282828]">
         {@html selectedUpdate.body}
       </div>
     </div>
   </div>
 
-  <div class="self-stretch pt-[42px] flex-col justify-start items-start gap-[18px] flex">
-    <div class="flex flex-col items-start self-stretch justify-start h-5">
-      <div class="self-stretch text-[#282828] text-base font-bold font-['Inter'] leading-tight">
+  <div class="flex flex-col items-start justify-start gap-[18px] self-stretch pt-[42px]">
+    <div class="flex h-5 flex-col items-start justify-start self-stretch">
+      <div class="self-stretch font-['Inter'] text-base font-bold leading-tight text-[#282828]">
         Comments ({comments.length})
       </div>
     </div>
 
     <div
-      class="flex flex-col w-full gap-4 pt-4 pb-8 md:flex-row md:justify-between md:items-center"
+      class="flex w-full flex-col gap-4 pb-8 pt-4 md:flex-row md:items-center md:justify-between"
     >
       {#if data.isAuthenticated}
-        <div class="flex flex-col w-full gap-4 md:flex-row">
+        <div class="flex w-full flex-col gap-4 md:flex-row">
           <input
             type="text"
             bind:value={newComment}
             placeholder="Add a comment..."
-            class="w-full border-2 border-[#dcdedd] rounded-lg px-4 py-2 text-base text-[#0b383c] focus:outline-none focus:border-[#0b383c] transition-colors duration-200
+            class="w-full rounded-lg border-2 border-[#dcdedd] px-4 py-2 text-base text-[#0b383c] transition-colors duration-200 focus:border-[#0b383c] focus:outline-none
                    md:w-3/4"
           />
           <button
             on:click={addUpdateComment}
-            class="md:w-1/4 px-4 py-2 bg-[#0b383c] text-white text-base rounded-lg transition-colors duration-300 focus:outline-none focus:border-[#0b383c]
-                   mt-2 md:mt-0 self-end"
+            class="mt-2 self-end rounded-lg bg-[#0b383c] px-4 py-2 text-base text-white transition-colors duration-300 focus:border-[#0b383c]
+                   focus:outline-none md:mt-0 md:w-1/4"
             disabled={loading}
           >
             {loading ? 'Submitting...' : 'Comment'}
@@ -199,42 +199,42 @@
 
     {#if comments.length > 0}
       <div
-        class="self-stretch max-h-[385px] overflow-y-auto px-[13px] pt-[15px] pb-[13px] bg-[#fbfbfa] border border-[#e8e8e8] flex-col justify-start items-start gap-3 flex"
+        class="flex max-h-[385px] flex-col items-start justify-start gap-3 self-stretch overflow-y-auto border border-[#e8e8e8] bg-[#fbfbfa] px-[13px] pb-[13px] pt-[15px]"
       >
         {#each comments as comment}
           <div
-            class="self-stretch p-4 bg-white border border-[#e8e8e8] flex-col justify-start items-start gap-[18px] flex"
+            class="flex flex-col items-start justify-start gap-[18px] self-stretch border border-[#e8e8e8] bg-white p-4"
           >
-            <div class="inline-flex items-start self-stretch justify-start">
-              <div class="flex items-start self-stretch justify-start gap-3">
+            <div class="inline-flex items-start justify-start self-stretch">
+              <div class="flex items-start justify-start gap-3 self-stretch">
                 <div class="inline-flex flex-col items-start justify-start">
                   <img
-                    class="w-9 h-9 rounded-full border border-[#dcdedd]"
+                    class="h-9 w-9 rounded-full border border-[#dcdedd]"
                     src={comment.userProfile.image && comment.userProfile.image !== ''
                       ? comment.userProfile.image
                       : defaultImageUrl}
                     alt=""
                   />
                 </div>
-                <div class="inline-flex flex-col items-start justify-start flex-grow">
-                  <div class="inline-flex items-center self-stretch justify-start gap-3">
-                    <div class="text-[#282828] text-sm font-normal font-['Inter'] leading-[21px]">
+                <div class="inline-flex flex-grow flex-col items-start justify-start">
+                  <div class="inline-flex items-center justify-start gap-3 self-stretch">
+                    <div class="font-['Inter'] text-sm font-normal leading-[21px] text-[#282828]">
                       {comment.userProfile.name}
                     </div>
                   </div>
-                  <div class="flex flex-col items-start self-stretch justify-start">
-                    <div class="text-[#9b9e9e] text-xs font-normal font-['Inter'] leading-[18px]">
+                  <div class="flex flex-col items-start justify-start self-stretch">
+                    <div class="font-['Inter'] text-xs font-normal leading-[18px] text-[#9b9e9e]">
                       {timeAgo(comment.created_at)}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="inline-flex items-start self-stretch justify-center">
-              <div class="flex flex-col items-start self-stretch justify-start w-full">
-                <div class="flex flex-col items-start self-stretch justify-start">
+            <div class="inline-flex items-start justify-center self-stretch">
+              <div class="flex w-full flex-col items-start justify-start self-stretch">
+                <div class="flex flex-col items-start justify-start self-stretch">
                   <div
-                    class="self-stretch text-[#282828] text-sm font-normal font-['Inter'] leading-normal"
+                    class="self-stretch font-['Inter'] text-sm font-normal leading-normal text-[#282828]"
                   >
                     {comment.body}
                   </div>

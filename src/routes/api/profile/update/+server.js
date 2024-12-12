@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import { update } from '$lib/server/service/profileService.js';
 
 export async function PUT({ request, locals }) {
-    let user = locals.authUser;
+  let user = locals.authUser;
   let supabase = locals.supabase;
 
   try {

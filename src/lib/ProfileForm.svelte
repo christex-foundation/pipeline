@@ -100,6 +100,7 @@
           />
         </div>
       </div>
+    </div>
 
       <div
         class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start"

@@ -5,12 +5,12 @@
   $: percentage = (progress / total) * 100;
 </script>
 
-<div class="flex flex-col w-full mt-2 rounded-lg">
+<div class="mt-2 flex w-full flex-col rounded-lg">
   <div
-    class="flex flex-col items-start justify-center py-px border-2 rounded-lg bg-[#e9f5d3] border-[#bde25b] max-md:pr-5"
+    class="flex flex-col items-start justify-center rounded-lg border-2 border-[#bde25b] bg-[#e9f5d3] py-px max-md:pr-5"
   >
     <div
-      class="flex shrink-0 bg-[#bde25b] rounded-lg h-[11px]"
+      class="flex h-[11px] shrink-0 rounded-lg bg-[#bde25b]"
       style="width: {percentage}%"
       aria-valuenow={percentage}
       aria-valuemin="0"

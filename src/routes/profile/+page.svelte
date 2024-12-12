@@ -11,9 +11,9 @@
 <!-- container below to center the inner container -->
 <div class="flex w-full items-start justify-center">
   <div
-    class="w-[90%] mx-auto grid justify-center md:flex md:flex-row space-y-4 md:space-y-0 md:space-x-4"
+    class="mx-auto grid w-[90%] justify-center space-y-4 md:flex md:flex-row md:space-x-4 md:space-y-0"
   >
-    <div class="px-5 md:px-0 md:w-1/3 md:sticky h-max">
+    <div class="h-max px-5 md:sticky md:w-1/3 md:px-0">
       <ProfileInfo />
     </div>
 

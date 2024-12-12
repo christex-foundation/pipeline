@@ -45,37 +45,36 @@
   });
 </script>
 
-<section class="flex flex-col mt-10 w-full max-w-[505px] max-md:mt-10 max-md:max-w-full">
+<section class="mt-10 flex w-full max-w-[505px] flex-col max-md:mt-10 max-md:max-w-full">
   <div class="flex flex-col max-md:max-w-full">
-    <div class="flex flex-col w-full max-md:max-w-full">
-      <div class="relative flex flex-col w-full max-md:max-w-full">
+    <div class="flex w-full flex-col max-md:max-w-full">
+      <div class="relative flex w-full flex-col max-md:max-w-full">
         <img
           loading="lazy"
           src={banner}
           alt="Profile background"
-          class="object-cover z-0 w-full aspect-[3.33] h-[250px] rounded-[43px] max-md:max-w-full"
+          class="z-0 aspect-[3.33] h-[250px] w-full rounded-[43px] object-cover max-md:max-w-full"
         />
 
         <img
           loading="lazy"
           src={image}
           alt="User's profile picture"
-          class="object-contain absolute z-0 gap-2.5 items-center max-w-full aspect-[1.01] bottom-[-65px] left-[30px] rounded-[106px] w-[120px] h-[120px]"
+          class="absolute bottom-[-65px] left-[30px] z-0 aspect-[1.01] h-[120px] w-[120px] max-w-full items-center gap-2.5 rounded-[106px] object-contain"
         />
-
       </div>
     </div>
   </div>
 </section>
 
-<section class="flex flex-col w-full max-md:mt-10 max-md:max-w-full">
+<section class="flex w-full flex-col max-md:mt-10 max-md:max-w-full">
   <div
-    class="flex flex-wrap items-center justify-between w-full gap-4 text-black max-md:max-w-full"
+    class="flex w-full flex-wrap items-center justify-between gap-4 text-black max-md:max-w-full"
   >
-    <h1 class="self-stretch my-auto mt-20 text-3xl font-semibold leading-none max-md:text-4xl">
+    <h1 class="my-auto mt-20 self-stretch text-3xl font-semibold leading-none max-md:text-4xl">
       {user?.display_name || ''}
     </h1>
-    <div class="flex flex-wrap items-center self-stretch gap-2 mt-20">
+    <div class="mt-20 flex flex-wrap items-center gap-2 self-stretch">
       {#each socialLinks as { key, icon, prefix }}
         {#if user[key]}
           <a href="{prefix}{user[key]}" target="_blank" rel="noopener noreferrer" aria-label={key}>
@@ -85,30 +84,30 @@
       {/each}
     </div>
   </div>
-  <p class="text-2xl font-light leading-9 text-black mt-11 max-md:mt-10 max-md:max-w-full">
+  <p class="mt-11 text-2xl font-light leading-9 text-black max-md:mt-10 max-md:max-w-full">
     {user?.bio || ''}
   </p>
   <div
-    class="flex flex-wrap items-center justify-between w-full gap-4 mt-11 max-md:mt-10 max-md:max-w-full"
+    class="mt-11 flex w-full flex-wrap items-center justify-between gap-4 max-md:mt-10 max-md:max-w-full"
   >
     <!-- <div
       class="flex flex-wrap gap-4 items-center self-stretch my-auto whitespace-nowrap min-w-[240px] max-md:max-w-full"
     >
-      <h2 class="self-stretch my-auto text-lg leading-none text-center text-black">Interests</h2>
+      <h2 class="my-auto self-stretch text-center text-lg leading-none text-black">Interests</h2>
       <div
-        class="flex flex-wrap gap-3 items-center self-stretch my-auto text-base leading-none text-lime-800 min-w-[140px]"
+        class="my-auto flex min-w-[140px] flex-wrap items-center gap-3 self-stretch text-base leading-none text-lime-800"
       >
         {#if user.interests && user.interests.length > 0}
           {#each user.interests as interest}
             <span
-              class="self-stretch py-3.5 pr-6 pl-6 my-auto border-2 border-lime-800 border-solid rounded-[72px] max-md:px-5 text-base"
+              class="my-auto self-stretch rounded-[72px] border-2 border-solid border-lime-800 py-3.5 pl-6 pr-6 text-base max-md:px-5"
             >
               {interest}
             </span>
           {/each}
         {:else}
           <span
-            class="self-stretch py-3 pr-6 pl-6 my-auto border-2 border-lime-800 border-solid rounded-[72px] max-md:px-5 text-sm"
+            class="my-auto self-stretch rounded-[72px] border-2 border-solid border-lime-800 py-3 pl-6 pr-6 text-sm max-md:px-5"
           >
             No interests specified
           </span>
@@ -117,19 +116,19 @@
     </div> -->
   </div>
   <div
-    class="flex flex-wrap items-center justify-around w-full gap-2 text-2xl font-medium leading-none mt-11 max-md:mt-10 max-md:max-w-full"
+    class="mt-11 flex w-full flex-wrap items-center justify-around gap-2 text-2xl font-medium leading-none max-md:mt-10 max-md:max-w-full"
   >
-    <a href="/project/create" class="flex-1 max-w-xs md:max-w-sm">
+    <a href="/project/create" class="max-w-xs flex-1 md:max-w-sm">
       <button
-        class="flex items-center justify-center w-full gap-2 px-6 py-4 text-xl text-white bg-teal-900 rounded-full"
+        class="flex w-full items-center justify-center gap-2 rounded-full bg-teal-900 px-6 py-4 text-xl text-white"
       >
         Create Project
       </button>
     </a>
 
-    <a href="/profile/edit" class="flex-1 max-w-xs md:max-w-sm">
+    <a href="/profile/edit" class="max-w-xs flex-1 md:max-w-sm">
       <button
-        class="flex items-center justify-center w-full gap-2 px-6 py-4 text-xl border-2 rounded-full text-lime-800 bg-lime-200 border-lime-800"
+        class="flex w-full items-center justify-center gap-2 rounded-full border-2 border-lime-800 bg-lime-200 px-6 py-4 text-xl text-lime-800"
       >
         Edit Profile
         <Icon icon="mdi:pen" class="text-2xl" />

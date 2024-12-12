@@ -6,5 +6,5 @@ export const updateSchema = z.object({
 });
 
 export const commentScheme = z.object({
-    body: z.string().min(1),
+  body: z.string().min(1),
 });

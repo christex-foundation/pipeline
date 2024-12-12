@@ -45,7 +45,6 @@ export const actions = {
     if (!response.ok) {
       throw new Error(response.statusText);
     }
-    
 
     return response.status;
   },

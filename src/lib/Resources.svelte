@@ -9,34 +9,34 @@
   export let comments = 0;
 </script>
 
-<div class="inline-flex flex-col items-start justify-start w-full gap-4 mt-10">
-  <div class="self-stretch p-4 bg-[#ebebeb] justify-between items-center inline-flex">
-    <div class="grow shrink basis-0 h-[132px] justify-start items-start gap-6 flex">
-      <div class="w-20 h-20 p-2 bg-[#d9d9d9] justify-center items-center flex">
+<div class="mt-10 inline-flex w-full flex-col items-start justify-start gap-4">
+  <div class="inline-flex items-center justify-between self-stretch bg-[#ebebeb] p-4">
+    <div class="flex h-[132px] shrink grow basis-0 items-start justify-start gap-6">
+      <div class="flex h-20 w-20 items-center justify-center bg-[#d9d9d9] p-2">
         <slot name="icon">
-          <div class="relative flex flex-col items-start justify-start w-16 h-16"></div>
+          <div class="relative flex h-16 w-16 flex-col items-start justify-start"></div>
         </slot>
       </div>
 
-      <div class="inline-flex flex-col items-start justify-start gap-2 grow shrink basis-0">
+      <div class="inline-flex shrink grow basis-0 flex-col items-start justify-start gap-2">
         <div class="inline-flex items-center justify-center gap-2">
-          <div class="w-6 h-6 p-1 bg-[#d9d9d9] rounded-full justify-center items-center flex">
+          <div class="flex h-6 w-6 items-center justify-center rounded-full bg-[#d9d9d9] p-1">
             <slot name="profile-icon">
-              <div class="relative flex flex-col items-start justify-start w-4 h-4"></div>
+              <div class="relative flex h-4 w-4 flex-col items-start justify-start"></div>
             </slot>
           </div>
-          <div class="text-[#8a8a8a] text-sm font-normal font-['Roboto'] leading-[14px]">
+          <div class="font-['Roboto'] text-sm font-normal leading-[14px] text-[#8a8a8a]">
             {username}
           </div>
         </div>
 
         <div class="inline-flex items-center justify-center gap-1">
-          <div class="text-center text-black text-xl font-medium font-['Roboto'] leading-7">
+          <div class="text-center font-['Roboto'] text-xl font-medium leading-7 text-black">
             {title}
           </div>
         </div>
 
-        <div class="self-stretch text-gray-700 text-sm font-normal font-['Roboto'] leading-tight">
+        <div class="self-stretch font-['Roboto'] text-sm font-normal leading-tight text-gray-700">
           {description}
         </div>
 
@@ -45,7 +45,7 @@
             <slot name="like-icon">
               <Icon icon="mdi-light:heart" class="text-2xl" />
             </slot>
-            <div class="text-center text-black text-xs font-normal font-['Roboto'] leading-3">
+            <div class="text-center font-['Roboto'] text-xs font-normal leading-3 text-black">
               {likes}
             </div>
           </div>
@@ -53,7 +53,7 @@
             <slot name="comment-icon">
               <Icon icon="bi:chat" class="text-2xl" />
             </slot>
-            <div class="text-center text-black text-xs font-normal font-['Roboto'] leading-3">
+            <div class="text-center font-['Roboto'] text-xs font-normal leading-3 text-black">
               {comments}
             </div>
           </div>
