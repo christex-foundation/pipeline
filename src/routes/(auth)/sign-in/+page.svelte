@@ -2,6 +2,7 @@
   import { applyAction, enhance } from '$app/forms';
   import Logo from '$lib/Logo.svelte';
   import { toast } from 'svelte-sonner';
+  import { ArrowLeft } from 'lucide-svelte';
 
   let loading = false;
   export let form;
@@ -9,9 +10,25 @@
   $: if (form?.error) {
     toast.error(form.error);
   }
+
+  function goBack() {
+    history.back();
+  }
+
 </script>
 
 <section class="flex items-center justify-center basis-full">
+
+  <div class="absolute top-4 left-4">
+    <button
+      on:click={goBack}
+      class="p-2 flex items-center justify-center text-teal-900 hover:text-white hover:bg-teal-800 border-2 border-gray-200 transition-colors w-[150px] sm:w-auto py-4 sm:py-2 rounded-full"
+    >
+      <ArrowLeft class="w-6 h-6 text-gray-200" />
+      <span class="hidden md:inline text-gray-200">Back</span>
+    </button>
+  </div>
+
   <form
     method="POST"
     class="w-[60%] max-md:w-[80%]"
