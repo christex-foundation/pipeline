@@ -9,7 +9,7 @@
 
 1. In your Supabase dashboard, go to the SQL Editor
 2. Create a new query
-3. Copy the contents of `db/schema/schema.sql` and paste it into the editor
+3. Copy the contents of [`db/schema/schema.sql`](https://github.com/christex-foundation/pipeline/blob/main/db/schema/schema.sql) and paste it into the editor
 4. Run the query to create all necessary tables
 
 ## 3. Get API Keys

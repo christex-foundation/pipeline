@@ -1,6 +1,6 @@
 # DPG Pipeline (WIP)
 
-DPG Pipeline is a web-based platform built with **SvelteKit** and **NodeJS** using the [Hono](https://hono.dev) framework, designed to support the development, funding, and sustainability of Digital Public Goods (DPGs). The platform enables users to contribute both financial and non-financial resources to DPG projects and helps projects meet the Digital Public Goods Standard.
+DPG Pipeline is a web-based platform built with **SvelteKit** and **NodeJS** using the **Supabase** framework, designed to support the development, funding, and sustainability of Digital Public Goods (DPGs). The platform enables users to contribute both financial and non-financial resources to DPG projects and helps projects meet the Digital Public Goods Standard.
 
 > The codebase is a work-in-progress (WIP) and is still under development.
 
@@ -38,10 +38,14 @@ DPG Pipeline is a web-based platform built with **SvelteKit** and **NodeJS** usi
 4. Set up Supabase:
 
    - Follow the [Supabase setup guide](https://supabase.com/docs/guides/getting-started) to create your project.
-   - Populate the necessary API keys and database details in your `.env` file.
+   - Refer to [DB_SETUP.md](https://github.com/christex-foundation/pipeline/blob/main/docs/DB_SETUP.md) for instructions on configuring the Supabase schema.
 
 5. Start the development server:
 
    ```sh
    npm run dev
    ```
+
+## Contributing
+
+We welcome contributions to improve this project! Please read the [CONTRIBUTING.md](https://github.com/christex-foundation/pipeline/blob/main/CONTRIBUTING.md) file for guidelines on how to get started.
