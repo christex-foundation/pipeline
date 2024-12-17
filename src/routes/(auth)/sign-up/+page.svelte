@@ -2,18 +2,39 @@
   import { applyAction, enhance } from '$app/forms';
   import Logo from '$lib/Logo.svelte';
   import { toast } from 'svelte-sonner';
-
+  import Icon  from '@iconify/svelte';
+  
   let loading = false;
   export let form;
+  let passwordVisible = false;
 
   $: if (form?.error) {
     toast.error(form.error);
   }
+
+  function goBack() {
+    history.back();
+  }
+
+  function togglePasswordVisibility() {
+    passwordVisible = !passwordVisible;
+  }
+
 </script>
 
 <section
   class="flex flex-col items-center justify-center w-full max-w-[1235px] max-md:px-5 max-md:mt-10 mt-20"
 >
+<div class="absolute top-4 left-4">
+  <button
+    on:click={goBack}
+    class="p-2 flex items-center justify-center text-teal-900 hover:text-white hover:bg-teal-800 border-2 border-gray-200 transition-colors w-[150px] sm:w-auto py-4 sm:py-2 rounded-full"
+  >
+    <Icon icon="material-symbols:arrow-back-ios-new-rounded" class="w-4 h-4 text-gray-200 mr-1" />
+    <span class="hidden md:inline text-gray-200">Back</span>
+  </button>
+</div>
+
   <form
     method="POST"
     class="flex flex-col w-[60%] max-md:w-[90%] mx-auto"
@@ -22,7 +43,7 @@
 
       return async ({ result }) => {
         if (result.type === 'redirect') {
-          toast.success('login successful');
+          toast.success('Sign up successful');
         }
 
         await applyAction(result);
@@ -57,15 +78,28 @@
       />
     </div>
 
-    <div class="flex flex-col gap-2 mt-4 font-medium">
+    <div class="flex flex-col gap-2 mt-6 font-medium">
       <label for="password" class="block">Password</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        class="w-full px-4 py-2 border border-black rounded-full"
-        required
-      />
+      <div class="relative">
+        <input
+          type={passwordVisible ? 'text' : 'password'}
+          id="password"
+          name="password"
+          class="w-full px-4 py-2 border border-black rounded-full"
+          required
+        />
+        <button
+          type="button"
+          on:click={togglePasswordVisibility}
+          class="absolute right-2 top-1/2 transform -translate-y-1/2"
+        >
+          {#if passwordVisible}
+            <Icon icon="majesticons:eye-off" class="w-6 h-6" />
+          {:else}
+            <Icon icon="ooui:eye" class="w-6 h-6" />
+          {/if}
+      </button>
+      </div>
     </div>
 
     <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
@@ -75,15 +109,18 @@
 
     <button
       type="submit"
-      class="w-full py-4 mt-8 font-light text-white bg-teal-900 rounded-full"
+      class="w-full py-3 mt-8 font-light text-white bg-teal-900 rounded-full disabled:bg-gray-500"
       disabled={loading}
     >
-      {loading ? 'Signing up...' : 'Sign up'}
+      {loading ? 'Signing up...' : 'Sign Up'}
     </button>
 
-    <label class="flex w-full gap-2 mx-auto mt-6 text-sm font-light align-start max-md:mt-2">
-      <input type="checkbox" name="rememberMe" />
-      Remember me
-    </label>
+    <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
+      <label class="flex items-center gap-2 font-medium text-black">
+        <input type="checkbox" name="rememberMe" />
+        Remember me
+      </label>
+      <a href="#forgot-password" class="font-semibold text-neutral-400">Forgot Password?</a>
+    </div>
   </form>
 </section>
