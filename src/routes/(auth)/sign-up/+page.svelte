@@ -2,8 +2,8 @@
   import { applyAction, enhance } from '$app/forms';
   import Logo from '$lib/Logo.svelte';
   import { toast } from 'svelte-sonner';
-  import { ArrowLeft, Eye, EyeOff } from 'lucide-svelte';
-
+  import Icon  from '@iconify/svelte';
+  
   let loading = false;
   export let form;
   let passwordVisible = false;
@@ -30,7 +30,7 @@
     on:click={goBack}
     class="p-2 flex items-center justify-center text-teal-900 hover:text-white hover:bg-teal-800 border-2 border-gray-200 transition-colors w-[150px] sm:w-auto py-4 sm:py-2 rounded-full"
   >
-    <ArrowLeft class="w-6 h-6 text-gray-200" />
+    <Icon icon="material-symbols:arrow-back-ios-new-rounded" class="w-4 h-4 text-gray-200 mr-1" />
     <span class="hidden md:inline text-gray-200">Back</span>
   </button>
 </div>
@@ -94,11 +94,11 @@
           class="absolute right-2 top-1/2 transform -translate-y-1/2"
         >
           {#if passwordVisible}
-            <EyeOff class="w-6 h-6" />
+            <Icon icon="majesticons:eye-off" class="w-6 h-6" />
           {:else}
-            <Eye class="w-6 h-6" />
+            <Icon icon="ooui:eye" class="w-6 h-6" />
           {/if}
-        </button>
+      </button>
       </div>
     </div>
 
