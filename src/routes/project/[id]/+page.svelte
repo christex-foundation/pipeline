@@ -12,6 +12,11 @@
   import { dateFormat } from '$lib/utils/dateTimeFormat.js';
   import { toast } from 'svelte-sonner';
   import { invalidateAll } from '$app/navigation';
+  import GitContributors from '$lib/GitContributors.svelte';
+  import ResourceCard from '$lib/ResourceCard.svelte';
+  import { createEventDispatcher } from 'svelte';
+  import GitContributorsViewAll from '$lib/GitContributorsViewAll.svelte';
+  import ResourcesViewAll from '$lib/ResourcesViewAll.svelte';
 
   let id;
   $: id = $page.params.id;
@@ -25,16 +30,26 @@
   let projectUpdates = data.updates;
   let projectResource = data.resources;
 
+  let showGitDetail = false;
+  let showResourceDetail = false;
+
+  function toggleGitDetail() {
+    showGitDetail = !showGitDetail;
+    showResourceDetail = false;
+  }
+
+  function toggleResourceDetail() {
+    console.log('Toggling Resource Detail');
+    showResourceDetail = !showResourceDetail;
+    console.log('showResourceDetail:', showResourceDetail);
+    showGitDetail = false;
+  }
+
   const defaultImageUrl =
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 
   let isFollowing = false;
   let isAddingUpdate = false;
-
-  // async function toggleFollow() {
-  //   isFollowing = !isFollowing;
-  //   await bookmarkProject();
-  // }
 
   let showUpdatePopup = false;
 
@@ -70,6 +85,8 @@
   function handleGoBack() {
     showUpdateDetail = false;
     selectedUpdate = null;
+    showGitDetail = false;
+    showResourceDetail = false;
   }
 
   $: date = dateFormat(project.created_at);
@@ -87,6 +104,76 @@
       user = data.user;
     }
   });
+
+  let contributors = [
+    {
+      name: "Hawa Kallon",
+      githubLink: "https://github.com/hawakallon",
+      commits: 42,
+      avatarUrl: "https://github.com/hawakallon.png"
+    },
+    {
+      name: "Saidu Bundu-Kamara",
+      githubLink: "https://github.com/saidubundukamara",
+      commits: 80,
+      avatarUrl: "https://github.com/saidubundukamara.png"
+    },
+    {
+      name: "Sparrow",
+      githubLink: "https://github.com/sparrowsl",
+      commits: 80,
+      avatarUrl: "https://github.com/sparrowsl.png"
+    },
+    {
+      name: "Mitch",
+      githubLink: "https://github.com/stElmitchay",
+      commits: 80,
+      avatarUrl: "https://github.com/stElmitchay.png"
+    }
+  ];
+
+  const resources = [
+    {
+      id: 1,
+      title: 'Onboading Demo video',
+      author: 'Joseph Kerr',
+      category: 'Media',
+      description:
+        'Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati',
+      imageUrl:
+        'https://cdn.builder.io/api/v1/image/assets/TEMP/580f77e5-d2eb-430b-8974-3ed3b77829c8?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8',
+    },
+    {
+      id: 2,
+      title: 'Marketing Flyer Design',
+      author: 'Joseph Kerr',
+      category: 'Design',
+      description:
+        'Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati',
+      imageUrl:
+        'https://cdn.builder.io/api/v1/image/assets/TEMP/b31f7283-74b4-4669-b0f7-1cf219d8ccad?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8',
+    },
+    {
+      id: 3,
+      title: 'UI/UX Case Study',
+      author: 'Joseph Kerr',
+      category: 'Document',
+      description:
+        'Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati',
+      imageUrl:
+        'https://cdn.builder.io/api/v1/image/assets/TEMP/79e93884-0a53-4158-8d0b-6f18819002ac?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8',
+    },
+    {
+      id: 4,
+      title: 'Onboading Demo video',
+      author: 'Joseph Kerr',
+      category: 'Media',
+      description:
+        'Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati',
+      imageUrl:
+        'https://cdn.builder.io/api/v1/image/assets/TEMP/3108468c-54ac-442b-a540-6bc12e0ded13?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8',
+    },
+  ];
 </script>
 
 <div class="mx-auto flex max-w-[1500px] flex-col items-start px-4 lg:flex-row lg:px-8">
@@ -109,12 +196,12 @@
       />
     </section>
 
-    <section class="mt-3 flex w-full flex-col">
+    <section class="flex flex-col w-full mt-3">
       <div class="flex justify-between max-md:gap-2">
-        <h1 class="break-all text-3xl font-semibold text-black max-lg:mt-2 max-lg:text-xl">
+        <h1 class="text-3xl font-semibold text-black break-all max-lg:mt-2 max-lg:text-xl">
           {project.title || 'Project Title'}
         </h1>
-        <div class="mt-2 flex items-center gap-1 text-base text-neutral-600">
+        <div class="flex items-center gap-1 mt-2 text-base text-neutral-600">
           <img
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/edd6d143a10aa89a67f0101c84563e276eb2ea6bc943000847a62b3bcaeb9863?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
             alt="Date icon"
@@ -128,7 +215,7 @@
       </p>
     </section>
 
-    <section class="mt-2 flex flex-wrap items-center gap-3">
+    <section class="flex flex-wrap items-center gap-3 mt-2">
       <div class="flex flex-wrap gap-2 text-lg text-lime-800">
         {#if project.tags && project.tags.length > 0}
           {#each project.tags as tag}
@@ -141,7 +228,7 @@
     </section>
 
     {#if user}
-      <div class="mt-6 flex items-center gap-3">
+      <div class="flex items-center gap-3 mt-6">
         {#if user.id === project.user_id}
           <a
             href="/project/{id}/edit"
@@ -151,7 +238,7 @@
           </a>
           <button
             on:click={openUpdatePopup}
-            class="w-full rounded-full bg-lime-300 py-4 text-center text-base font-semibold text-black"
+            class="w-full py-4 text-base font-semibold text-center text-black rounded-full bg-lime-300"
           >
             ADD UPDATE
           </button>
@@ -176,7 +263,7 @@
           >
             <button
               type="submit"
-              class="w-full rounded-full border-2 py-4 text-center text-base font-semibold"
+              class="w-full py-4 text-base font-semibold text-center border-2 rounded-full"
               class:bg-[#e9f5d3]={isFollowing}
               class:text-black={isFollowing}
             >
@@ -202,34 +289,33 @@
           };
         }}
       >
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-150">
           <div class="relative w-[400px] max-w-full rounded-lg bg-white p-8 shadow-lg">
-            <!-- Close Button -->
             <button
               on:click={closeUpdatePopup}
-              class="absolute right-2 top-2 text-2xl font-bold text-gray-500 hover:text-gray-700"
+              class="absolute text-2xl font-bold text-gray-500 right-2 top-2 hover:text-gray-700"
               style="z-index: 1000;"
             >
               &times;
             </button>
 
             <h2 class="mb-4 text-xl font-bold">Add Update</h2>
-            <label class="mb-2 block text-sm font-medium text-gray-700">
+            <label class="block mb-2 text-sm font-medium text-gray-700">
               Title
-              <input type="text" name="title" class="mt-1 w-full rounded-lg border p-2" require />
+              <input type="text" name="title" class="w-full p-2 mt-1 border rounded-lg" require />
             </label>
-            <label class="mb-4 block text-sm font-medium text-gray-700">
+            <label class="block mb-4 text-sm font-medium text-gray-700">
               Body
               <textarea
                 rows="4"
                 name="body"
-                class="mt-1 w-full resize-none rounded-lg border p-2"
+                class="w-full p-2 mt-1 border rounded-lg resize-none"
                 require
               ></textarea>
             </label>
             <button
               type="submit"
-              class="w-full rounded-lg bg-lime-300 py-2 text-black"
+              class="w-full py-2 text-black rounded-lg bg-lime-300"
               disabled={isAddingUpdate}
             >
               {isAddingUpdate ? 'Adding Update...' : 'Add Update'}
@@ -270,13 +356,13 @@
       class="flex flex-col items-start rounded-[20px] bg-white px-4 py-8 max-md:mt-6 max-md:px-4"
     >
       <ProjectNav
-        class="flex w-full flex-nowrap items-start overflow-x-auto whitespace-nowrap text-sm"
+        class="flex items-start w-full overflow-x-auto text-sm flex-nowrap whitespace-nowrap"
         {navItems}
         bind:activeItem={activeNavItem}
         on:navChange={handleNavChange}
       />
 
-      <section class="mt-8 flex w-full max-w-full flex-col items-center">
+      <section class="flex flex-col items-center w-full max-w-full mt-8">
         {#if activeNavItem === 'projectDetails'}
           <ProjectAbout {project} />
         {:else if activeNavItem === 'dpgStatus'}
@@ -293,75 +379,70 @@
           {/if}
         {:else if activeNavItem === 'contributors'}
           <div class="w-full px-4 md:px-10">
-            <div class="mb-6 inline-flex items-center justify-start gap-1 self-stretch">
-              <div
-                class="text-center font-['Roboto'] text-2xl font-normal leading-loose text-black md:text-[32px]"
-              >
-                <slot name="header">Resources</slot>
+            {#if !showGitDetail && !showResourceDetail}
+              <div class="inline-flex items-center self-stretch justify-start gap-1 mb-6">
+                <div
+                  class="text-center font-['Roboto'] text-2xl font-normal leading-loose text-black md:text-[32px]"
+                ></div>
               </div>
-            </div>
 
-            {#if projectResource.length > 0}
-              <div class="w-full space-y-4">
-                {#each projectResource as resource}
-                  <div
-                    class="flex w-full flex-col items-start justify-start rounded-lg border border-gray-100 bg-white px-4 py-5 shadow-md md:flex-row md:px-10"
+              <div class="flex flex-col w-full pb-14 max-md:pl-5">
+                <div
+                  class="flex flex-wrap items-center justify-between w-full gap-10 font-bold text-center max-md:max-w-full"
+                >
+                  <h1 class="self-stretch my-auto text-4xl leading-tight text-black">
+                    GitHub Contributors
+                  </h1>
+                  <button
+                    class="my-auto flex items-center justify-center gap-1 self-stretch rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800"
+                    on:click={toggleGitDetail}
                   >
-                    <div class="mb-4 flex w-full justify-center md:mb-0 md:mr-6 md:w-auto">
-                      <img
-                        class="border-green h-[100px] w-[100px] rounded-full p-[15px] md:h-[120px] md:w-[120px]"
-                        src={resource.user_profile.photo || defaultImageUrl}
-                        alt={resource.user_profile.name}
-                      />
-                    </div>
-
-                    <div class="flex w-full flex-col items-start justify-start">
-                      <div
-                        class="mb-4 flex w-full flex-col items-start justify-between md:flex-row md:items-center"
-                      >
-                        <div
-                          class="mb-2 flex flex-col items-start md:mb-0 md:flex-row md:items-center"
-                        >
-                          <div
-                            class="mr-0 font-['Inter'] text-lg font-semibold text-black md:mr-2 md:text-[19px]"
-                          >
-                            {resource.user_profile.name}
-                          </div>
-                          <div
-                            class="mt-1 inline-flex items-center justify-center gap-[6.44px] rounded-md bg-[#e9f5d3] px-[9.65px] py-[6.44px] md:mt-0"
-                          >
-                            <div
-                              class="font-['Inter'] text-[10.46px] font-semibold leading-[10.46px] text-[#516027]"
-                            >
-                              {resource.type_resource.charAt(0).toUpperCase() +
-                                resource.type_resource.slice(1)}
-                            </div>
-                          </div>
-                        </div>
-                        <a target="_blank" href={resource.link} class="w-full md:w-auto">
-                          <button
-                            class="flex w-full items-center justify-center gap-[7.94px] rounded-[39.71px] border-2 border-[#516027] px-[9.06px] py-[5.12px] md:w-auto"
-                          >
-                            <div
-                              class="font-['Inter'] text-[10px] font-normal leading-tight text-[#516027]"
-                            >
-                              View {resource.type_resource.charAt(0).toUpperCase() +
-                                resource.type_resource.slice(1)}
-                            </div>
-                          </button>
-                        </a>
-                      </div>
-                      <div
-                        class="font-['Inter'] text-base font-normal text-[#c4c4c4] md:text-[17px]"
-                      >
-                        {resource.reason}
-                      </div>
-                    </div>
-                  </div>
-                {/each}
+                    <span class="self-stretch my-auto">View All</span>
+                    <img
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/d98e772819e44f8f05817c687c5960fc8aedf806399e65ef6c06fb92c13206fb?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
+                      alt=""
+                      class="self-stretch object-contain w-5 my-auto aspect-square shrink-0"
+                    />
+                  </button>
+                </div>
+                <div class="grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full">
+                  {#each contributors as contributor}
+                    <GitContributors {...contributor} />
+                  {/each}
+                </div>
               </div>
-            {:else}
-              <p class="text-center italic text-gray-500">No resources</p>
+
+              <div class="flex max-w-[846px] flex-col max-md:pl-5">
+                <div
+                  class="flex flex-wrap items-center justify-between w-full gap-10 font-bold text-center max-md:max-w-full"
+                >
+                  <h2 class="self-stretch my-auto text-4xl leading-tight text-black">Resources</h2>
+                  <button
+                    class="my-auto flex items-center justify-center gap-1 self-stretch rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800"
+                    on:click={toggleResourceDetail}
+                  >
+                    <span class="self-stretch my-auto">View All</span>
+                    <img
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/e13f9fadc17a702d863b8d21bc60e6c7ea08ee8a9506ba412086d7b1a1d15195?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
+                      alt=""
+                      class="self-stretch object-contain w-5 my-auto aspect-square shrink-0"
+                    />
+                  </button>
+                </div>
+                <div class="flex flex-wrap items-start w-full gap-5 mt-5 max-md:max-w-full">
+                  {#each resources as resource (resource.id)}
+                    <ResourceCard {...resource} />
+                  {/each}
+                </div>
+              </div>
+            {/if}
+
+            {#if showGitDetail}
+              <GitContributorsViewAll on:goBack={handleGoBack} />
+            {:else if showResourceDetail}
+              <ResourcesViewAll on:goBack={handleGoBack} />
             {/if}
           </div>
         {/if}
