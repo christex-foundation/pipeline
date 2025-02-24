@@ -33,7 +33,6 @@
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.45.4",
     "axios": "^1.7.7",
-    "chart.js": "^4.4.7",
     "countries-list": "^3.1.1",
     "dotenv": "^16.4.5",
     "openai": "^4.68.0",
