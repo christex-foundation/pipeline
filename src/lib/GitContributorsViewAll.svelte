@@ -36,6 +36,8 @@
     }
   ];
 
+  let totalCommits = contributors.reduce((sum, contributor) => sum + contributor.commits, 0);
+
   let showDropdown = false;
 </script>
 
@@ -102,8 +104,8 @@
         </div>
 
         <!-- Filter Button & Dropdown -->
-        <div class="relative flex items-center gap-2">
-          <!-- Filter Button -->
+        <!-- <div class="relative flex items-center gap-2">
+
           <div
             on:click={() => (showDropdown = !showDropdown)}
             class="flex cursor-pointer items-center gap-2 rounded-[39.71px] border-2 border-[#c9d89f] bg-white py-2 pl-3 pr-6 shadow-[0px_1px_4px_0px_rgba(12,12,13,0.05)]"
@@ -132,12 +134,12 @@
             </div>
           </div>
 
-          <!-- Filter Dropdown -->
+
           {#if showDropdown}
             <div
               class="absolute right-0 top-full z-50 w-56 flex-col gap-2 rounded-xl border border-[#e2e2e2] bg-white p-3 shadow-lg"
             >
-              <!-- No. of Commits -->
+       
               <div class="flex flex-col gap-1">
                 <span class="text-[11px] font-normal text-[#a0a0a0]">No. of commits</span>
                 <div class="flex gap-1">
@@ -154,7 +156,7 @@
                 </div>
               </div>
 
-              <!-- Date Range -->
+    
               <div class="flex flex-col gap-1">
                 <span class="text-[11px] font-normal text-[#a0a0a0]">Date Range</span>
                 <div class="flex gap-1">
@@ -171,14 +173,16 @@
                 </div>
               </div>
             </div>
-          {/if}
-        </div>
+          {/if} 
+
+          
+        </div> -->
       </div>
     </div>
 
     <div class="grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full">
       {#each contributors as contributor}
-        <GitContributors {...contributor} />
+        <GitContributors {...contributor} totalCommits={totalCommits}/>
       {/each}
     </div>
   </div>

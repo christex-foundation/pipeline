@@ -18,6 +18,8 @@
   import GitContributorsViewAll from '$lib/GitContributorsViewAll.svelte';
   import ResourcesViewAll from '$lib/ResourcesViewAll.svelte';
 
+
+  
   let id;
   $: id = $page.params.id;
 
@@ -131,6 +133,8 @@
       avatarUrl: "https://github.com/stElmitchay.png"
     }
   ];
+
+  let totalCommits = contributors.reduce((sum, contributor) => sum + contributor.commits, 0);
 
   const resources = [
     {
@@ -408,7 +412,7 @@
                 </div>
                 <div class="grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full">
                   {#each contributors as contributor}
-                    <GitContributors {...contributor} />
+                    <GitContributors {...contributor} totalCommits={totalCommits}/>
                   {/each}
                 </div>
               </div>

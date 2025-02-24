@@ -138,7 +138,7 @@
           </div>
         </div>
 
-        <div class="relative flex items-center gap-2">
+        <!-- <div class="relative flex items-center gap-2">
           <div
             on:click={() => (showDropdown = !showDropdown)}
             class="flex cursor-pointer items-center gap-2 rounded-[39.71px] border-2 border-[#c9d89f] bg-white py-2 pl-3 pr-6 shadow-[0px_1px_4px_0px_rgba(12,12,13,0.05)]"
@@ -222,7 +222,7 @@
               </div>
             </div>
           {/if}
-        </div>
+        </div> -->
       </div>
     </div>
 
