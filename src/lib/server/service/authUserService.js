@@ -26,16 +26,19 @@ export async function login(loginData, supabase) {
   }
 }
 
-export async function register(registerData) {
+export async function register(registerData, supabase) {
   const data = await registerUser(registerData);
 
   if (data) {
-    await createProfile({
-      id: data.user.id,
-      name: registerData.name,
-    });
+    await createProfile(
+      {
+        id: data.user.id,
+        name: registerData.name,
+      },
+      supabase,
+    );
 
-    return await login({ email: registerData.email, password: registerData.password });
+    return await login({ email: registerData.email, password: registerData.password }, supabase);
   }
 }
 

@@ -6,7 +6,7 @@ export async function POST({ request, locals }) {
   let supabase = locals.supabase;
   try {
     const body = await request.json();
-    const response = await register(body);
+    const response = await register(body, supabase);
 
     return response;
   } catch (err) {
