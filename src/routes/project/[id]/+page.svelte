@@ -282,56 +282,7 @@
       </div>
     {/if}
 
-    {#if showUpdatePopup}
-      <form
-        action="?/addUpdate"
-        method="POST"
-        use:enhance={() => {
-          return async ({ result }) => {
-            if (result.type === 'success') {
-              closeUpdatePopup();
-            }
 
-            await applyAction(result);
-            await invalidateAll();
-          };
-        }}
-      >
-        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-150">
-          <div class="relative w-[400px] max-w-full rounded-lg bg-white p-8 shadow-lg">
-            <button
-              on:click={closeUpdatePopup}
-              class="absolute text-2xl font-bold text-gray-500 right-2 top-2 hover:text-gray-700"
-              style="z-index: 1000;"
-            >
-              &times;
-            </button>
-
-            <h2 class="mb-4 text-xl font-bold">Add Update</h2>
-            <label class="block mb-2 text-sm font-medium text-gray-700">
-              Title
-              <input type="text" name="title" class="w-full p-2 mt-1 border rounded-lg" require />
-            </label>
-            <label class="block mb-4 text-sm font-medium text-gray-700">
-              Body
-              <textarea
-                rows="4"
-                name="body"
-                class="w-full p-2 mt-1 border rounded-lg resize-none"
-                require
-              ></textarea>
-            </label>
-            <button
-              type="submit"
-              class="w-full py-2 text-black rounded-lg bg-lime-300"
-              disabled={isAddingUpdate}
-            >
-              {isAddingUpdate ? 'Adding Update...' : 'Add Update'}
-            </button>
-          </div>
-        </div>
-      </form>
-    {/if}
 
     <section
       class="mt-8 flex w-full items-center justify-between gap-6 rounded-[20px] bg-lime-300 p-6 text-teal-950 max-md:mt-6"
@@ -385,11 +336,6 @@
         >  Updates
        
         </div>
-          <!-- <div class="flex flex-col items-start w-full gap-4 mt-5 max-md:max-w-full">
-          {#each gitUpdates as gitUpdates}
-            <GitUpdate {...gitUpdates}  />
-          {/each}
-        </div> -->
 
 
             {#each projectUpdates as update}
@@ -434,7 +380,7 @@
                     />
                   </button>
                 </div>
-                <div class="grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full">
+                <div class="relative z-0 grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full">
                   {#each contributors as contributor}
                     <GitContributors {...contributor} totalCommits={totalCommits}/>
                   {/each}
@@ -478,3 +424,55 @@
     </main>
   </div>
 </div>
+
+
+{#if showUpdatePopup}
+<form
+  action="?/addUpdate"
+  method="POST"
+  use:enhance={() => {
+    return async ({ result }) => {
+      if (result.type === 'success') {
+        closeUpdatePopup();
+      }
+
+      await applyAction(result);
+      await invalidateAll();
+    };
+  }}
+>
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-1000">
+    <div class="relative w-[400px] max-w-full rounded-lg bg-white p-8 shadow-lg">
+      <button
+        on:click={closeUpdatePopup}
+        class="absolute text-2xl font-bold text-gray-500 right-2 top-2 hover:text-gray-700"
+        style="z-index: 1000;"
+      >
+        &times;
+      </button>
+
+      <h2 class="mb-4 text-xl font-bold">Add Update</h2>
+      <label class="block mb-2 text-sm font-medium text-gray-700">
+        Title
+        <input type="text" name="title" class="w-full p-2 mt-1 border rounded-lg" require />
+      </label>
+      <label class="block mb-4 text-sm font-medium text-gray-700">
+        Body
+        <textarea
+          rows="4"
+          name="body"
+          class="w-full p-2 mt-1 border rounded-lg resize-none"
+          require
+        ></textarea>
+      </label>
+      <button
+        type="submit"
+        class="w-full py-2 text-black rounded-lg bg-lime-300"
+        disabled={isAddingUpdate}
+      >
+        {isAddingUpdate ? 'Adding Update...' : 'Add Update'}
+      </button>
+    </div>
+  </div>
+</form>
+{/if}

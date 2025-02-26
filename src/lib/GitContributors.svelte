@@ -8,7 +8,7 @@
 </script>
 
 
-<div class="relative flex items-center gap-3 text-[#0B383C] border border-gray-200 shadow-lg p-6 bg-white rounded-2xl">
+<div class="relative flex items-center gap-3 text-[#0B383C] border border-gray-200 shadow-lg p-6 bg-white rounded-2xl z-10">
 
   <img src={avatarUrl} alt="Avatar" class="border-2 border-[#0B383C] rounded-full shadow-md w-16 h-16" />
 
