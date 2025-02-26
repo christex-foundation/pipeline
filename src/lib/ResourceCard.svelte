@@ -21,13 +21,15 @@
           <h3 class="text-sm font-semibold leading-none text-black">{resource.title}</h3>
           <p class="mt-1 text-xs leading-tight text-neutral-400">{resource.user_profile.name}</p>
         </div>
-        <div
-          class="inline-flex h-5 items-center justify-center rounded-md border border-[#d5e1bf] bg-[#e9f5d3] px-2 py-1"
-        >
-          <div class="font-['Jost'] text-xs font-normal leading-3 text-[#516027]">
-            {resource.type_resource}
+        <a href={resource.link} target="_blank">
+          <div
+            class="inline-flex h-5 items-center justify-center rounded-md border border-[#0B383C] bg-[#0B383C] px-4 py-1"
+          >
+            <div class="text-md font-['Jost'] font-normal leading-3 text-white">
+              {resource.type_resource}
+            </div>
           </div>
-        </div>
+        </a>
       </div>
       <p class="mt-3 pb-4 font-['Inter'] text-xs leading-5 text-['305661'] text-slate-600">
         {resource.reason}

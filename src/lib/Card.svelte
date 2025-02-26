@@ -44,7 +44,9 @@
 
   <div class="mt-auto p-4">
     <div class="mb-2 flex items-center justify-between">
+ <a href="/project/{project.id}">
       <h2 class="text-xl font-semibold text-black">{project.title}</h2>
+    </a>
       <p class="text-xs text-neutral-400">
         <DPGRating rating={project.dpgStatusCount} />
       </p>
