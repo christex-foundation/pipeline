@@ -106,28 +106,32 @@
 
 <div class="mx-auto mt-8 flex w-full max-w-[1470px] flex-col justify-center gap-6 px-6 md:flex-row">
   <aside class="mt-[-15px] w-full max-md:overflow-x-auto md:mb-0 md:w-[28%]">
+    <!--Previously, the `flex` container had `space-x-2`, causing the SDGs heading to align horizontally with the ProjectCategory,  
+    leading to unintended horizontal scrolling. This update applies `flex-col` and `space-y-2` to properly stack the heading above  
+    the ProjectCategory component.-->
     <div
-      class="flex space-x-2 overflow-x-scroll rounded-md p-4 shadow-sm md:flex-col md:space-x-0 md:space-y-2 md:overflow-x-visible"
-      style="position: sticky; top: 0; height: fit-content;"
-    >
-      <h2 class="mb-4 hidden text-xl font-semibold text-gray-800 md:block">SDGs</h2>
-      <ProjectCategory
-        on:categorySelected={handleCategorySelected}
-        class="flex min-w-max md:min-w-0 md:flex-col"
-      />
-    </div>
+  class="flex flex-col p-4 space-y-2 overflow-x-hidden rounded-md shadow-sm"
+  style="position: sticky; top: 0; height: fit-content;"
+>
+  <h2 class="block mb-4 text-xl font-semibold text-gray-800">SDGs</h2><!--The `hidden` class on the `<h2>` element was preventing the "SDGs" heading from appearing on smaller screens. This update removes `hidden` and applies `block` to ensure visibility across all screen sizes. ---->
+  <ProjectCategory
+    on:categorySelected={handleCategorySelected}
+    class="flex min-w-max md:min-w-0 md:flex-col"
+  />
+</div>
+
   </aside>
 
   <section class="grid flex-1 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
     {#if searchTerm && searchResults.length > 0}
-      <div class="col-span-full text-xl font-semibold text-gray-700">
+      <div class="text-xl font-semibold text-gray-700 col-span-full">
         Search results for: "{searchTerm}"
       </div>
       {#each searchResults as project}
         <Card {project} />
       {/each}
       {#if !searchResultsLoaded && !allSearchLoaded}
-        <div class="col-span-full mt-8 flex items-center justify-center">
+        <div class="flex items-center justify-center mt-8 col-span-full">
           <button
             on:click={loadMoreSearchResults}
             class="rounded-full border-2 border-[#516027] bg-[#d1ea9a] px-8 py-2 text-lg font-medium text-[#516027]"
@@ -137,7 +141,7 @@
         </div>
       {/if}
     {:else if selectedTag}
-      <div class="col-span-full text-xl font-semibold text-gray-700">
+      <div class="text-xl font-semibold text-gray-700 col-span-full">
         Projects in: "{selectedTag}"
       </div>
       {#if categoryResult.length > 0}
@@ -145,7 +149,7 @@
           <Card {project} />
         {/each}
         {#if !categoryResultLoaded && !allCategoryLoaded}
-          <div class="col-span-full mt-8 flex items-center justify-center">
+          <div class="flex items-center justify-center mt-8 col-span-full">
             <button
               on:click={loadMoreCategoryResults}
               class="rounded-full border-2 border-[#516027] bg-[#d1ea9a] px-8 py-2 text-lg font-medium text-[#516027]"
@@ -155,25 +159,25 @@
           </div>
         {/if}
       {:else}
-        <p class="col-span-full text-center text-gray-600">
+        <p class="text-center text-gray-600 col-span-full">
           No projects found for "{selectedTag}".
         </p>
       {/if}
     {:else if !searchTerm}
-      <div class="col-span-full text-xl font-semibold text-gray-700">Top Projects</div>
+      <div class="text-xl font-semibold text-gray-700 col-span-full">Top Projects</div>
       {#each data.topProjects as project}
         <Card {project} />
       {:else}
         <p class="text-center text-gray-600 col-span-full">No projects found.</p>
       {/each}
 
-      <div class="col-span-full mt-8 text-xl font-semibold text-gray-700">All Projects</div>
+      <div class="mt-8 text-xl font-semibold text-gray-700 col-span-full">All Projects</div>
       {#if data.allProjects.length > 0}
         {#each loadedProjects as project (project.id)}
           <Card {project} />
         {/each}
         {#if !allProjectsLoaded}
-          <div class="col-span-full mt-8 flex w-full flex-grow items-center justify-center">
+          <div class="flex items-center justify-center flex-grow w-full mt-8 col-span-full">
             <div
               class="flex cursor-pointer"
               on:click={loadMoreProjects}
@@ -190,10 +194,10 @@
           </div>
         {/if}
       {:else}
-        <p class="col-span-full text-center text-gray-600">No projects found.</p>
+        <p class="text-center text-gray-600 col-span-full">No projects found.</p>
       {/if}
     {:else}
-      <p class="col-span-full text-center text-gray-600">No search results found.</p>
+      <p class="text-center text-gray-600 col-span-full">No search results found.</p>
     {/if}
   </section>
 </div>
