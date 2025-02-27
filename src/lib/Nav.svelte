@@ -48,7 +48,7 @@
 <header
   class="relative left-0 right-0 top-0 z-[99999] flex h-[84px] items-center justify-between bg-[#0b383c] px-4 py-5 backdrop-blur-[15px] md:px-8"
 >
-  <div class="flex h-6 grow-0 items-center gap-4 md:gap-12">
+  <div class="flex items-center h-6 gap-4 grow-0 md:gap-12">
     <Logo />
   </div>
 
@@ -72,7 +72,7 @@
     >
       <button
         type="button"
-        class="flex w-full items-center justify-between p-2"
+        class="flex items-center justify-between w-full p-2"
         on:click={() => ($searchBarOpen = !$searchBarOpen)}
       >
         <span class="text-sm text-white/50">Search for a project....</span>
@@ -84,11 +84,11 @@
   <div class="hidden h-[42.67px] grow-0 items-center justify-end gap-4 lg:flex">
     <div class="flex items-center gap-4">
       <a href="/" class="font-['Inter'] text-base font-semibold leading-none text-white"> Tasks </a>
-
-      <div class="resources-dropdown relative">
+             
+      <div class="relative resources-dropdown">
         <button
           on:click={toggleResources}
-          class="flex w-full items-center justify-between border-b border-cyan-800 px-4 py-4 focus:outline-none"
+          class="flex items-center justify-between w-full px-4 py-4 border-b border-cyan-800 focus:outline-none"
         >
           <span class="font-['Inter'] text-base font-semibold leading-none text-white">
             Resources
@@ -99,19 +99,19 @@
               'rotate-180'}"
           />
         </button>
-
+         <!--The dropdown links were styled to prevent text from breaking onto a new line and to include a rounded hover effect.-->
         {#if isResourcesOpen}
           <div
-            class="z-100 absolute left-0 top-full mt-2 w-[15vh] rounded-md bg-cyan-900 shadow-lg"
+            class="absolute left-0 block mt-2 rounded-md shadow-lg w-36 z-100 top-full bg-cyan-900" 
           >
             <a
               href="/resources/pipeline"
-              class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
+              class="flex w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 hover:rounded-md"
               >About Pipeline</a
             >
             <a
               href="/resources/digital-public-good"
-              class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
+              class="flex w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 hover:rounded-md"
               >About DPGs</a
             >
           </div>
@@ -134,7 +134,7 @@
   <!-- Mobile Menu -->
   {#if isMobileMenuOpen}
     <div class="absolute left-0 right-0 top-[84px] w-[100%] bg-[#0b383c] lg:hidden">
-      <div class="flex w-full flex-col space-y-4 px-8 py-4">
+      <div class="flex flex-col w-full px-8 py-4 space-y-4">
         <!-- Mobile Search -->
         <div class="mb-2 w-full max-w-[480px] items-center justify-center">
           <div
@@ -142,11 +142,11 @@
           >
             <button
               type="button"
-              class="mt-2 flex w-full justify-between"
+              class="flex justify-between w-full "
               on:click={() => ($searchBarOpen = !$searchBarOpen)}
             >
               <span
-                class="ml-[-18px] font-['Inter'] text-base font-semibold leading-none text-white max-lg:px-8"
+                class="ml-[-18px] font-['Inter'] text-base py-2 font-semibold leading-none text-white/50 max-lg:px-8"
                 >Search for a project...</span
               >
               <!-- <Icon
@@ -162,10 +162,10 @@
         <a href="/" class="font-['Inter'] text-base font-semibold text-white"> Tasks </a>
 
         <!-- Mobile Resources Dropdown -->
-        <div class="resources-dropdown relative">
+        <div class="relative resources-dropdown">
           <button
             on:click={toggleResources}
-            class="flex w-full items-center justify-between border-b border-cyan-800 px-4 py-4 focus:outline-none"
+            class="flex items-center justify-between w-full px-4 py-4 border-b border-cyan-800 focus:outline-none"
           >
             <span class="ml-[-18px] font-['Inter'] text-base font-semibold leading-none text-white">
               Resources
@@ -197,19 +197,19 @@
               </defs>
             </svg>
           </button>
-
+         <!--The dropdown links were styled to prevent them from floating so they can properly extend the navbar downward when clicked.-->
           {#if isResourcesOpen}
             <div
-              class="absolute right-0 top-6 z-[9999] mt-2 w-[25vh] rounded-md bg-cyan-900 shadow-lg"
+              class=" block right-0 top-6 z-[9999] mt-2 w-36"
             >
               <a
                 href="/resources/pipeline"
-                class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
+                class="flex w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 hover:rounded-md"
                 >About Pipeline</a
               >
               <a
                 href="/resources/digital-public-good"
-                class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
+                class="flex w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 hover:rounded-md"
                 >About DPGs</a
               >
             </div>
