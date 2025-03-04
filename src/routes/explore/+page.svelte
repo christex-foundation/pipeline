@@ -65,7 +65,6 @@
       if (!response.ok) throw new Error(response.statusText);
 
       const data = await response.json();
-      console.log(data);
 
       if (data.projects.length < itemsPerPage) {
         allCategoryLoaded = true;
