@@ -65,12 +65,13 @@
       if (!response.ok) throw new Error(response.statusText);
 
       const data = await response.json();
+      console.log(data);
 
-      if (data.allProjects.length < itemsPerPage) {
+      if (data.projects.length < itemsPerPage) {
         allCategoryLoaded = true;
       }
 
-      categoryResult = data.allProjects;
+      categoryResult = data.projects;
     } catch (e) {
       alert(e.message);
     } finally {
