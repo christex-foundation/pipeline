@@ -7,8 +7,6 @@ export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
 
   const explanations = parsedResponse.explanation.split('\n\n');
 
-  //console.log('Explanations:', explanations);
-
   // const projectDpgStatusData = dpgStatuses.map((criteria) => {
   //   const explanationMatch = explanations.find((explanation) =>
   //     explanation.toLowerCase().includes(criteria.name.toLowerCase()),
@@ -55,12 +53,15 @@ export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
 
       return {
         project_id: projectId,
+        name: criteria.name,
         status_id: criteria.id,
         score: score,
         explanation: reason,
       };
     }),
   );
+
+  console.log(projectDpgStatusData);
 
   for (const data of projectDpgStatusData) {
     await createProjectDpgStatus(data, supabase);

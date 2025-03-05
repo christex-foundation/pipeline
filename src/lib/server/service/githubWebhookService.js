@@ -3,6 +3,7 @@ import { getProjectByGithubUrl } from '$lib/server/service/projectService.js';
 import { createProjectUpdate } from '$lib/server/service/projectUpdatesService.js';
 import { checkDPGStatus } from '$lib/server/service/aiService.js';
 import { saveDPGStstatus } from '$lib/server/service/dpgStatusService.js';
+import { parseGithubUrl } from '$lib/server/github.js';
 
 export async function githubWebhook(data, supabase) {
   //get the project that matches the data.url
@@ -46,4 +47,24 @@ export async function githubWebhook(data, supabase) {
   return saveDPGStstatus(project.id, dpgStatus, supabase);
 
   //return json({ success: true, status: 200 });
+}
+
+export async function evaluateProject(url, supabase) {
+
+  const { owner, repo } = parseGithubUrl(url);
+
+  if (!owner || !repo) {
+    return json({ success: false, message: 'Invalid GitHub repository URL' });
+  }
+
+  const project = await getProjectByGithubUrl(url, supabase);
+
+  if (!project) {
+    return json({ success: false, message: 'Project not found' });
+  }
+
+  //check DPG status
+   const dpgStatus = await checkDPGStatus(owner, repo, supabase);
+
+   return saveDPGStstatus(project.id, dpgStatus, supabase);
 }
