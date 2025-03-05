@@ -49,22 +49,43 @@ export async function githubWebhook(data, supabase) {
   //return json({ success: true, status: 200 });
 }
 
-export async function evaluateProject(url, supabase) {
+// export async function evaluateProject(url, supabase) {
 
+//   const { owner, repo } = parseGithubUrl(url);
+
+//   if (!owner || !repo) {
+//     return json({ success: false, message: 'Invalid GitHub repository URL' });
+//   }
+
+//   const project = await getProjectByGithubUrl(url, supabase);
+
+//   if (!project) {
+//     return json({ success: false, message: 'Project not found' });
+//   }
+
+//   //check DPG status
+//    const dpgStatus = await checkDPGStatus(owner, repo, supabase);
+
+//    return await saveDPGStstatus(project.id, dpgStatus, supabase);
+// }
+
+export async function evaluateProject(url, supabase) {
   const { owner, repo } = parseGithubUrl(url);
 
   if (!owner || !repo) {
     return json({ success: false, message: 'Invalid GitHub repository URL' });
   }
 
-  const project = await getProjectByGithubUrl(url, supabase);
+  // Fetch project and check DPG status in parallel
+  const [project, dpgStatus] = await Promise.all([
+    getProjectByGithubUrl(url, supabase),
+    checkDPGStatus(owner, repo, supabase),
+  ]);
 
   if (!project) {
     return json({ success: false, message: 'Project not found' });
   }
 
-  //check DPG status
-   const dpgStatus = await checkDPGStatus(owner, repo, supabase);
-
-   return saveDPGStstatus(project.id, dpgStatus, supabase);
+  return await saveDPGStstatus(project.id, dpgStatus, supabase);
 }
+
