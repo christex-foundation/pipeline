@@ -18,7 +18,7 @@
     </div>
 
     <div class="md:w-2/3">
-      <ProjectSection {projects} {bookmarkProjects} />
+      <ProjectSection {projects} contributed={data.contributed} {bookmarkProjects} />
     </div>
   </div>
 </div>

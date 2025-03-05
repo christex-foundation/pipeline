@@ -1,39 +1,40 @@
-
 <script>
-  export let name;
-  export let githubLink;
-  export let commits;
-  export let avatarUrl;
-  export let totalCommits; 
+  import Icon from '@iconify/svelte';
+
+  export let contributor;
+  export let totalCommits = 0;
 </script>
 
+<div
+  class="relative z-10 flex items-center gap-3 rounded-2xl border border-gray-200 bg-white p-6 text-[#0B383C] shadow-lg"
+>
+  <img
+    src={contributor.avatar_url}
+    alt="{contributor.login}'s avatar"
+    class="h-16 w-16 rounded-full border-2 border-[#0B383C] shadow-md"
+  />
 
-<div class="relative flex items-center gap-3 text-[#0B383C] border border-gray-200 shadow-lg p-6 bg-white rounded-2xl z-10">
-
-  <img src={avatarUrl} alt="Avatar" class="border-2 border-[#0B383C] rounded-full shadow-md w-16 h-16" />
-
-
-  <div class="flex flex-col w-full ml-4">
-
-    <a href={githubLink} target="_blank" class="flex items-center gap-2 text-lg font-semibold text-[#0B383C] hover:underline">
-      {name}
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-auto text-[#0B383C]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M14 3h7v7"></path>
-        <path d="M10 14 21 3"></path>
-        <path d="M21 21H3V3"></path>
-      </svg>
+  <div class="ml-4 flex w-full flex-col">
+    <a
+      href={contributor.html_url}
+      target="_blank"
+      class="flex items-center gap-2 text-lg font-semibold text-[#0B383C] hover:underline"
+    >
+      {contributor?.login}
+      <Icon icon="ion:arrow-up-right-box-outline" class="text-2xl" />
     </a>
 
-
-    <div class="flex items-center gap-2 mt-1 text-sm">
-      <span class="px-3 py-1 text-xs font-medium text-white bg-[#0B383C] rounded-lg">Commits: {commits}</span>
+    <div class="mt-1 flex items-center gap-2 text-sm">
+      <span class="rounded-lg bg-[#0B383C] px-3 py-1 text-xs font-medium text-white"
+        >Commits: {contributor?.contributions}</span
+      >
     </div>
 
-
-    <div class="w-full h-2 mt-2 bg-[#e9f5d3] rounded-full border-1 border-[#bde25b]">
-      <div class="h-2 transition-all duration-500 bg-[#bde25b] rounded-full" style="width: {Math.min(commits / totalCommits * 100, 100)}%"></div>
+    <div class="border-1 mt-2 h-2 w-full rounded-full border-[#bde25b] bg-[#e9f5d3]">
+      <div
+        class="h-2 rounded-full bg-[#bde25b] transition-all duration-500"
+        style="width: {Math.min((contributor?.contributions / totalCommits) * 100, 100)}%"
+      ></div>
     </div>
   </div>
 </div>
-
-

@@ -16,7 +16,7 @@
         <div
           class="self-stretch font-['Inter'] text-2xl font-bold leading-tight text-[#282828] md:text-[32px] md:leading-10"
         >
-          {update.user.userProfile}
+          {update.title}
         </div>
         <div
           class="flex flex-col items-start justify-start gap-1 self-stretch border-b border-[#dcdedd] pb-5"
@@ -45,7 +45,7 @@
                 >
                   <div class="font-['Inter'] text-xs font-bold leading-[18px] text-white">
                     <!-- {update.user_id === update.userProfile.user_id ? 'Creator' : 'Member'} -->
-                    {update.user.type}
+                  Github
                   </div>
                 </div>
             </div>
@@ -70,15 +70,15 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col items-start self-stretch justify-start gap-1">
+      <!-- <div class="flex flex-col items-start self-stretch justify-start gap-1">
         <div class="flex flex-col items-start justify-start gap-[30px] self-stretch pb-2">
           <div
             class="self-stretch font-['Inter'] text-base font-normal leading-relaxed text-[#282828]"
           >
-           <!-- {description} -->Project description
+       Project description
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="inline-flex items-center justify-between w-full">
         <div class="flex items-center justify-start gap-6">
           <div class="flex items-center justify-start gap-2">

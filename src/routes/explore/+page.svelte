@@ -66,11 +66,11 @@
 
       const data = await response.json();
 
-      if (data.allProjects.length < itemsPerPage) {
+      if (data.projects.length < itemsPerPage) {
         allCategoryLoaded = true;
       }
 
-      categoryResult = data.allProjects;
+      categoryResult = data.projects;
     } catch (e) {
       alert(e.message);
     } finally {

@@ -22,8 +22,11 @@ export async function POST({ request }) {
   const { url } = await request.json();
 
   console.log('Evaluating:', url);
+  
 
   const { owner, repo } = parseGithubUrl(url);
+  console.log('Owner:', owner, 'Repo:', repo);
+
   if (!owner || !repo) {
     return json({ success: false, message: 'Invalid GitHub repository URL' });
   }
@@ -37,12 +40,12 @@ export async function POST({ request }) {
     });
   }
 
-  console.log('Repo Data:', repoData);
+  //console.log('Repo Data:', repoData);
 
   const messages = getDPGStatusPrompt(url, repoData);
   const response = await fetchAIResponse(messages);
 
-  console.log('OPEN AI:', response.choices[0].message.parsed);
+  //console.log('OPEN AI:', response.choices[0].message.parsed);
   const parsedResponse = response.choices[0].message.parsed;
 
   return json({ success: true, parsedResponse });

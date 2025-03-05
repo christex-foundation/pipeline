@@ -1,11 +1,13 @@
+
 export function mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses) {
   const categoriesById = categories.reduce((acc, category) => {
     acc[category.id] = category;
     return acc;
   }, {});
 
-  const dpgStatusCountByProject = dpgStatuses.reduce((acc, status) => {
-    acc[status.project_id] = (acc[status.project_id] || 0) + 1;
+  const dpgStatusScoreByProject = dpgStatuses.reduce((acc, status) => {
+    // Ensure the score is treated as a number and sum the scores for the same project
+    acc[status.project_id] = (acc[status.project_id] || 0) + (Number(status.score) || 0); 
     return acc;
   }, {});
 
@@ -17,7 +19,7 @@ export function mapProjectsWithTagsAndStatus(projects, projectCategories, catego
     return {
       ...project,
       tags: tagsForProject.filter(Boolean), // Exclude null tags
-      dpgStatusCount: dpgStatusCountByProject[project.id] || 0,
+      dpgStatusCount: dpgStatusScoreByProject[project.id] || 0, 
     };
   });
 }

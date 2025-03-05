@@ -1,7 +1,8 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import GitContributors from '$lib/GitContributors.svelte';
   import Icon from '@iconify/svelte';
+  import { page } from '$app/stores';
 
   const dispatch = createEventDispatcher();
 
@@ -9,34 +10,26 @@
     dispatch('goBack');
   }
 
-  const contributors = [
-    {
-      name: 'Hawa Kallon',
-      githubLink: 'https://github.com/hawakallon',
-      commits: 42,
-      avatarUrl: 'https://github.com/hawakallon.png',
-    },
-    {
-      name: 'Saidu Bundu-Kamara',
-      githubLink: 'https://github.com/saidubundukamara',
-      commits: 80,
-      avatarUrl: 'https://github.com/saidubundukamara.png',
-    },
-    {
-      name: 'Sparrow',
-      githubLink: 'https://github.com/sparrowsl',
-      commits: 80,
-      avatarUrl: 'https://github.com/sparrowsl.png',
-    },
-    {
-      name: 'Mitch',
-      githubLink: 'https://github.com/stElmitchay',
-      commits: 80,
-      avatarUrl: 'https://github.com/stElmitchay.png',
-    },
-  ];
+  const githubLinkSplit = $page.data?.project?.github?.split('/') || [];
+  const concat = githubLinkSplit[3] + '/' + githubLinkSplit[4];
 
-  const totalCommits = contributors.reduce((sum, contributor) => sum + contributor.commits, 0);
+  const fetchContribs = async () => {
+    try {
+      const res = await fetch(`https://api.github.com/repos/${concat}/contributors`);
+      const data = await res.json();
+      return data;
+    } catch (_e) {
+      return [];
+    }
+  };
+
+  let contributors = [];
+
+  $: totalCommits = contributors.reduce((prev, curr) => prev + curr.contributions, 0);
+
+  onMount(async () => {
+    contributors = await fetchContribs();
+  });
 </script>
 
 <div class="relative inline-flex h-[1639.94px] flex-col items-start justify-start gap-9">
@@ -75,7 +68,7 @@
 
     <div class="mt-5 grid w-full grid-cols-2 items-start gap-4 max-md:max-w-full">
       {#each contributors as contributor}
-        <GitContributors {...contributor} {totalCommits} />
+        <GitContributors {contributor} {totalCommits} />
       {/each}
     </div>
   </div>

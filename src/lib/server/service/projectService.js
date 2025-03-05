@@ -96,6 +96,45 @@ export async function getProjectsByCategory(categoryId, page, limit, supabase) {
   return mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses);
 }
 
+// export async function getProjectById(id, supabase) {
+//   const project = await getProject(id, supabase);
+
+//   if (!project) {
+//     return null;
+//   }
+
+//   const projectCategories = await getProjectCategories([project.id], supabase);
+//   const categoryIds = projectCategories.map((pc) => pc.category_id);
+//   const categories = await getCategories(categoryIds, supabase);
+
+//   // Fetch all DPG statuses and the project's specific statuses
+//   const [allDpgStatuses, projectDpgStatuses] = await Promise.all([
+//     getAllDpgStatuses(supabase),
+//     getProjectDpgStatuses(project.id, supabase),
+//   ]);
+
+//   console.log('allDpgStatuses', allDpgStatuses);
+
+//   console.log('projectDpgStatuses', projectDpgStatuses);
+
+//   const dpgStatusMap = projectDpgStatuses.reduce((acc, status) => {
+//     acc[status.status_id] = true;
+//     return acc;
+//   }, {});
+
+//   const dpgStatuses = allDpgStatuses.map((status) => ({
+//     name: status.name,
+//     status: !!dpgStatusMap[status.id], // Set to true if found, otherwise false
+//   }));
+
+//   return {
+//     ...project,
+//     tags: categories,
+//     dpgCount: projectDpgStatuses.length,
+//     dpgStatuses,
+//   };
+// }
+
 export async function getProjectById(id, supabase) {
   const project = await getProject(id, supabase);
 
@@ -113,21 +152,36 @@ export async function getProjectById(id, supabase) {
     getProjectDpgStatuses(project.id, supabase),
   ]);
 
-  const dpgStatusMap = projectDpgStatuses.reduce((acc, status) => {
-    acc[status.status_id] = true;
+  // Create a map of projectDpgStatuses by status_id
+  const projectDpgStatusesMap = projectDpgStatuses.reduce((acc, status) => {
+    acc[status.status_id] = status;
     return acc;
   }, {});
 
-  const dpgStatuses = allDpgStatuses.map((status) => ({
-    name: status.name,
-    status: !!dpgStatusMap[status.id], // Set to true if found, otherwise false
-  }));
+  // Map allDpgStatuses to match projectDpgStatuses and include score and explanation
+  const dpgStatuses = allDpgStatuses
+    .map((status) => {
+      const projectStatus = projectDpgStatusesMap[status.id];
+
+      if (projectStatus) {
+        return {
+          name: status.name,
+          score: Number(projectStatus.score), // Make sure score is treated as a number
+          explanation: projectStatus.explanation,
+        };
+      }
+
+      return null; // If no match, return null
+    })
+    .filter(Boolean); // Remove null values if any
+
+  const dpgTotalScore = dpgStatuses.reduce((sum, status) => sum + status.score, 0);
 
   return {
     ...project,
     tags: categories,
-    dpgCount: projectDpgStatuses.length,
-    dpgStatuses,
+    dpgCount: dpgTotalScore,
+    dpgStatuses, // Array of statuses with name, score, and explanation
   };
 }
 

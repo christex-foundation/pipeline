@@ -33,33 +33,29 @@
   });
 </script>
 
-<div class="flex flex-col overflow-hidden rounded-3xl bg-gray-200">
+<div class="flex flex-col overflow-hidden bg-gray-200 rounded-3xl">
   <header class="relative pt-[75%]">
     <a href="/project/{project.id}" class="absolute inset-0 flex items-center justify-center">
       <div class="h-[90%] w-[95%] overflow-hidden rounded-3xl">
-        <img loading="lazy" src={getImageLink()} alt="" class="h-full w-full object-cover" />
+        <img loading="lazy" src={getImageLink()} alt="" class="object-cover w-full h-full" />
       </div>
     </a>
   </header>
 
-  <div class="mt-auto p-4">
-    <div class="mb-2 flex items-center justify-between">
- <a href="/project/{project.id}">
-      <h2 class="text-xl font-semibold text-black">{project.title}</h2>
-    </a>
+  <div class="p-4 mt-auto">
+    <div class="flex items-center justify-between mb-2">
+      <a href="/project/{project.id}">
+        <h2 class="text-xl font-semibold text-black">{project.title}</h2>
+      </a>
       <p class="text-xs text-neutral-400">
         <DPGRating rating={project.dpgStatusCount} />
       </p>
     </div>
 
     <div class="mb-4 ml-[-2px] flex gap-2">
-      {#if project.tags.length > 0}
-        {#each project.tags as tag}
-          <CategoryTag {tag} />
-        {/each}
-      {:else}
-        <p></p>
-      {/if}
+      {#each project?.tags || [] as tag}
+        <CategoryTag {tag} />
+      {/each}
     </div>
 
     <div>

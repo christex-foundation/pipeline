@@ -9,13 +9,7 @@ export async function POST({ request, locals }) {
   // @ts-ignore
   let supabase = locals.supabase;
 
-  if (body.action === 'closed' && body.pull_request?.merged === true) {
-    await githubWebhook(body, supabase);
-  } else {
-    console.log(
-      `The action is "${body.action}" or the pull request was not merged. No specific handler for this case.`,
-    );
-  }
+   githubWebhook(body, supabase);
 
   return json({ success: 'true' }, { status: 200 });
 }

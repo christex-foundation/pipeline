@@ -104,7 +104,7 @@ export async function getAllRelevantFiles(owner, repo, path = '', depth = 0) {
 
     for (const item of response.data) {
       if (item.type === 'file' && (item.name.endsWith('.md') || !item.name.includes('.'))) {
-        console.log('Relevant File:', item.path);
+        //console.log('Relevant File:', item.path);
         // If it's a markdown file or a file without extension, retrieve its content
         const fileContent = await getFileContent(owner, repo, item.path);
         relevantFiles.push({ path: item.path, content: fileContent });

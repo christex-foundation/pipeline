@@ -1,26 +1,24 @@
 <script>
   import { applyAction, enhance } from '$app/forms';
-  import ProjectNav from '$lib/ProjectNav.svelte';
-  import ProjectAbout from '$lib/ProjectAbout.svelte';
-  import DpgStatus from '$lib/dpgStatus.svelte';
-  import { page } from '$app/stores';
-  import { onMount } from 'svelte';
-  import Updates from '$lib/Updates.svelte';
-  import UpdateDetail from '$lib/UpdateDetail.svelte';
-  import { amountFormat } from '$lib/utils/amountFormat.js';
-  import Icon from '@iconify/svelte';
-  import { dateFormat } from '$lib/utils/dateTimeFormat.js';
-  import { toast } from 'svelte-sonner';
   import { invalidateAll } from '$app/navigation';
+  import { page } from '$app/stores';
   import GitContributors from '$lib/GitContributors.svelte';
-  import ResourceCard from '$lib/ResourceCard.svelte';
-  import { createEventDispatcher } from 'svelte';
   import GitContributorsViewAll from '$lib/GitContributorsViewAll.svelte';
-  import ResourcesViewAll from '$lib/ResourcesViewAll.svelte';
   import GitUpdate from '$lib/GitUpdate.svelte';
+  import ProjectAbout from '$lib/ProjectAbout.svelte';
+  import ProjectNav from '$lib/ProjectNav.svelte';
+  import ResourceCard from '$lib/ResourceCard.svelte';
+  import ResourcesViewAll from '$lib/ResourcesViewAll.svelte';
+  import UpdateDetail from '$lib/UpdateDetail.svelte';
+  import Updates from '$lib/Updates.svelte';
+  import DpgStatus from '$lib/dpgStatus.svelte';
+  import { amountFormat } from '$lib/utils/amountFormat.js';
+  import { dateFormat } from '$lib/utils/dateTimeFormat.js';
+  import Icon from '@iconify/svelte';
+  import { onMount } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
+  import { toast } from 'svelte-sonner';
 
-
-  
   let id;
   $: id = $page.params.id;
 
@@ -28,11 +26,25 @@
   let image;
   let banner;
   let date;
-  
+
   export let data;
-  let project = data.project;
-  let projectUpdates = data.updates;
-  let projectResource = data.resources;
+  const project = data.project;
+  const projectUpdates = data.updates;
+  const projectResource = data.resources;
+  const uniqueResourceIds = new Set(projectResource.map((r) => r.id)).size;
+
+  const githubLinkSplit = project?.github?.split('/') || [];
+  const concat = githubLinkSplit[3] + '/' + githubLinkSplit[4];
+
+  const fetchContribs = async () => {
+    try {
+      const res = await fetch(`https://api.github.com/repos/${concat}/contributors`);
+      const data = await res.json();
+      return data;
+    } catch (_e) {
+      return [];
+    }
+  };
 
   let showGitDetail = false;
   let showResourceDetail = false;
@@ -52,8 +64,8 @@
   const defaultImageUrl =
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 
-  let isFollowing = false;
-  let isAddingUpdate = false;
+  const isFollowing = false;
+  const isAddingUpdate = false;
 
   let showUpdatePopup = false;
 
@@ -103,40 +115,7 @@
     ? project.image
     : 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/projectProf.png?t=2024-11-20T16%3A05%3A41.191Z';
 
-  onMount(async () => {
-    if (data.isAuthenticated) {
-      user = data.user;
-    }
-  });
-
-  let contributors = [
-    {
-      name: "Hawa Kallon",
-      githubLink: "https://github.com/hawakallon",
-      commits: 42,
-      avatarUrl: "https://github.com/hawakallon.png"
-    },
-    {
-      name: "Saidu Bundu-Kamara",
-      githubLink: "https://github.com/saidubundukamara",
-      commits: 80,
-      avatarUrl: "https://github.com/saidubundukamara.png"
-    },
-    {
-      name: "Sparrow",
-      githubLink: "https://github.com/sparrowsl",
-      commits: 80,
-      avatarUrl: "https://github.com/sparrowsl.png"
-    },
-    {
-      name: "Mitch",
-      githubLink: "https://github.com/stElmitchay",
-      commits: 80,
-      avatarUrl: "https://github.com/stElmitchay.png"
-    }
-  ];
-
-  let totalCommits = contributors.reduce((sum, contributor) => sum + contributor.commits, 0);
+  let contributors = [];
 
   const resources = [
     {
@@ -181,7 +160,21 @@
     },
   ];
 
+  onMount(async () => {
+    if (data.isAuthenticated) {
+      user = data.user;
+    }
 
+    contributors = await fetchContribs();
+  });
+
+  let totalCommits = 0;
+
+  $: {
+    if (Array.isArray(contributors)) {
+      totalCommits = contributors.reduce((prev, curr) => prev + curr.contributions, 0) || 0;
+    }
+  }
 </script>
 
 <div class="mx-auto flex max-w-[1500px] flex-col items-start px-4 lg:flex-row lg:px-8">
@@ -264,7 +257,7 @@
             use:enhance={() => {
               return async ({ result }) => {
                 if (result.type === 'success') {
-                  alert('Project bookmarked successfully');
+                  alert('Project followed successfully');
                 }
               };
             }}
@@ -282,19 +275,21 @@
       </div>
     {/if}
 
-
-
     <section
       class="mt-8 flex w-full items-center justify-between gap-6 rounded-[20px] bg-lime-300 p-6 text-teal-950 max-md:mt-6"
     >
       <div class="flex w-[120px] flex-col items-center max-md:w-[80px]">
-        <div class="text-5xl font-semibold max-md:text-3xl">6</div>
+        <div class="text-5xl font-semibold max-md:text-3xl">
+          {contributors.length + uniqueResourceIds || 0}
+        </div>
         <div class="text-sm max-md:text-[13px]">Contributors</div>
       </div>
       <div class="h-[100px] w-px bg-neutral-400 max-md:hidden"></div>
       <div class="flex w-[120px] flex-col items-center max-md:w-[80px]">
         <div class="text-5xl font-semibold max-md:text-3xl">
-          5<span class="text-3xl">/</span><span class="text-3xl text-teal-800">9</span>
+          {project.dpgCount}<span class="text-3xl">/</span><span class="text-3xl text-teal-800"
+            >9</span
+          >
         </div>
         <div class="text-sm max-md:text-[12px]">DPG Status</div>
       </div>
@@ -327,27 +322,22 @@
         {:else if activeNavItem === 'dpgStatus'}
           <DpgStatus {project} />
         {:else if activeNavItem === 'updates'}
-        
           {#if showUpdateDetail}
             <UpdateDetail {data} {selectedUpdate} on:goBack={handleGoBack} />
           {:else if projectUpdates.length > 0}
-          <div
-          class="self-stretch font-['Inter'] text-2xl font-bold leading-tight text-[#282828] md:text-[32px] md:leading-10"
-        >  Updates
-       
-        </div>
-
+            <div
+              class="self-stretch font-['Inter'] text-2xl font-bold leading-tight text-[#282828] md:text-[32px] md:leading-10"
+            >
+              Updates
+            </div>
 
             {#each projectUpdates as update}
-
               {#if update.code}
                 <GitUpdate {update} />
-                {:else}
-              <Updates on:showDetail={handleShowDetail} {update} />
+              {:else}
+                <Updates on:showDetail={handleShowDetail} {update} />
               {/if}
-              
             {/each}
-           
           {:else}
             <p>No updates</p>
           {/if}
@@ -372,17 +362,14 @@
                     on:click={toggleGitDetail}
                   >
                     <span class="self-stretch my-auto">View All</span>
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/d98e772819e44f8f05817c687c5960fc8aedf806399e65ef6c06fb92c13206fb?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
-                      alt=""
-                      class="self-stretch object-contain w-5 my-auto aspect-square shrink-0"
-                    />
+                    <Icon icon="mdi:chevron-right" class="text-2xl" />
                   </button>
                 </div>
-                <div class="relative z-0 grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full">
-                  {#each contributors as contributor}
-                    <GitContributors {...contributor} totalCommits={totalCommits}/>
+                <div
+                  class="relative z-0 grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full"
+                >
+                  {#each Array.isArray(contributors) ? contributors : [] as contributor}
+                    <GitContributors {contributor} {totalCommits} />
                   {/each}
                 </div>
               </div>
@@ -425,54 +412,53 @@
   </div>
 </div>
 
-
 {#if showUpdatePopup}
-<form
-  action="?/addUpdate"
-  method="POST"
-  use:enhance={() => {
-    return async ({ result }) => {
-      if (result.type === 'success') {
-        closeUpdatePopup();
-      }
+  <form
+    action="?/addUpdate"
+    method="POST"
+    use:enhance={() => {
+      return async ({ result }) => {
+        if (result.type === 'success') {
+          closeUpdatePopup();
+        }
 
-      await applyAction(result);
-      await invalidateAll();
-    };
-  }}
->
-  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-1000">
-    <div class="relative w-[400px] max-w-full rounded-lg bg-white p-8 shadow-lg">
-      <button
-        on:click={closeUpdatePopup}
-        class="absolute text-2xl font-bold text-gray-500 right-2 top-2 hover:text-gray-700"
-        style="z-index: 1000;"
-      >
-        &times;
-      </button>
+        await applyAction(result);
+        await invalidateAll();
+      };
+    }}
+  >
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-1000">
+      <div class="relative w-[400px] max-w-full rounded-lg bg-white p-8 shadow-lg">
+        <button
+          on:click={closeUpdatePopup}
+          class="absolute text-2xl font-bold text-gray-500 right-2 top-2 hover:text-gray-700"
+          style="z-index: 1000;"
+        >
+          &times;
+        </button>
 
-      <h2 class="mb-4 text-xl font-bold">Add Update</h2>
-      <label class="block mb-2 text-sm font-medium text-gray-700">
-        Title
-        <input type="text" name="title" class="w-full p-2 mt-1 border rounded-lg" require />
-      </label>
-      <label class="block mb-4 text-sm font-medium text-gray-700">
-        Body
-        <textarea
-          rows="4"
-          name="body"
-          class="w-full p-2 mt-1 border rounded-lg resize-none"
-          require
-        ></textarea>
-      </label>
-      <button
-        type="submit"
-        class="w-full py-2 text-black rounded-lg bg-lime-300"
-        disabled={isAddingUpdate}
-      >
-        {isAddingUpdate ? 'Adding Update...' : 'Add Update'}
-      </button>
+        <h2 class="mb-4 text-xl font-bold">Add Update</h2>
+        <label class="block mb-2 text-sm font-medium text-gray-700">
+          Title
+          <input type="text" name="title" class="w-full p-2 mt-1 border rounded-lg" require />
+        </label>
+        <label class="block mb-4 text-sm font-medium text-gray-700">
+          Body
+          <textarea
+            rows="4"
+            name="body"
+            class="w-full p-2 mt-1 border rounded-lg resize-none"
+            require
+          ></textarea>
+        </label>
+        <button
+          type="submit"
+          class="w-full py-2 text-black rounded-lg bg-lime-300"
+          disabled={isAddingUpdate}
+        >
+          {isAddingUpdate ? 'Adding Update...' : 'Add Update'}
+        </button>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
 {/if}
