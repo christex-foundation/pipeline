@@ -68,7 +68,7 @@
       on:click|stopPropagation
     >
       <!-- Search Input -->
-      <div class="border-b border-cyan-800 p-6">
+      <div class="p-6 border-b border-cyan-800">
         <div class="relative">
           <input
             autofocus
@@ -76,13 +76,13 @@
             bind:value={term}
             on:input={searchProjects}
             placeholder="Search projects, resources, and more..."
-            class="w-full rounded-md border border-cyan-800 bg-white/10 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-600 max-lg:text-sm"
+            class="w-full px-4 py-3 text-white border rounded-md border-cyan-800 bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-600 max-lg:text-sm"
           />
 
           <!-- Close button -->
           <button
             on:click={closeModal}
-            class="absolute right-2 top-1/2 -translate-y-1/2 transform text-white hover:text-gray-300"
+            class="absolute text-white transform -translate-y-1/2 right-2 top-1/2 hover:text-gray-300"
           >
             <Icon icon="mdi:close" class="text-2xl" />
           </button>
@@ -100,7 +100,7 @@
         {:else if searchResults.length > 0}
           <ul class="divide-y divide-cyan-800">
             {#each searchResults as project (project.id)}
-              <li class="cursor-pointer px-6 py-4 hover:bg-cyan-900">
+              <li class="px-6 py-4 cursor-pointer hover:bg-cyan-900">
                 <div class="font-semibold text-[#d1ea9a]">
                   <a href="/project/{project.id}">{project.title}</a>
                 </div>
@@ -109,7 +109,7 @@
             {/each}
           </ul>
         {:else}
-          <div class="p-6 text-center text-gray-400">
+          <div class="p-6 text-xs text-center text-gray-400 sm:text-xl">
             Start typing to search projects, resources, and more
           </div>
         {/if}
