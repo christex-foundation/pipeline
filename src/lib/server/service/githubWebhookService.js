@@ -66,5 +66,5 @@ export async function evaluateProject(url, supabase) {
   //check DPG status
    const dpgStatus = await checkDPGStatus(owner, repo, supabase);
 
-   return await saveDPGStstatus(project.id, dpgStatus, supabase);
+   return saveDPGStstatus(project.id, dpgStatus, supabase);
 }
