@@ -22,6 +22,7 @@ import { getDpgStatuses, getAllDpgStatuses, getProjectDpgStatuses } from '../rep
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
+import { evaluateProject } from '$lib/server/service/githubWebhookService.js';
 
 export async function getProjectsWithDetails(term, page, limit, supabase) {
   const start = (page - 1) * limit;
@@ -261,7 +262,10 @@ export async function storeProject(user, projectData, supabase) {
     await assignCategory({ project_id: project.id, category_id: tag.id }, supabase);
   }
 
-  return { project, teamMember };
+  //evaluate project
+  evaluateProject(project.github, supabase)
+
+  //return { project, teamMember };
 }
 
 export async function updateProject(userId, projectId, projectData, supabase) {

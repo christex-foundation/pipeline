@@ -71,6 +71,7 @@ export async function githubWebhook(data, supabase) {
 
 export async function evaluateProject(url, supabase) {
   const { owner, repo } = parseGithubUrl(url);
+  console.log('Owner:', owner, 'Repo:', repo);
 
   if (!owner || !repo) {
     return json({ success: false, message: 'Invalid GitHub repository URL' });
@@ -86,6 +87,6 @@ export async function evaluateProject(url, supabase) {
     return json({ success: false, message: 'Project not found' });
   }
 
-  return await saveDPGStstatus(project.id, dpgStatus, supabase);
+  saveDPGStstatus(project.id, dpgStatus, supabase);
 }
 
