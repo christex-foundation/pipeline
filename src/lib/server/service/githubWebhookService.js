@@ -39,18 +39,9 @@ export async function githubWebhook(data, supabase) {
 
   console.log('Action', data.action);
   console.log('Project:', project);
-
-  //evaluate the project
-  console.log('Evaluating project:', project.github);
-  await projectEvaluationQueue.add('evaluateProject', {
-    github: project.github,
-    supabase: supabaseUrl,
-    supabaseKey: supabaseAnonKey,
-  });
+  
 
   if (data.action === 'closed' && data.pull_request?.merged === true) {
-
-    console.log('The action is "closed" and the pull request was merged.');
     //store the project update
     await createProjectUpdate(
       {
@@ -73,6 +64,12 @@ export async function githubWebhook(data, supabase) {
     );
   }
 
+  console.log('Evaluating project:', project.github);
+  await projectEvaluationQueue.add('evaluateProject', {
+    github: project.github,
+    supabase: supabaseUrl,
+    supabaseKey: supabaseAnonKey,
+  });
   
 
 }
