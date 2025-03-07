@@ -37,6 +37,9 @@ export async function githubWebhook(data, supabase) {
     return json({ success: false, message: 'Project not found' });
   }
 
+  console.log('Action', data.action);
+  console.log('Project:', project);
+
   //evaluate the project
   console.log('Evaluating project:', project.github);
   await projectEvaluationQueue.add('evaluateProject', {
