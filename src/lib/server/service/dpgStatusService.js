@@ -41,12 +41,12 @@ export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
         console.log(`No matching explanation found for: ${criteria.name}`);
       }
 
-      const scoreMatch = explanationMatch ? explanationMatch.match(/\*\*Score\*\*:\s*(\d+)/) : null;
+      const scoreMatch = await explanationMatch ? explanationMatch.match(/\*\*Score\*\*:\s*(\d+)/) : null;
       const reasonMatch = explanationMatch
         ? explanationMatch.match(/\*\*Reason\*\*:\s*(.+)/)
         : null;
 
-      const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+      const score = await scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
       const reason = await Promise.resolve(
         reasonMatch ? reasonMatch[1].trim() : 'No explanation provided.',
       );
@@ -61,7 +61,7 @@ export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
     }),
   );
 
-  //console.log(projectDpgStatusData);
+  console.log(projectDpgStatusData);
 
   for (const data of projectDpgStatusData) {
     await createProjectDpgStatus(data, supabase);
