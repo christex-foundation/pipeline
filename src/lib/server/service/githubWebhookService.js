@@ -61,6 +61,7 @@ export async function githubWebhook(data, supabase) {
   }
 
   //evaluate the project
+  console.log('Evaluating project:', project.github);
   await projectEvaluationQueue.add('evaluateProject', {
     github: project.github,
     supabase: supabaseUrl,
