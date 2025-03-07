@@ -23,8 +23,6 @@ const projectEvaluationQueue = new Queue('projectEvaluation', {
   },
 });
 
-
-
 export async function githubWebhook(data, supabase) {
   //get the project that matches the data.url
   const url = data.repository.html_url;
@@ -39,7 +37,13 @@ export async function githubWebhook(data, supabase) {
 
   console.log('Action', data.action);
   console.log('Project:', project);
-  
+
+  console.log('Evaluating project:', project.github);
+  await projectEvaluationQueue.add('evaluateProject', {
+    github: project.github,
+    supabase: supabaseUrl,
+    supabaseKey: supabaseAnonKey,
+  });
 
   if (data.action === 'closed') {
     //store the project update
@@ -63,15 +67,6 @@ export async function githubWebhook(data, supabase) {
       `The action is "${data.action}" or the pull request was not merged. No specific handler for this case.`,
     );
   }
-
-  console.log('Evaluating project:', project.github);
-  await projectEvaluationQueue.add('evaluateProject', {
-    github: project.github,
-    supabase: supabaseUrl,
-    supabaseKey: supabaseAnonKey,
-  });
-  
-
 }
 
 export async function evaluateProject(url, supabase) {
@@ -82,7 +77,6 @@ export async function evaluateProject(url, supabase) {
   if (!owner || !repo) {
     return json({ success: false, message: 'Invalid GitHub repository URL' });
   }
-
 
   // Fetch project and check DPG status in parallel
   const [project, dpgStatus] = await Promise.all([
@@ -96,4 +90,3 @@ export async function evaluateProject(url, supabase) {
 
   await saveDPGStstatus(project.id, dpgStatus, supabase);
 }
-
