@@ -45,7 +45,7 @@ export async function githubWebhook(data, supabase) {
     supabaseKey: supabaseAnonKey,
   });
 
-  if (data.action === 'closed') {
+  if (data.action == 'closed') {
     //store the project update
     await createProjectUpdate(
       {
