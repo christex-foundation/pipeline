@@ -37,6 +37,14 @@ export async function githubWebhook(data, supabase) {
     return json({ success: false, message: 'Project not found' });
   }
 
+  //evaluate the project
+  console.log('Evaluating project:', project.github);
+  await projectEvaluationQueue.add('evaluateProject', {
+    github: project.github,
+    supabase: supabaseUrl,
+    supabaseKey: supabaseAnonKey,
+  });
+
   if (data.action === 'closed' && data.pull_request?.merged === true) {
     //store the project update
     await createProjectUpdate(
@@ -60,13 +68,7 @@ export async function githubWebhook(data, supabase) {
     );
   }
 
-  //evaluate the project
-  console.log('Evaluating project:', project.github);
-  await projectEvaluationQueue.add('evaluateProject', {
-    github: project.github,
-    supabase: supabaseUrl,
-    supabaseKey: supabaseAnonKey,
-  });
+  
 
 }
 
