@@ -85,10 +85,13 @@ export async function evaluateProject(url, supabase) {
     getProjectByGithubUrl(url, supabase),
     checkDPGStatus(owner, repo, supabase),
   ]);
+  console.log('..')
 
   if (!project) {
     return json({ success: false, message: 'Project not found' });
   }
 
   await saveDPGStstatus(project.id, dpgStatus, supabase);
+  console.log('..')
+  
 }

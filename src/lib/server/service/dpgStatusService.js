@@ -66,6 +66,7 @@ export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
   for (const data of projectDpgStatusData) {
     await createProjectDpgStatus(data, supabase);
   }
+  console.log('.')
 
   return projectDpgStatusData;
 }
