@@ -47,7 +47,7 @@ export async function githubWebhook(data, supabase) {
 
   console.log(data.action);
 
-  if (data.action == 'closed') {
+  if (data.action == 'closed' && data.pull_request?.merged) {
     //store the project update
     await createProjectUpdate(
       {
