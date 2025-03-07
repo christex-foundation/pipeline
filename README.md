@@ -42,6 +42,19 @@ Choose one of the following methods:
     ```
     npm run dev
     ```
+## 🔔 Webhook Setup
+
+To enable automatic updates and integrations, set up a webhook by following these steps:
+
+* Navigate to your project's settings in **GitHub**.
+* Go to **Webhooks** and click **Add webhook**.
+* Set the **Payload URL** to: (https://pipeline-tau.vercel.app/api/github/webhook)  
+* Choose application/json as the content type.
+* Under **Which events would you like to trigger this webhook?**, select **Send me everything**.
+* Click Add webhook to save your changes.
+
+For more details, refer to [GitHub's webhook documentation](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks).
+    
 ## 🤝 Contributing
 We welcome contributions to improve this project! To get started:
 
