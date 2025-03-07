@@ -49,6 +49,8 @@ export async function githubWebhook(data, supabase) {
   });
 
   if (data.action === 'closed' && data.pull_request?.merged === true) {
+
+    console.log('The action is "closed" and the pull request was merged.');
     //store the project update
     await createProjectUpdate(
       {
