@@ -33,6 +33,7 @@
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.45.4",
     "axios": "^1.7.7",
+    "bullmq": "^5.41.7",
     "countries-list": "^3.1.1",
     "dotenv": "^16.4.5",
     "lucide-svelte": "^0.477.0",

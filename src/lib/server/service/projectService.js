@@ -18,10 +18,28 @@ import {
   getProjectExistingCategories,
   removeTags,
 } from '$lib/server/repo/categoryRepo.js';
-import { getDpgStatuses, getAllDpgStatuses, getProjectDpgStatuses } from '../repo/dpgStatusRepo.js';
+import { getDpgStatuses, getAllDpgStatuses, getProjectDpgStatuses, createProjectDpgStatus } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
+import { Queue } from 'bullmq';
+
+import {
+  supabaseAnonKey,
+  supabaseUrl,
+  redisHost,
+  redisPort,
+  redisPassword,
+} from '$lib/server/config.js';
+
+const projectEvaluationQueue = new Queue('projectEvaluation', {
+  connection: {
+    host: redisHost,
+    // @ts-ignore
+    port: redisPort,
+    password: redisPassword,
+  },
+});
 
 export async function getProjectsWithDetails(term, page, limit, supabase) {
   const start = (page - 1) * limit;
@@ -261,7 +279,19 @@ export async function storeProject(user, projectData, supabase) {
     await assignCategory({ project_id: project.id, category_id: tag.id }, supabase);
   }
 
-  return { project, teamMember };
+  //create project db status
+  const dpgStatus = await getAllDpgStatuses(supabase);
+
+  for (const status of dpgStatus) {
+    await createProjectDpgStatus({ project_id: project.id, status_id: status.id, score: 0, explanation: '' }, supabase);
+  }
+  
+  //Enqueue the project evaluation job
+  await projectEvaluationQueue.add('evaluateProject', {
+    github: project.github,
+    supabase: supabaseUrl,
+    supabaseKey: supabaseAnonKey,
+  });
 }
 
 export async function updateProject(userId, projectId, projectData, supabase) {
@@ -293,7 +323,7 @@ export async function updateProject(userId, projectId, projectData, supabase) {
   const tagsToRemove = existingTagIds.filter((tagId) => !newTagIds.includes(tagId));
   const tagsToAdd = newTagIds.filter((tagId) => !existingTagIds.includes(tagId));
 
-  // Remove old tags
+  // Remove old tagscreateDpgStatus
   if (tagsToRemove.length > 0) {
     await removeTags(projectId, tagsToRemove, supabase);
   }

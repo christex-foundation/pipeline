@@ -3,13 +3,31 @@ import { getProjectByGithubUrl } from '$lib/server/service/projectService.js';
 import { createProjectUpdate } from '$lib/server/service/projectUpdatesService.js';
 import { checkDPGStatus } from '$lib/server/service/aiService.js';
 import { saveDPGStstatus } from '$lib/server/service/dpgStatusService.js';
+import { parseGithubUrl } from '$lib/server/github.js';
+import { Queue } from 'bullmq';
+
+import {
+  supabaseAnonKey,
+  supabaseUrl,
+  redisHost,
+  redisPort,
+  redisPassword,
+} from '$lib/server/config.js';
+
+const projectEvaluationQueue = new Queue('projectEvaluation', {
+  connection: {
+    host: redisHost,
+    // @ts-ignore
+    port: redisPort,
+    password: redisPassword,
+  },
+});
 
 export async function githubWebhook(data, supabase) {
   //get the project that matches the data.url
   const url = data.repository.html_url;
   const githubOwner = data.repository.owner.login;
   const repo = data.repository.name;
-  //console.log('Evaluating:', data);
 
   const project = await getProjectByGithubUrl(url, supabase);
 
@@ -17,9 +35,21 @@ export async function githubWebhook(data, supabase) {
     return json({ success: false, message: 'Project not found' });
   }
 
-  if (data.action === 'closed' && data.pull_request?.merged === true) {
+  console.log('Action', data.action);
+  console.log('Project:', project);
+
+  console.log('Evaluating project:', project.github);
+  await projectEvaluationQueue.add('evaluateProject', {
+    github: project.github,
+    supabase: supabaseUrl,
+    supabaseKey: supabaseAnonKey,
+  });
+
+  console.log(data.action);
+
+  if (data.action == 'closed' && data.pull_request?.merged) {
     //store the project update
-    const update = await createProjectUpdate(
+    await createProjectUpdate(
       {
         project_id: project.id,
         title: data.pull_request.title,
@@ -39,11 +69,29 @@ export async function githubWebhook(data, supabase) {
       `The action is "${data.action}" or the pull request was not merged. No specific handler for this case.`,
     );
   }
+}
 
-  //check DPG status
-  const dpgStatus = await checkDPGStatus(githubOwner, repo, supabase);
+export async function evaluateProject(url, supabase) {
+  console.log('Evaluating projectrtrtrtrtrtrtr:', url);
+  const { owner, repo } = parseGithubUrl(url);
+  console.log('Owner:', owner, 'Repo:', repo);
 
-  return saveDPGStstatus(project.id, dpgStatus, supabase);
+  if (!owner || !repo) {
+    return json({ success: false, message: 'Invalid GitHub repository URL' });
+  }
 
-  //return json({ success: true, status: 200 });
+  // Fetch project and check DPG status in parallel
+  const [project, dpgStatus] = await Promise.all([
+    getProjectByGithubUrl(url, supabase),
+    checkDPGStatus(owner, repo, supabase),
+  ]);
+  console.log('..')
+
+  if (!project) {
+    return json({ success: false, message: 'Project not found' });
+  }
+
+  await saveDPGStstatus(project.id, dpgStatus, supabase);
+  console.log('..')
+  
 }
