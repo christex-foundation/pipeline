@@ -4,13 +4,32 @@ import { createProjectUpdate } from '$lib/server/service/projectUpdatesService.j
 import { checkDPGStatus } from '$lib/server/service/aiService.js';
 import { saveDPGStstatus } from '$lib/server/service/dpgStatusService.js';
 import { parseGithubUrl } from '$lib/server/github.js';
+import { Queue } from 'bullmq';
+
+import {
+  supabaseAnonKey,
+  supabaseUrl,
+  redisHost,
+  redisPort,
+  redisPassword,
+} from '$lib/server/config.js';
+
+const projectEvaluationQueue = new Queue('projectEvaluation', {
+  connection: {
+    host: redisHost,
+    // @ts-ignore
+    port: redisPort,
+    password: redisPassword,
+  },
+});
+
+
 
 export async function githubWebhook(data, supabase) {
   //get the project that matches the data.url
   const url = data.repository.html_url;
   const githubOwner = data.repository.owner.login;
   const repo = data.repository.name;
-  //console.log('Evaluating:', data);
 
   const project = await getProjectByGithubUrl(url, supabase);
 
@@ -20,7 +39,7 @@ export async function githubWebhook(data, supabase) {
 
   if (data.action === 'closed' && data.pull_request?.merged === true) {
     //store the project update
-    const update = await createProjectUpdate(
+    await createProjectUpdate(
       {
         project_id: project.id,
         title: data.pull_request.title,
@@ -41,41 +60,24 @@ export async function githubWebhook(data, supabase) {
     );
   }
 
-  //check DPG status
-  const dpgStatus = await checkDPGStatus(githubOwner, repo, supabase);
+  //evaluate the project
+  await projectEvaluationQueue.add('evaluateProject', {
+    github: project.github,
+    supabase: supabaseUrl,
+    supabaseKey: supabaseAnonKey,
+  });
 
-  return saveDPGStstatus(project.id, dpgStatus, supabase);
-
-  //return json({ success: true, status: 200 });
 }
 
-// export async function evaluateProject(url, supabase) {
-
-//   const { owner, repo } = parseGithubUrl(url);
-
-//   if (!owner || !repo) {
-//     return json({ success: false, message: 'Invalid GitHub repository URL' });
-//   }
-
-//   const project = await getProjectByGithubUrl(url, supabase);
-
-//   if (!project) {
-//     return json({ success: false, message: 'Project not found' });
-//   }
-
-//   //check DPG status
-//    const dpgStatus = await checkDPGStatus(owner, repo, supabase);
-
-//    return await saveDPGStstatus(project.id, dpgStatus, supabase);
-// }
-
 export async function evaluateProject(url, supabase) {
+  console.log('Evaluating projectrtrtrtrtrtrtr:', url);
   const { owner, repo } = parseGithubUrl(url);
   console.log('Owner:', owner, 'Repo:', repo);
 
   if (!owner || !repo) {
     return json({ success: false, message: 'Invalid GitHub repository URL' });
   }
+
 
   // Fetch project and check DPG status in parallel
   const [project, dpgStatus] = await Promise.all([
@@ -87,6 +89,6 @@ export async function evaluateProject(url, supabase) {
     return json({ success: false, message: 'Project not found' });
   }
 
-  saveDPGStstatus(project.id, dpgStatus, supabase);
+  await saveDPGStstatus(project.id, dpgStatus, supabase);
 }
 

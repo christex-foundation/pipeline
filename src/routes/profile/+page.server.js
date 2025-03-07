@@ -33,7 +33,7 @@ export async function load({ fetch, locals }) {
       bookmarksRes.json(),
     ]);
 
-    console.log((projectsData.projects || []).concat(contributed));
+    //console.log((projectsData.projects || []).concat(contributed));
 
     return {
       allProjects: projectsData.projects || [],
