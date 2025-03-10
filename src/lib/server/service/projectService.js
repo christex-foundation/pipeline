@@ -275,16 +275,20 @@ export async function storeProject(user, projectData, supabase) {
 
   const teamMember = await createTeamMember(user.id, project.id, supabase);
 
-  for (const tag of tags) {
-    await assignCategory({ project_id: project.id, category_id: tag.id }, supabase);
-  }
+  // for (const tag of tags) {
+  //   await assignCategory({ project_id: project.id, category_id: tag.id }, supabase);
+  // }
 
   //create project db status
   const dpgStatus = await getAllDpgStatuses(supabase);
 
-  for (const status of dpgStatus) {
-    await createProjectDpgStatus({ project_id: project.id, status_id: status.id, score: 0, explanation: '' }, supabase);
-  }
+  await Promise.all(tags.map(tag =>
+    assignCategory({ project_id: project.id, category_id: tag.id }, supabase)
+  ));
+  
+  await Promise.all(dpgStatus.map(status =>
+    createProjectDpgStatus({ project_id: project.id, status_id: status.id, score: 0, explanation: '' }, supabase)
+  ));
   
   //Enqueue the project evaluation job
   await projectEvaluationQueue.add('evaluateProject', {
