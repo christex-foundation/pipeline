@@ -117,7 +117,7 @@
                 />
               </svg>
             </div>
-            <p>{item.explanation} || Evaluating...</p>
+            <p>{item.explanation || 'Evaluating...'}</p>
           </div>
         {/if}
       </div>
