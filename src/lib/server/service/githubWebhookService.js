@@ -31,21 +31,12 @@ export async function githubWebhook(data, supabase) {
 
   const project = await getProjectByGithubUrl(url, supabase);
 
+
   if (!project) {
     return json({ success: false, message: 'Project not found' });
   }
 
   console.log('Action', data.action);
-  console.log('Project:', project);
-
-  console.log('Evaluating project:', project.github);
-  await projectEvaluationQueue.add('evaluateProject', {
-    github: project.github,
-    supabase: supabaseUrl,
-    supabaseKey: supabaseAnonKey,
-  });
-
-  console.log(data.action);
 
   if (data.action == 'closed' && data.pull_request?.merged) {
     //store the project update
@@ -69,6 +60,13 @@ export async function githubWebhook(data, supabase) {
       `The action is "${data.action}" or the pull request was not merged. No specific handler for this case.`,
     );
   }
+
+  console.log('Evaluating project:', project.github);
+  await projectEvaluationQueue.add('evaluateProject', {
+    github: project.github,
+    supabase: supabaseUrl,
+    supabaseKey: supabaseAnonKey,
+  });
 }
 
 export async function evaluateProject(url, supabase) {
