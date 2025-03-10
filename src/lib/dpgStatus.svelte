@@ -47,7 +47,6 @@
       const data = await response.json();
 
       dpgStatuses = data.evaluations;
-      
     } catch (err) {
       error = err.message;
     } finally {
@@ -118,7 +117,7 @@
                 />
               </svg>
             </div>
-            <p>{item.explanation}</p>
+            <p>{item.explanation} || Evaluating...</p>
           </div>
         {/if}
       </div>
