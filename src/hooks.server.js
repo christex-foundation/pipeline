@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { redirect, init, ServerInit } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { createClient } from '@supabase/supabase-js';
+import * as Sentry from '@sentry/sveltekit';
 
 import {
   SUPABASE_SERVICE_KEY,
@@ -102,4 +103,13 @@ const projectEvaluationWorker = new Worker(
 
 console.log('Project evaluation worker is running...');
 
-export const handle = sequence(supabase, authGuard);
+Sentry.init({
+	dsn: 'https://a25a9dd442d4a7392fbee35b9ff029f7@o4508959238651904.ingest.us.sentry.io/4508959270502400',
+	tracesSampleRate: 1,
+});
+
+export const handleError = Sentry.handleErrorWithSentry();
+
+export const handle = sequence(supabase, authGuard, Sentry.sentryHandle());
+
+

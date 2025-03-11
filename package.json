@@ -30,6 +30,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@sentry/sveltekit": "^9.5.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.45.4",
     "axios": "^1.7.7",
