@@ -41,5 +41,8 @@
     "openai": "^4.68.0",
     "svelte-sonner": "^0.3.28",
     "zod": "^3.23.8"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.35.0"
   }
 }
