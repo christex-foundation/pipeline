@@ -1,7 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { sentrySvelteKit } from '@sentry/sveltekit';
 import { defineConfig } from 'vite';
-import { SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT } from '$lib/server/config.js';
+
 
 export default defineConfig({
   build: {
@@ -10,9 +10,9 @@ export default defineConfig({
   plugins: [
     sentrySvelteKit({
       sourceMapsUploadOptions: {
-        org: SENTRY_ORG,
-        project: SENTRY_PROJECT,
-        authToken: SENTRY_AUTH_TOKEN,
+        org: process.env.SENTRY_ORG,
+        project: process.env.SENTRY_PROJECT,
+        authToken: process.env.SENTRY_AUTH_TOKEN,
         sourcemaps: {
           assets: ['./build/*/**/*'],
           ignore: ['**/build/client/**/*'],
