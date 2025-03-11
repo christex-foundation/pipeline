@@ -74,6 +74,7 @@ export async function githubWebhook(data, supabase) {
     console.log('Received webhook:');
 
     const url = data.repository?.html_url;
+    
     if (!url) throw new Error('Repository URL missing in payload');
 
     const project = await getProjectByGithubUrl(url, supabase);
