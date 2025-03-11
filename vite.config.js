@@ -1,9 +1,11 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { sentrySvelteKit } from "@sentry/sveltekit";
+import { sentrySvelteKit } from '@sentry/sveltekit';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [sveltekit(), sentrySvelteKit()],
+  plugins: [sveltekit(), sentrySvelteKit({
+    adapter: "vercel"
+  })],
   server: { allowedHosts: true },
   //   server: {
   //     allowedHosts: [
