@@ -134,7 +134,7 @@ export async function evaluateProject(url, supabase) {
     return json({ success: false, message: 'Invalid GitHub repository URL' });
   }
 
-  console.log('Fetching project by GitHub URL...');
+  console.log('Fetching project by GitHub URL...', url);
   // Fetch project and check DPG status in parallel
   const [project, dpgStatus] = await Promise.all([
     getProjectByGithubUrl(url, supabase),
