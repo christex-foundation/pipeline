@@ -1,9 +1,15 @@
 import { createServerClient } from '@supabase/ssr';
-import { redirect } from '@sveltejs/kit';
+import { redirect, init, ServerInit } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { createClient} from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 
-import { SUPABASE_SERVICE_KEY, supabaseUrl, redisHost, redisPort, redisPassword } from '$lib/server/config.js';
+import {
+  SUPABASE_SERVICE_KEY,
+  supabaseUrl,
+  redisHost,
+  redisPort,
+  redisPassword,
+} from '$lib/server/config.js';
 
 import { Worker } from 'bullmq';
 import { evaluateProject } from '$lib/server/service/githubWebhookService.js';
@@ -48,8 +54,6 @@ const supabase = async ({ event, resolve }) => {
     return { session, user };
   };
 
-  
-
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
       return name === 'content-range' || name === 'x-supabase-api-version';
@@ -76,7 +80,6 @@ const projectEvaluationWorker = new Worker(
   'projectEvaluation',
   async (job) => {
     try {
-
       const { github, supabase, supabaseKey } = job.data;
 
       const supabaseConn = createClient(supabase, supabaseKey);
