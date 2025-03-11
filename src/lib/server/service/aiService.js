@@ -33,7 +33,7 @@ export async function checkDPGStatus(owner, repo, supabase) {
 
   //console.log('OPEN AI:', response.choices[0].message.parsed);
   const parsedResponse = response.choices[0].message.parsed;
-  
+
   return parsedResponse;
 }
 
@@ -160,6 +160,3 @@ Provide a final recommendation and overall score.`,
     },
   ];
 }
-
-
-

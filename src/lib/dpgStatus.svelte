@@ -122,13 +122,13 @@
         {/if}
       </div>
     {/each}
-  {:else}
+  <!-- {:else}
     <div class="w-full space-y-2">
       <h2 class="mb-4 text-start font-['Inter'] text-2xl font-semibold text-black">
         Evaluating project DPG status... This shouldn't take more than 5 minutes.
       </h2>
 
-      <!-- {#if user.id === project.user_id}
+   
         <button
           on:click={evaluateProject}
           class="mx-auto mt-5 flex w-40 items-center justify-center rounded-full border border-teal-950 bg-cyan-950 px-4 py-2 font-[Inter] text-sm font-medium text-white transition hover:bg-cyan-900 disabled:opacity-50"
@@ -149,6 +149,6 @@
           <p class="text-red-500">{error}</p>
         {/if} -->
       <!-- {/if} -->
-    </div>
+    <!-- </div> --> -->
   {/if}
 </div>
