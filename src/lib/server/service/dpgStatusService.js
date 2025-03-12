@@ -1,6 +1,7 @@
 import { getAllDpgStatuses, createProjectDpgStatus } from '$lib/server/repo/dpgStatusRepo.js';
 
 export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
+  //  console.log('Project Id', projectId)
   const parsedResponse = openAIResponse;
 
   const dpgStatuses = await getAllDpgStatuses(supabase);
@@ -37,10 +38,12 @@ export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
     }),
   );
 
-  console.log('Saving DPG statuses...');
+
   for (const data of projectDpgStatusData) {
+    console.log(data.explanation)
     await createProjectDpgStatus(data, supabase);
   }
+  //save the dpg status in json format
   console.log('.')
 
   return projectDpgStatusData;

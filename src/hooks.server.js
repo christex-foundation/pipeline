@@ -81,11 +81,11 @@ const projectEvaluationWorker = new Worker(
   'projectEvaluation',
   async (job) => {
     try {
-      const { github, supabaseUrl, supabaseAnonKey } = job.data;
+      const { github, projectId, supabaseUrl, supabaseAnonKey } = job.data;
 
       const supabaseConn = createClient(supabaseUrl, supabaseAnonKey);
 
-      await evaluateProject(github, supabaseConn);
+      await evaluateProject(github, projectId, supabaseConn);
 
       console.log(`Evaluation completed for: ${github}`);
     } catch (error) {

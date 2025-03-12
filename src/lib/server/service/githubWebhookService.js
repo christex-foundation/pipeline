@@ -31,7 +31,6 @@ const projectEvaluationQueue = new Queue('projectEvaluation', {
 
 //   const project = await getProjectByGithubUrl(url, supabase);
 
-
 //   if (!project) {
 //     return json({ success: false, message: 'Project not found' });
 //   }
@@ -74,7 +73,7 @@ export async function githubWebhook(data, supabase) {
     console.log('Received webhook:');
 
     const url = data.repository?.html_url;
-    
+
     if (!url) throw new Error('Repository URL missing in payload');
 
     const project = await getProjectByGithubUrl(url, supabase);
@@ -100,23 +99,25 @@ export async function githubWebhook(data, supabase) {
           user: data.pull_request.user,
           code: true,
         },
-        supabase
+        supabase,
       );
     } else {
       console.log(
-        `The action is "${data.action}" or the PR was not merged. Skipping update storage.`
+        `The action is "${data.action}" or the PR was not merged. Skipping update storage.`,
       );
     }
-    evaluateProject(project.github, supabase);
 
-    // console.log('Adding project to evaluation queue...');
-    // await projectEvaluationQueue.add('evaluateProject', {
-    //   github: project.github,
-    //   supabaseUrl,
-    //   supabaseAnonKey,
-    // }).catch(err => {
-    //   console.error('Failed to enqueue project evaluation:', err);
-    // });
+    console.log('Adding project to evaluation queue...');
+    await projectEvaluationQueue
+      .add('evaluateProject', {
+        github: project.github,
+        projectId: project.id,
+        supabaseUrl,
+        supabaseAnonKey,
+      })
+      .catch((err) => {
+        console.error('Failed to enqueue project evaluation:', err);
+      });
 
     return { success: true };
   } catch (error) {
@@ -125,9 +126,9 @@ export async function githubWebhook(data, supabase) {
   }
 }
 
-
-export async function evaluateProject(url, supabase) {
+export async function evaluateProject(url, projectId, supabase) {
   console.log('Evaluating project:', url);
+  console.log('Evaluating project ID:', projectId);
   const { owner, repo } = parseGithubUrl(url);
   console.log('Owner:', owner, 'Repo:', repo);
 
@@ -137,18 +138,16 @@ export async function evaluateProject(url, supabase) {
 
   console.log('Fetching project by GitHub URL...', url);
   // Fetch project and check DPG status in parallel
-  const [project, dpgStatus] = await Promise.all([
-    getProjectByGithubUrl(url, supabase),
-    checkDPGStatus(owner, repo, supabase),
-  ]);
-  console.log('..')
+  // const [project, dpgStatus] = await Promise.all([
+  //   getProjectByGithubUrl(url, supabase),
+  //   checkDPGStatus(owner, repo, supabase),
+  // ]);
 
-  if (!project) {
-    return json({ success: false, message: 'Project not found' });
-  }
+  const dpgStatus = await checkDPGStatus(owner, repo, supabase);
+
+  console.log('..');
 
   console.log('Sending project update...');
-  await saveDPGStstatus(project.id, dpgStatus, supabase);
-  console.log('..')
-  
+  await saveDPGStstatus(projectId, dpgStatus, supabase);
+  console.log('..');
 }

@@ -18,7 +18,12 @@ import {
   getProjectExistingCategories,
   removeTags,
 } from '$lib/server/repo/categoryRepo.js';
-import { getDpgStatuses, getAllDpgStatuses, getProjectDpgStatuses, createProjectDpgStatus } from '../repo/dpgStatusRepo.js';
+import {
+  getDpgStatuses,
+  getAllDpgStatuses,
+  getProjectDpgStatuses,
+  createProjectDpgStatus,
+} from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
@@ -282,20 +287,27 @@ export async function storeProject(user, projectData, supabase) {
   //create project db status
   const dpgStatus = await getAllDpgStatuses(supabase);
 
-  await Promise.all(tags.map(tag =>
-    assignCategory({ project_id: project.id, category_id: tag.id }, supabase)
-  ));
-  
-  await Promise.all(dpgStatus.map(status =>
-    createProjectDpgStatus({ project_id: project.id, status_id: status.id, score: 0, explanation: '' }, supabase)
-  ));
-  
+  await Promise.all(
+    tags.map((tag) => assignCategory({ project_id: project.id, category_id: tag.id }, supabase)),
+  );
+
+  await Promise.all(
+    dpgStatus.map((status) =>
+      createProjectDpgStatus(
+        { project_id: project.id, status_id: status.id, score: 0, explanation: '' },
+        supabase,
+      ),
+    ),
+  );
+
   //Enqueue the project evaluation job
   await projectEvaluationQueue.add('evaluateProject', {
     github: project.github,
     supabase: supabaseUrl,
     supabaseKey: supabaseAnonKey,
   });
+
+  return { success: true };
 }
 
 export async function updateProject(userId, projectId, projectData, supabase) {
