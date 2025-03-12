@@ -107,15 +107,16 @@ export async function githubWebhook(data, supabase) {
         `The action is "${data.action}" or the PR was not merged. Skipping update storage.`
       );
     }
+    evaluateProject(project.github, supabase);
 
-    console.log('Adding project to evaluation queue...');
-    await projectEvaluationQueue.add('evaluateProject', {
-      github: project.github,
-      supabaseUrl,
-      supabaseAnonKey,
-    }).catch(err => {
-      console.error('Failed to enqueue project evaluation:', err);
-    });
+    // console.log('Adding project to evaluation queue...');
+    // await projectEvaluationQueue.add('evaluateProject', {
+    //   github: project.github,
+    //   supabaseUrl,
+    //   supabaseAnonKey,
+    // }).catch(err => {
+    //   console.error('Failed to enqueue project evaluation:', err);
+    // });
 
     return { success: true };
   } catch (error) {
