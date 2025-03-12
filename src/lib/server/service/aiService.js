@@ -22,7 +22,6 @@ export async function checkDPGStatus(owner, repo, supabase) {
   try {
     // console.log('Checking DPG status');
     const repoData = await getAllRelevantFiles(owner, repo); // Fetch GitHub data
-    console.log('Fetching relevant files..');
 
     if (!repoData) {
       return json({

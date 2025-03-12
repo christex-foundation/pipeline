@@ -23,50 +23,6 @@ const projectEvaluationQueue = new Queue('projectEvaluation', {
   },
 });
 
-// export async function githubWebhook(data, supabase) {
-//   //get the project that matches the data.url
-//   const url = data.repository.html_url;
-//   const githubOwner = data.repository.owner.login;
-//   const repo = data.repository.name;
-
-//   const project = await getProjectByGithubUrl(url, supabase);
-
-//   if (!project) {
-//     return json({ success: false, message: 'Project not found' });
-//   }
-
-//   console.log('Action', data.action);
-
-//   if (data.action == 'closed' && data.pull_request?.merged) {
-//     //store the project update
-//     await createProjectUpdate(
-//       {
-//         project_id: project.id,
-//         title: data.pull_request.title,
-//         merged_url: data.pull_request.html_url,
-//         author_association: data.pull_request.author_association,
-//         commits: data.pull_request.commits,
-//         commits_url: data.pull_request.commits_url,
-//         merged: data.pull_request.merged,
-//         merged_at: data.pull_request.merged_at,
-//         user: data.pull_request.user,
-//         code: true,
-//       },
-//       supabase,
-//     );
-//   } else {
-//     console.log(
-//       `The action is "${data.action}" or the pull request was not merged. No specific handler for this case.`,
-//     );
-//   }
-
-//   console.log('Evaluating project:', project.github);
-//   await projectEvaluationQueue.add('evaluateProject', {
-//     github: project.github,
-//     supabase: supabaseUrl,
-//     supabaseKey: supabaseAnonKey,
-//   });
-// }
 
 export async function githubWebhook(data, supabase) {
   try {
@@ -137,11 +93,6 @@ export async function evaluateProject(url, projectId, supabase) {
   }
 
   console.log('Fetching project by GitHub URL...', url);
-  // Fetch project and check DPG status in parallel
-  // const [project, dpgStatus] = await Promise.all([
-  //   getProjectByGithubUrl(url, supabase),
-  //   checkDPGStatus(owner, repo, supabase),
-  // ]);
 
   const dpgStatus = await checkDPGStatus(owner, repo, supabase);
 
