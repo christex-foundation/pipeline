@@ -32,6 +32,8 @@
   const projectResource = data.resources;
   const uniqueResourceIds = new Set(projectResource.map((r) => r.id)).size;
 
+  console.log('project', project);
+
   const githubLinkSplit = project?.github?.split('/') || [];
   const concat = githubLinkSplit[3] + '/' + githubLinkSplit[4];
 

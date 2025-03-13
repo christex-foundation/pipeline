@@ -20,7 +20,7 @@ const DPGStatus = z.object({
 
 export async function checkDPGStatus(owner, repo, supabase) {
   try {
-    // console.log('Checking DPG status');
+    console.log('Checking DPG status');
     const repoData = await getAllRelevantFiles(owner, repo); // Fetch GitHub data
 
     if (!repoData) {
