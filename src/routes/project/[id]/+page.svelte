@@ -18,6 +18,7 @@
   import { onMount } from 'svelte';
   import Issues from '$lib/Issues.svelte';
   import { format } from 'date-fns';
+  import { toast } from 'svelte-sonner';
 
   let id;
   $: id = $page.params.id;
@@ -64,7 +65,9 @@
   const defaultImageUrl =
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 
-  const isFollowing = false;
+  let isFollowing = false;
+  let showPopup = false;
+  let popupMessage = '';
   const isAddingUpdate = false;
 
   let showUpdatePopup = false;
@@ -234,7 +237,7 @@
       </div>
     </section>
 
-    {#if user}
+    <!-- {#if user}
   <div class="flex items-center gap-3 mt-6">
 
     <a
@@ -252,7 +255,8 @@
       >
         <button>EDIT PROJECT</button>
       </a>
-    {:else}
+  
+      {:else}
       <form
         class="w-[50%]"
         action="?/bookmark"
@@ -276,7 +280,52 @@
       </form>
     {/if}
   </div>
+{/if} -->
+{#if user}
+  <div class="flex items-center gap-3 mt-6">
+    <a
+      href="/project/{id}/contribute"
+      class="w-full rounded-full bg-[#0b383c] py-4 text-center text-base font-semibold text-[#e9f5d3] max-md:w-[50%] lg:w-[50%]"
+    >
+      <button>CONTRIBUTE</button>
+    </a>
+
+    {#if user.id === project.user_id}
+      <a
+        href="/project/{id}/edit"
+        class="w-full rounded-full bg-lime-300 py-4 text-center text-base font-semibold text-[#0b383c] max-md:w-[50%] lg:w-[50%]"
+      >
+        <button>EDIT PROJECT</button>
+      </a>
+    {:else}
+      <form
+        class="w-[50%]"
+        action="?/bookmark"
+        method="POST"
+        use:enhance={() => {
+          return async ({ result }) => {
+            if (result.type === 'success') {
+              isFollowing = !isFollowing; 
+              toast.success(isFollowing ? 'Project followed successfully' : 'Project unfollowed successfully');
+            }
+          };
+        }}
+      >
+        <button
+          type="submit"
+          class="w-full py-4 text-base font-semibold text-center border-2 rounded-full"
+          class:bg-[#e9f5d3]={isFollowing}
+          class:text-black={isFollowing}
+        >
+          {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
+        </button>
+      </form>
+    {/if}
+  </div>
 {/if}
+
+
+
 
     <section
       class="mt-8 flex w-full items-center justify-between gap-6 rounded-[20px] bg-lime-300 p-6 text-teal-950 max-md:mt-6"

@@ -4,12 +4,20 @@
   let date;
 
   $: date = timeAgo(project.updated_at);
+
+  
 </script>
 
-<article class="mb-10 flex w-full flex-col">
+<article class="flex flex-col w-full mb-10">
   <div class="flex justify-between">
     <h2 class="text-2xl font-semibold leading-none text-black max-md:max-w-full">About Project</h2>
+   
+    {#if project.updated_at}
     <p>Last modified: {date}</p>
+    
+    {:else}
+    <p>Last modified: No modification</p>
+    {/if}
   </div>
   <p class="mt-3 text-base leading-7 text-neutral-700 max-md:max-w-full">
     {project.details || 'Project bio'}
