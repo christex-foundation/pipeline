@@ -1,37 +1,12 @@
 import { getAllDpgStatuses, createProjectDpgStatus } from '$lib/server/repo/dpgStatusRepo.js';
 
 export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
+  //  console.log('Project Id', projectId)
   const parsedResponse = openAIResponse;
 
   const dpgStatuses = await getAllDpgStatuses(supabase);
 
   const explanations = parsedResponse.explanation.split('\n\n');
-
-  //console.log('Explanations:', explanations);
-
-  // const projectDpgStatusData = dpgStatuses.map((criteria) => {
-  //   const explanationMatch = explanations.find((explanation) =>
-  //     explanation.toLowerCase().includes(criteria.name.toLowerCase()),
-  //   );
-
-  //   if (!explanationMatch) {
-  //     console.log(`No matching explanation found for: ${criteria.name}`);
-  //   }
-
-  //   const scoreMatch = explanationMatch?.match(/\*\*Score\*\*:\s*(\d+)/);
-  //   const reasonMatch = explanationMatch?.match(/\*\*Reason\*\*:\s*(.*)/);
-
-  //   const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
-  //   const reason = reasonMatch ? reasonMatch[1].trim() : 'No explanation provided.';
-  //    //console.log('Reason:', reason);
-
-  //   return {
-  //     project_id: projectId,
-  //     status_id: criteria.id,
-  //     score: score,
-  //     explanation: reason,
-  //   };
-  // });
 
   const projectDpgStatusData = await Promise.all(
     dpgStatuses.map(async (criteria) => {
@@ -48,13 +23,14 @@ export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
         ? explanationMatch.match(/\*\*Reason\*\*:\s*(.+)/)
         : null;
 
-      const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+      const score = await scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
       const reason = await Promise.resolve(
         reasonMatch ? reasonMatch[1].trim() : 'No explanation provided.',
       );
 
       return {
         project_id: projectId,
+        name: criteria.name,
         status_id: criteria.id,
         score: score,
         explanation: reason,
@@ -62,9 +38,13 @@ export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
     }),
   );
 
+
   for (const data of projectDpgStatusData) {
+    console.log(data.explanation)
     await createProjectDpgStatus(data, supabase);
   }
+  //save the dpg status in json format
+  console.log('.')
 
   return projectDpgStatusData;
 }

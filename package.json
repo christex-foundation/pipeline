@@ -30,9 +30,11 @@
   },
   "type": "module",
   "dependencies": {
+    "@sentry/sveltekit": "^9.5.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.45.4",
     "axios": "^1.7.7",
+    "bullmq": "^5.41.7",
     "countries-list": "^3.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
@@ -40,5 +42,9 @@
     "openai": "^4.68.0",
     "svelte-sonner": "^0.3.28",
     "zod": "^3.23.8"
+  },
+  "optionalDependencies": {
+    "@esbuild/linux-x64": "0.25.1",
+    "@rollup/rollup-linux-x64-gnu": "4.35.0"
   }
 }

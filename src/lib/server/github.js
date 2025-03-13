@@ -118,6 +118,6 @@ export async function getAllRelevantFiles(owner, repo, path = '', depth = 0) {
     return relevantFiles;
   } catch (error) {
     console.error(`Error retrieving relevant files from ${path}:`, error);
-    return [];
+    throw new Error('Failed to retrieve relevant files');
   }
 }
