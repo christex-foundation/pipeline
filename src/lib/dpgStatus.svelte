@@ -1,5 +1,6 @@
 <script>
   import { ChevronDown, ChevronUp, Check } from 'lucide-svelte';
+  import Icon from "@iconify/svelte"
 
   export let project;
   export let user;
@@ -96,26 +97,7 @@
               <div class="font-['Inter'] text-sm font-semibold leading-normal text-[#8a8a8a]">
                 Verdict
               </div>
-              <svg
-                width="13"
-                height="13"
-                viewBox="0 0 13 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7.66001 2.01074L8.57514 4.48385L11.0482 5.39898L8.57514 6.31411L7.66001 8.78721L6.74488 6.31411L4.27177 5.39898L6.74488 4.48385L7.66001 2.01074Z"
-                  stroke="#8A8A8A"
-                  stroke-width="0.75"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M3.42471 7.6578L4.22413 8.83486L5.40118 9.63427L4.22413 10.4337L3.42471 11.6107L2.6253 10.4337L1.44824 9.63427L2.6253 8.83486L3.42471 7.6578Z"
-                  stroke="#8A8A8A"
-                  stroke-width="0.75"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <Icon icon="mage:stars-b" class="text-2xl" />
             </div>
             <p>{item.explanation || 'Evaluating...'}</p>
           </div>
