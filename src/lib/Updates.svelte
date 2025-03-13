@@ -29,10 +29,48 @@
 
   let date = '';
   date = dateTimeFormat(update.created_at);
+
+  let comments = [];
+  export let selectedUpdate;
+  export let data;
+
+
+  async function getUpdateComments() {
+    try {
+      const response = await fetch(
+        `/api/projects/singleProject/${selectedUpdate.project_id}/projectUpdates/${selectedUpdate.id}/comments`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+      console.log(data);
+      comments = data.comments;
+    } catch (error) {
+      error = e.message;
+      alert(error);
+    } finally {
+      loading = false;
+    }
+  }
+
+
+  onMount(async () => {
+    await getUpdateComments();
+  });
+  
 </script>
 
-<div class="inline-flex w-full flex-col items-start justify-start bg-white p-4 md:p-9">
-  <div class="flex flex-col items-start justify-start gap-2 self-stretch">
+<div class="inline-flex flex-col items-start justify-start w-full p-4 bg-white md:p-9">
+  <div class="flex flex-col items-start self-stretch justify-start gap-2">
     <div class="flex w-full flex-col items-start justify-start gap-[13.30px] pt-[1.75px]">
       <div
         class="self-stretch font-['Inter'] text-2xl font-bold leading-tight text-[#282828] md:text-[32px] md:leading-10"
@@ -42,7 +80,7 @@
       <div
         class="flex flex-col items-start justify-start gap-1 self-stretch border-b border-[#dcdedd] pb-5"
       >
-        <div class="inline-flex w-full items-center justify-start gap-3">
+        <div class="inline-flex items-center justify-start w-full gap-3">
           <img
             loading="lazy"
             src={update.userProfile.image && update.userProfile.image !== ''
@@ -52,8 +90,8 @@
             class="h-10 w-10 rounded-full border border-[#dcdedd] md:h-[42px] md:w-[42px]"
           />
 
-          <div class="inline-flex w-full flex-col justify-between">
-            <div class="inline-flex items-center gap-2 self-stretch">
+          <div class="inline-flex flex-col justify-between w-full">
+            <div class="inline-flex items-center self-stretch gap-2">
               <div
                 class="max-w-[200px] truncate font-['Inter'] text-sm font-normal leading-normal text-[#282828] md:max-w-none"
               >
@@ -76,7 +114,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col items-start justify-start gap-1 self-stretch">
+    <div class="flex flex-col items-start self-stretch justify-start gap-1">
       <div class="flex flex-col items-start justify-start gap-[30px] self-stretch pb-2">
         <div
           class="self-stretch font-['Inter'] text-base font-normal leading-relaxed text-[#282828]"
@@ -85,11 +123,11 @@
         </div>
       </div>
     </div>
-    <div class="inline-flex w-full items-center justify-between">
+    <div class="inline-flex items-center justify-between w-full">
       <div class="flex items-center justify-start gap-6">
         <div class="flex items-center justify-start gap-2">
           <Icon icon="mdi:chat-outline" class="text-2xl text-[#8C8C8C]" />
-          <div class="font-['Inter'] text-sm font-normal leading-normal text-[#9b9e9e]">16</div>
+          <div class="font-['Inter'] text-sm font-normal leading-normal text-[#9b9e9e]"> {comments.length}</div>
         </div>
       </div>
       <button

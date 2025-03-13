@@ -28,7 +28,7 @@
 </script>
 
 <div class="w-full space-y-2">
-  <h2 class="mb-4 text-start font-['Inter'] text-2xl font-semibold text-black">
+  <h2 class="mb-4 text-start font-['Inter'] text-3xl font-semibold text-black max-md:text-xl">
     DPG Standard Checklist - {project.dpgCount}/9
   </h2>
 
@@ -36,7 +36,7 @@
     <div class="overflow-hidden rounded-md border border-[#c9c9c9]">
       <div
         on:click={() => toggleOpen(item.name)}
-        class="flex cursor-pointer items-center justify-between p-3 transition-colors hover:bg-gray-50"
+        class="flex items-center justify-between p-3 transition-colors cursor-pointer hover:bg-gray-50"
       >
         <div class="flex items-center gap-2">
           <div
@@ -50,7 +50,7 @@
 							flex items-center justify-center"
           >
             {#if checkedItems.has(item.name) || item.score === 1}
-              <Check class="h-4 w-4 text-white" />
+              <Check class="w-4 h-4 text-white" />
             {/if}
           </div>
           <div class="font-['Inter'] text-lg font-semibold text-black">{item.name}</div>
@@ -63,7 +63,7 @@
       </div>
       {#if openItems.has(item.name)}
         <div class="p-4 text-black">
-          <div class="mb-2 flex items-center gap-1">
+          <div class="flex items-center gap-1 mb-2">
             <div class="font-['Inter'] text-sm font-semibold leading-normal text-[#8a8a8a]">
               Verdict
             </div>
@@ -94,7 +94,7 @@
     </div>
   {:else}
     <div class="w-full space-y-2">
-      <h2 class="text-start text-black text-2xl font-semibold font-['Inter'] mb-4">
+      <h2 class="text-start text-black text-xl font-semibold font-['Inter'] mb-4 max-md:text-sm">
         No DPG status found...
       </h2>
 
