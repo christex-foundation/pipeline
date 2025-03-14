@@ -26,14 +26,14 @@
   };
 </script>
 
-<h2 class="mb-4 self-start text-3xl font-bold text-teal-950">Issues</h2>
+<h2 class="self-start mb-4 text-3xl font-bold text-teal-950">Tasks</h2>
 
-<div class="flex w-full flex-col items-start">
+<div class="flex flex-col items-start w-full ">
   {#await fetchProjectIssues()}
     <p>loading issues...</p>
   {:then issues}
     {#each issues as issue}
-      <div class="flex w-[70%] items-center gap-4 border-b border-gray-300 p-4">
+      <div class="flex w-[70%] items-center gap-4 border-b border-gray-300 p-4 max-md:w-full">
         <Icon icon="codicon:issues" class="text-3xl text-green-500" />
 
         <div class="flex-1">
@@ -51,7 +51,7 @@
           </p>
         </div>
 
-        <img src={issue.user.avatar_url} alt={issue.user.login} class="h-8 w-8 rounded-full" />
+        <img src={issue.user.avatar_url} alt={issue.user.login} class="w-8 h-8 rounded-full" />
       </div>
     {:else}
       <p class="text-sm italic text-gray-600">no open issues on this repo</p>
