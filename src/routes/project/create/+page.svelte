@@ -37,7 +37,6 @@
   <div
     class="flex flex-row flex-wrap items-start justify-center gap-10 rounded-[37px] px-10 py-5 max-md:mt-10 max-md:flex-col max-md:gap-5 max-md:px-5"
   >
-    <!-- Left Section: Project Basics -->
     <section class="flex w-full max-w-[600px] flex-1 flex-col">
       <div class="rounded-xl border border-neutral-100 bg-neutral-50 p-4 shadow-md">
         <h2 class="mb-4 text-2xl font-semibold text-black">Project Basics</h2>
@@ -45,9 +44,7 @@
       </div>
     </section>
 
-    <!-- Right Section: Links and Funding -->
     <section class="flex w-full max-w-[600px] flex-1 flex-col gap-10">
-      <!-- Links Section -->
       <div class="rounded-xl border border-neutral-200 bg-neutral-50 p-4 shadow-md">
         <h2 class="mb-4 text-2xl font-semibold text-black">Links</h2>
         <div class="flex flex-col gap-4 bg-white p-2">
@@ -75,12 +72,27 @@
               Github
             </label>
 
-            <input
-              type="url"
-              id="github"
-              name="github"
-              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-            />
+            <div class="flex w-2/3 flex-col">
+              <input
+                type="url"
+                id="github"
+                name="github"
+                class="min-h-[48px] w-full max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
+              />
+              <p class="ml-5 mt-1 text-sm text-gray-600 max-md:w-[100%]">
+                Follow <a
+                  href="https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks"
+                  target="_blank"
+                  class="text-lime-800 underline">this guide</a
+                >
+                to add the
+                <a
+                  href="https://pipeline-tau.vercel.app/api/github/webhook"
+                  target="_blank"
+                  class="text-lime-800 underline">webhook.</a
+                >
+              </p>
+            </div>
           </div>
 
           <div class="mt-4 flex items-center justify-between max-md:flex-col">

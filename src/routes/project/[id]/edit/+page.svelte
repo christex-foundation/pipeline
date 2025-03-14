@@ -97,13 +97,28 @@
               Github
             </label>
 
-            <input
-              type="url"
-              id="github"
-              name="github"
-              bind:value={project.github}
-              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-            />
+            <div class="flex w-2/3 flex-col">
+              <input
+                type="url"
+                id="github"
+                name="github"
+                bind:value={project.github}
+                class="min-h-[48px] w-full max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
+              />
+              <p class="ml-5 mt-1 text-sm text-gray-600 max-md:w-[100%]">
+                Follow <a
+                  href="https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks"
+                  target="_blank"
+                  class="text-lime-800 underline">this guide</a
+                >
+                to add the
+                <a
+                  href="https://pipeline-tau.vercel.app/api/github/webhook"
+                  target="_blank"
+                  class="text-lime-800 underline">webhook.</a
+                >
+              </p>
+            </div>
           </div>
 
           <div class="mt-4 flex items-center justify-between max-md:flex-col">

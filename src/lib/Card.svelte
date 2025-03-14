@@ -33,17 +33,17 @@
   });
 </script>
 
-<div class="flex flex-col overflow-hidden bg-gray-200 rounded-3xl">
+<div class="flex flex-col overflow-hidden rounded-3xl bg-gray-200">
   <header class="relative pt-[75%]">
     <a href="/project/{project.id}" class="absolute inset-0 flex items-center justify-center">
       <div class="h-[90%] w-[95%] overflow-hidden rounded-3xl">
-        <img loading="lazy" src={getImageLink()} alt="" class="object-cover w-full h-full" />
+        <img loading="lazy" src={getImageLink()} alt="" class="h-full w-full object-cover" />
       </div>
     </a>
   </header>
 
-  <div class="p-4 mt-auto">
-    <div class="flex items-center justify-between mb-2">
+  <div class="mt-auto p-4">
+    <div class="mb-2 flex items-center justify-between">
       <a href="/project/{project.id}">
         <h2 class="text-xl font-semibold text-black">{project.title}</h2>
       </a>

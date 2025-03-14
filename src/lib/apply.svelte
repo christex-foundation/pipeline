@@ -56,9 +56,9 @@
   };
 </script>
 
-<form on:submit|preventDefault={handleApplySubmit} class="w-full max-w-6xl px-6 py-12 mx-auto">
-  <div class="flex flex-wrap items-center justify-end mb-12">
-    <label for="category" class="w-full mb-4 text-xl md:mb-0 md:w-1/3 md:pr-8">
+<form on:submit|preventDefault={handleApplySubmit} class="mx-auto w-full max-w-6xl px-6 py-12">
+  <div class="mb-12 flex flex-wrap items-center justify-end">
+    <label for="category" class="mb-4 w-full text-xl md:mb-0 md:w-1/3 md:pr-8">
       Type of resource
     </label>
     <div class="w-full md:w-2/3">
@@ -76,8 +76,8 @@
     </div>
   </div>
 
-  <div class="flex flex-wrap items-center justify-end mb-12">
-    <label for="resourceTitle" class="w-full mb-4 text-xl md:mb-0 md:w-1/3 md:pr-8">
+  <div class="mb-12 flex flex-wrap items-center justify-end">
+    <label for="resourceTitle" class="mb-4 w-full text-xl md:mb-0 md:w-1/3 md:pr-8">
       Resource Title
     </label>
     <div class="w-full md:w-2/3">
@@ -91,8 +91,8 @@
     </div>
   </div>
 
-  <div class="flex flex-wrap items-center justify-end mb-12">
-    <label for="resourceLink" class="w-full mb-4 text-xl md:mb-0 md:w-1/3 md:pr-8">
+  <div class="mb-12 flex flex-wrap items-center justify-end">
+    <label for="resourceLink" class="mb-4 w-full text-xl md:mb-0 md:w-1/3 md:pr-8">
       Resource Link
     </label>
     <div class="w-full md:w-2/3">
@@ -106,8 +106,8 @@
     </div>
   </div>
 
-  <div class="flex flex-wrap items-center justify-end mb-12">
-    <label for="country" class="w-full mb-4 text-xl md:mb-0 md:w-1/3 md:pr-8"> Country </label>
+  <div class="mb-12 flex flex-wrap items-center justify-end">
+    <label for="country" class="mb-4 w-full text-xl md:mb-0 md:w-1/3 md:pr-8"> Country </label>
     <div class="w-full md:w-2/3">
       <select
         id="country"
@@ -124,8 +124,8 @@
   </div>
 
   <!-- Interest Section -->
-  <div class="flex flex-wrap items-start justify-end mb-12">
-    <label for="interest" class="w-full mb-4 text-xl md:mb-0 md:w-1/3 md:pr-8"> Comment </label>
+  <div class="mb-12 flex flex-wrap items-start justify-end">
+    <label for="interest" class="mb-4 w-full text-xl md:mb-0 md:w-1/3 md:pr-8"> Comment </label>
     <div class="w-full md:w-2/3">
       <textarea
         id="interest"
@@ -137,7 +137,7 @@
   </div>
 
   <!-- Submit Button -->
-  <div class="flex justify-end w-full mt-12">
+  <div class="mt-12 flex w-full justify-end">
     <button
       type="submit"
       class="w-[20%] rounded-[40px] bg-teal-900 px-4 py-4 text-lg font-medium text-gray-200 transition-colors duration-300 hover:bg-teal-800 disabled:bg-gray-500"
