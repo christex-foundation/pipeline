@@ -180,7 +180,7 @@
           <button
             on:click={addUpdateComment}
             class="mt-2 self-end rounded-lg bg-[#0b383c] px-4 py-2 text-base text-white transition-colors duration-300 focus:border-[#0b383c]
-                   focus:outline-none md:mt-0 md:w-1/4"
+                   focus:outline-none md:mt-0 md:w-1/4 disabled:bg-gray-500"
             disabled={loading}
           >
             {loading ? 'Submitting...' : 'Comment'}

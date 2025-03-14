@@ -275,7 +275,7 @@ export async function storeProject(user, projectData, supabase) {
     supabaseAnonKey: supabaseAnonKey,
   });
 
-  return { success: true };
+  return { success: true, projectId: project.id };
 }
 
 export async function updateProject(userId, projectId, projectData, supabase) {

@@ -33,15 +33,16 @@ export const actions = {
         body: JSON.stringify({ data }),
       });
 
+      const responseBody = await response.json(); // Parse response body
+      const projectId = responseBody?.response?.projectId;
+
       if (!response.ok) {
         return fail(400, 'Failed to save project');
       }
+      return { success: true, redirectTo: `/project/${projectId}` };
     } catch (_) {
       return fail(500, 'Failed to save project. Please try again later.');
     }
-
-    //TODO: redirect to the new project instead of profile
-    redirect(307, '/profile');
   },
 };
 

@@ -17,6 +17,7 @@
       steps = steps.map((step, i) => ({ ...step, active: i === index }));
     }
   }
+  
 </script>
 
 <div class="w-full bg-[#d1ea9a]/90 py-16">
