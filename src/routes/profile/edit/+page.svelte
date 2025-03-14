@@ -125,8 +125,8 @@
         class="mt-5 flex w-[82%] max-w-full flex-col items-center overflow-hidden max-lg:w-full max-md:mt-10"
         enctype="multipart/form-data"
         use:enhance={() => {
+          loading = true;
           return async ({ result }) => {
-            loading = true;
             if (result.type === 'failure') {
               toast.warn(result?.data?.error || 'failed to edit profile');
             } else if (result.type === 'error') {
@@ -156,7 +156,8 @@
 
           <button
             type="submit"
-            class="mt-[47px] flex justify-center self-end rounded-[127.56px] bg-[#516027] px-[29.89px] py-6 font-['Inter'] text-xl font-medium leading-[32.91px] text-[#ebebeb] max-lg:w-[30%] max-lg:self-end max-lg:text-sm max-md:w-[50%]"
+            class="mt-[47px] flex justify-center self-end rounded-[127.56px] bg-[#516027] px-[29.89px] py-6 font-['Inter'] text-xl font-medium leading-[32.91px] text-[#ebebeb] disabled:bg-gray-500 max-lg:w-[30%] max-lg:self-end max-lg:text-sm max-md:w-[50%]"
+            disabled={loading}
           >
             {loading ? 'Updating...' : 'Update Profile'}
           </button>
