@@ -169,42 +169,13 @@ export async function getProjectById(id, supabase) {
   const categoryIds = projectCategories.map((pc) => pc.category_id);
   const categories = await getCategories(categoryIds, supabase);
 
-  // Fetch all DPG statuses and the project's specific statuses
-  const [allDpgStatuses, projectDpgStatuses] = await Promise.all([
-    getAllDpgStatuses(supabase),
-    getProjectDpgStatuses(project.id, supabase),
-  ]);
-
-  // Create a map of projectDpgStatuses by status_id
-  const projectDpgStatusesMap = projectDpgStatuses.reduce((acc, status) => {
-    acc[status.status_id] = status;
-    return acc;
-  }, {});
-
-  // Map allDpgStatuses to match projectDpgStatuses and include score and explanation
-  const dpgStatuses = allDpgStatuses
-    .map((status) => {
-      const projectStatus = projectDpgStatusesMap[status.id];
-
-      if (projectStatus) {
-        return {
-          name: status.name,
-          score: Number(projectStatus.score), // Make sure score is treated as a number
-          explanation: projectStatus.explanation,
-        };
-      }
-
-      return null; // If no match, return null
-    })
-    .filter(Boolean); // Remove null values if any
-
-  const dpgTotalScore = dpgStatuses.reduce((sum, status) => sum + status.score, 0);
+  const dpgTotalScore = project?.dpgStatus?.reduce((sum, status) => sum + (status.score || 0), 0) || 0;
 
   return {
     ...project,
     tags: categories,
     dpgCount: dpgTotalScore,
-    dpgStatuses, // Array of statuses with name, score, and explanation
+    dpgStatuses: project.dpgStatus || [], // Array of statuses with name, score, and explanation
   };
 }
 
@@ -280,10 +251,6 @@ export async function storeProject(user, projectData, supabase) {
 
   const teamMember = await createTeamMember(user.id, project.id, supabase);
 
-  // for (const tag of tags) {
-  //   await assignCategory({ project_id: project.id, category_id: tag.id }, supabase);
-  // }
-
   //create project db status
   const dpgStatus = await getAllDpgStatuses(supabase);
 
@@ -303,8 +270,9 @@ export async function storeProject(user, projectData, supabase) {
   //Enqueue the project evaluation job
   await projectEvaluationQueue.add('evaluateProject', {
     github: project.github,
-    supabase: supabaseUrl,
-    supabaseKey: supabaseAnonKey,
+    projectId: project.id,
+    supabaseUrl: supabaseUrl,
+    supabaseAnonKey: supabaseAnonKey,
   });
 
   return { success: true };

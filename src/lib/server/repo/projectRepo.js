@@ -57,6 +57,13 @@ export async function updateDetails(id, projectData, supabase) {
   return data[0];
 }
 
+export async function updateProjectDpg(id, projectData, supabase) {
+  console.log('repo', projectData);
+  const { data, error } = await supabase.from('projects').update({ dpgStatus: projectData }).eq('id', id).select();
+  if (error) throw new Error(error.message);
+  return data[0];
+}
+
 export async function deleteProject(id, supabase) {
   const { data, error } = await supabase.from('projects').delete().eq('id', id).select();
   if (error) throw new Error(error.message);

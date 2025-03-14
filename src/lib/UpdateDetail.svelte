@@ -92,8 +92,8 @@
       class="inline-flex items-center justify-center border border-[#d1d1d1] bg-white px-[19px] py-[11.50px]"
     >
       <div class="flex items-center justify-start">
-        <div class="flex h-3 w-3 items-center justify-center">
-          <div class="relative flex h-3 w-3 flex-col items-start justify-start"></div>
+        <div class="flex items-center justify-center w-3 h-3">
+          <div class="relative flex flex-col items-start justify-start w-3 h-3"></div>
         </div>
         <button class="inline-flex flex-col items-start justify-start pl-3" on:click={goBack}>
           <div class="flex flex-col items-center justify-start">
@@ -108,9 +108,9 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-col items-start justify-start gap-6 self-stretch">
-    <div class="flex flex-col items-start justify-start gap-3 self-stretch">
-      <div class="inline-flex items-start justify-start self-stretch"></div>
+  <div class="flex flex-col items-start self-stretch justify-start gap-6">
+    <div class="flex flex-col items-start self-stretch justify-start gap-3">
+      <div class="inline-flex items-start self-stretch justify-start"></div>
       <div class="self-stretch font-['Inter'] text-[32px] font-bold leading-10 text-[#282828]">
         {selectedUpdate.title}
       </div>
@@ -128,7 +128,7 @@
           />
 
           <div class="inline-flex flex-col items-start justify-start">
-            <div class="inline-flex items-center justify-between gap-2 self-stretch">
+            <div class="inline-flex items-center self-stretch justify-between gap-2">
               <div class=" h-6 font-['Inter'] text-sm font-normal leading-normal text-[#282828]">
                 {selectedUpdate.userProfile.name}
               </div>
@@ -159,17 +159,17 @@
   </div>
 
   <div class="flex flex-col items-start justify-start gap-[18px] self-stretch pt-[42px]">
-    <div class="flex h-5 flex-col items-start justify-start self-stretch">
+    <div class="flex flex-col items-start self-stretch justify-start h-5">
       <div class="self-stretch font-['Inter'] text-base font-bold leading-tight text-[#282828]">
         Comments ({comments.length})
       </div>
     </div>
 
     <div
-      class="flex w-full flex-col gap-4 pb-8 pt-4 md:flex-row md:items-center md:justify-between"
+      class="flex flex-col w-full gap-4 pt-4 pb-8 md:flex-row md:items-center md:justify-between"
     >
       {#if data.isAuthenticated}
-        <div class="flex w-full flex-col gap-4 md:flex-row">
+        <div class="flex flex-col w-full gap-4 md:flex-row">
           <input
             type="text"
             bind:value={newComment}
@@ -205,8 +205,8 @@
           <div
             class="flex flex-col items-start justify-start gap-[18px] self-stretch border border-[#e8e8e8] bg-white p-4"
           >
-            <div class="inline-flex items-start justify-start self-stretch">
-              <div class="flex items-start justify-start gap-3 self-stretch">
+            <div class="inline-flex items-start self-stretch justify-start">
+              <div class="flex items-start self-stretch justify-start gap-3">
                 <div class="inline-flex flex-col items-start justify-start">
                   <img
                     class="h-9 w-9 rounded-full border border-[#dcdedd]"
@@ -216,13 +216,13 @@
                     alt=""
                   />
                 </div>
-                <div class="inline-flex flex-grow flex-col items-start justify-start">
-                  <div class="inline-flex items-center justify-start gap-3 self-stretch">
+                <div class="inline-flex flex-col items-start justify-start flex-grow">
+                  <div class="inline-flex items-center self-stretch justify-start gap-3">
                     <div class="font-['Inter'] text-sm font-normal leading-[21px] text-[#282828]">
                       {comment.userProfile.name}
                     </div>
                   </div>
-                  <div class="flex flex-col items-start justify-start self-stretch">
+                  <div class="flex flex-col items-start self-stretch justify-start">
                     <div class="font-['Inter'] text-xs font-normal leading-[18px] text-[#9b9e9e]">
                       {timeAgo(comment.created_at)}
                     </div>
@@ -230,9 +230,9 @@
                 </div>
               </div>
             </div>
-            <div class="inline-flex items-start justify-center self-stretch">
-              <div class="flex w-full flex-col items-start justify-start self-stretch">
-                <div class="flex flex-col items-start justify-start self-stretch">
+            <div class="inline-flex items-start self-stretch justify-center">
+              <div class="flex flex-col items-start self-stretch justify-start w-full">
+                <div class="flex flex-col items-start self-stretch justify-start">
                   <div
                     class="self-stretch font-['Inter'] text-sm font-normal leading-normal text-[#282828]"
                   >
