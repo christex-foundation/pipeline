@@ -23,12 +23,12 @@
       loading = true;
 
       if (result.type === 'failure') {
-        toast.warn(result?.data?.error || 'could not create project');
+        toast.error(result?.data?.error || 'could not create project');
       } else if (result.type === 'error') {
         toast.error('could not create a project');
+      } else {
+        toast.success('project has been created successfully');
       }
-
-      toast.success('project has been created successfully');
       loading = false;
       await applyAction(result);
     };
