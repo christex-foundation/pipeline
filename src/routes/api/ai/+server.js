@@ -22,7 +22,6 @@ export async function POST({ request }) {
   const { url } = await request.json();
 
   console.log('Evaluating:', url);
-  
 
   const { owner, repo } = parseGithubUrl(url);
   console.log('Owner:', owner, 'Repo:', repo);

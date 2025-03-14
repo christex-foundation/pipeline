@@ -19,22 +19,27 @@ const DPGStatus = z.object({
 });
 
 export async function checkDPGStatus(owner, repo, supabase) {
-  const repoData = await getAllRelevantFiles(owner, repo); // Fetch GitHub data
+  try {
+    // console.log('Checking DPG status');
+    const repoData = await getAllRelevantFiles(owner, repo); // Fetch GitHub data
 
-  if (!repoData) {
-    return json({
-      success: false,
-      message: 'Unable to access the GitHub repository or retrieve files',
-    });
+    if (!repoData) {
+      return json({
+        success: false,
+        message: 'Unable to access the GitHub repository or retrieve files',
+      });
+    }
+
+    const messages = getDPGStatusPrompt(repo, repoData);
+    const response = await fetchAIResponse(messages);
+
+    //console.log('OPEN AI:', response.choices[0].message.parsed);
+    const parsedResponse = response.choices[0].message.parsed;
+
+    return parsedResponse;
+  } catch (error) {
+    console.log('Error at check DGP status:', error);
   }
-
-  const messages = getDPGStatusPrompt(repo, repoData);
-  const response = await fetchAIResponse(messages);
-
-  //console.log('OPEN AI:', response.choices[0].message.parsed);
-  const parsedResponse = response.choices[0].message.parsed;
-  
-  return parsedResponse;
 }
 
 /**
@@ -160,6 +165,3 @@ Provide a final recommendation and overall score.`,
     },
   ];
 }
-
-
-

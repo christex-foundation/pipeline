@@ -2,12 +2,15 @@
   import { onMount } from 'svelte';
   import { enhance } from '$app/forms';
   import Icon from '@iconify/svelte';
+  import { afterNavigate } from '$app/navigation';
 
   let isOpen = false;
   let dropdownNode;
   let user = null;
   let error = null;
   export let data;
+
+  afterNavigate(() => (isOpen = false));
 
   const defaultImageUrl =
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
@@ -46,14 +49,11 @@
   <button
     on:click={toggleDropdown}
     class="flex h-[43px] w-full items-center justify-between rounded-[51px] p-2.5 px-2"
-    aria-label="User profile"
-    aria-expanded={isOpen}
-    aria-haspopup="true"
   >
-    {#if user && user.id}
+    {#if user?.id}
       <img
         loading="lazy"
-        src={user.image_url && user.image_url !== '' ? user.image_url : defaultImageUrl}
+        src={user?.image_url ? user.image_url : defaultImageUrl}
         alt="User avatar"
         class="aspect-square w-[43px] rounded-[51px] object-contain"
       />
@@ -73,7 +73,7 @@
           <div class="flex rounded-3xl p-3">
             <img
               loading="lazy"
-              src={user.image_url && user.image_url !== '' ? user.image_url : defaultImageUrl}
+              src={user?.image_url ? user.image_url : defaultImageUrl}
               class="aspect-square w-[42px] rounded-[51px] object-contain"
               alt="User avatar"
             />
