@@ -42,7 +42,7 @@
     <div
       class="flex flex-col items-center justify-between text-sm max-md:flex-col sm:flex-row sm:text-base"
     >
-      <p class="mb-4 sm:mb-0">© {currentYear} Pipeline Copyright and rights reserved</p>
+      <p class="mb-4 sm:mb-0">&copy; {currentYear} Pipeline Copyright and rights reserved</p>
       <div class="flex items-center">
         <a href="/terms" class="transition-colors duration-300 hover:text-lime-400"
           >Terms and Conditions</a
