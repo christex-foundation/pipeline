@@ -100,6 +100,15 @@
         {:else if searchResults.length > 0}
           <ul class="divide-y divide-cyan-800">
             {#each searchResults as project (project.id)}
+<<<<<<< HEAD
+              <li class="px-6 py-4 cursor-pointer hover:bg-cyan-900">
+                <div class="font-semibold text-[#d1ea9a]">
+                  <a href="/project/{project.id}">{project.title}</a>
+                </div>
+                <div class="text-sm text-white/70">{project.bio}</div>
+              </li>
+            {/each}
+=======
   <li class="px-6 py-4 cursor-pointer hover:bg-cyan-900">
     <a href="/project/{project.id}" class="block">
       <div class="font-semibold text-[#d1ea9a]">{project.title}</div>
@@ -108,9 +117,10 @@
   </li>
 {/each}
 
+>>>>>>> upstream/main
           </ul>
         {:else}
-          <div class="p-6 text-center text-gray-400">
+          <div class="p-6 text-xs text-center text-gray-400 sm:text-xl">
             Start typing to search projects, resources, and more
           </div>
         {/if}
