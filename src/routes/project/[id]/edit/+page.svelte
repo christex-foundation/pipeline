@@ -17,7 +17,7 @@
 
 <div class="mb-10 w-full bg-[#d1ea9a]/90 py-16">
   <div class="mx-auto max-w-4xl text-center">
-    <h2 class="font-['Inter'] text-[30.43px] font-semibold leading-[54.51px] text-[#08292c]">
+    <h2 class="font-['Inter'] text-[30.43px] leading-[54.51px] font-semibold text-[#08292c]">
       Edit Project - {project.title}
     </h2>
   </div>
@@ -105,7 +105,7 @@
                 bind:value={project.github}
                 class="min-h-[48px] w-full max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
               />
-              <p class="ml-5 mt-1 text-sm text-gray-600 max-md:w-[100%]">
+              <p class="mt-1 ml-5 text-sm text-gray-600 max-md:w-[100%]">
                 Follow <a
                   href="https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks"
                   target="_blank"

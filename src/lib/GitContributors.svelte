@@ -5,9 +5,8 @@
   export let totalCommits = 0;
 </script>
 
-
 <div
-  class="relative z-10 flex flex-col sm:flex-row items-center gap-3 rounded-2xl border border-gray-200 bg-white p-6 text-[#0B383C] shadow-lg w-full"
+  class="relative z-10 flex w-full flex-col items-center gap-3 rounded-2xl border border-gray-200 bg-white p-6 text-[#0B383C] shadow-lg sm:flex-row"
 >
   <img
     src={contributor.avatar_url}
@@ -15,7 +14,7 @@
     class="h-16 w-16 rounded-full border-2 border-[#0B383C] shadow-md"
   />
 
-  <div class="flex flex-col w-full mt-4 sm:mt-0 sm:ml-4">
+  <div class="mt-4 flex w-full flex-col sm:mt-0 sm:ml-4">
     <a
       href={contributor.html_url}
       target="_blank"
@@ -25,13 +24,13 @@
       <Icon icon="ion:arrow-up-right-box-outline" class="text-2xl" />
     </a>
 
-    <div class="flex items-center gap-2 mt-1 text-sm">
+    <div class="mt-1 flex items-center gap-2 text-sm">
       <span class="rounded-lg bg-[#0B383C] px-3 py-1 text-xs font-medium text-white"
         >Commits: {contributor?.contributions}</span
       >
     </div>
 
-    <div class="border-1 mt-2 h-2 w-full rounded-full border-[#bde25b] bg-[#e9f5d3]">
+    <div class="mt-2 h-2 w-full rounded-full border-1 border-[#bde25b] bg-[#e9f5d3]">
       <div
         class="h-2 rounded-full bg-[#bde25b] transition-all duration-500"
         style="width: {Math.min((contributor?.contributions / totalCommits) * 100, 100)}%"

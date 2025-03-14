@@ -220,7 +220,7 @@
             </div>
             <button
               on:click={toggleDropdown}
-              class="absolute right-4 top-1/2 -translate-y-1/2 transform focus:outline-none"
+              class="absolute top-1/2 right-4 -translate-y-1/2 transform focus:outline-none"
               aria-label="Toggle tag dropdown"
             >
               <img
@@ -265,7 +265,7 @@
               id="projectCountry"
               name="country"
               bind:value={project.country}
-              class="h-full w-full appearance-none border-none bg-transparent pl-4 pr-10 outline-none"
+              class="h-full w-full appearance-none border-none bg-transparent pr-10 pl-4 outline-none"
               required
             >
               <option value="" disabled selected hidden>--- Select a country ---</option>

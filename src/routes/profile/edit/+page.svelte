@@ -96,7 +96,7 @@
   <section class="mb-12 w-full max-lg:mb-2">
     <div
       class="mx-auto mt-5 flex max-w-[1080px] items-center justify-center gap-6 space-x-28 rounded-[37px] bg-white px-10 py-5
-      max-md:w-[90%] max-md:space-x-0 max-md:space-y-4"
+      max-md:w-[90%] max-md:space-y-4 max-md:space-x-0"
     >
       {#each navItems as navItem}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -156,7 +156,7 @@
 
           <button
             type="submit"
-            class="mt-[47px] flex justify-center self-end rounded-[127.56px] bg-[#516027] px-[29.89px] py-6 font-['Inter'] text-xl font-medium leading-[32.91px] text-[#ebebeb] max-lg:w-[30%] max-lg:self-end max-lg:text-sm max-md:w-[50%]"
+            class="mt-[47px] flex justify-center self-end rounded-[127.56px] bg-[#516027] px-[29.89px] py-6 font-['Inter'] text-xl leading-[32.91px] font-medium text-[#ebebeb] max-lg:w-[30%] max-lg:self-end max-lg:text-sm max-md:w-[50%]"
           >
             {loading ? 'Updating...' : 'Update Profile'}
           </button>

@@ -32,49 +32,53 @@
   });
 </script>
 
- <div class="relative inline-flex h-[1639.94px] flex-col items-start justify-start gap-9 max-md:w-full w-[70%]">
+<div
+  class="relative inline-flex h-[1639.94px] w-[70%] flex-col items-start justify-start gap-9 max-md:w-full"
+>
   <button class="inline-flex items-center gap-1" on:click={goBack}>
     <div
-      class="flex items-center justify-center gap-1 rounded-[39.71px] border-2 border-[#516027] py-2 pl-1 pr-4"
+      class="flex items-center justify-center gap-1 rounded-[39.71px] border-2 border-[#516027] py-2 pr-4 pl-1"
     >
       <Icon icon="material-symbols-light:chevron-left" class="text-2xl" />
-      <span class="text-center font-['Inter'] text-[13px] font-bold leading-[13px] text-[#516027]">
+      <span class="text-center font-['Inter'] text-[13px] leading-[13px] font-bold text-[#516027]">
         Back
       </span>
     </div>
   </button>
   <div class="flex h-[1567.94px] flex-col items-start justify-start gap-5 self-stretch">
-    <div class="flex items-center self-stretch justify-between max-md:flex-wrap">
-      <div class="w-full font-['Inter'] text-[18px] md:text-[23px] font-semibold leading-7 text-black">
+    <div class="flex items-center justify-between self-stretch max-md:flex-wrap">
+      <div
+        class="w-full font-['Inter'] text-[18px] leading-7 font-semibold text-black md:text-[23px]"
+      >
         All Github Contributors
       </div>
 
-      <div class="flex items-center w-full gap-2 md:w-auto">
+      <div class="flex w-full items-center gap-2 md:w-auto">
         <div
-          class="flex h-9 items-center justify-between rounded-[39.71px] border border-[#e2e2e2] py-2 pl-4 pr-3 w-full md:w-[250px]"
+          class="flex h-9 w-full items-center justify-between rounded-[39.71px] border border-[#e2e2e2] py-2 pr-3 pl-4 md:w-[250px]"
         >
           <input
             type="text"
             placeholder="Search Contributors"
-            class="border-none text-start font-['Inter'] text-[13px] font-normal leading-tight tracking-tight text-[#a0a0a0] w-full"
+            class="w-full border-none text-start font-['Inter'] text-[13px] leading-tight font-normal tracking-tight text-[#a0a0a0]"
           />
           <Icon icon="mdi:search" class="text-2xl" />
         </div>
       </div>
     </div>
 
-  <div class="relative z-0 grid w-full grid-cols-2 gap-4 mt-5 max-md:grid-cols-1 max-md:place-items-center">
-    {#if contributors && contributors.length > 0}
-    {#each contributors as contributor}
-      <GitContributors {contributor} {totalCommits} />
-    {/each}
-  {:else}
-    <div class="flex items-center justify-center w-full py-8">
-      <p class="text-lg text-gray-500">No contributors found</p>
+    <div
+      class="relative z-0 mt-5 grid w-full grid-cols-2 gap-4 max-md:grid-cols-1 max-md:place-items-center"
+    >
+      {#if contributors && contributors.length > 0}
+        {#each contributors as contributor}
+          <GitContributors {contributor} {totalCommits} />
+        {/each}
+      {:else}
+        <div class="flex w-full items-center justify-center py-8">
+          <p class="text-lg text-gray-500">No contributors found</p>
+        </div>
+      {/if}
     </div>
-  {/if}
-  </div>
   </div>
 </div>
-
-

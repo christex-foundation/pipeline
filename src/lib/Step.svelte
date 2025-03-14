@@ -6,7 +6,7 @@
 
 <article class="mt-24 flex w-full flex-wrap items-start gap-4 max-md:mt-10 max-md:max-w-full">
   <div
-    class="flex h-[57px] min-h-[56px] w-14 items-center justify-center whitespace-nowrap rounded-3xl border-[3px] border-solid border-lime-800 bg-lime-300 px-5 text-2xl font-semibold leading-none max-md:px-5"
+    class="flex h-[57px] min-h-[56px] w-14 items-center justify-center rounded-3xl border-[3px] border-solid border-lime-800 bg-lime-300 px-5 text-2xl leading-none font-semibold whitespace-nowrap max-md:px-5"
   >
     {number}
   </div>

@@ -3,14 +3,14 @@
 </script>
 
 <Toaster richColors position="top-right" closeButton />
-<main class="h-screen -mb-16 overflow-hidden bg-white md:pr-0">
-  <div class="flex flex-col h-full gap-5 md:flex-row">
-    <section class="w-full h-full basis-full max-md:hidden md:w-5/12">
+<main class="-mb-16 h-screen overflow-hidden bg-white md:pr-0">
+  <div class="flex h-full flex-col gap-5 md:flex-row">
+    <section class="h-full w-full basis-full max-md:hidden md:w-5/12">
       <div
-        class="flex h-full grow items-center gap-2.5 bg-cyan-950 py-10 pl-5 pr-2 md:py-24 md:pl-12"
+        class="flex h-full grow items-center gap-2.5 bg-cyan-950 py-10 pr-2 pl-5 md:py-24 md:pl-12"
       >
         <div
-          class="my-auto flex w-full min-w-[240px] max-w-[534px] flex-col items-center self-stretch"
+          class="my-auto flex w-full max-w-[534px] min-w-[240px] flex-col items-center self-stretch"
         >
           <a href="/">
             <img

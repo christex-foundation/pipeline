@@ -4,7 +4,7 @@
 
 <section class="mt-72 flex w-full max-w-[1076px] flex-col max-md:mt-10 max-md:max-w-full">
   <h2
-    class="w-[516px] self-center text-center text-6xl font-semibold leading-[65px] text-black max-md:max-w-full max-md:text-4xl max-md:leading-[49px]"
+    class="w-[516px] self-center text-center text-6xl leading-[65px] font-semibold text-black max-md:max-w-full max-md:text-4xl max-md:leading-[49px]"
   >
     <span class="text-6xl">Why</span><br />
     <span class="text-7xl">Join Pipeline</span>

@@ -107,7 +107,7 @@
 <div class="mx-auto mt-8 flex w-full max-w-[1470px] flex-col justify-center gap-6 px-6 md:flex-row">
   <aside class="mt-[-15px] w-full max-md:overflow-x-auto md:mb-0 md:w-[28%]">
     <div
-      class="flex space-x-2 overflow-x-scroll rounded-md p-4 shadow-sm md:flex-col md:space-x-0 md:space-y-2 md:overflow-x-visible"
+      class="flex space-x-2 overflow-x-scroll rounded-md p-4 shadow-sm md:flex-col md:space-y-2 md:space-x-0 md:overflow-x-visible"
       style="position: sticky; top: 0; height: fit-content;"
     >
       <h2 class="mb-4 hidden text-xl font-semibold text-gray-800 md:block">SDGs</h2>
@@ -184,7 +184,7 @@
               <div
                 class="items-center rounded-full border-2 border-[#516027] bg-[#d1ea9a] px-[30px] py-[12px] transition-colors duration-300 hover:bg-[#c1da8a]"
               >
-                <span class="text-xl font-normal leading-snug text-[#516027]"> Load more </span>
+                <span class="text-xl leading-snug font-normal text-[#516027]"> Load more </span>
               </div>
             </div>
           </div>

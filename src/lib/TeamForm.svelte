@@ -19,7 +19,7 @@
 </script>
 
 <section
-  class="mt-14 flex w-full max-w-[998px] flex-col text-3xl font-semibold leading-none text-black max-md:mt-10 max-md:max-w-full"
+  class="mt-14 flex w-full max-w-[998px] flex-col text-3xl leading-none font-semibold text-black max-md:mt-10 max-md:max-w-full"
 >
   <h2 class="mb-10 text-4xl">Add team member</h2>
   <form class="flex w-full flex-col whitespace-nowrap max-md:max-w-full">

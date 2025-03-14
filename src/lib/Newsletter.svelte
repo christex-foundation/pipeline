@@ -2,7 +2,7 @@
   class="mt-5 flex w-full items-center justify-between rounded-3xl bg-lime-100 px-6 py-8 max-md:flex-col max-md:items-start max-md:px-5"
 >
   <div class="flex w-full max-w-[269px] flex-col">
-    <h2 class="mb-2 text-xl font-semibold leading-none text-black max-md:text-lg">
+    <h2 class="mb-2 text-xl leading-none font-semibold text-black max-md:text-lg">
       Stay updated with our newsletter
     </h2>
     <form

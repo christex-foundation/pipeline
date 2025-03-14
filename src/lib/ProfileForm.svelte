@@ -23,7 +23,7 @@
 </script>
 
 <div
-  class="flex w-[80%] flex-col rounded-xl border border-neutral-200 bg-neutral-50 p-4 font-['Inter'] text-[30.91px] font-normal leading-[34px] shadow-md max-lg:w-full"
+  class="flex w-[80%] flex-col rounded-xl border border-neutral-200 bg-neutral-50 p-4 font-['Inter'] text-[30.91px] leading-[34px] font-normal shadow-md max-lg:w-full"
 >
   <span class="mb-10 font-semibold">Profile</span>
   <input
@@ -128,13 +128,13 @@
       </div>
       <div class="w-[70%] max-md:w-full">
         <div
-          class="pr-22 relative flex min-h-[70px] items-center rounded-[75px] border-2 border-lime-800 px-6 py-6 pl-4 max-lg:h-[10px] max-lg:py-2"
+          class="relative flex min-h-[70px] items-center rounded-[75px] border-2 border-lime-800 px-6 py-6 pr-22 pl-4 max-lg:h-[10px] max-lg:py-2"
         >
           <select
             id="country"
             name="country"
             bind:value={user.country}
-            class="w-full border-none bg-transparent pl-4 pr-10 text-base outline-none"
+            class="w-full border-none bg-transparent pr-10 pl-4 text-base outline-none"
             aria-label="Select project country"
           >
             <option value="" class="w-full">Select a country</option>

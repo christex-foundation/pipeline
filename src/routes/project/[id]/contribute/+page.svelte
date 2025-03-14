@@ -20,9 +20,9 @@
 </script>
 
 <div class="w-full bg-[#d1ea9a]/90 py-16">
-  <div class="max-w-4xl mx-auto text-center">
+  <div class="mx-auto max-w-4xl text-center">
     <h1
-      class="font-['Inter'] text-5xl font-semibold leading-[54.51px] text-[#08292c] max-lg:text-2xl"
+      class="font-['Inter'] text-5xl leading-[54.51px] font-semibold text-[#08292c] max-lg:text-2xl"
     >
       You Are Contributing To - {project.title || 'Project Title'}
     </h1>
@@ -47,7 +47,7 @@
   {/each}
 </div>
 
-<div class="max-w-4xl mx-auto mt-8">
+<div class="mx-auto mt-8 max-w-4xl">
   {#if steps[0].active}
     <Contribute />
   {:else if steps[1].active}

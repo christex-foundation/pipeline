@@ -92,13 +92,13 @@
       class="inline-flex items-center justify-center border border-[#d1d1d1] bg-white px-[19px] py-[11.50px]"
     >
       <div class="flex items-center justify-start">
-        <div class="flex items-center justify-center w-3 h-3">
-          <div class="relative flex flex-col items-start justify-start w-3 h-3"></div>
+        <div class="flex h-3 w-3 items-center justify-center">
+          <div class="relative flex h-3 w-3 flex-col items-start justify-start"></div>
         </div>
         <button class="inline-flex flex-col items-start justify-start pl-3" on:click={goBack}>
           <div class="flex flex-col items-center justify-start">
             <div
-              class="ml-[-10px] flex gap-2 text-center font-['Inter'] text-sm font-normal leading-[17.50px] text-[#222222]"
+              class="ml-[-10px] flex gap-2 text-center font-['Inter'] text-sm leading-[17.50px] font-normal text-[#222222]"
             >
               <Icon icon="mdi-light:chevron-left" class="text-2xl" />
               All Updates
@@ -108,10 +108,10 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-col items-start self-stretch justify-start gap-6">
-    <div class="flex flex-col items-start self-stretch justify-start gap-3">
-      <div class="inline-flex items-start self-stretch justify-start"></div>
-      <div class="self-stretch font-['Inter'] text-[32px] font-bold leading-10 text-[#282828]">
+  <div class="flex flex-col items-start justify-start gap-6 self-stretch">
+    <div class="flex flex-col items-start justify-start gap-3 self-stretch">
+      <div class="inline-flex items-start justify-start self-stretch"></div>
+      <div class="self-stretch font-['Inter'] text-[32px] leading-10 font-bold text-[#282828]">
         {selectedUpdate.title}
       </div>
       <div
@@ -128,14 +128,14 @@
           />
 
           <div class="inline-flex flex-col items-start justify-start">
-            <div class="inline-flex items-center self-stretch justify-between gap-2">
-              <div class=" h-6 font-['Inter'] text-sm font-normal leading-normal text-[#282828]">
+            <div class="inline-flex items-center justify-between gap-2 self-stretch">
+              <div class=" h-6 font-['Inter'] text-sm leading-normal font-normal text-[#282828]">
                 {selectedUpdate.userProfile.name}
               </div>
               <div
                 class="inline-flex flex-col items-start justify-center rounded-[3px] bg-[#05ce78] px-[5px] py-[0.25px]"
               >
-                <div class="font-['Inter'] text-xs font-bold leading-[18px] text-white">
+                <div class="font-['Inter'] text-xs leading-[18px] font-bold text-white">
                   {selectedUpdate.user_id === selectedUpdate.userProfile.user_id
                     ? 'Creator'
                     : 'Member'}
@@ -143,7 +143,7 @@
               </div>
             </div>
             <div
-              class="h-[18px] self-stretch font-['Inter'] text-[13px] font-normal leading-[18px] text-[#282828]/50"
+              class="h-[18px] self-stretch font-['Inter'] text-[13px] leading-[18px] font-normal text-[#282828]/50"
             >
               {updateDate}
             </div>
@@ -152,24 +152,24 @@
       </div>
     </div>
     <div class="flex flex-col items-start justify-start gap-[30px] self-stretch pb-2">
-      <div class="self-stretch font-['Inter'] text-base font-normal leading-[29px] text-[#282828]">
+      <div class="self-stretch font-['Inter'] text-base leading-[29px] font-normal text-[#282828]">
         {@html selectedUpdate.body}
       </div>
     </div>
   </div>
 
   <div class="flex flex-col items-start justify-start gap-[18px] self-stretch pt-[42px]">
-    <div class="flex flex-col items-start self-stretch justify-start h-5">
-      <div class="self-stretch font-['Inter'] text-base font-bold leading-tight text-[#282828]">
+    <div class="flex h-5 flex-col items-start justify-start self-stretch">
+      <div class="self-stretch font-['Inter'] text-base leading-tight font-bold text-[#282828]">
         Comments ({comments.length})
       </div>
     </div>
 
     <div
-      class="flex flex-col w-full gap-4 pt-4 pb-8 md:flex-row md:items-center md:justify-between"
+      class="flex w-full flex-col gap-4 pt-4 pb-8 md:flex-row md:items-center md:justify-between"
     >
       {#if data.isAuthenticated}
-        <div class="flex flex-col w-full gap-4 md:flex-row">
+        <div class="flex w-full flex-col gap-4 md:flex-row">
           <input
             type="text"
             bind:value={newComment}
@@ -199,14 +199,14 @@
 
     {#if comments.length > 0}
       <div
-        class="flex max-h-[385px] flex-col items-start justify-start gap-3 self-stretch overflow-y-auto border border-[#e8e8e8] bg-[#fbfbfa] px-[13px] pb-[13px] pt-[15px]"
+        class="flex max-h-[385px] flex-col items-start justify-start gap-3 self-stretch overflow-y-auto border border-[#e8e8e8] bg-[#fbfbfa] px-[13px] pt-[15px] pb-[13px]"
       >
         {#each comments as comment}
           <div
             class="flex flex-col items-start justify-start gap-[18px] self-stretch border border-[#e8e8e8] bg-white p-4"
           >
-            <div class="inline-flex items-start self-stretch justify-start">
-              <div class="flex items-start self-stretch justify-start gap-3">
+            <div class="inline-flex items-start justify-start self-stretch">
+              <div class="flex items-start justify-start gap-3 self-stretch">
                 <div class="inline-flex flex-col items-start justify-start">
                   <img
                     class="h-9 w-9 rounded-full border border-[#dcdedd]"
@@ -216,25 +216,25 @@
                     alt=""
                   />
                 </div>
-                <div class="inline-flex flex-col items-start justify-start flex-grow">
-                  <div class="inline-flex items-center self-stretch justify-start gap-3">
-                    <div class="font-['Inter'] text-sm font-normal leading-[21px] text-[#282828]">
+                <div class="inline-flex flex-grow flex-col items-start justify-start">
+                  <div class="inline-flex items-center justify-start gap-3 self-stretch">
+                    <div class="font-['Inter'] text-sm leading-[21px] font-normal text-[#282828]">
                       {comment.userProfile.name}
                     </div>
                   </div>
-                  <div class="flex flex-col items-start self-stretch justify-start">
-                    <div class="font-['Inter'] text-xs font-normal leading-[18px] text-[#9b9e9e]">
+                  <div class="flex flex-col items-start justify-start self-stretch">
+                    <div class="font-['Inter'] text-xs leading-[18px] font-normal text-[#9b9e9e]">
                       {timeAgo(comment.created_at)}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="inline-flex items-start self-stretch justify-center">
-              <div class="flex flex-col items-start self-stretch justify-start w-full">
-                <div class="flex flex-col items-start self-stretch justify-start">
+            <div class="inline-flex items-start justify-center self-stretch">
+              <div class="flex w-full flex-col items-start justify-start self-stretch">
+                <div class="flex flex-col items-start justify-start self-stretch">
                   <div
-                    class="self-stretch font-['Inter'] text-sm font-normal leading-normal text-[#282828]"
+                    class="self-stretch font-['Inter'] text-sm leading-normal font-normal text-[#282828]"
                   >
                     {comment.body}
                   </div>
@@ -245,7 +245,7 @@
         {/each}
       </div>
     {:else}
-      <p class="italic text-gray-500">No comments yet</p>
+      <p class="text-gray-500 italic">No comments yet</p>
     {/if}
   </div>
 </div>

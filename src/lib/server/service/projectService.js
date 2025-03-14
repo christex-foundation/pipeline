@@ -169,7 +169,8 @@ export async function getProjectById(id, supabase) {
   const categoryIds = projectCategories.map((pc) => pc.category_id);
   const categories = await getCategories(categoryIds, supabase);
 
-  const dpgTotalScore = project?.dpgStatus?.reduce((sum, status) => sum + (status.score || 0), 0) || 0;
+  const dpgTotalScore =
+    project?.dpgStatus?.reduce((sum, status) => sum + (status.score || 0), 0) || 0;
 
   return {
     ...project,

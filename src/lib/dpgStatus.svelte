@@ -1,6 +1,6 @@
 <script>
   import { ChevronDown, ChevronUp, Check } from 'lucide-svelte';
-  import Icon from "@iconify/svelte";
+  import Icon from '@iconify/svelte';
 
   export let project;
   export let user;
@@ -67,7 +67,7 @@
       <div class="overflow-hidden rounded-md border border-[#c9c9c9]">
         <div
           on:click={() => toggleOpen(item.name)}
-          class="flex items-center justify-between p-3 transition-colors cursor-pointer hover:bg-gray-50"
+          class="flex cursor-pointer items-center justify-between p-3 transition-colors hover:bg-gray-50"
         >
           <div class="flex items-center gap-2">
             <div
@@ -81,7 +81,7 @@
               flex items-center justify-center"
             >
               {#if checkedItems.has(item.name) || item.score === 1}
-                <Check class="w-4 h-4 text-white" />
+                <Check class="h-4 w-4 text-white" />
               {/if}
             </div>
             <div class="font-['Inter'] text-lg font-semibold text-black">{item.name}</div>
@@ -94,8 +94,8 @@
         </div>
         {#if openItems.has(item.name)}
           <div class="p-4 text-black">
-            <div class="flex items-center gap-1 mb-2">
-              <div class="font-['Inter'] text-sm font-semibold leading-normal text-[#8a8a8a]">
+            <div class="mb-2 flex items-center gap-1">
+              <div class="font-['Inter'] text-sm leading-normal font-semibold text-[#8a8a8a]">
                 Verdict
               </div>
               <Icon icon="mage:stars-b" class="text-2xl" />
@@ -112,7 +112,7 @@
     <div class="flex flex-col items-center gap-4">
       <p class="text-center font-['Inter'] text-lg font-semibold text-[#8a8a8a]">
         DPG Standard Checklist evaluating...
-      </p>    
+      </p>
     </div>
   {/if}
 </div>

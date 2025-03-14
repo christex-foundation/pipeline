@@ -25,18 +25,18 @@
               <div class="relative flex h-4 w-4 flex-col items-start justify-start"></div>
             </slot>
           </div>
-          <div class="font-['Roboto'] text-sm font-normal leading-[14px] text-[#8a8a8a]">
+          <div class="font-['Roboto'] text-sm leading-[14px] font-normal text-[#8a8a8a]">
             {username}
           </div>
         </div>
 
         <div class="inline-flex items-center justify-center gap-1">
-          <div class="text-center font-['Roboto'] text-xl font-medium leading-7 text-black">
+          <div class="text-center font-['Roboto'] text-xl leading-7 font-medium text-black">
             {title}
           </div>
         </div>
 
-        <div class="self-stretch font-['Roboto'] text-sm font-normal leading-tight text-gray-700">
+        <div class="self-stretch font-['Roboto'] text-sm leading-tight font-normal text-gray-700">
           {description}
         </div>
 
@@ -45,7 +45,7 @@
             <slot name="like-icon">
               <Icon icon="mdi-light:heart" class="text-2xl" />
             </slot>
-            <div class="text-center font-['Roboto'] text-xs font-normal leading-3 text-black">
+            <div class="text-center font-['Roboto'] text-xs leading-3 font-normal text-black">
               {likes}
             </div>
           </div>
@@ -53,7 +53,7 @@
             <slot name="comment-icon">
               <Icon icon="bi:chat" class="text-2xl" />
             </slot>
-            <div class="text-center font-['Roboto'] text-xs font-normal leading-3 text-black">
+            <div class="text-center font-['Roboto'] text-xs leading-3 font-normal text-black">
               {comments}
             </div>
           </div>

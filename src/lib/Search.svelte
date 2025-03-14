@@ -11,7 +11,7 @@
 </script>
 
 <div
-  class="my-auto flex w-[805px] min-w-[240px] items-center rounded-[43px] border-[2px] border-solid border-[#97a07d] py-4 pl-6 pr-16 text-black max-md:max-w-full max-md:flex-nowrap max-md:px-5 max-sm:justify-between"
+  class="my-auto flex w-[805px] min-w-[240px] items-center rounded-[43px] border-[2px] border-solid border-[#97a07d] py-4 pr-16 pl-6 text-black max-md:max-w-full max-md:flex-nowrap max-md:px-5 max-sm:justify-between"
 >
   <img
     loading="lazy"
