@@ -139,7 +139,7 @@
 
 <div class="mx-auto flex max-w-[1500px] flex-col items-start px-4 lg:flex-row lg:px-8">
   <div class="w-full max-md:w-[100%] lg:sticky lg:top-0 lg:w-[40%] lg:pr-4">
-    <section class="relative mb-[64px] mt-6 flex w-full flex-col">
+    <section class="relative mt-6 mb-[64px] flex w-full flex-col">
       <img
         loading="lazy"
         src={banner}
@@ -174,7 +174,7 @@
         </div>
       </div>
 
-      <p class="mt-3 text-xl font-light leading-8 text-black max-lg:text-base">
+      <p class="mt-3 text-xl leading-8 font-light text-black max-lg:text-base">
         {project.bio || 'Project bio'}
       </p>
     </section>
@@ -316,7 +316,7 @@
             {#if !showGitDetail && !showResourceDetail}
               <div class="mb-6 inline-flex items-center justify-start gap-1 self-stretch">
                 <div
-                  class="text-center font-['Roboto'] text-2xl font-normal leading-loose text-black md:text-[32px]"
+                  class="text-center font-['Roboto'] text-2xl leading-loose font-normal text-black md:text-[32px]"
                 ></div>
               </div>
 
@@ -330,7 +330,7 @@
                     GitHub Contributors
                   </h1>
                   <button
-                    class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
+                    class="flex items-center justify-center gap-1 rounded-[40px] border-2 border-solid border-lime-800 py-2 pr-2 pl-3 text-sm leading-none whitespace-nowrap text-lime-800 max-md:py-1"
                     on:click={toggleGitDetail}
                   >
                     <span>View All</span>
@@ -363,7 +363,7 @@
                     Resources
                   </h1>
                   <button
-                    class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
+                    class="flex items-center justify-center gap-1 rounded-[40px] border-2 border-solid border-lime-800 py-2 pr-2 pl-3 text-sm leading-none whitespace-nowrap text-lime-800 max-md:py-1"
                     on:click={toggleResourceDetail}
                   >
                     <span>View All</span>

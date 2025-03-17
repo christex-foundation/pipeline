@@ -23,7 +23,6 @@ const projectEvaluationQueue = new Queue('projectEvaluation', {
   },
 });
 
-
 export async function githubWebhook(data, supabase) {
   try {
     console.log('Received webhook:');

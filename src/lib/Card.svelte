@@ -33,12 +33,11 @@
   });
 
   function truncateText(text, maxLength) {
-  if (text.length > maxLength) {
-    return text.slice(0, maxLength) + '...';
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + '...';
+    }
+    return text;
   }
-  return text;
-}
-
 </script>
 
 <!-- <div class="flex flex-col overflow-hidden bg-gray-200 rounded-3xl">
@@ -76,23 +75,23 @@
   </div>
 </div> -->
 
-
-<div class="flex flex-col h-full overflow-hidden bg-gray-200 rounded-3xl">
+<div class="flex h-full flex-col overflow-hidden rounded-3xl bg-gray-200">
   <header class="relative pt-[75%]">
     <a href="/project/{project.id}" class="absolute inset-0 flex items-center justify-center">
       <div class="h-[90%] w-[95%] overflow-hidden rounded-3xl">
-        <img loading="lazy" src={getImageLink()} alt="" class="object-cover w-full h-full" />
+        <img loading="lazy" src={getImageLink()} alt="" class="h-full w-full object-cover" />
       </div>
     </a>
   </header>
 
-  <div class="flex flex-col justify-between flex-grow p-4 mt-auto">
+  <div class="mt-auto flex flex-grow flex-col justify-between p-4">
     <div>
-      <div class="flex items-start justify-between mb-2 gap-x-4">
+      <div class="mb-2 flex items-start justify-between gap-x-4">
         <a href="/project/{project.id}">
           <!-- <h2 class="text-xl font-semibold text-black">{project.title}</h2> -->
-          <h2 class="text-xl font-semibold text-black truncate-text">{truncateText(project.title, 20)}</h2>
-
+          <h2 class="truncate-text text-xl font-semibold text-black">
+            {truncateText(project.title, 20)}
+          </h2>
         </a>
         <p class="text-xs text-neutral-400">
           <DPGRating rating={project.dpgStatusCount} />

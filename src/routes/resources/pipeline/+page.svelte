@@ -58,18 +58,18 @@
   <div class="absolute inset-0 bg-[#d1ea9a]/90"></div>
   <div class="z-10 inline-flex flex-col items-center justify-start">
     <div
-      class="text-center font-['Inter'] text-[89.62px] font-medium leading-[0.9] text-black max-sm:text-[50px] max-sm:leading-[1]"
+      class="text-center font-['Inter'] text-[89.62px] leading-[0.9] font-medium text-black max-sm:text-[50px] max-sm:leading-[1]"
     >
       How Pipeline Works
     </div>
   </div>
 </div>
 
-<main class="flex items-center justify-center w-full overflow-hidden">
-  <img src="/how_pipeline_works.png" alt="How Pipeline Works" class="object-cover w-full h-full" />
+<main class="flex w-full items-center justify-center overflow-hidden">
+  <img src="/how_pipeline_works.png" alt="How Pipeline Works" class="h-full w-full object-cover" />
 </main>
 
-<section class="flex items-center justify-center w-full text-black px-7 max-md:px-5">
+<section class="flex w-full items-center justify-center px-7 text-black max-md:px-5">
   <div class="flex w-full max-w-[1101px] flex-col items-center">
     {#each steps as step}
       <Step number={step.number} title={step.title} description={step.description} />

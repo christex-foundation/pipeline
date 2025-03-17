@@ -6,13 +6,13 @@
   <header
     class="flex w-full flex-wrap items-center justify-between gap-10 rounded-2xl bg-emerald-100 p-3.5 max-md:max-w-full"
   >
-    <h2 class="my-auto w-[70px] gap-2.5 self-stretch whitespace-nowrap p-2.5">Rank</h2>
+    <h2 class="my-auto w-[70px] gap-2.5 self-stretch p-2.5 whitespace-nowrap">Rank</h2>
     <div
       class="my-auto h-9 w-0 shrink-0 self-stretch border border-solid border-teal-400"
       role="separator"
       aria-hidden="true"
     ></div>
-    <h2 class="my-auto w-[40px] min-w-[150px] gap-2.5 self-stretch whitespace-nowrap p-2.5">
+    <h2 class="my-auto w-[40px] min-w-[150px] gap-2.5 self-stretch p-2.5 whitespace-nowrap">
       Contributor
     </h2>
     <div
@@ -26,7 +26,7 @@
       role="separator"
       aria-hidden="true"
     ></div>
-    <h2 class="my-auto w-[100px] gap-2.5 self-stretch whitespace-nowrap p-2.5">Points</h2>
+    <h2 class="my-auto w-[100px] gap-2.5 self-stretch p-2.5 whitespace-nowrap">Points</h2>
   </header>
   <LeaderboardItem
     rank="1"

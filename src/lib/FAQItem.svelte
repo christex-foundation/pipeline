@@ -30,7 +30,7 @@
       </div>
       {#if isOpen}
         <p
-          class="mt-6 text-left text-2xl font-normal leading-relaxed text-gray-700 max-md:text-base max-md:leading-normal"
+          class="mt-6 text-left text-2xl leading-relaxed font-normal text-gray-700 max-md:text-base max-md:leading-normal"
         >
           {answer}
         </p>

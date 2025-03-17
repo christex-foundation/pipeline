@@ -7,11 +7,11 @@
 </script>
 
 <section
-  class="relative flex max-w-[678px] flex-col items-center overflow-hidden rounded-[53px] bg-teal-600 px-20 pb-14 pt-24 text-center font-semibold leading-none text-white max-md:px-5"
+  class="relative flex max-w-[678px] flex-col items-center overflow-hidden rounded-[53px] bg-teal-600 px-20 pt-24 pb-14 text-center leading-none font-semibold text-white max-md:px-5"
 >
   <button
     on:click={closeModal}
-    class="absolute right-4 top-4 text-2xl text-white hover:text-gray-200">&times;</button
+    class="absolute top-4 right-4 text-2xl text-white hover:text-gray-200">&times;</button
   >
 
   <img

@@ -18,14 +18,14 @@
     <div class="flex min-w-[240px] flex-1 shrink basis-0 flex-col">
       <div class="flex w-full items-start justify-between gap-10">
         <div class="flex flex-col justify-center">
-          <h3 class="text-sm font-semibold leading-none text-black">{resource.title}</h3>
+          <h3 class="text-sm leading-none font-semibold text-black">{resource.title}</h3>
           <p class="mt-1 text-xs leading-tight text-neutral-400">{resource.user_profile.name}</p>
         </div>
         <a href={resource.link} target="_blank">
           <div
             class="inline-flex h-5 items-center justify-center rounded-md border border-[#0B383C] bg-[#0B383C] px-4 py-1"
           >
-            <div class="text-md font-['Jost'] font-normal leading-3 text-white">
+            <div class="text-md font-['Jost'] leading-3 font-normal text-white">
               {resource.type_resource}
             </div>
           </div>

@@ -27,7 +27,7 @@
   <div class="absolute inset-0 bg-[#d1ea9a]/90"></div>
   <div class="z-10 inline-flex flex-col items-center justify-start">
     <div
-      class="text-center font-['Inter'] text-[89.62px] font-medium leading-[0.9] text-black max-sm:text-[50px] max-sm:leading-[1]"
+      class="text-center font-['Inter'] text-[89.62px] leading-[0.9] font-medium text-black max-sm:text-[50px] max-sm:leading-[1]"
     >
       What are <br /> Digital Public Goods
     </div>

@@ -3,9 +3,9 @@
 </script>
 
 <div
-  class="flex h-full w-[80%] flex-col rounded-xl border border-neutral-200 bg-neutral-50 p-4 font-['Inter'] text-[30.91px] font-normal leading-[34px] shadow-md max-lg:w-full"
+  class="flex h-full w-[80%] flex-col rounded-xl border border-neutral-200 bg-neutral-50 p-4 font-['Inter'] text-[30.91px] leading-[34px] font-normal shadow-md max-lg:w-full"
 >
-  <span class="mb-10 font-semibold max-lg:ml-[0] max-lg:mt-20">Socials</span>
+  <span class="mb-10 font-semibold max-lg:mt-20 max-lg:ml-[0]">Socials</span>
   <div
     class="flex w-full flex-col gap-[47px] self-center rounded-lg bg-white p-6 shadow-md max-lg:w-full"
   >

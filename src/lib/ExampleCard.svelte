@@ -8,7 +8,7 @@
   class="flex aspect-square w-full max-w-[270px] flex-col items-center justify-center rounded-[32px] bg-lime-300 p-6"
 >
   <img src={imageSrc} alt={imageAlt} loading="lazy" class="aspect-[0.93] w-[99px] object-contain" />
-  <h3 class="mt-8 whitespace-normal text-center">{@html title}</h3>
+  <h3 class="mt-8 text-center whitespace-normal">{@html title}</h3>
 </div>
 
 <style>

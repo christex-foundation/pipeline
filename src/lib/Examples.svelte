@@ -5,11 +5,11 @@
 <section
   class="mx-auto mt-16 flex w-full max-w-6xl flex-col items-center px-4 text-black max-md:mt-10"
 >
-  <h2 class="mb-8 text-center text-5xl font-semibold leading-none max-md:text-4xl">
+  <h2 class="mb-8 text-center text-5xl leading-none font-semibold max-md:text-4xl">
     When is a Product a DPG?
   </h2>
   <div
-    class="flex w-full flex-wrap items-center justify-center gap-8 text-5xl font-thin leading-[50px] max-md:text-4xl max-md:leading-[49px]"
+    class="flex w-full flex-wrap items-center justify-center gap-8 text-5xl leading-[50px] font-thin max-md:text-4xl max-md:leading-[49px]"
   >
     <ExampleCard
       imageSrc="https://cdn.builder.io/api/v1/image/assets/TEMP/2d296a83957a9191e4b8dbb798d505dbf3941e3e66870811a646b02bf1ab858d?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"

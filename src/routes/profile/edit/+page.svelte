@@ -96,7 +96,7 @@
   <section class="mb-12 w-full max-lg:mb-2">
     <div
       class="mx-auto mt-5 flex max-w-[1080px] items-center justify-center gap-6 space-x-28 rounded-[37px] bg-white px-10 py-5
-      max-md:w-[90%] max-md:space-x-0 max-md:space-y-4"
+      max-md:w-[90%] max-md:space-y-4 max-md:space-x-0"
     >
       {#each navItems as navItem}
         <!-- svelte-ignore a11y-click-events-have-key-events -->

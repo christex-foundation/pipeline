@@ -24,7 +24,7 @@
   <main
     class="relative flex max-w-[758px] flex-col overflow-hidden rounded-[59px] bg-white px-16 py-28 text-center leading-none text-black shadow-sm max-md:px-5 max-md:pt-24"
   >
-    <button on:click={closeModal} class="absolute right-4 top-4 text-2xl">&times;</button>
+    <button on:click={closeModal} class="absolute top-4 right-4 text-2xl">&times;</button>
 
     <header class="flex w-[266px] max-w-full flex-col font-semibold">
       <h1 class="w-[228px] max-w-full text-xl">You are contributing to</h1>
@@ -33,7 +33,7 @@
 
     <section class="mt-20 flex w-full flex-col max-md:mt-10 max-md:max-w-full">
       <div
-        class="flex min-h-[49px] w-full items-center gap-1 border-b border-black py-3.5 pl-4 pr-5 max-md:max-w-full max-md:pr-5"
+        class="flex min-h-[49px] w-full items-center gap-1 border-b border-black py-3.5 pr-5 pl-4 max-md:max-w-full max-md:pr-5"
       >
         <div
           class="my-auto flex w-[551px] min-w-[240px] flex-wrap items-center justify-between gap-10 self-stretch"

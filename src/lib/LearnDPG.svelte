@@ -1,5 +1,5 @@
 <div
-  class="mt-5 flex min-h-[105px] w-full items-center gap-1.5 rounded-3xl bg-lime-100 py-8 pl-6 pr-6 leading-none text-black max-md:max-w-full max-md:px-5"
+  class="mt-5 flex min-h-[105px] w-full items-center gap-1.5 rounded-3xl bg-lime-100 py-8 pr-6 pl-6 leading-none text-black max-md:max-w-full max-md:px-5"
 >
   <div
     class="my-auto flex w-full min-w-[240px] flex-1 shrink basis-0 flex-wrap items-center justify-between gap-10 self-stretch max-md:max-w-full"

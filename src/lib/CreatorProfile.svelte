@@ -8,11 +8,11 @@
   />
   <div class="my-auto flex w-[693px] min-w-[240px] flex-col self-stretch max-md:max-w-full">
     <div class="flex w-[446px] max-w-full items-center gap-4">
-      <h1 class="my-auto self-stretch text-center text-4xl font-semibold leading-none text-black">
+      <h1 class="my-auto self-stretch text-center text-4xl leading-none font-semibold text-black">
         Creator Name
       </h1>
       <span
-        class="my-auto gap-2 self-stretch whitespace-nowrap rounded-[37px] border border-solid border-lime-800 bg-lime-200 px-10 py-2.5 text-lg leading-none text-lime-800 max-md:px-5"
+        class="my-auto gap-2 self-stretch rounded-[37px] border border-solid border-lime-800 bg-lime-200 px-10 py-2.5 text-lg leading-none whitespace-nowrap text-lime-800 max-md:px-5"
       >
         Creator
       </span>

@@ -47,7 +47,7 @@
   </div>
 
   <button
-    class="mt-8 self-end whitespace-nowrap rounded-[128px] bg-lime-800 px-16 py-6 text-xl text-white max-lg:w-[30%] max-lg:py-3 max-lg:text-base max-md:w-[45%] max-md:px-5"
+    class="mt-8 self-end rounded-[128px] bg-lime-800 px-16 py-6 text-xl whitespace-nowrap text-white max-lg:w-[30%] max-lg:py-3 max-lg:text-base max-md:w-[45%] max-md:px-5"
   >
     Done
   </button>

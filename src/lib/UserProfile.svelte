@@ -66,7 +66,7 @@
   {#if isOpen}
     <div
       bind:this={dropdownNode}
-      class="absolute right-0 top-full z-[9999] mt-2 w-[280px] rounded-2xl bg-teal-600 shadow-lg max-lg:left-40 max-lg:-translate-x-[60px] max-md:left-20"
+      class="absolute top-full right-0 z-[9999] mt-2 w-[280px] rounded-2xl bg-teal-600 shadow-lg max-lg:left-40 max-lg:-translate-x-[60px] max-md:left-20"
     >
       <nav class="flex flex-col py-6">
         <div class="ml-6 flex items-center gap-3 max-lg:hidden">

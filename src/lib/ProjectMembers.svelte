@@ -16,11 +16,11 @@
       />
       <div class="my-auto flex max-w-[calc(100%-140px)] flex-grow flex-col self-stretch">
         <div class="flex items-center gap-3">
-          <h1 class="text-2xl font-semibold leading-tight text-black">
+          <h1 class="text-2xl leading-tight font-semibold text-black">
             {member.userProfile.name}
           </h1>
           <span
-            class="whitespace-nowrap rounded-full border border-solid border-lime-800 bg-lime-200 px-3 py-1 text-sm leading-none text-lime-800"
+            class="rounded-full border border-solid border-lime-800 bg-lime-200 px-3 py-1 text-sm leading-none whitespace-nowrap text-lime-800"
           >
             {member.creator_id === data.user.id ? 'Creator' : 'Member'}
           </span>

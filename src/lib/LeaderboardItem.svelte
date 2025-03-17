@@ -7,7 +7,7 @@
 </script>
 
 <article
-  class="mt-2.5 flex w-full flex-wrap items-center justify-between gap-10 whitespace-nowrap rounded-2xl border-b border-teal-400 px-3.5 pb-6 pt-3.5 font-[Inter] max-md:max-w-full"
+  class="mt-2.5 flex w-full flex-wrap items-center justify-between gap-10 rounded-2xl border-b border-teal-400 px-3.5 pt-3.5 pb-6 font-[Inter] whitespace-nowrap max-md:max-w-full"
 >
   <div class="my-auto w-[70px] gap-2.5 self-stretch p-2.5">{rank}</div>
   <div
