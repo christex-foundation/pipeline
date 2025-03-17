@@ -23,7 +23,7 @@
 //   });
 // }
 
-export function mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpg) {
+export function mapProjectsWithTagsAndStatus(projects, projectCategories, categories) {
   const categoriesById = categories.reduce((acc, category) => {
     acc[category.id] = category;
     return acc;
@@ -35,7 +35,7 @@ export function mapProjectsWithTagsAndStatus(projects, projectCategories, catego
       .map((pc) => categoriesById[pc.category_id]);
 
     const dpgTotalScore = project.dpgStatus
-      ? project.dpgStatus.reduce((sum, status) => sum + (Number(status.score) || 0), 0)
+      ? project.dpgStatus.status.reduce((sum, status) => sum + (Number(status.overallScore) || 0), 0)
       : 0;
 
     return {

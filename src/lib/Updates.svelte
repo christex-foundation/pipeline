@@ -32,9 +32,7 @@
 
   let comments = [];
   export let selectedUpdate;
-  export let data;
-
-
+  
   async function getUpdateComments() {
     try {
       const response = await fetch(
