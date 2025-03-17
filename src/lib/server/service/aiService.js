@@ -5,17 +5,22 @@ import OpenAI from 'openai';
 import { OPENAI_API_KEY } from '$lib/server/config';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import { z } from 'zod';
-import { getAllRelevantFiles, parseGithubUrl } from '$lib/server/github.js';
-import { supabase } from '../supabase.js';
+import { getAllRelevantFiles } from '$lib/server/github.js';
 
 const openai = new OpenAI({
   apiKey: OPENAI_API_KEY,
 });
 
 const DPGStatus = z.object({
+  name: z.string(),
   recommendation: z.string(),
   overallScore: z.number(),
   explanation: z.string(),
+});
+
+const DPGRecommendation = z.object({
+  status: z.array(DPGStatus),
+  final_recommendation: z.string(),
 });
 
 export async function checkDPGStatus(owner, repo, supabase) {
@@ -49,7 +54,7 @@ async function fetchAIResponse(messages) {
   return await openai.beta.chat.completions.parse({
     model: 'gpt-4o',
     messages,
-    response_format: zodResponseFormat(DPGStatus, 'DPGStatus'),
+    response_format: zodResponseFormat(DPGRecommendation, 'DPGStatus'),
     temperature: 0,
   });
 }
