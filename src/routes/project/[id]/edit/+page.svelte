@@ -258,7 +258,7 @@
     <div class="mt-10 flex w-[83%] justify-end max-md:ml-8 max-md:justify-center">
       <button
         type="submit"
-        class="text-whit rounded-full bg-lime-800 px-12 py-4 text-lg font-medium text-white disabled:bg-gray-500 max-md:px-8 max-md:py-3"
+        class="text-white rounded-full bg-lime-800 px-12 py-4 text-lg font-medium text-white disabled:bg-gray-500 max-md:px-8 max-md:py-3"
         disabled={loading}
       >
         {loading ? 'Updating...' : 'Update Project'}
