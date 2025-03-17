@@ -84,11 +84,7 @@
   <div class="hidden h-[42.67px] grow-0 items-center justify-end gap-4 lg:flex">
     <div class="flex items-center gap-4">
       <a href="/" class="font-['Inter'] text-base font-semibold leading-none text-white"> Tasks </a>
-<<<<<<< HEAD
              
-=======
-
->>>>>>> upstream/main
       <div class="relative resources-dropdown">
         <button
           on:click={toggleResources}
@@ -137,29 +133,18 @@
   {#if isMobileMenuOpen}
     <div class="absolute left-0 right-0 top-[84px] w-[100%] bg-[#0b383c] lg:hidden">
       <div class="flex flex-col w-full px-8 py-4 space-y-4">
-<<<<<<< HEAD
         <!-- Mobile Search -->
-=======
->>>>>>> upstream/main
         <div class="mb-2 w-full max-w-[480px] items-center justify-center">
           <div
             class="align-center flex w-full items-center justify-between rounded-[48.77px] bg-[#115d5b] py-2 pl-4 pr-3 max-lg:w-full"
           >
             <button
               type="button"
-<<<<<<< HEAD
               class="flex justify-between w-full "
               on:click={() => ($searchBarOpen = !$searchBarOpen)}
             >
               <span
                 class="ml-[-18px] font-['Inter'] text-base py-2 font-semibold leading-none text-white/50 max-lg:px-8"
-=======
-              class="flex justify-between w-full mt-2"
-              on:click={() => ($searchBarOpen = !$searchBarOpen)}
-            >
-              <span
-                class="ml-[-18px] font-['Inter'] text-base font-semibold leading-none text-white max-lg:px-8 max-md:mb-[4px]"
->>>>>>> upstream/main
                 >Search for a project...</span
               >
           </div>
@@ -167,10 +152,7 @@
 
         <a href="/" class="font-['Inter'] text-base font-semibold text-white"> Tasks </a>
 
-<<<<<<< HEAD
         <!-- Mobile Resources Dropdown -->
-=======
->>>>>>> upstream/main
         <div class="relative resources-dropdown">
           <button
             on:click={toggleResources}
