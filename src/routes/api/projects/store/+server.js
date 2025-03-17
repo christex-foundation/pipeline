@@ -9,9 +9,9 @@ export async function POST({ request, locals }) {
   try {
     const projectData = await request.json();
 
-    await storeProject(user, projectData, supabase);
+    const response = await storeProject(user, projectData, supabase);
 
-    return json({ success: true }, { status: 200 });
+    return json({ success: true, response }, { status: 200 });
   } catch (error) {
     return json({ erorr: 'Something went wrong' }, { status: 500 });
   }
