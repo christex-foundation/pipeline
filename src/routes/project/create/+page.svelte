@@ -2,6 +2,7 @@
   import ProjectBasics from '../ProjectBasics.svelte';
   import { applyAction, enhance } from '$app/forms';
   import { toast } from 'svelte-sonner';
+  import { goto } from '$app/navigation';
 
   let loading = false;
 </script>
@@ -19,18 +20,19 @@
   method="post"
   enctype="multipart/form-data"
   use:enhance={() => {
+    loading = true;
     return async ({ result }) => {
-      loading = true;
-
-      if (result.type === 'failure') {
+      if (result.type === 'success' && result.data.redirectTo) {
+        toast.success('project has been created successfully');
+        goto(result.data.redirectTo);
+      } else if (result.type === 'failure') {
         toast.warn(result?.data?.error || 'could not create project');
       } else if (result.type === 'error') {
         toast.error('could not create a project');
       }
 
-      toast.success('project has been created successfully');
-      loading = false;
       await applyAction(result);
+      loading = false;
     };
   }}
 >
@@ -226,10 +228,10 @@
     <div class="mt-10 flex w-[83%] justify-end max-md:ml-8 max-md:justify-center">
       <button
         type="submit"
-        class="rounded-full !bg-lime-800 px-12 py-4 text-lg font-medium text-white disabled:bg-gray-500 max-md:px-8 max-md:py-3"
+        class="rounded-full bg-lime-800 px-12 py-4 text-lg font-medium text-white disabled:bg-gray-500 max-md:px-8 max-md:py-3"
         disabled={loading}
       >
-        {loading ? 'Saving...' : 'Save Project'}
+        {loading ? 'Creating...' : 'Create new Project'}
       </button>
     </div>
   </div>
