@@ -9,7 +9,14 @@ export const projectSchema = z.object({
   email: z.string().email(),
   portfolio: z.string().url('Invalid portfolio URL').optional(),
   tags: z.string().array().nonempty(),
-  github: z.string().url('Invalid GitHub URL').optional(),
+  github: z
+    .string()
+    .url('Invalid GitHub URL')
+    .regex(
+      new RegExp(/^https?:\/\/(?:www\.)?github\.com\/([\w-]+)\/([\w.-]+)(?:\/.*)?$/),
+      'Invalid GitHub URL',
+    )
+    .optional(),
   linkedin: z.string().url('Invalid LinkedIn URL').optional(),
   twitter: z.string().url('Invalid Twitter URL').optional(),
   website: z.string().url('Invalid Website URL').optional(),
@@ -38,7 +45,13 @@ export const createProjectSchema = z.object({
     .trim()
     .min(5, { message: 'details is too short' }),
   email: z.string().optional(),
-  github: z.string().optional(),
+  github: z
+    .string()
+    .regex(
+      new RegExp(/^https?:\/\/(?:www\.)?github\.com\/([\w-]+)\/([\w.-]+)(?:\/.*)?$/),
+      'This is not a real github url',
+    )
+    .optional(),
   linkedin: z.string().optional(),
   twitter: z.string().optional(),
   website: z.string().optional(),

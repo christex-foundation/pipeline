@@ -29,6 +29,8 @@
         toast.warn(result?.data?.error || 'could not create project');
       } else if (result.type === 'error') {
         toast.error('could not create a project');
+      } else {
+        toast.success('project has been created successfully');
       }
 
       await applyAction(result);

@@ -20,9 +20,6 @@ import {
 } from '$lib/server/repo/categoryRepo.js';
 import {
   getDpgStatuses,
-  getAllDpgStatuses,
-  getProjectDpgStatuses,
-  createProjectDpgStatus,
 } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
@@ -65,9 +62,8 @@ export async function getProjectsWithDetails(term, page, limit, supabase) {
     projectCategories.map((pc) => pc.category_id),
     supabase,
   );
-  const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
-  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses);
+  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories);
 }
 
 export async function getUserProjects(userId, page, limit, supabase) {
@@ -89,9 +85,8 @@ export async function getUserProjects(userId, page, limit, supabase) {
     projectCategories.map((pc) => pc.category_id),
     supabase,
   );
-  const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
-  return mapProjectsWithTagsAndStatus(projects, projectCategories, categoriesIds, dpgStatuses);
+  return mapProjectsWithTagsAndStatus(projects, projectCategories, categoriesIds);
 }
 
 export async function getProjectsByCategory(categoryId, page, limit, supabase) {
@@ -114,9 +109,8 @@ export async function getProjectsByCategory(categoryId, page, limit, supabase) {
     projectCategories.map((pc) => pc.category_id),
     supabase,
   );
-  const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
-  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses);
+  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories);
 }
 
 // export async function getProjectById(id, supabase) {
@@ -169,13 +163,13 @@ export async function getProjectById(id, supabase) {
   const categoryIds = projectCategories.map((pc) => pc.category_id);
   const categories = await getCategories(categoryIds, supabase);
 
-  const dpgTotalScore = project?.dpgStatus?.reduce((sum, status) => sum + (status.score || 0), 0) || 0;
+  const dpgTotalScore =
+    project?.dpgStatus?.status?.reduce((sum, status) => sum + (status.overallScore || 0), 0) || 0;
 
   return {
     ...project,
     tags: categories,
     dpgCount: dpgTotalScore,
-    dpgStatuses: project.dpgStatus || [], // Array of statuses with name, score, and explanation
   };
 }
 
@@ -228,9 +222,8 @@ export async function getUserBookmarkedProjects(userId, page, limit, supabase) {
     projectCategories.map((pc) => pc.category_id),
     supabase,
   );
-  const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
-  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses);
+  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories);
 }
 
 export async function storeProject(user, projectData, supabase) {
@@ -249,24 +242,13 @@ export async function storeProject(user, projectData, supabase) {
 
   const project = await createProject({ ...projectFields, user_id: user.id }, supabase);
 
-  const teamMember = await createTeamMember(user.id, project.id, supabase);
-
-  //create project db status
-  const dpgStatus = await getAllDpgStatuses(supabase);
+  await createTeamMember(user.id, project.id, supabase);
 
   await Promise.all(
     tags.map((tag) => assignCategory({ project_id: project.id, category_id: tag.id }, supabase)),
   );
 
-  await Promise.all(
-    dpgStatus.map((status) =>
-      createProjectDpgStatus(
-        { project_id: project.id, status_id: status.id, score: 0, explanation: '' },
-        supabase,
-      ),
-    ),
-  );
-
+  console.log('Evaluating project:', project.github);
   //Enqueue the project evaluation job
   await projectEvaluationQueue.add('evaluateProject', {
     github: project.github,
