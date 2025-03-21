@@ -110,7 +110,7 @@
 
           </ul>
         {:else}
-          <div class="p-6 text-center text-gray-400">
+          <div class="p-6 text-xs text-center text-gray-400 sm:text-xl">
             Start typing to search projects, resources, and more
           </div>
         {/if}
