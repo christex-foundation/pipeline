@@ -5,6 +5,33 @@
   import { goto } from '$app/navigation';
 
   let loading = false;
+  let loadingMatchingDPGs = false;
+  let project = { title: '', bio: '' };
+  let matchProjects = [];
+
+  async function fetchMatchingDPGs() {
+    if (!project.title || !project.bio) return;
+    loadingMatchingDPGs = true;
+    try {
+      const response = await fetch('/api/github/match', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title: project.title, description: project.bio }),
+      });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+      matchProjects = data.matchProjects.data || [];
+      loadingMatchingDPGs = false;
+    } catch (error) {}
+  }
+
+  $: project.title && project.bio && fetchMatchingDPGs();
 </script>
 
 <div class="mb-10 w-full bg-[#d1ea9a]/90 py-16">
@@ -44,7 +71,8 @@
     <section class="flex w-full max-w-[600px] flex-1 flex-col">
       <div class="rounded-xl border border-neutral-100 bg-neutral-50 p-4 shadow-md">
         <h2 class="mb-4 text-2xl font-semibold text-black">Project Basics</h2>
-        <ProjectBasics />
+        <ProjectBasics bind:project />
+        <input type="hidden" name="matchedDPGs" value={JSON.stringify(matchProjects)} />
       </div>
     </section>
 

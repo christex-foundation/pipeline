@@ -170,3 +170,11 @@ Provide a final recommendation and overall score.`,
     },
   ];
 }
+
+export async function getEmbedding(text) {
+  const response = await openai.embeddings.create({
+    model: "text-embedding-ada-002",
+    input: text,
+  });
+  return response.data[0].embedding;
+}
