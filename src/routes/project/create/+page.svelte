@@ -2,6 +2,10 @@
   import ProjectBasics from '../ProjectBasics.svelte';
   import { applyAction, enhance } from '$app/forms';
   import { toast } from 'svelte-sonner';
+  import { Button } from "$lib/components/ui/button";
+  import { Input } from "$lib/components/ui/input";
+  import { Label } from "$lib/components/ui/label";
+  import { Checkbox } from "$lib/components/ui/checkbox";
 
   let loading = false;
 </script>
@@ -48,37 +52,39 @@
       <div class="rounded-xl border border-neutral-200 bg-neutral-50 p-4 shadow-md">
         <h2 class="mb-4 text-2xl font-semibold text-black">Links</h2>
         <div class="flex flex-col gap-4 bg-white p-2">
-          <div class="mt-4 flex items-center justify-between max-md:flex-col">
-            <label
+          <div class="mt-4 flex  justify-between max-md:flex-col w-full">
+            <Label
               for="email"
-              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
+              class=" text-base font-semibold "
             >
               Email
-            </label>
+          </Label>
 
-            <input
+          <div  class="w-2/3">
+              <Input
               type="email"
               id="email"
               name="email"
-              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
+             
+              required
             />
+          </div>
           </div>
 
           <div class="mt-4 flex items-center justify-between max-md:flex-col">
-            <label
+            <Label
               for="github"
-              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
+              class="text-base font-semibold"
             >
               Github
-            </label>
+          </Label>
 
             <div class="flex w-2/3 flex-col">
-              <input
+              <Input
                 type="url"
                 id="github"
                 name="github"
-                class="min-h-[48px] w-full max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-              />
+                />
               <p class="ml-5 mt-1 text-sm text-gray-600 max-md:w-[100%]">
                 Follow <a
                   href="https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks"
@@ -96,67 +102,72 @@
           </div>
 
           <div class="mt-4 flex items-center justify-between max-md:flex-col">
-            <label
+            <Label
               for="linkedin"
-              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
+              class="text-base font-semibold"
             >
               LinkedIn
-            </label>
+          </Label>
 
-            <input
+          <div class="w-2/3">
+            <Input
               type="url"
               id="linkedin"
               name="linkedin"
-              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-            />
+              />
+          </div>
           </div>
 
           <div class="mt-4 flex items-center justify-between max-md:flex-col">
-            <label
+            <Label
               for="twitter"
-              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
+              class="text-base font-semibold"
             >
               X
-            </label>
+          </Label>
 
-            <input
+          <div class="w-2/3">
+            <Input
               type="url"
               id="twitter"
               name="twitter"
-              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-            />
+              />
+          </div>
           </div>
 
           <div class="mt-4 flex items-center justify-between max-md:flex-col">
-            <label
+            <Label
               for="website"
-              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
+              class="text-base font-semibold"
             >
               Website
-            </label>
+          </Label>
 
-            <input
+          <div class="w-2/3">
+            <Input
               type="url"
               id="website"
               name="website"
-              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-            />
+            
+              />
+          </div>
           </div>
 
           <div class="mt-4 flex items-center justify-between max-md:flex-col">
-            <label
+            <Label
               for="other"
-              class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
+              class="text-base font-semibold"
             >
               Other
-            </label>
+          </Label>
 
-            <input
+          <div class="w-2/3">
+            <Input
               type="url"
               id="other"
               name="other"
-              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-            />
+              />
+          </div>
           </div>
         </div>
       </div>
@@ -166,36 +177,40 @@
         <h2 class="mb-4 text-2xl font-semibold text-black">Funding</h2>
         <div class="flex flex-col gap-6 bg-white p-2">
           <div class="flex w-full items-center max-md:flex-col">
-            <label
+            <Label
               for="fundingGoal"
               class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full max-md:py-2"
             >
               Funding Goal
-            </label>
-            <input
+          </Label>
+
+          <div class="w-2/3">
+            <Input
               id="fundingGoal"
               type="number"
               name="funding_goal"
               min="0"
-              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-            />
+              />
+          </div>
           </div>
 
           <hr class="my-4 border-neutral-300" />
 
           <div class="flex items-center max-md:flex-col">
-            <label
+            <Label
               for="bankAccount"
               class="max-md:items-left w-1/3 text-lg font-medium max-md:w-full max-md:py-2"
             >
               Bank Account
-            </label>
-            <input
+          </Label>
+
+          <div class="w-2/3">
+            <Input
               id="bankAccount"
               name="bank_acct"
               type="number"
-              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-            />
+              />
+          </div>
           </div>
 
           <div class="flex items-center justify-center text-neutral-400">
@@ -205,32 +220,34 @@
           </div>
 
           <div class="flex items-center max-md:flex-col">
-            <label
+            <Label
               for="walletAddress"
               class="max-md:items-left w-1/3 text-lg font-medium max-md:w-full max-md:py-2"
             >
               Wallet Address
-            </label>
-            <input
+          </Label>
+
+          <div class="w-2/3">
+            <Input
               id="walletAddress"
               name="wallet_address"
               type="text"
-              class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-              aria-label="Wallet Address"
-            />
+              />
+          </div>
           </div>
         </div>
       </div>
     </section>
 
     <div class="mt-10 flex w-[83%] justify-end max-md:ml-8 max-md:justify-center">
-      <button
+      <Button
         type="submit"
         class="rounded-full !bg-lime-800 px-12 py-4 text-lg font-medium text-white disabled:bg-gray-500 max-md:px-8 max-md:py-3"
         disabled={loading}
       >
         {loading ? 'Saving...' : 'Save Project'}
-      </button>
+    </Button>
+      
     </div>
   </div>
 </form>

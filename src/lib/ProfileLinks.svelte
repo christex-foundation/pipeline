@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
   export let user;
 </script>
 
@@ -107,6 +107,120 @@
           value={user.others}
           class="mt-2.5 min-h-[70px] w-full rounded-[75px] border-2 border-lime-800 px-4 text-base max-lg:min-h-[55px]"
           aria-required="true"
+        />
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<script>
+  import { Input } from "$lib/components/ui/input";
+  import { Label } from "$lib/components/ui/label";
+  export let user;
+</script>
+
+<div class="rounded-xl border border-neutral-200 bg-neutral-50 p-4 shadow-md h-[80%]">
+  <h2 class="mb-4 text-2xl font-semibold text-black">Socials</h2>
+  <div class="flex flex-col gap-8 bg-white p-2 h-[80%]">
+    <div class="mt-4 flex justify-between max-md:flex-col w-full">
+      <Label
+        for="twitter"
+        class="text-base font-semibold"
+      >
+        X
+      </Label>
+      <div class="w-2/3 max-md:w-full">
+        <Input
+          type="url"
+          id="twitter"
+          name="twitter"
+          value={user.twitter}
+        />
+      </div>
+    </div>
+
+    <div class="mt-4 flex justify-between max-md:flex-col w-full">
+      <Label
+        for="github"
+        class="text-base font-semibold"
+      >
+        Github
+      </Label>
+      <div class="w-2/3 max-md:w-full">
+        <Input
+          type="url"
+          id="github"
+          name="github"
+          value={user.github}
+        />
+      </div>
+    </div>
+
+    <div class="mt-4 flex justify-between max-md:flex-col w-full">
+      <Label
+        for="discord"
+        class="text-base font-semibold"
+      >
+        Discord
+      </Label>
+      <div class="w-2/3 max-md:w-full">
+        <Input
+          type="text"
+          id="discord"
+          name="discord"
+          value={user.discord}
+        />
+      </div>
+    </div>
+
+    <div class="mt-4 flex justify-between max-md:flex-col w-full">
+      <Label
+        for="linkedin"
+        class="text-base font-semibold"
+      >
+        LinkedIn
+      </Label>
+      <div class="w-2/3 max-md:w-full">
+        <Input
+          type="url"
+          id="linkedin"
+          name="linkedin"
+          value={user.linkedin}
+        />
+      </div>
+    </div>
+
+    <div class="mt-4 flex justify-between max-md:flex-col w-full">
+      <Label
+        for="website"
+        class="text-base font-semibold"
+      >
+        Website
+      </Label>
+      <div class="w-2/3 max-md:w-full">
+        <Input
+          type="url"
+          id="website"
+          name="web"
+          value={user.website}
+        />
+      </div>
+    </div>
+
+    <div class="mt-4 flex justify-between max-md:flex-col w-full">
+      <Label
+        for="others"
+        class="text-base font-semibold"
+      >
+        Others
+      </Label>
+      <div class="w-2/3 max-md:w-full">
+        <Input
+          type="url"
+          id="others"
+          name="others"
+          value={user.others}
         />
       </div>
     </div>

@@ -1,19 +1,23 @@
 <script>
+	import { Input } from '$lib/components/ui/input';
+    import { Label } from "$lib/components/ui/label";
+
   export let label = '';
   export let value = '';
+  
 </script>
 
 <div
-  class="mt-4 flex w-full items-center justify-between whitespace-nowrap max-md:flex-col max-md:items-start max-md:gap-2"
+  class="flex items-center justify-between w-full mt-4 whitespace-nowrap max-md:flex-col max-md:items-start max-md:gap-2"
 >
-  <label
+  <Label
     for={label.toLowerCase()}
-    class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
+    class="w-1/3 text-base font-semibold max-md:items-left max-md:w-full"
   >
     {label}
-  </label>
+</Label>
 
-  <input
+  <Input
     type="text"
     id={label.toLowerCase()}
     bind:value

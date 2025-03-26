@@ -1,7 +1,10 @@
 <script>
   import { onMount } from 'svelte';
   import { createEventDispatcher } from 'svelte';
+  import { Button } from "$lib/components/ui/button";
+  
   const dispatch = createEventDispatcher();
+  
 
   let loading = true;
 
@@ -54,7 +57,7 @@
 </script>
 
 <nav
-  class="mt-8 flex max-w-full flex-wrap items-center gap-2 overflow-x-auto pb-4 text-sm leading-none text-lime-800"
+  class="flex flex-wrap items-center max-w-full gap-2 pb-4 mt-8 overflow-x-auto text-sm leading-none text-lime-800"
   style="scroll-snap-type: x mandatory;"
   aria-label="Project Categories"
 >

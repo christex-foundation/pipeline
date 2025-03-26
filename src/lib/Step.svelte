@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
   export let number;
   export let title;
   export let description;
@@ -14,4 +14,18 @@
     <h2 class="mb-2 text-[32px] font-semibold text-gray-800 max-sm:text-xl">{title}</h2>
     <p class="text-lg text-gray-700 max-sm:text-base">{description}</p>
   </div>
-</article>
+</article> -->
+
+
+
+<script>
+  export let number;
+  export let title;
+  export let description;
+  import {Card } from "$lib/components/ui/card";
+</script>
+
+<Card class="p-6 shadow-lg border border-gray-200">
+  <h3 class="text-2xl font-semibold mb-2">Step {number}: {title}</h3>
+  <p class="text-gray-600">{description}</p>
+</Card>
