@@ -10,25 +10,13 @@
   import { Checkbox } from "$lib/components/ui/checkbox";
 
   export let project;
-
-  $: dpgStatuses = project.dpgStatus.status;
+  $: dpgStatuses = project.dpgStatus?.status;
 
   let checkedItems = new Set();
-
-  function toggleChecked(title, event) {
-    event.stopPropagation();
-    
-    if (checkedItems.has(title)) {
-      checkedItems.delete(title);
-    } else {
-      checkedItems.add(title);
-    }
-    checkedItems = checkedItems;
-  }
 </script>
 
 <div class="w-full space-y-2">
-  {#if dpgStatuses}
+  {#if dpgStatuses != null}
     <h2 class="mb-4 text-start font-['Inter'] text-2xl font-semibold text-black">
       DPG Standard Checklist - {project.dpgCount}/9
     </h2>
@@ -40,10 +28,10 @@
             <div class="flex items-center gap-2">
               <div class="flex pointer-events-none">
                 <Checkbox 
-                  checked={item.score === 1 || checkedItems.has(item.name)} 
-                  class={item.score === 1 ? "border-green-500 bg-green-500 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500" : "border-gray-400 bg-white data-[state=checked]:bg-white data-[state=checked]:border-gray-400"}
+                  checked={item.overallScore === 1 || checkedItems.has(item.name)} 
+                  class={item.overallScore === 1 ? "border-green-500 bg-green-500 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500" : "border-gray-400 bg-white data-[state=checked]:bg-white data-[state=checked]:border-gray-400"}
                 >
-                  {#if item.score === 1 || checkedItems.has(item.name)}
+                  {#if item.overallScore === 1 || checkedItems.has(item.name)}
                     <Check class="w-4 h-4 text-white" />
                   {/if}
                 </Checkbox>
@@ -64,7 +52,8 @@
         </AccordionItem>
 
       {/each}
-</Accordion>
+      <p>{project.dpgStatus.final_recommendation}</p>
+    </Accordion>
   {:else}
     <h2 class="mb-4 text-start font-['Inter'] text-2xl font-semibold text-black">
       DPG Standard Checklist

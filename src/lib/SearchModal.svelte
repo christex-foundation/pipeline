@@ -16,7 +16,6 @@
     if (browser) {
       try {
         const module = await import('$lib/components/ui/dialog');
-        console.log('Imported module:', module);
         Dialog = module.Dialog;
         DialogContent = module.DialogContent;
         DialogHeader = module.DialogHeader;
