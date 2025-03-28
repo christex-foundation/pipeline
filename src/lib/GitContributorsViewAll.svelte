@@ -5,7 +5,6 @@
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { Card } from '$lib/components/ui/card';
-  import { ChevronLeft, Search } from 'lucide-react';
   import Icon from '@iconify/svelte';
 
   const dispatch = createEventDispatcher();
@@ -28,48 +27,58 @@
   };
 
   let contributors = [];
+  let searchQuery = '';
 
   $: totalCommits = contributors.reduce((prev, curr) => prev + curr.contributions, 0);
+  $: filteredContributors = contributors.filter(contributor => 
+    contributor.login.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   onMount(async () => {
     contributors = await fetchContribs();
   });
 </script>
 
-<div class="relative inline-flex flex-col items-start justify-start w-full h-full gap-9">
-  <button 
+<div class="relative flex flex-col items-start w-full gap-6">
+  <Button
     variant="outline" 
-    class="inline-flex items-center justify-start py-2 pl-1 pr-4 bg-transparent border-2 rounded-full border-olive-700 hover:bg-olive-50" 
     on:click={goBack}
+    class="flex items-center gap-1 border-2 border-[#516027] hover:bg-[#f5f8e9] rounded-full px-4 py-2"
   >
-  <Icon icon="material-symbols-light:chevron-left" class="text-2xl" />
-    <span class="text-xs font-bold text-center text-olive-700">Back</span>
-</button>
+    <Icon icon="material-symbols-light:chevron-left" class="text-2xl" />
+    <span class="text-sm font-bold text-[#516027]">Back</span>
+  </Button>
   
-  <div class="flex flex-col items-start justify-start w-full gap-5">
-    <div class="flex items-center justify-between w-full">
-      <div class="text-xl font-semibold text-black">
+  <div class="flex flex-col items-start w-full gap-5">
+    <div class="flex flex-col w-full gap-4 md:flex-row md:items-center md:justify-between">
+      <h2 class="text-xl font-semibold text-black md:text-2xl">
         All Github Contributors
-      </div>
+      </h2>
     
-      <div class="flex items-center gap-2">
-        <div class="relative flex items-center w-72"> 
-          <Input
-            type="text"
-            placeholder="Search Contributors"
-            class="w-full h-10 pl-4 pr-12 text-sm text-gray-600 border border-gray-300 rounded-full"
-          />
-          <Icon icon="mdi:search" class="absolute text-2xl text-gray-500 right-3" />
-        </div>
+      <div class="relative flex items-center w-full md:w-72">
+        <Input
+          bind:value={searchQuery}
+          type="text"
+          placeholder="Search Contributors"
+          class="w-full pl-4 pr-10"
+        />
+        <Icon icon="mdi:search" class="absolute text-xl text-gray-500 right-3" />
       </div>
     </div>
 
-    
-    <Card class="w-full p-0 mt-5 border-0 shadow-none">
-      <div class="grid items-start w-full grid-cols-2 gap-4 max-md:max-w-full">
-        {#each contributors as contributor}
-          <GitContributors {contributor} {totalCommits} />
-        {/each}
+    <Card class="w-full p-0 border-0 shadow-none">
+      <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+        {#if filteredContributors && filteredContributors.length > 0}
+          {#each filteredContributors as contributor}
+            <GitContributors {contributor} {totalCommits} />
+          {/each}
+        {:else}
+          <div class="flex items-center justify-center w-full col-span-2 py-8">
+            <p class="text-gray-500">
+              No contributors found
+            </p>
+          </div>
+        {/if}
       </div>
     </Card>
   </div>

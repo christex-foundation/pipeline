@@ -6,9 +6,12 @@ import { error, fail, redirect } from '@sveltejs/kit';
 export const actions = {
   default: async ({ request, locals, fetch }) => {
     let supabase = locals.supabase;
-    const { tags, banner_image, image, ...form } = Object.fromEntries(await request.formData());
+    const { tags, banner_image, image, matchedDPGs, ...form } = Object.fromEntries(await request.formData());
+    
 
-    const { data, error: validationError, success } = createProjectSchema.safeParse(form);
+     const { data, error: validationError, success } = createProjectSchema.safeParse(form);
+
+     console.log(data);
 
     if (!success) {
       const errors = validationError.flatten().fieldErrors;
@@ -16,7 +19,10 @@ export const actions = {
       return fail(400, { error: firstError });
     }
 
+    const parsedMatchedDPGs = matchedDPGs ? JSON.parse(matchedDPGs) : [];
+
     data.tags = tags;
+    data.matchedDPGs = parsedMatchedDPGs;
 
     if (banner_image.name) {
       data.banner_image = await uploadImageAndReturnUrl(banner_image, supabase);
@@ -33,15 +39,16 @@ export const actions = {
         body: JSON.stringify({ data }),
       });
 
+      const responseBody = await response.json(); // Parse response body
+      const projectId = responseBody?.response?.projectId;
+
       if (!response.ok) {
         return fail(400, 'Failed to save project');
       }
+      return { success: true, redirectTo: `/project/${projectId}` };
     } catch (_) {
       return fail(500, 'Failed to save project. Please try again later.');
     }
-
-    //TODO: redirect to the new project instead of profile
-    redirect(307, '/profile');
   },
 };
 

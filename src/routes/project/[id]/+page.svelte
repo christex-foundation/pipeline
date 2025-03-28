@@ -25,6 +25,10 @@
   import { Card, CardContent } from '$lib/components/ui/card';
   import { Separator } from '$lib/components/ui/separator';
 
+  import { format } from 'date-fns';
+  import { toast } from 'svelte-sonner';
+
+
   let id;
   $: id = $page.params.id;
 
@@ -68,8 +72,10 @@
   const defaultImageUrl =
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 
-  const isFollowing = false;
-  const isAddingUpdate = false;
+  let isFollowing = false;
+  let showPopup = false;
+  let popupMessage = '';
+  let isAddingUpdate = false;
 
   let showUpdatePopup = false;
 
@@ -90,7 +96,7 @@
     { id: 'dpgStatus', label: 'DPG Status', width: '90px' },
     { id: 'updates', label: 'Updates', width: '95px' },
     { id: 'contributors', label: 'Contributors', width: '150px' },
-    { id: 'issues', label: 'Issues', width: '70px' },
+    { id: 'tasks', label: 'Tasks', width: '70px' },
   ];
 
   function handleNavChange(event) {
@@ -110,7 +116,7 @@
     showResourceDetail = false;
   }
 
-  $: date = dateFormat(project.created_at);
+  $: date = project.created_at ? format(new Date(project.created_at), 'd/M/yy') : '';
 
   $: banner = project.banner_image
     ? project.banner_image
@@ -121,49 +127,7 @@
     : 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/projectProf.png?t=2024-11-20T16%3A05%3A41.191Z';
 
   let contributors = [];
-
-  const resources = [
-    {
-      id: 1,
-      title: 'Onboading Demo video',
-      author: 'Joseph Kerr',
-      category: 'Media',
-      description:
-        'Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati',
-      imageUrl:
-        'https://cdn.builder.io/api/v1/image/assets/TEMP/580f77e5-d2eb-430b-8974-3ed3b77829c8?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8',
-    },
-    {
-      id: 2,
-      title: 'Marketing Flyer Design',
-      author: 'Joseph Kerr',
-      category: 'Design',
-      description:
-        'Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati',
-      imageUrl:
-        'https://cdn.builder.io/api/v1/image/assets/TEMP/b31f7283-74b4-4669-b0f7-1cf219d8ccad?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8',
-    },
-    {
-      id: 3,
-      title: 'UI/UX Case Study',
-      author: 'Joseph Kerr',
-      category: 'Document',
-      description:
-        'Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati',
-      imageUrl:
-        'https://cdn.builder.io/api/v1/image/assets/TEMP/79e93884-0a53-4158-8d0b-6f18819002ac?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8',
-    },
-    {
-      id: 4,
-      title: 'Onboading Demo video',
-      author: 'Joseph Kerr',
-      category: 'Media',
-      description:
-        'Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati Nulla sit obcaecati',
-      imageUrl:
-        'https://cdn.builder.io/api/v1/image/assets/TEMP/3108468c-54ac-442b-a540-6bc12e0ded13?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8',
-    },
-  ];
+  let comments = [];
 
   onMount(async () => {
     if (data.isAuthenticated) {
@@ -216,6 +180,7 @@
           <time datetime="2024-10" class="max-md:text-sm">Created: {date}</time>
         </div>
       </div>
+
       <p class="mt-3 text-xl font-light leading-8 text-black max-lg:text-base">
         {project.bio || 'Project bio'}
       </p>
@@ -234,11 +199,18 @@
     </section>
 
     {#if user}
-      <div class="flex items-center gap-3 mt-6">
+      <div class="mt-6 flex items-center gap-3">
+        <a
+          href="/project/{id}/contribute"
+          class="w-full rounded-full bg-[#0b383c] py-4 text-center text-base font-semibold text-[#e9f5d3] max-md:w-[50%] lg:w-[50%]"
+        >
+          <button>CONTRIBUTE</button>
+        </a>
+
         {#if user.id === project.user_id}
           <a
             href="/project/{id}/edit"
-            class="w-full rounded-full bg-[#0b383c] py-4 text-center text-base font-semibold text-white"
+            class="w-full rounded-full bg-lime-300 py-4 text-center text-base font-semibold text-[#0b383c] max-md:w-[50%] lg:w-[50%]"
           >
             <button>EDIT PROJECT</button>
           </a>
@@ -248,13 +220,8 @@
           >
             ADD UPDATE
           </button>
+
         {:else}
-          <a
-            href="/project/{id}/contribute"
-            class="w-full rounded-full bg-[#0b383c] py-4 text-center text-base font-semibold text-[#e9f5d3] lg:w-[50%]"
-          >
-            <button>CONTRIBUTE</button>
-          </a>
           <form
             class="w-[50%]"
             action="?/bookmark"
@@ -262,7 +229,12 @@
             use:enhance={() => {
               return async ({ result }) => {
                 if (result.type === 'success') {
-                  alert('Project followed successfully');
+                  isFollowing = !isFollowing;
+                  toast.success(
+                    isFollowing
+                      ? 'Project followed successfully'
+                      : 'Project unfollowed successfully',
+                  );
                 }
               };
             }}
@@ -309,6 +281,7 @@
           <div class="text-sm max-md:text-[12px]">
             raised of ${amountFormat(project.funding_goal || 0)}
           </div>
+
         </div>
       </CardContent>
     </Card>
@@ -333,25 +306,32 @@
         {:else if activeNavItem === 'updates'}
           {#if showUpdateDetail}
             <UpdateDetail {data} {selectedUpdate} on:goBack={handleGoBack} />
-          {:else if projectUpdates.length > 0}
-            <div
-              class="self-stretch font-['Inter'] text-2xl font-bold leading-tight text-[#282828] md:text-[32px] md:leading-10"
-            >
-              Updates
+          {:else}
+            <div class="flex w-full justify-end">
+              {#if user && user.id === project.user_id}
+                <button
+                  on:click={openUpdatePopup}
+                  class="w-[20%] rounded-full bg-lime-300 py-4 text-center text-base font-semibold text-black"
+                >
+                  ADD UPDATE
+                </button>
+              {/if}
             </div>
 
-            {#each projectUpdates as update}
-              {#if update.code}
-                <GitUpdate {update} />
-              {:else}
-                <Updates on:showDetail={handleShowDetail} {update} />
-              {/if}
-            {/each}
-          {:else}
-            <p>No updates</p>
+            {#if projectUpdates.length > 0}
+              {#each projectUpdates as update}
+                {#if update.code}
+                  <GitUpdate {update} />
+                {:else}
+                  <Updates on:showDetail={handleShowDetail} {update} {comments} />
+                {/if}
+              {/each}
+            {:else}
+              <div class="mt-6 text-center text-gray-500">No updates available.</div>
+            {/if}
           {/if}
         {:else if activeNavItem === 'contributors'}
-          <div class="w-full px-4 md:px-10">
+          <div class="w-auto px-4 md:w-full md:px-10">
             {#if !showGitDetail && !showResourceDetail}
               <div class="inline-flex items-center self-stretch justify-start gap-1 mb-6">
                 <div
@@ -364,34 +344,42 @@
                   class="flex flex-wrap items-center justify-between w-full gap-10 font-bold text-center max-md:max-w-full"
                 >
                   <h1 class="self-stretch my-auto text-4xl leading-tight text-black">
+
                     GitHub Contributors
                   </h1>
                   <button
-                    class="my-auto flex items-center justify-center gap-1 self-stretch rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800"
+                    class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
                     on:click={toggleGitDetail}
                   >
                     <span class="self-stretch my-auto">View All</span>
+
                     <Icon icon="mdi:chevron-right" class="text-2xl" />
                   </button>
                 </div>
+
                 <div
+
                   class="relative z-0 grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full"
                 >
                   {#each Array.isArray(contributors) ? contributors.slice(0, 4) : [] as contributor}
                     <GitContributors {contributor} {totalCommits} />
                   {/each}
+
                 </div>
               </div>
 
               <div class="flex max-w-[846px] flex-col max-md:pl-5">
                 <div
+
                   class="flex flex-wrap items-center justify-between w-full gap-10 font-bold text-center max-md:max-w-full"
                 >
                   <h2 class="self-stretch my-auto text-4xl leading-tight text-black">Resources</h2>
+
                   <button
-                    class="my-auto flex items-center justify-center gap-1 self-stretch rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800"
+                    class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
                     on:click={toggleResourceDetail}
                   >
+
                     <span class="self-stretch my-auto">View All</span>
                     <img
                       loading="lazy"
@@ -405,6 +393,7 @@
                   {#each projectResource as resource}
                     <ResourceCard {resource} />
                   {/each}
+
                 </div>
               </div>
             {/if}
@@ -415,7 +404,7 @@
               <ResourcesViewAll on:goBack={handleGoBack} />
             {/if}
           </div>
-        {:else if activeNavItem === 'issues'}
+        {:else if activeNavItem === 'tasks'}
           <Issues />
         {/if}
       </section>
@@ -446,6 +435,7 @@
               await invalidateAll();
             };
           }}
+
         >
           <div class="space-y-3">
             <Label class="block text-sm font-medium text-gray-700">

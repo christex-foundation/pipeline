@@ -80,10 +80,7 @@
       <button
         type="button"
         class="flex items-center justify-between w-full p-2"
-        on:click={() => {
-          $searchBarOpen = !$searchBarOpen;
-          console.log('Search bar open:', $searchBarOpen);
-        }}
+        on:click={() => ($searchBarOpen = !$searchBarOpen)}
       >
         <span class="text-sm text-white/50">Search for a project....</span>
         <Icon icon="mdi:search" class="text-2xl text-white/50" />
@@ -152,7 +149,7 @@
               on:click={() => ($searchBarOpen = !$searchBarOpen)}
             >
               <span
-                class="ml-[-18px] font-['Inter'] text-base font-semibold leading-none text-white max-lg:px-8"
+                class="ml-[-18px] font-['Inter'] text-base font-semibold leading-none text-white max-lg:px-8 max-md:mb-[4px]"
                 >Search for a project...</span
               >
         </Button>
@@ -162,6 +159,7 @@
         <a href="/" class="font-['Inter'] text-base font-semibold text-white"> Tasks </a>
 
         <div class="relative resources-dropdown">
+
           <Button
             on:click={toggleResources}
             class="flex items-center justify-between w-full px-4 py-4 border-b border-cyan-800 focus:outline-none"

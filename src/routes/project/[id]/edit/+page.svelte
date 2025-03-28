@@ -48,9 +48,8 @@
   method="post"
   enctype="multipart/form-data"
   use:enhance={() => {
+    loading = true;
     return async ({ result }) => {
-      loading = true;
-
       if (result.type === 'failure') {
         toast.warn(result?.data?.error || 'failed to edit project');
       } else if (result.type === 'error') {
@@ -186,7 +185,9 @@
     <div class="flex justify-end w-full mt-10 max-md:justify-center">
       <Button
         type="submit"
+
         class="px-12 py-4 text-lg font-medium text-white rounded-full bg-lime-800 disabled:bg-gray-500 max-md:px-8 max-md:py-3"
+
         disabled={loading}
       >
         {loading ? 'Updating...' : 'Update Project'}

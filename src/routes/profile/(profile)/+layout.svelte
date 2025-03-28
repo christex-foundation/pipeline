@@ -67,7 +67,9 @@
             {/each}
           </div>
         </div>
+
         <p class="text-2xl font-light leading-9 text-black mt-11 max-md:mt-10 max-md:max-w-full">
+
           {user?.bio || ''}
         </p>
         <div
@@ -81,6 +83,7 @@
               class="flex items-center justify-center w-full gap-2 px-6 py-4 text-xl text-white bg-teal-900 rounded-full"
            
               >
+
               Create Project
           </Button>
           </a>
@@ -88,6 +91,7 @@
           <a href="/profile/edit" class="flex-1 max-w-xs md:max-w-sm">
             <Button
               class="flex items-center justify-center w-full gap-2 px-6 py-4 text-xl border-2 rounded-full border-lime-800 bg-lime-200 text-lime-800"
+
             >
               Edit Profile
               <Icon icon="mdi:pen" class="text-2xl" />

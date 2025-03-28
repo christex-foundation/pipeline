@@ -33,10 +33,17 @@
       document.removeEventListener('click', closeDropdown);
     };
   });
+
+  function truncateText(text, maxLength = 20) {
+    if (!text) return '';
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + '...';
+    }
+    return text;
+  }
 </script>
 
-
-<Card class="flex flex-col overflow-hidden bg-gray-200 rounded-3xl">
+<Card class="flex flex-col h-full overflow-hidden bg-gray-200 rounded-3xl">
   <CardHeader class="relative p-0 pt-[75%]">
     <a href="/project/{project.id}" class="absolute inset-0 flex items-center justify-center">
       <div class="h-[90%] w-[95%] overflow-hidden rounded-3xl">
@@ -45,34 +52,35 @@
     </a>
   </CardHeader>
 
-  <div class="flex-grow">
-  <CardContent class="p-4 mt-auto ">
-    <div class="flex items-center justify-between gap-2 mb-2">
-      <a href="/project/{project.id}">
-        <h2 class="text-xl font-semibold text-black line-clamp-1">{project.title}</h2>
-      </a>
-      <p class="text-xs text-neutral-400">
-        <DPGRating rating={project.dpgStatusCount} />
-      </p>
-    </div>
-
-    <div class="mb-4 ml-[-2px] flex gap-2">
-      {#each project?.tags || [] as tag}
-        <CategoryTag {tag} />
-      {/each}
-    </div>
-
+  <CardContent class="flex flex-col justify-between flex-grow p-4">
     <div>
-      <span class="text-sm font-semibold">${amountFormat(project.current_funding || 0)}</span>
-      raised of
-      <span class="text-sm font-semibold">${amountFormat(project.funding_goal || 0)}</span>
+      <div class="flex items-center justify-between gap-2 mb-2">
+        <a href="/project/{project.id}">
+          <h2 class="text-xl font-semibold text-black">{truncateText(project.title)}</h2>
+        </a>
+        <p class="text-xs text-neutral-400">
+          <DPGRating rating={project.dpgStatusCount} />
+        </p>
+      </div>
+
+      <div class="mb-4 ml-[-2px] flex gap-2">
+        {#each project?.tags || [] as tag}
+          <CategoryTag {tag} />
+        {/each}
+      </div>
     </div>
-    
-    <Progress value={(project.current_funding / project.funding_goal) * 100} class="h-2 mt-2" />
+
+    <div class="mt-auto">
+      <div>
+        <span class="text-sm font-semibold">${amountFormat(project.current_funding || 0)}</span>
+        raised of
+        <span class="text-sm font-semibold">${amountFormat(project.funding_goal || 0)}</span>
+      </div>
+      <Progress value={(project.current_funding / project.funding_goal) * 100} class="h-2 mt-2" />
+    </div>
   </CardContent>
 
-  <CardFooter class="flex justify-center">
+  <CardFooter class="flex justify-center p-4">
     <ContributeButton {project} />
   </CardFooter>
-</div>
 </Card>

@@ -10,13 +10,10 @@
   import { Checkbox } from "$lib/components/ui/checkbox";
 
   export let project;
-  export let user;
 
-  $: dpgStatuses = project.dpgStatuses;
+  $: dpgStatuses = project.dpgStatus.status;
 
   let checkedItems = new Set();
-  let loading = false;
-  let error = null;
 
   function toggleChecked(title, event) {
     event.stopPropagation();
@@ -28,35 +25,10 @@
     }
     checkedItems = checkedItems;
   }
-
-  async function evaluateProject() {
-    loading = true;
-    error = null;
-
-    try {
-      const response = await fetch('/api/github', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: project.github }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to evaluate project');
-      }
-
-      const data = await response.json();
-
-      dpgStatuses = data.evaluations;
-    } catch (err) {
-      error = err.message;
-    } finally {
-      loading = false;
-    }
-  }
 </script>
 
 <div class="w-full space-y-2">
-  {#if dpgStatuses.length > 0}
+  {#if dpgStatuses}
     <h2 class="mb-4 text-start font-['Inter'] text-2xl font-semibold text-black">
       DPG Standard Checklist - {project.dpgCount}/9
     </h2>
@@ -77,6 +49,7 @@
                 </Checkbox>
               </div>
               <div class="font-['Inter'] text-lg font-semibold text-black">{item.name}</div>
+
             </div>
           </AccordionTrigger>
           <AccordionContent class="p-4 pt-0 text-black">
@@ -90,8 +63,15 @@
           </AccordionContent>
         </AccordionItem>
       {/each}
-  
-      
+  {:else}
+    <h2 class="mb-4 text-start font-['Inter'] text-2xl font-semibold text-black">
+      DPG Standard Checklist
+    </h2>
+    <div class="flex flex-col items-center gap-4">
+      <p class="text-center font-['Inter'] text-lg font-semibold text-[#8a8a8a]">
+        DPG Standard Checklist evaluating...
+      </p>
+    </div>
     </Accordion>
   {/if}
 </div>

@@ -15,6 +15,7 @@
   }
 
   export let update;
+  export let selectedUpdate;
 
   const maxLength = 850;
 
@@ -30,13 +31,37 @@
   const defaultImageUrl =
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 
-  let date = '';
-  date = dateTimeFormat(update.created_at);
-  
+  let date = dateTimeFormat(update.created_at);
+
   const getInitials = (name) => {
     if (!name) return 'U';
     return name.substring(0, 2).toUpperCase();
   };
+
+  let comments = [];
+
+  async function getUpdateComments() {
+    try {
+      const response = await fetch(
+        `/api/projects/singleProject/${selectedUpdate.project_id}/projectUpdates/${selectedUpdate.id}/comments`,
+        {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+      comments = data.comments;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  onMount(getUpdateComments);
 </script>
 
 <Card class="w-full p-0 mb-4 bg-white">
@@ -88,7 +113,7 @@
     <div class="flex items-center justify-start gap-6">
       <div class="flex items-center justify-start gap-2">
         <Icon icon="mdi:chat-outline" class="text-2xl text-[#8C8C8C]" />
-        <div class="text-sm font-normal leading-normal text-[#9b9e9e]">16</div>
+        <div class="text-sm font-normal leading-normal text-[#9b9e9e]">{comments.length}</div>
       </div>
     </div>
     
@@ -99,6 +124,6 @@
     >
       <span class="text-center text-sm font-normal text-[#222222]">Read more</span>
       <Icon icon="mdi:chevron-right" class="text-2xl" />
-  </button>
+    </button>
   </CardFooter>
 </Card>

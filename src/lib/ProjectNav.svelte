@@ -9,7 +9,7 @@
 </script>
 
 <nav
-  class="flex items-start justify-center gap-5 text-center text-2xl font-semibold leading-none text-lime-800 max-md:w-[100%] max-md:gap-4 max-md:text-sm"
+  class="flex items-start justify-center gap-5 text-center text-2xl font-semibold leading-none text-lime-800 max-md:w-[100%] max-md:gap-4 max-md:text-sm flex-wrap"
 >
   {#each navItems as item}
     <div class="flex flex-col items-center justify-center" style="width: {item.width};">

@@ -14,7 +14,8 @@
     class="h-16 w-16 rounded-full border-2 border-[#0B383C] shadow-md"
   />
 
-  <CardContent class="flex flex-col w-full p-0 ml-4">
+  <CardContent class="flex flex-col w-full mt-4 sm:mt-0 sm:ml-4">
+
     <a
       href={contributor.html_url}
       target="_blank"
@@ -28,6 +29,7 @@
       <span class="rounded-lg bg-[#0B383C] px-3 py-1 text-xs font-medium text-white">
         Commits: {contributor?.contributions}
       </span>
+
     </div>
 
     <div class="border-1 mt-2 h-2 w-full rounded-full border-[#bde25b] bg-[#e9f5d3]">

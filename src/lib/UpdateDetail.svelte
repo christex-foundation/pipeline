@@ -105,6 +105,7 @@
   <div class="flex flex-col items-start self-stretch justify-start gap-6">
     <div class="flex flex-col items-start self-stretch justify-start gap-3">
       <div class="self-stretch text-3xl font-bold text-gray-900">
+
         {selectedUpdate.title}
       </div>
       
@@ -149,6 +150,7 @@
   <div class="flex flex-col items-start self-stretch justify-start gap-4 pt-10">
     <div class="flex flex-col items-start self-stretch justify-start h-5">
       <div class="self-stretch text-base font-bold leading-tight text-gray-900">
+
         Comments ({comments.length})
       </div>
     </div>
@@ -204,6 +206,7 @@
                       {comment.userProfile.name}
                     </div>
                     <div class="text-xs font-normal text-gray-400">
+
                       {timeAgo(comment.created_at)}
                     </div>
                   </div>
@@ -212,6 +215,7 @@
               <CardContent class="p-4 pt-5">
                 <div class="text-sm font-normal text-gray-900">
                   {comment.body}
+
                 </div>
               </CardContent>
             </Card>

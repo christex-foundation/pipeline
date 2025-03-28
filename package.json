@@ -47,6 +47,7 @@
     "bullmq": "^5.41.7",
     "class-variance-authority": "^0.7.1",
     "countries-list": "^3.1.1",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "lucide-react": "^0.479.0",
     "openai": "^4.68.0",

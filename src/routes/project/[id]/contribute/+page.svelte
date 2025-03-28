@@ -1,4 +1,4 @@
- <script>
+<script>
   import { Tabs, TabsList, TabsTrigger, TabsContent } from '$lib/components/ui/tabs';
   import Contribute from '$lib/Contribute.svelte';
   import Apply from '$lib/apply.svelte';
@@ -9,6 +9,18 @@
   let project = data.project;
 
   let activeTab = "funding";
+
+  let steps = [
+    { label: 'Funding', active: false },
+    { label: 'Resources', active: true },
+  ];
+
+  function selectStep(index) {
+    if (!steps[index].disabled) {
+      steps = steps.map((step, i) => ({ ...step, active: i === index }));
+    }
+  }
+  
 </script>
 
 <div class="w-full bg-[#d1ea9a]/90 py-16">
@@ -52,4 +64,3 @@
     </TabsContent>
   </div>
 </Tabs>
-

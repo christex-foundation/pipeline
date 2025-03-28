@@ -20,9 +20,6 @@ import {
 } from '$lib/server/repo/categoryRepo.js';
 import {
   getDpgStatuses,
-  getAllDpgStatuses,
-  getProjectDpgStatuses,
-  createProjectDpgStatus,
 } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
@@ -65,9 +62,8 @@ export async function getProjectsWithDetails(term, page, limit, supabase) {
     projectCategories.map((pc) => pc.category_id),
     supabase,
   );
-  const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
-  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses);
+  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories);
 }
 
 export async function getUserProjects(userId, page, limit, supabase) {
@@ -89,9 +85,8 @@ export async function getUserProjects(userId, page, limit, supabase) {
     projectCategories.map((pc) => pc.category_id),
     supabase,
   );
-  const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
-  return mapProjectsWithTagsAndStatus(projects, projectCategories, categoriesIds, dpgStatuses);
+  return mapProjectsWithTagsAndStatus(projects, projectCategories, categoriesIds);
 }
 
 export async function getProjectsByCategory(categoryId, page, limit, supabase) {
@@ -114,9 +109,8 @@ export async function getProjectsByCategory(categoryId, page, limit, supabase) {
     projectCategories.map((pc) => pc.category_id),
     supabase,
   );
-  const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
-  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses);
+  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories);
 }
 
 // export async function getProjectById(id, supabase) {
@@ -169,42 +163,13 @@ export async function getProjectById(id, supabase) {
   const categoryIds = projectCategories.map((pc) => pc.category_id);
   const categories = await getCategories(categoryIds, supabase);
 
-  // Fetch all DPG statuses and the project's specific statuses
-  const [allDpgStatuses, projectDpgStatuses] = await Promise.all([
-    getAllDpgStatuses(supabase),
-    getProjectDpgStatuses(project.id, supabase),
-  ]);
-
-  // Create a map of projectDpgStatuses by status_id
-  const projectDpgStatusesMap = projectDpgStatuses.reduce((acc, status) => {
-    acc[status.status_id] = status;
-    return acc;
-  }, {});
-
-  // Map allDpgStatuses to match projectDpgStatuses and include score and explanation
-  const dpgStatuses = allDpgStatuses
-    .map((status) => {
-      const projectStatus = projectDpgStatusesMap[status.id];
-
-      if (projectStatus) {
-        return {
-          name: status.name,
-          score: Number(projectStatus.score), // Make sure score is treated as a number
-          explanation: projectStatus.explanation,
-        };
-      }
-
-      return null; // If no match, return null
-    })
-    .filter(Boolean); // Remove null values if any
-
-  const dpgTotalScore = dpgStatuses.reduce((sum, status) => sum + status.score, 0);
+  const dpgTotalScore =
+    project?.dpgStatus?.status?.reduce((sum, status) => sum + (status.overallScore || 0), 0) || 0;
 
   return {
     ...project,
     tags: categories,
     dpgCount: dpgTotalScore,
-    dpgStatuses, // Array of statuses with name, score, and explanation
   };
 }
 
@@ -257,9 +222,8 @@ export async function getUserBookmarkedProjects(userId, page, limit, supabase) {
     projectCategories.map((pc) => pc.category_id),
     supabase,
   );
-  const dpgStatuses = await getDpgStatuses(projectIds, supabase);
 
-  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories, dpgStatuses);
+  return mapProjectsWithTagsAndStatus(projects, projectCategories, categories);
 }
 
 export async function storeProject(user, projectData, supabase) {
@@ -278,36 +242,22 @@ export async function storeProject(user, projectData, supabase) {
 
   const project = await createProject({ ...projectFields, user_id: user.id }, supabase);
 
-  const teamMember = await createTeamMember(user.id, project.id, supabase);
-
-  // for (const tag of tags) {
-  //   await assignCategory({ project_id: project.id, category_id: tag.id }, supabase);
-  // }
-
-  //create project db status
-  const dpgStatus = await getAllDpgStatuses(supabase);
+  await createTeamMember(user.id, project.id, supabase);
 
   await Promise.all(
     tags.map((tag) => assignCategory({ project_id: project.id, category_id: tag.id }, supabase)),
   );
 
-  await Promise.all(
-    dpgStatus.map((status) =>
-      createProjectDpgStatus(
-        { project_id: project.id, status_id: status.id, score: 0, explanation: '' },
-        supabase,
-      ),
-    ),
-  );
-
+  console.log('Evaluating project:', project.github);
   //Enqueue the project evaluation job
   await projectEvaluationQueue.add('evaluateProject', {
     github: project.github,
-    supabase: supabaseUrl,
-    supabaseKey: supabaseAnonKey,
+    projectId: project.id,
+    supabaseUrl: supabaseUrl,
+    supabaseAnonKey: supabaseAnonKey,
   });
 
-  return { success: true };
+  return { success: true, projectId: project.id };
 }
 
 export async function updateProject(userId, projectId, projectData, supabase) {

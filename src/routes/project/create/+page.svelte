@@ -2,12 +2,43 @@
   import ProjectBasics from '../ProjectBasics.svelte';
   import { applyAction, enhance } from '$app/forms';
   import { toast } from 'svelte-sonner';
+
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { Label } from "$lib/components/ui/label";
   import { Checkbox } from "$lib/components/ui/checkbox";
 
+  import { goto } from '$app/navigation';
+
+
   let loading = false;
+  let loadingMatchingDPGs = false;
+  let project = { title: '', bio: '' };
+  let matchProjects = [];
+
+  async function fetchMatchingDPGs() {
+    if (!project.title || !project.bio) return;
+    loadingMatchingDPGs = true;
+    try {
+      const response = await fetch('/api/github/match', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title: project.title, description: project.bio }),
+      });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+      matchProjects = data.matchProjects.data || [];
+      loadingMatchingDPGs = false;
+    } catch (error) {}
+  }
+
+  $: project.title && project.bio && fetchMatchingDPGs();
 </script>
 
 <div class="mb-10 w-full bg-[#d1ea9a]/90 py-16">
@@ -23,18 +54,21 @@
   method="post"
   enctype="multipart/form-data"
   use:enhance={() => {
+    loading = true;
     return async ({ result }) => {
-      loading = true;
-
-      if (result.type === 'failure') {
+      if (result.type === 'success' && result.data.redirectTo) {
+        toast.success('project has been created successfully');
+        goto(result.data.redirectTo);
+      } else if (result.type === 'failure') {
         toast.warn(result?.data?.error || 'could not create project');
       } else if (result.type === 'error') {
         toast.error('could not create a project');
+      } else {
+        toast.success('project has been created successfully');
       }
 
-      toast.success('project has been created successfully');
-      loading = false;
       await applyAction(result);
+      loading = false;
     };
   }}
 >
@@ -44,7 +78,8 @@
     <section class="flex w-full max-w-[600px] flex-1 flex-col">
       <div class="rounded-xl border border-neutral-100 bg-neutral-50 p-4 shadow-md">
         <h2 class="mb-4 text-2xl font-semibold text-black">Project Basics</h2>
-        <ProjectBasics />
+        <ProjectBasics bind:project />
+        <input type="hidden" name="matchedDPGs" value={JSON.stringify(matchProjects)} />
       </div>
     </section>
 
@@ -242,12 +277,11 @@
     <div class="mt-10 flex w-[83%] justify-end max-md:ml-8 max-md:justify-center">
       <Button
         type="submit"
-        class="rounded-full !bg-lime-800 px-12 py-4 text-lg font-medium text-white disabled:bg-gray-500 max-md:px-8 max-md:py-3"
+        class="rounded-full bg-lime-800 px-12 py-4 text-lg font-medium text-white disabled:bg-gray-500 max-md:px-8 max-md:py-3"
         disabled={loading}
       >
-        {loading ? 'Saving...' : 'Save Project'}
-    </Button>
-      
+        {loading ? 'Creating...' : 'Create new Project'}
+      </button>
     </div>
   </div>
 </form>
