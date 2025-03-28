@@ -275,7 +275,7 @@
     </section>
 
     <div class="mt-10 flex w-[83%] justify-end max-md:ml-8 max-md:justify-center">
-      <Button
+      <button
         type="submit"
         class="rounded-full bg-lime-800 px-12 py-4 text-lg font-medium text-white disabled:bg-gray-500 max-md:px-8 max-md:py-3"
         disabled={loading}
