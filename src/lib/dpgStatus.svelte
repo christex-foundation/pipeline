@@ -62,7 +62,9 @@
             <p>{item.explanation || 'Evaluating...'}</p>
           </AccordionContent>
         </AccordionItem>
+
       {/each}
+</Accordion>
   {:else}
     <h2 class="mb-4 text-start font-['Inter'] text-2xl font-semibold text-black">
       DPG Standard Checklist
@@ -72,6 +74,5 @@
         DPG Standard Checklist evaluating...
       </p>
     </div>
-    </Accordion>
   {/if}
 </div>
