@@ -34,41 +34,6 @@
     };
   });
 </script>
-<!-- 
-<div class="flex flex-col overflow-hidden bg-gray-200 rounded-3xl">
-  <header class="relative pt-[75%]">
-    <a href="/project/{project.id}" class="absolute inset-0 flex items-center justify-center">
-      <div class="h-[90%] w-[95%] overflow-hidden rounded-3xl">
-        <img loading="lazy" src={getImageLink()} alt="" class="object-cover w-full h-full" />
-      </div>
-    </a>
-  </header>
-
-  <div class="p-4 mt-auto">
-    <div class="flex items-center justify-between mb-2">
-      <a href="/project/{project.id}">
-        <h2 class="text-xl font-semibold text-black">{project.title}</h2>
-      </a>
-      <p class="text-xs text-neutral-400">
-        <DPGRating rating={project.dpgStatusCount} />
-      </p>
-    </div>
-
-    <div class="mb-4 ml-[-2px] flex gap-2">
-      {#each project?.tags || [] as tag}
-        <CategoryTag {tag} />
-      {/each}
-    </div>
-
-    <div>
-      <span class="text-sm font-semibold">${amountFormat(project.current_funding || 0)}</span>
-      raised of
-      <span class="text-sm font-semibold">${amountFormat(project.funding_goal || 0)}</span>
-    </div>
-    <ProgressBar progress={project.current_funding} total={project.funding_goal} />
-    <ContributeButton {project} />
-  </div>
-</div> -->
 
 
 <Card class="flex flex-col overflow-hidden bg-gray-200 rounded-3xl">

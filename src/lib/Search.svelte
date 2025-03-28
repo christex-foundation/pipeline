@@ -1,5 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import { Label } from '$lib/components/ui/Label';
+  import { Input } from '$lib/components/ui/input';
 
   const dispatch = createEventDispatcher();
   let searchTerm = '';
@@ -19,12 +21,12 @@
     alt=""
     class="aspect-square w-[26px] shrink-0 object-contain max-sm:w-[15px]"
   />
-  <label for="searchInput" class="sr-only">Search</label>
-  <input
+  <Label for="searchInput" class="sr-only">Search</Label>
+  <Input
     type="text"
     id="searchInput"
     placeholder="Search"
-    class="ml-2 flex-grow border-none bg-transparent text-lg outline-none"
+    class="flex-grow ml-2 text-lg bg-transparent border-none outline-none"
     on:input={handleInput}
   />
 </div>
