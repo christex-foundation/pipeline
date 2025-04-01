@@ -36,7 +36,6 @@
     if (!name) return 'U';
     return name.substring(0, 2).toUpperCase();
   };
-
 </script>
 
 <Card class="w-full p-0 mb-4 bg-white">
@@ -45,26 +44,32 @@
       {update.title}
     </CardTitle>
   </CardHeader>
-  
+
   <CardContent class="px-4 py-2 md:px-9">
-    <div class="flex flex-col items-start justify-start gap-1 self-stretch border-b border-[#dcdedd] pb-5">
+    <div
+      class="flex flex-col items-start justify-start gap-1 self-stretch border-b border-[#dcdedd] pb-5"
+    >
       <div class="inline-flex items-center justify-start w-full gap-3">
         <Avatar class="h-10 w-10 border border-[#dcdedd] md:h-[42px] md:w-[42px]">
-          <AvatarImage 
-            src={update.userProfile.image && update.userProfile.image !== '' 
-              ? update.userProfile.image 
-              : defaultImageUrl} 
-            alt="User Profile" 
+          <AvatarImage
+            src={update.userProfile.image && update.userProfile.image !== ''
+              ? update.userProfile.image
+              : defaultImageUrl}
+            alt="User Profile"
           />
           <AvatarFallback>{getInitials(update.userProfile.name)}</AvatarFallback>
         </Avatar>
 
         <div class="inline-flex flex-col justify-between w-full">
           <div class="inline-flex items-center self-stretch gap-2">
-            <div class="max-w-[200px] truncate text-sm font-normal leading-normal text-[#282828] md:max-w-none">
+            <div
+              class="max-w-[200px] truncate text-sm font-normal leading-normal text-[#282828] md:max-w-none"
+            >
               {update.userProfile.name}
             </div>
-            <Badge class="bg-[#05ce78] text-white px-[5px] py-[0.25px] h-auto rounded-[3px] font-bold text-xs">
+            <Badge
+              class="h-auto rounded-[3px] bg-[#05ce78] px-[5px] py-[0.25px] text-xs font-bold text-white"
+            >
               {update.user_id === update.userProfile.user_id ? 'Creator' : 'Member'}
             </Badge>
           </div>
@@ -74,7 +79,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="flex flex-col items-start self-stretch justify-start gap-1 mt-2">
       <div class="flex flex-col items-start justify-start gap-[30px] self-stretch pb-2">
         <div class="self-stretch text-base font-normal leading-relaxed text-[#282828]">
@@ -83,7 +88,7 @@
       </div>
     </div>
   </CardContent>
-  
+
   <CardFooter class="flex justify-between px-4 pt-0 pb-4 md:px-9 md:pb-9">
     <div class="flex items-center justify-start gap-6">
       <div class="flex items-center justify-start gap-2">
@@ -91,11 +96,11 @@
         <div class="text-sm font-normal leading-normal text-[#9b9e9e]">0</div>
       </div>
     </div>
-    
-    <button 
-      variant="outline" 
+
+    <button
+      variant="outline"
       on:click={showDetail}
-      class="flex items-center justify-center gap-1.5 border border-[#d1d1d1] bg-white px-4 py-2 md:px-[19px] md:py-[11.50px] h-auto"
+      class="flex h-auto items-center justify-center gap-1.5 border border-[#d1d1d1] bg-white px-4 py-2 md:px-[19px] md:py-[11.50px]"
     >
       <span class="text-center text-sm font-normal text-[#222222]">Read more</span>
       <Icon icon="mdi:chevron-right" class="text-2xl" />

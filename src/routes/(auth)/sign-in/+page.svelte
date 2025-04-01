@@ -3,10 +3,10 @@
   import Logo from '$lib/Logo.svelte';
   import { toast } from 'svelte-sonner';
 
-  import { Button } from "$lib/components/ui/button";
-  import { Input } from "$lib/components/ui/input";
-  import { Label } from "$lib/components/ui/label";
-  import { Checkbox } from "$lib/components/ui/checkbox";
+  import { Button } from '$lib/components/ui/button';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
+  import { Checkbox } from '$lib/components/ui/checkbox';
 
   let loading = false;
   export let form;
@@ -40,22 +40,12 @@
     <p class="mb-8 opacity-50">Enter your info to sign in</p>
     <div class="flex flex-col gap-2 font-medium">
       <Label for="email" class="block">Email</Label>
-      <Input
-        type="email"
-        id="email"
-        name="email"
-        required
-      />
+      <Input type="email" id="email" name="email" required />
     </div>
 
     <div class="flex flex-col gap-2 mt-6 font-medium">
       <Label for="password" class="block">Password</Label>
-      <Input
-        type="password"
-        id="password"
-        name="password"
-        required
-      />
+      <Input type="password" id="password" name="password" required />
     </div>
 
     <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
@@ -63,12 +53,9 @@
       <a href="/sign-up" class="font-semibold text-neutral-400 hover:text-[#0b383c]">Sign Up</a>
     </div>
 
-    <Button
-      type="submit"
-      disabled={loading}
-    >
+    <Button type="submit" disabled={loading}>
       {loading ? 'Signing in...' : 'Sign in'}
-  </Button>
+    </Button>
 
     <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
       <Label>

@@ -1,11 +1,10 @@
-<script >
-	import { cn } from "$lib/utils.js";
+<script>
+  import { cn } from '$lib/utils.js';
 
-
-	let className = undefined;
-	export { className as class };
+  let className = undefined;
+  export { className as class };
 </script>
 
-<p class={cn("text-muted-foreground text-sm", className)} {...$$restProps}>
-	<slot />
+<p class={cn('text-sm text-muted-foreground', className)} {...$$restProps}>
+  <slot />
 </p>

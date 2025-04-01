@@ -28,7 +28,6 @@
   import { format } from 'date-fns';
   import { toast } from 'svelte-sonner';
 
-
   let id;
   $: id = $page.params.id;
 
@@ -199,7 +198,7 @@
     </section>
 
     {#if user}
-      <div class="mt-6 flex items-center gap-3">
+      <div class="flex items-center gap-3 mt-6">
         <a
           href="/project/{id}/contribute"
           class="w-full rounded-full bg-[#0b383c] py-4 text-center text-base font-semibold text-[#e9f5d3] max-md:w-[50%] lg:w-[50%]"
@@ -220,7 +219,6 @@
           >
             ADD UPDATE
           </button>
-
         {:else}
           <form
             class="w-[50%]"
@@ -281,7 +279,6 @@
           <div class="text-sm max-md:text-[12px]">
             raised of ${amountFormat(project.funding_goal || 0)}
           </div>
-
         </div>
       </CardContent>
     </Card>
@@ -307,7 +304,7 @@
           {#if showUpdateDetail}
             <UpdateDetail {data} {selectedUpdate} on:goBack={handleGoBack} />
           {:else}
-            <div class="flex w-full justify-end">
+            <div class="flex justify-end w-full">
               {#if user && user.id === project.user_id}
                 <button
                   on:click={openUpdatePopup}
@@ -344,7 +341,6 @@
                   class="flex flex-wrap items-center justify-between w-full gap-10 font-bold text-center max-md:max-w-full"
                 >
                   <h1 class="self-stretch my-auto text-4xl leading-tight text-black">
-
                     GitHub Contributors
                   </h1>
                   <button
@@ -358,19 +354,16 @@
                 </div>
 
                 <div
-
                   class="relative z-0 grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full"
                 >
                   {#each Array.isArray(contributors) ? contributors.slice(0, 4) : [] as contributor}
                     <GitContributors {contributor} {totalCommits} />
                   {/each}
-
                 </div>
               </div>
 
               <div class="flex max-w-[846px] flex-col max-md:pl-5">
                 <div
-
                   class="flex flex-wrap items-center justify-between w-full gap-10 font-bold text-center max-md:max-w-full"
                 >
                   <h2 class="self-stretch my-auto text-4xl leading-tight text-black">Resources</h2>
@@ -379,7 +372,6 @@
                     class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
                     on:click={toggleResourceDetail}
                   >
-
                     <span class="self-stretch my-auto">View All</span>
                     <img
                       loading="lazy"
@@ -393,7 +385,6 @@
                   {#each projectResource as resource}
                     <ResourceCard {resource} />
                   {/each}
-
                 </div>
               </div>
             {/if}
@@ -435,7 +426,6 @@
               await invalidateAll();
             };
           }}
-
         >
           <div class="space-y-3">
             <Label class="block text-sm font-medium text-gray-700">
@@ -466,9 +456,7 @@
             disabled={isAddingUpdate}
           >
             {#if isAddingUpdate}
-              <span class="flex items-center justify-center gap-2">
-                Adding Update...
-              </span>
+              <span class="flex items-center justify-center gap-2"> Adding Update... </span>
             {:else}
               Add Update
             {/if}

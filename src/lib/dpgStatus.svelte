@@ -1,13 +1,13 @@
 <script>
   import { Check } from 'lucide-svelte';
-  import Icon from "@iconify/svelte";
-  import { 
-    Accordion, 
-    AccordionContent, 
-    AccordionItem, 
-    AccordionTrigger 
-  } from "$lib/components/ui/accordion";
-  import { Checkbox } from "$lib/components/ui/checkbox";
+  import Icon from '@iconify/svelte';
+  import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+  } from '$lib/components/ui/accordion';
+  import { Checkbox } from '$lib/components/ui/checkbox';
 
   export let project;
   $: dpgStatuses = project.dpgStatus?.status;
@@ -23,13 +23,18 @@
 
     <Accordion type="multiple" class="w-full">
       {#each dpgStatuses as item}
-        <AccordionItem value={item.name} class="border border-[#c9c9c9] rounded-md mb-2 overflow-hidden">
+        <AccordionItem
+          value={item.name}
+          class="mb-2 overflow-hidden rounded-md border border-[#c9c9c9]"
+        >
           <AccordionTrigger class="px-3 py-3 hover:bg-gray-50 hover:no-underline">
             <div class="flex items-center gap-2">
               <div class="flex pointer-events-none">
-                <Checkbox 
-                  checked={item.overallScore === 1 || checkedItems.has(item.name)} 
-                  class={item.overallScore === 1 ? "border-green-500 bg-green-500 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500" : "border-gray-400 bg-white data-[state=checked]:bg-white data-[state=checked]:border-gray-400"}
+                <Checkbox
+                  checked={item.overallScore === 1 || checkedItems.has(item.name)}
+                  class={item.overallScore === 1
+                    ? 'border-green-500 bg-green-500 data-[state=checked]:border-green-500 data-[state=checked]:bg-green-500'
+                    : 'border-gray-400 bg-white data-[state=checked]:border-gray-400 data-[state=checked]:bg-white'}
                 >
                   {#if item.overallScore === 1 || checkedItems.has(item.name)}
                     <Check class="w-4 h-4 text-white" />
@@ -37,7 +42,6 @@
                 </Checkbox>
               </div>
               <div class="font-['Inter'] text-lg font-semibold text-black">{item.name}</div>
-
             </div>
           </AccordionTrigger>
           <AccordionContent class="p-4 pt-0 text-black">
@@ -50,7 +54,6 @@
             <p>{item.explanation || 'Evaluating...'}</p>
           </AccordionContent>
         </AccordionItem>
-
       {/each}
       <p>{project.dpgStatus.final_recommendation}</p>
     </Accordion>

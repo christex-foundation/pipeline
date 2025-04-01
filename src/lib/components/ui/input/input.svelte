@@ -1,17 +1,17 @@
 <script>
-	import { cn } from "$lib/utils.js";
-  
-	export let value = undefined;
-	export let className = undefined;
-	export let readonly = undefined;
+  import { cn } from '$lib/utils.js';
 
-export { default as Input } from './input.svelte';
-  </script>
-  
-  <input
+  export let value = undefined;
+  export let className = undefined;
+  export let readonly = undefined;
+
+  export { default as Input } from './input.svelte';
+</script>
+
+<input
   class={cn(
-    "w-full px-4 py-2 border border-black rounded-full bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
-    className
+    'w-full rounded-full border border-black bg-background px-4 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+    className,
   )}
   bind:value
   {readonly}
@@ -32,5 +32,3 @@ export { default as Input } from './input.svelte';
   on:input
   {...$$restProps}
 />
-
-

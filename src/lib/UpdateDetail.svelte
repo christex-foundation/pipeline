@@ -92,31 +92,32 @@
 
 <div class="inline-flex flex-col items-start justify-start w-full h-full px-4 font-sans">
   <div class="flex flex-col items-start self-stretch justify-start h-20 pb-12">
-    <button 
-      variant="outline" 
+    <button
+      variant="outline"
       class="flex items-center justify-center px-5 py-3 bg-white border border-gray-300"
       on:click={goBack}
     >
-    <Icon icon="mdi-light:chevron-left" class="text-2xl" />
+      <Icon icon="mdi-light:chevron-left" class="text-2xl" />
       <span class="text-sm font-normal text-gray-900">All Updates</span>
-  </button>
+    </button>
   </div>
-  
+
   <div class="flex flex-col items-start self-stretch justify-start gap-6">
     <div class="flex flex-col items-start self-stretch justify-start gap-3">
       <div class="self-stretch text-3xl font-bold text-gray-900">
-
         {selectedUpdate.title}
       </div>
-      
-      <div class="flex flex-col items-start self-stretch justify-start h-16 gap-1 pb-5 border-b border-gray-200">
+
+      <div
+        class="flex flex-col items-start self-stretch justify-start h-16 gap-1 pb-5 border-b border-gray-200"
+      >
         <div class="inline-flex items-center justify-start gap-3">
           <Avatar class="w-10 h-10 border border-gray-200">
-            <AvatarImage 
+            <AvatarImage
               src={selectedUpdate.userProfile.image && selectedUpdate.userProfile.image !== ''
-                ? selectedUpdate.userProfile.image 
-                : defaultImageUrl} 
-              alt="User Profile" 
+                ? selectedUpdate.userProfile.image
+                : defaultImageUrl}
+              alt="User Profile"
             />
             <AvatarFallback>{selectedUpdate.userProfile.name.charAt(0)}</AvatarFallback>
           </Avatar>
@@ -139,7 +140,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="flex flex-col items-start self-stretch justify-start gap-8 pb-2">
       <div class="self-stretch text-base font-normal leading-7 text-gray-900">
         {@html selectedUpdate.body}
@@ -150,7 +151,6 @@
   <div class="flex flex-col items-start self-stretch justify-start gap-4 pt-10">
     <div class="flex flex-col items-start self-stretch justify-start h-5">
       <div class="self-stretch text-base font-bold leading-tight text-gray-900">
-
         Comments ({comments.length})
       </div>
     </div>
@@ -180,7 +180,8 @@
           <a
             href="/sign-in"
             class="font-semibold text-teal-600 transition-colors duration-200 hover:text-teal-800"
-          >Login</a> to comment
+            >Login</a
+          > to comment
         </span>
       {/if}
     </div>
@@ -206,7 +207,6 @@
                       {comment.userProfile.name}
                     </div>
                     <div class="text-xs font-normal text-gray-400">
-
                       {timeAgo(comment.created_at)}
                     </div>
                   </div>
@@ -215,7 +215,6 @@
               <CardContent class="p-4 pt-5">
                 <div class="text-sm font-normal text-gray-900">
                   {comment.body}
-
                 </div>
               </CardContent>
             </Card>

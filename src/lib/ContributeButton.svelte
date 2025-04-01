@@ -6,8 +6,8 @@
   const getProjectLink = () => {
     if ($page.data.isAuthenticated) {
       return project.user_id === $page.data.user?.id
-        ? `/project/${project.id}` 
-        : `/project/${project.id}/contribute`; 
+        ? `/project/${project.id}`
+        : `/project/${project.id}/contribute`;
     }
     return '/sign-in';
   };

@@ -6,12 +6,12 @@
   import { Button } from '$lib/components/ui/button';
 
   export let data;
-  
-  let user = null;
-  const defaultImageUrl = 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 
-  afterNavigate(() => {
-  });
+  let user = null;
+  const defaultImageUrl =
+    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
+
+  afterNavigate(() => {});
 
   $: if (data.isAuthenticated) {
     user = data.user;
@@ -36,7 +36,7 @@
 
     <PopoverContent
       sideOffset={8}
-      class="w-[280px] border-0 !rounded-2xl bg-teal-600 p-0 shadow-lg max-lg:-translate-x-[60px] max-md:left-20 z-[999999]"
+      class="z-[999999] w-[280px] !rounded-2xl border-0 bg-teal-600 p-0 shadow-lg max-lg:-translate-x-[60px] max-md:left-20"
       align="end"
     >
       <nav class="flex flex-col py-2">

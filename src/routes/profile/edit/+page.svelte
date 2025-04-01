@@ -7,13 +7,11 @@
   import { applyAction, enhance } from '$app/forms';
   import { toast } from 'svelte-sonner';
 
-  import { Button } from "$lib/components/ui/button";
-  import { Input } from "$lib/components/ui/input";
-  import { Label } from "$lib/components/ui/label";
-  import { Checkbox } from "$lib/components/ui/checkbox";
-  import { Textarea } from "$lib/components/ui/textarea";
-
-  
+  import { Button } from '$lib/components/ui/button';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
+  import { Checkbox } from '$lib/components/ui/checkbox';
+  import { Textarea } from '$lib/components/ui/textarea';
 
   let selectedTechInterests = [];
   let selectedCreativeInterests = [];
@@ -80,6 +78,7 @@
     activeNavItem = event.detail;
   }
 </script>
+
 <!-- 
 <main
   class="mb-5 flex flex-col items-center justify-center rounded-[37px] px-10 py-5 max-md:mt-10 max-md:px-5 max-w-full"
@@ -167,8 +166,6 @@
   }
 </style> -->
 
-
-
 <main class="flex flex-col items-center justify-center w-full">
   <section class="w-4/5 max-w-6xl mx-auto mb-12 max-lg:mb-2">
     <div
@@ -192,7 +189,7 @@
     </div>
   </section>
 
-  <section class="w-4/5 max-w-6xl mx-auto max-lg:w-[90%] max-md:mt-10">
+  <section class="mx-auto w-4/5 max-w-6xl max-lg:w-[90%] max-md:mt-10">
     {#if activeNavItem === 'Profile'}
       <form
         action="?/updateProfile"

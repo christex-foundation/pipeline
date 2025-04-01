@@ -1,14 +1,7 @@
 <script>
   import { page } from '$app/stores';
-  import { 
-    Card, 
-    CardContent
-  } from '$lib/components/ui/card';
-  import {
-    Avatar,
-    AvatarImage,
-    AvatarFallback
-  } from '$lib/components/ui/avatar';
+  import { Card, CardContent } from '$lib/components/ui/card';
+  import { Avatar, AvatarImage, AvatarFallback } from '$lib/components/ui/avatar';
   import { Separator } from '$lib/components/ui/separator';
   import Icon from '@iconify/svelte';
 
@@ -36,7 +29,6 @@
   };
 </script>
 
-
 <h2 class="self-start mb-4 text-3xl font-bold text-teal-950">Tasks</h2>
 
 <div class="flex flex-col items-start w-full">
@@ -44,27 +36,33 @@
     <p class="text-sm text-gray-500">Loading issues...</p>
   {:then issues}
     {#if issues.length > 0}
-      <Card class="w-full md:w-[70%] border-0 shadow-none">
+      <Card class="w-full border-0 shadow-none md:w-[70%]">
         {#each issues as issue, index}
           <CardContent class="p-0">
-            <div class="flex items-center gap-4 p-4 {index !== issues.length - 1 ? 'border-b border-gray-300' : ''}">
+            <div
+              class="flex items-center gap-4 p-4 {index !== issues.length - 1
+                ? 'border-b border-gray-300'
+                : ''}"
+            >
               <Icon icon="codicon:issues" class="text-3xl text-green-500" />
-              
+
               <div class="flex-1 min-w-0">
                 <a
                   href={issue.html_url}
                   target="_blank"
-                  class="block font-semibold text-teal-950 hover:underline truncate"
+                  class="block font-semibold truncate text-teal-950 hover:underline"
                   title={issue.title}
                 >
                   {issue.title}
                 </a>
-                <p class="text-sm text-gray-500 mt-1">
-                  #{issue.number} · <span class="text-md">{issue.user.login}</span> opened {timeAgo(issue.created_at)}
+                <p class="mt-1 text-sm text-gray-500">
+                  #{issue.number} · <span class="text-md">{issue.user.login}</span> opened {timeAgo(
+                    issue.created_at,
+                  )}
                 </p>
               </div>
 
-              <Avatar class="w-8 h-8 flex-shrink-0">
+              <Avatar class="flex-shrink-0 w-8 h-8">
                 <AvatarImage src={issue.user.avatar_url} alt={issue.user.login} />
                 <AvatarFallback>{issue.user.login.substring(0, 2).toUpperCase()}</AvatarFallback>
               </Avatar>

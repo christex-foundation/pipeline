@@ -1,10 +1,9 @@
 <script>
-	import { Input } from '$lib/components/ui/input';
-    import { Label } from "$lib/components/ui/label";
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
 
   export let label = '';
   export let value = '';
-  
 </script>
 
 <div
@@ -15,7 +14,7 @@
     class="w-1/3 text-base font-semibold max-md:items-left max-md:w-full"
   >
     {label}
-</Label>
+  </Label>
 
   <Input
     type="text"

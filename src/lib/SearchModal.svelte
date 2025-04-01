@@ -1,4 +1,3 @@
-
 <script>
   import Icon from '@iconify/svelte';
   import { searchBarOpen } from './utils.js';
@@ -76,10 +75,9 @@
     }
   }
 
-
   async function handleProjectClick(projectId) {
-    closeModal(); 
-    await new Promise(resolve => setTimeout(resolve, 50));
+    closeModal();
+    await new Promise((resolve) => setTimeout(resolve, 50));
     window.location.href = `/project/${projectId}`;
   }
 
@@ -88,12 +86,13 @@
   }
 </script>
 
-
-
 {#if clientSideLoaded && Dialog && DialogContent && DialogHeader && $searchBarOpen}
-<div class="fixed inset-0 z-10 bg-black/30 backdrop-blur-sm"></div>
+  <div class="fixed inset-0 z-10 bg-black/30 backdrop-blur-sm"></div>
   <svelte:component this={Dialog} bind:open={$searchBarOpen}>
-    <svelte:component this={DialogContent} class="w-full max-w-2xl mb-[30vh] !bg-[#0b383c] border-cyan-800 p-0">
+    <svelte:component
+      this={DialogContent}
+      class="mb-[30vh] w-full max-w-2xl border-cyan-800 !bg-[#0b383c] p-0"
+    >
       <div class="p-6 border-b border-cyan-800">
         <div class="relative">
           <input
@@ -105,7 +104,6 @@
             class="w-full px-4 py-3 text-white border rounded-md border-cyan-800 bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-600 max-lg:text-sm"
           />
 
-      
           <button
             on:click={closeModal}
             class="absolute text-white transform -translate-y-1/2 right-2 top-1/2 hover:text-gray-300"
@@ -115,7 +113,6 @@
         </div>
       </div>
 
-    
       <div class="max-h-[500px] overflow-y-auto">
         {#if loading}
           <div class="p-6 text-center text-white">Searching...</div>
@@ -127,8 +124,8 @@
           <ul class="divide-y divide-cyan-800">
             {#each searchResults as project (project.id)}
               <li class="px-6 py-4 cursor-pointer hover:bg-cyan-900">
-                <div 
-                  on:click={() => handleProjectClick(project.id)} 
+                <div
+                  on:click={() => handleProjectClick(project.id)}
                   on:keydown={(e) => e.key === 'Enter' && handleProjectClick(project.id)}
                   class="block cursor-pointer"
                   tabindex="0"
@@ -148,7 +145,6 @@
       </div>
     </svelte:component>
   </svelte:component>
-
 {:else if $searchBarOpen}
   <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
   <div
@@ -179,7 +175,6 @@
             class="w-full px-4 py-3 text-white border rounded-md border-cyan-800 bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-600 max-lg:text-sm"
           />
 
-          
           <button
             on:click={closeModal}
             class="absolute text-white transform -translate-y-1/2 right-2 top-1/2 hover:text-gray-300"
@@ -190,7 +185,6 @@
         </div>
       </div>
 
-     
       <div class="max-h-[500px] overflow-y-auto">
         {#if loading}
           <div class="p-6 text-center text-white">Searching...</div>
@@ -201,20 +195,19 @@
         {:else if searchResults.length > 0}
           <ul class="divide-y divide-cyan-800">
             {#each searchResults as project (project.id)}
-            <li class="px-6 py-4 cursor-pointer hover:bg-cyan-900">
-              <div 
-                on:click={() => handleProjectClick(project.id)} 
-                on:keydown={(e) => e.key === 'Enter' && handleProjectClick(project.id)}
-                class="block cursor-pointer"
-                tabindex="0"
-                role="link"
-              >
-                <div class="font-semibold text-[#d1ea9a]">{project.title}</div>
-                <div class="text-sm text-white/70">{project.bio}</div>
-              </div>
-            </li>
+              <li class="px-6 py-4 cursor-pointer hover:bg-cyan-900">
+                <div
+                  on:click={() => handleProjectClick(project.id)}
+                  on:keydown={(e) => e.key === 'Enter' && handleProjectClick(project.id)}
+                  class="block cursor-pointer"
+                  tabindex="0"
+                  role="link"
+                >
+                  <div class="font-semibold text-[#d1ea9a]">{project.title}</div>
+                  <div class="text-sm text-white/70">{project.bio}</div>
+                </div>
+              </li>
             {/each}
-
           </ul>
         {:else}
           <div class="p-6 text-center text-gray-400">
@@ -224,5 +217,4 @@
       </div>
     </div>
   </div>
-
 {/if}

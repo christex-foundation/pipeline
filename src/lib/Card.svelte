@@ -4,8 +4,8 @@
   import CategoryTag from './CategoryTag.svelte';
   import DPGRating from './DPGRating.svelte';
   import { amountFormat } from '$lib/utils/amountFormat.js';
-  import { Card, CardHeader, CardContent, CardFooter } from "$lib/components/ui/card";
-  import { Progress } from "$lib/components/ui/progress";
+  import { Card, CardHeader, CardContent, CardFooter } from '$lib/components/ui/card';
+  import { Progress } from '$lib/components/ui/progress';
 
   import { onMount } from 'svelte';
   let isOpen = false;
@@ -47,7 +47,12 @@
   <CardHeader class="relative p-0 pt-[75%]">
     <a href="/project/{project.id}" class="absolute inset-0 flex items-center justify-center">
       <div class="h-[90%] w-[95%] overflow-hidden rounded-3xl">
-        <img loading="lazy" src={getImageLink()} alt={project.title} class="object-cover w-full h-full" />
+        <img
+          loading="lazy"
+          src={getImageLink()}
+          alt={project.title}
+          class="object-cover w-full h-full"
+        />
       </div>
     </a>
   </CardHeader>

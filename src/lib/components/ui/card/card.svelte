@@ -1,14 +1,13 @@
 <script>
-	import { cn } from "$lib/utils.js";
+  import { cn } from '$lib/utils.js';
 
-
-	let className = undefined;
-	export { className as class };
+  let className = undefined;
+  export { className as class };
 </script>
 
 <div
-	class={cn("bg-card text-card-foreground rounded-lg border shadow-sm", className)}
-	{...$$restProps}
+  class={cn('rounded-lg border bg-card text-card-foreground shadow-sm', className)}
+  {...$$restProps}
 >
-	<slot />
+  <slot />
 </div>

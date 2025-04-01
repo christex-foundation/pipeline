@@ -2,11 +2,11 @@
   import { countries } from 'countries-list';
   export let user = {};
 
-  import { Button } from "$lib/components/ui/button";
-  import { Input } from "$lib/components/ui/input";
-  import { Label } from "$lib/components/ui/label";
-  import { Checkbox } from "$lib/components/ui/checkbox";
-  import { Textarea } from "$lib/components/ui/textarea";
+  import { Button } from '$lib/components/ui/button';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
+  import { Checkbox } from '$lib/components/ui/checkbox';
+  import { Textarea } from '$lib/components/ui/textarea';
 
   const countryList = Object.values(countries).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -30,16 +30,8 @@
 
 <div class="p-4 border shadow-md rounded-xl border-neutral-200 bg-neutral-50">
   <h2 class="mb-4 text-2xl font-semibold text-black">Profile</h2>
-  <Input
-    type="hidden"
-    name="old_image"
-    value={user.image_url}
-  />
-  <input
-    type="hidden"
-    name="old_banner"
-    value={user.banner_url}
-  />
+  <Input type="hidden" name="old_image" value={user.image_url} />
+  <input type="hidden" name="old_banner" value={user.banner_url} />
 
   <div class="flex flex-col gap-4 p-2 bg-white">
     <div class="relative mb-[100px] h-[295.61px] self-stretch">
@@ -85,48 +77,22 @@
     </div>
 
     <div class="flex justify-between w-full mt-4 max-md:flex-col">
-      <Label
-        for="firstName"
-        class="text-base font-semibold"
-      >
-        Full Name
-      </Label>
+      <Label for="firstName" class="text-base font-semibold">Full Name</Label>
 
       <div class="w-2/3 max-md:w-full">
-        <Input
-          type="text"
-          id="firstName"
-          name="name"
-          value={user.display_name}
-          required
-        />
+        <Input type="text" id="firstName" name="name" value={user.display_name} required />
       </div>
     </div>
 
     <div class="flex justify-between w-full mt-4 max-md:flex-col">
-      <Label
-        for="email"
-        class="text-base font-semibold"
-      >
-        Email
-      </Label>
+      <Label for="email" class="text-base font-semibold">Email</Label>
       <div class="w-2/3 max-md:w-full">
-        <Input
-          type="email"
-          id="email"
-          value={user.email}
-          disabled
-        />
+        <Input type="email" id="email" value={user.email} disabled />
       </div>
     </div>
 
     <div class="flex justify-between w-full mt-4 max-md:flex-col">
-      <Label
-        for="country"
-        class="text-base font-semibold"
-      >
-        Country
-      </Label>
+      <Label for="country" class="text-base font-semibold">Country</Label>
       <div class="w-2/3 max-md:w-full">
         <div class="relative">
           <select
@@ -146,19 +112,9 @@
     </div>
 
     <div class="flex justify-between w-full mt-4 max-md:flex-col">
-      <Label
-        for="bio"
-        class="text-base font-semibold"
-      >
-        Bio
-      </Label>
+      <Label for="bio" class="text-base font-semibold">Bio</Label>
       <div class="w-2/3 max-md:w-full">
-        <Textarea
-          id="bio"
-          name="bio"
-          value={user.bio}
-          class="min-h-[100px]"
-        />
+        <Textarea id="bio" name="bio" value={user.bio} class="min-h-[100px]" />
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <script>
-  import { Button } from "$lib/components/ui/button";
-  import { Input } from "$lib/components/ui/input";
-  import { Label } from "$lib/components/ui/label";
+  import { Button } from '$lib/components/ui/button';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
   import { modalOpen } from './modalStore.js';
   import WalletPopup from './WalletPopup.svelte';
 
@@ -9,7 +9,7 @@
   let totalAmount = 10;
 
   function toggleWalletPopup() {
-    modalOpen.update(value => !value);
+    modalOpen.update((value) => !value);
   }
 
   function openWalletPopup() {
@@ -25,10 +25,10 @@
       <button
         on:click={toggleWalletPopup}
         variant="custom"
-        class=" gap-1.5 self-center rounded-[53px] bg-lime-800 px-4 py-4 text-2xl font-semibold text-lime-100 max-md:text-xl sm:w-full sm:px-5 h-auto"
+        class=" h-auto gap-1.5 self-center rounded-[53px] bg-lime-800 px-4 py-4 text-2xl font-semibold text-lime-100 max-md:text-xl sm:w-full sm:px-5"
       >
         Connect Wallet
-    </button>
+      </button>
 
       <div class="flex flex-col self-center w-full max-w-full mt-24 sm:mt-10">
         <Label
@@ -40,7 +40,7 @@
         <Input
           type="text"
           id="amount"
-          class="mt-8 w-full gap-1.5 py-4 self-stretch border-2 rounded-full border-black pl-7 pr-16 text-3xl font-thin max-md:h-[50px] sm:max-w-full sm:px-5 sm:text-lg focus-visible:ring-0 focus-visible:ring-offset-0"
+          class="mt-8 w-full gap-1.5 self-stretch rounded-full border-2 border-black py-4 pl-7 pr-16 text-3xl font-thin focus-visible:ring-0 focus-visible:ring-offset-0 max-md:h-[50px] sm:max-w-full sm:px-5 sm:text-lg"
           placeholder="$ USDC"
         />
       </div>
@@ -48,15 +48,13 @@
       <Button
         on:click={toggleWalletPopup}
         variant="custom"
-        class="mt-6 hidden w-[20%] gap-1.5 self-center rounded-[53px] bg-lime-800 px-2 py-4 text-xl font-semibold text-white sm:hidden sm:w-full sm:max-w-full sm:px-5 h-auto"
+        class="mt-6 hidden h-auto w-[20%] gap-1.5 self-center rounded-[53px] bg-lime-800 px-2 py-4 text-xl font-semibold text-white sm:hidden sm:w-full sm:max-w-full sm:px-5"
       >
         Send
       </Button>
     </div>
   </section>
 </main>
-
-
 
 {#if $modalOpen}
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

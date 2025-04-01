@@ -2,7 +2,7 @@
   export let number;
   export let title;
   export let description;
-  import {Card } from "$lib/components/ui/card";
+  import { Card } from "$lib/components/ui/card";
 </script>
 
 <Card class="p-6 border border-gray-200 shadow-lg">

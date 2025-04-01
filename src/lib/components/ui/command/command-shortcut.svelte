@@ -1,14 +1,13 @@
 <script>
-	import { cn } from "$lib/utils.js";
+  import { cn } from '$lib/utils.js';
 
-
-	let className = undefined;
-	export { className as class };
+  let className = undefined;
+  export { className as class };
 </script>
 
 <span
-	class={cn("text-muted-foreground ml-auto text-xs tracking-widest", className)}
-	{...$$restProps}
+  class={cn('ml-auto text-xs tracking-widest text-muted-foreground', className)}
+  {...$$restProps}
 >
-	<slot />
+  <slot />
 </span>

@@ -4,13 +4,9 @@
   import { onMount } from 'svelte';
   import { searchBarOpen } from './utils.js';
   import Icon from '@iconify/svelte';
-  import { Button } from "$lib/components/ui/button";
-  import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "$lib/components/ui/popover";
-  
+  import { Button } from '$lib/components/ui/button';
+  import { Popover, PopoverContent, PopoverTrigger } from '$lib/components/ui/popover';
+
   let popoverOpen = false;
   let isResourcesOpen = false;
   let isMobileMenuOpen = false;
@@ -93,18 +89,19 @@
       <a href="/" class="font-['Inter'] text-base font-semibold leading-none text-white"> Tasks </a>
       <Popover bind:open={popoverOpen}>
         <PopoverTrigger class="focus:outline-none">
-          <Button variant="ghost" class="flex items-center gap-1 p-0 text-white hover:bg-transparent">
-            <span class="font-['Inter'] text-base font-semibold leading-none">
-              Resources
-            </span>
+          <Button
+            variant="ghost"
+            class="flex items-center gap-1 p-0 text-white hover:bg-transparent"
+          >
+            <span class="font-['Inter'] text-base font-semibold leading-none"> Resources </span>
             <Icon
               icon="radix-icons:caret-down"
               class={`text-2xl transition-transform duration-200 ${popoverOpen ? 'rotate-180' : ''}`}
             />
           </Button>
         </PopoverTrigger>
-        <PopoverContent 
-          class="w-[18vh] rounded-md !bg-cyan-900 p-0 shadow-lg !border-cyan-800 z-[999999]"
+        <PopoverContent
+          class="z-[999999] w-[18vh] rounded-md !border-cyan-800 !bg-cyan-900 p-0 shadow-lg"
           sideOffset={5}
           align="end"
         >
@@ -122,7 +119,6 @@
           </div>
         </PopoverContent>
       </Popover>
-   
     </div>
 
     <div>
@@ -152,14 +148,13 @@
                 class="ml-[-18px] font-['Inter'] text-base font-semibold leading-none text-white max-lg:px-8 max-md:mb-[4px]"
                 >Search for a project...</span
               >
-        </Button>
+            </Button>
           </div>
         </div>
 
         <a href="/" class="font-['Inter'] text-base font-semibold text-white"> Tasks </a>
 
         <div class="relative resources-dropdown">
-
           <Button
             on:click={toggleResources}
             class="flex items-center justify-between w-full px-4 py-4 border-b border-cyan-800 focus:outline-none"
