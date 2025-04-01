@@ -51,7 +51,7 @@
 <header
   class="relative left-0 right-0 top-0 z-[99999] flex h-[84px] items-center justify-between bg-[#0b383c] px-4 py-5 backdrop-blur-[15px] md:px-8"
 >
-  <div class="flex items-center h-6 gap-4 grow-0 md:gap-12">
+  <div class="flex h-6 grow-0 items-center gap-4 md:gap-12">
     <Logo />
   </div>
 
@@ -75,7 +75,7 @@
     >
       <button
         type="button"
-        class="flex items-center justify-between w-full p-2"
+        class="flex w-full items-center justify-between p-2"
         on:click={() => ($searchBarOpen = !$searchBarOpen)}
       >
         <span class="text-sm text-white/50">Search for a project....</span>
@@ -134,14 +134,14 @@
 
   {#if isMobileMenuOpen}
     <div class="absolute left-0 right-0 top-[84px] w-[100%] bg-[#0b383c] lg:hidden">
-      <div class="flex flex-col w-full px-8 py-4 space-y-4">
+      <div class="flex w-full flex-col space-y-4 px-8 py-4">
         <div class="mb-2 w-full max-w-[480px] items-center justify-center">
           <div
             class="align-center flex w-full items-center justify-between rounded-[48.77px] bg-[#115d5b] py-2 pl-4 pr-3 max-lg:w-full"
           >
             <Button
               type="button"
-              class="flex justify-between w-full mt-2"
+              class="mt-2 flex w-full justify-between"
               on:click={() => ($searchBarOpen = !$searchBarOpen)}
             >
               <span
@@ -154,10 +154,10 @@
 
         <a href="/" class="font-['Inter'] text-base font-semibold text-white"> Tasks </a>
 
-        <div class="relative resources-dropdown">
+        <div class="resources-dropdown relative">
           <Button
             on:click={toggleResources}
-            class="flex items-center justify-between w-full px-4 py-4 border-b border-cyan-800 focus:outline-none"
+            class="flex w-full items-center justify-between border-b border-cyan-800 px-4 py-4 focus:outline-none"
           >
             <span class="ml-[-18px] font-['Inter'] text-base font-semibold leading-none text-white">
               Resources

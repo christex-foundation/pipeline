@@ -56,7 +56,7 @@
 </script>
 
 <nav
-  class="flex flex-wrap items-center max-w-full gap-2 pb-4 mt-8 overflow-x-auto text-sm leading-none text-lime-800"
+  class="mt-8 flex max-w-full flex-wrap items-center gap-2 overflow-x-auto pb-4 text-sm leading-none text-lime-800"
   style="scroll-snap-type: x mandatory;"
   aria-label="Project Categories"
 >

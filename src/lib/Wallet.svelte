@@ -21,7 +21,7 @@
   class="flex flex-col items-center overflow-hidden bg-white px-4 pb-[20px] pt-14 text-center leading-none max-md:mt-[-80px] sm:px-6"
 >
   <section class="flex w-full max-w-full flex-col items-center sm:max-w-[1034px]">
-    <div class="flex flex-col self-stretch w-full mt-20">
+    <div class="mt-20 flex w-full flex-col self-stretch">
       <button
         on:click={toggleWalletPopup}
         variant="custom"
@@ -30,7 +30,7 @@
         Connect Wallet
       </button>
 
-      <div class="flex flex-col self-center w-full max-w-full mt-24 sm:mt-10">
+      <div class="mt-24 flex w-full max-w-full flex-col self-center sm:mt-10">
         <Label
           for="amount"
           class="flex justify-start text-4xl font-semibold max-md:text-3xl sm:w-full sm:text-xl"
@@ -58,7 +58,7 @@
 
 {#if $modalOpen}
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="p-4 rounded-lg">
+    <div class="rounded-lg p-4">
       <WalletPopup {projectName} {totalAmount} />
     </div>
 

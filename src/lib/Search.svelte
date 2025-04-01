@@ -26,7 +26,7 @@
     type="text"
     id="searchInput"
     placeholder="Search"
-    class="flex-grow ml-2 text-lg bg-transparent border-none outline-none"
+    class="ml-2 flex-grow border-none bg-transparent text-lg outline-none"
     on:input={handleInput}
   />
 </div>

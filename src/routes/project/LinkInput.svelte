@@ -7,11 +7,11 @@
 </script>
 
 <div
-  class="flex items-center justify-between w-full mt-4 whitespace-nowrap max-md:flex-col max-md:items-start max-md:gap-2"
+  class="mt-4 flex w-full items-center justify-between whitespace-nowrap max-md:flex-col max-md:items-start max-md:gap-2"
 >
   <Label
     for={label.toLowerCase()}
-    class="w-1/3 text-base font-semibold max-md:items-left max-md:w-full"
+    class="max-md:items-left w-1/3 text-base font-semibold max-md:w-full"
   >
     {label}
   </Label>

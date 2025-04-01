@@ -35,18 +35,18 @@
       >
         <header class="mx-auto flex w-[266px] max-w-full flex-col font-semibold">
           <h1 class="w-[228px] max-w-full text-xl">You are contributing to</h1>
-          <h2 class="w-full mt-4 text-4xl">{projectName}</h2>
+          <h2 class="mt-4 w-full text-4xl">{projectName}</h2>
         </header>
 
-        <section class="flex flex-col w-full mt-20 max-md:mt-10 max-md:max-w-full">
+        <section class="mt-20 flex w-full flex-col max-md:mt-10 max-md:max-w-full">
           <div
             class="flex min-h-[49px] w-full items-center gap-1 border-b border-black py-3.5 pl-4 pr-5 max-md:max-w-full max-md:pr-5"
           >
             <div
               class="my-auto flex w-[551px] min-w-[240px] flex-wrap items-center justify-between gap-10 self-stretch"
             >
-              <p class="self-stretch my-auto text-base font-thin">Total</p>
-              <p class="self-stretch my-auto text-2xl font-semibold">$ {totalAmount}</p>
+              <p class="my-auto self-stretch text-base font-thin">Total</p>
+              <p class="my-auto self-stretch text-2xl font-semibold">$ {totalAmount}</p>
             </div>
           </div>
         </section>

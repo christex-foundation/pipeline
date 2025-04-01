@@ -148,6 +148,8 @@
 <div class="mx-auto flex max-w-[1500px] flex-col items-start px-4 lg:flex-row lg:px-8">
   <div class="w-full max-md:w-[100%] lg:sticky lg:top-0 lg:w-[40%] lg:pr-4">
     <section class="relative mb-[64px] mt-6 flex w-full flex-col">
+      <!-- svelte-ignore a11y-no-redundant-roles -->
+      <!-- svelte-ignore a11y-img-redundant-alt -->
       <img
         loading="lazy"
         src={banner}
@@ -156,6 +158,7 @@
         aria-label="Project hero image"
         alt="Project image"
       />
+      <!-- svelte-ignore a11y-img-redundant-alt -->
       <img
         loading="lazy"
         class="absolute left-1/2 z-10 h-[120px] w-[120px] -translate-x-1/2 transform rounded-full outline outline-4 outline-white max-lg:left-[20px] lg:left-[50px] lg:translate-x-0"
@@ -165,12 +168,12 @@
       />
     </section>
 
-    <section class="flex flex-col w-full mt-3">
+    <section class="mt-3 flex w-full flex-col">
       <div class="flex justify-between max-md:gap-2">
-        <h1 class="text-3xl font-semibold text-black break-all max-lg:mt-2 max-lg:text-xl">
+        <h1 class="break-all text-3xl font-semibold text-black max-lg:mt-2 max-lg:text-xl">
           {project.title || 'Project Title'}
         </h1>
-        <div class="flex items-center gap-1 mt-2 text-base text-neutral-600">
+        <div class="mt-2 flex items-center gap-1 text-base text-neutral-600">
           <img
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/edd6d143a10aa89a67f0101c84563e276eb2ea6bc943000847a62b3bcaeb9863?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
             alt="Date icon"
@@ -185,7 +188,7 @@
       </p>
     </section>
 
-    <section class="flex flex-wrap items-center gap-3 mt-2">
+    <section class="mt-2 flex flex-wrap items-center gap-3">
       <div class="flex flex-wrap gap-2 text-lg text-lime-800">
         {#if project.tags && project.tags.length > 0}
           {#each project.tags as tag}
@@ -198,7 +201,7 @@
     </section>
 
     {#if user}
-      <div class="flex items-center gap-3 mt-6">
+      <div class="mt-6 flex items-center gap-3">
         <a
           href="/project/{id}/contribute"
           class="w-full rounded-full bg-[#0b383c] py-4 text-center text-base font-semibold text-[#e9f5d3] max-md:w-[50%] lg:w-[50%]"
@@ -215,7 +218,7 @@
           </a>
           <button
             on:click={openUpdatePopup}
-            class="w-full py-4 text-base font-semibold text-center text-black rounded-full bg-lime-300"
+            class="w-full rounded-full bg-lime-300 py-4 text-center text-base font-semibold text-black"
           >
             ADD UPDATE
           </button>
@@ -239,7 +242,7 @@
           >
             <button
               type="submit"
-              class="w-full py-4 text-base font-semibold text-center border-2 rounded-full"
+              class="w-full rounded-full border-2 py-4 text-center text-base font-semibold"
               class:bg-[#e9f5d3]={isFollowing}
               class:text-black={isFollowing}
             >
@@ -289,13 +292,13 @@
       class="flex flex-col items-start rounded-[20px] bg-white px-4 py-8 max-md:mt-6 max-md:px-4"
     >
       <ProjectNav
-        class="flex items-start w-full overflow-x-auto text-sm flex-nowrap whitespace-nowrap"
+        class="flex w-full flex-nowrap items-start overflow-x-auto whitespace-nowrap text-sm"
         {navItems}
         bind:activeItem={activeNavItem}
         on:navChange={handleNavChange}
       />
 
-      <section class="flex flex-col items-center w-full max-w-full mt-8">
+      <section class="mt-8 flex w-full max-w-full flex-col items-center">
         {#if activeNavItem === 'projectDetails'}
           <ProjectAbout {project} />
         {:else if activeNavItem === 'dpgStatus'}
@@ -304,7 +307,7 @@
           {#if showUpdateDetail}
             <UpdateDetail {data} {selectedUpdate} on:goBack={handleGoBack} />
           {:else}
-            <div class="flex justify-end w-full">
+            <div class="flex w-full justify-end">
               {#if user && user.id === project.user_id}
                 <button
                   on:click={openUpdatePopup}
@@ -330,31 +333,31 @@
         {:else if activeNavItem === 'contributors'}
           <div class="w-auto px-4 md:w-full md:px-10">
             {#if !showGitDetail && !showResourceDetail}
-              <div class="inline-flex items-center self-stretch justify-start gap-1 mb-6">
+              <div class="mb-6 inline-flex items-center justify-start gap-1 self-stretch">
                 <div
                   class="text-center font-['Roboto'] text-2xl font-normal leading-loose text-black md:text-[32px]"
                 ></div>
               </div>
 
-              <div class="flex flex-col w-full pb-14 max-md:pl-5">
+              <div class="flex w-full flex-col pb-14 max-md:pl-5">
                 <div
-                  class="flex flex-wrap items-center justify-between w-full gap-10 font-bold text-center max-md:max-w-full"
+                  class="flex w-full flex-wrap items-center justify-between gap-10 text-center font-bold max-md:max-w-full"
                 >
-                  <h1 class="self-stretch my-auto text-4xl leading-tight text-black">
+                  <h1 class="my-auto self-stretch text-4xl leading-tight text-black">
                     GitHub Contributors
                   </h1>
                   <button
                     class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
                     on:click={toggleGitDetail}
                   >
-                    <span class="self-stretch my-auto">View All</span>
+                    <span class="my-auto self-stretch">View All</span>
 
                     <Icon icon="mdi:chevron-right" class="text-2xl" />
                   </button>
                 </div>
 
                 <div
-                  class="relative z-0 grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full"
+                  class="relative z-0 mt-5 grid w-full grid-cols-2 items-start gap-4 max-md:max-w-full"
                 >
                   {#each Array.isArray(contributors) ? contributors.slice(0, 4) : [] as contributor}
                     <GitContributors {contributor} {totalCommits} />
@@ -364,24 +367,24 @@
 
               <div class="flex max-w-[846px] flex-col max-md:pl-5">
                 <div
-                  class="flex flex-wrap items-center justify-between w-full gap-10 font-bold text-center max-md:max-w-full"
+                  class="flex w-full flex-wrap items-center justify-between gap-10 text-center font-bold max-md:max-w-full"
                 >
-                  <h2 class="self-stretch my-auto text-4xl leading-tight text-black">Resources</h2>
+                  <h2 class="my-auto self-stretch text-4xl leading-tight text-black">Resources</h2>
 
                   <button
                     class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
                     on:click={toggleResourceDetail}
                   >
-                    <span class="self-stretch my-auto">View All</span>
+                    <span class="my-auto self-stretch">View All</span>
                     <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/e13f9fadc17a702d863b8d21bc60e6c7ea08ee8a9506ba412086d7b1a1d15195?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
                       alt=""
-                      class="self-stretch object-contain w-5 my-auto aspect-square shrink-0"
+                      class="my-auto aspect-square w-5 shrink-0 self-stretch object-contain"
                     />
                   </button>
                 </div>
-                <div class="flex flex-wrap items-start w-full gap-5 mt-5 max-md:max-w-full">
+                <div class="mt-5 flex w-full flex-wrap items-start gap-5 max-md:max-w-full">
                   {#each projectResource as resource}
                     <ResourceCard {resource} />
                   {/each}
@@ -433,7 +436,7 @@
               <Input
                 type="text"
                 name="title"
-                class="w-full p-2 mt-1 border rounded-lg"
+                class="mt-1 w-full rounded-lg border p-2"
                 required
                 disabled={isAddingUpdate}
               />
@@ -443,7 +446,7 @@
               <Textarea
                 rows="3"
                 name="body"
-                class="w-full p-2 mt-1 border rounded-lg resize-none"
+                class="mt-1 w-full resize-none rounded-lg border p-2"
                 required
                 disabled={isAddingUpdate}
               />
@@ -452,7 +455,7 @@
 
           <Button
             type="submit"
-            class="w-full py-2 mt-4 text-black rounded-lg bg-lime-300 hover:bg-lime-400"
+            class="mt-4 w-full rounded-lg bg-lime-300 py-2 text-black hover:bg-lime-400"
             disabled={isAddingUpdate}
           >
             {#if isAddingUpdate}

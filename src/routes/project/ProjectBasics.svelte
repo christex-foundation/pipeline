@@ -92,9 +92,9 @@
 <section
   class="flex w-full max-w-[1235px] flex-col self-center bg-white p-10 max-md:mt-10 max-md:max-w-full max-md:px-5"
 >
-  <div class="flex flex-col w-full mt-55 max-md:mt-10">
-    <div class="flex flex-col w-full max-md:max-w-full">
-      <div class="flex flex-col items-start w-full leading-none max-md:max-w-full">
+  <div class="mt-55 flex w-full flex-col max-md:mt-10">
+    <div class="flex w-full flex-col max-md:max-w-full">
+      <div class="flex w-full flex-col items-start leading-none max-md:max-w-full">
         <div class="flex w-[409px] max-w-full flex-col">
           <h2 class="text-xl font-semibold text-black">Project Images</h2>
           <p class="mt-2.5 text-sm text-stone-300">
@@ -109,7 +109,7 @@
             class="flex h-full w-full items-center justify-center overflow-hidden rounded-[37.69px] bg-[#d9d9d9]"
           >
             {#if ProjectBannerImage}
-              <img src={ProjectBannerImage} alt="Banner" class="object-cover w-full h-full" />
+              <img src={ProjectBannerImage} alt="Banner" class="h-full w-full object-cover" />
             {:else}
               <div class="text-center">Click to upload banner image</div>
             {/if}
@@ -132,10 +132,10 @@
               <img
                 src={ProjectProfileImage}
                 alt="Profile"
-                class="object-cover w-full h-full rounded-full"
+                class="h-full w-full rounded-full object-cover"
               />
             {:else}
-              <div class="text-sm text-center">Click to upload profile picture</div>
+              <div class="text-center text-sm">Click to upload profile picture</div>
             {/if}
           </div>
         </Label>
@@ -150,9 +150,9 @@
       </div>
     </div>
 
-    <div class="flex flex-col justify-center w-full mt-10 max-md:mt-10 max-md:max-w-full">
+    <div class="mt-10 flex w-full flex-col justify-center max-md:mt-10 max-md:max-w-full">
       <div
-        class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start"
+        class="flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
       >
         <div class="flex flex-col">
           <Label for="projectTitle" class="text-base font-semibold text-black">Project title</Label>
@@ -164,10 +164,10 @@
       </div>
 
       <div
-        class="flex flex-row items-start justify-between w-full mt-9 max-md:flex-col max-md:items-start"
+        class="mt-9 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
       >
         <div class="flex w-[45%] flex-col max-md:w-[100%]">
-          <Label for="projectBio" class="text-black font-basesemibold text-">Project bio</Label>
+          <Label for="projectBio" class="font-basesemibold text- text-black">Project bio</Label>
           <p class="mt-2.5 text-sm text-stone-400">Give a short description of your project</p>
         </div>
         <div class="w-[50%] max-md:w-[100%]">
@@ -182,7 +182,7 @@
       </div>
 
       <div
-        class="flex flex-row items-start justify-between w-full mt-9 max-md:flex-col max-md:items-start"
+        class="mt-9 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
       >
         <div class="flex w-[45%] flex-col max-md:w-[100%]">
           <Label for="projectTags" class="text-base font-semibold text-black">Project tags</Label>
@@ -194,13 +194,13 @@
           <div
             class="flex min-h-[50px] flex-wrap items-center rounded-[31px] border-2 border-lime-800 bg-white px-6 py-3"
           >
-            <div class="flex flex-wrap items-center flex-grow gap-2 pr-8">
+            <div class="flex flex-grow flex-wrap items-center gap-2 pr-8">
               {#each selectedTags as tag}
-                <span class="flex items-center px-3 py-1 rounded-full bg-lime-200 text-lime-800">
+                <span class="flex items-center rounded-full bg-lime-200 px-3 py-1 text-lime-800">
                   <img
                     src={tag.image}
                     alt={tag.title}
-                    class="relative w-6 h-6 border-2 rounded shadow"
+                    class="relative h-6 w-6 rounded border-2 shadow"
                   />
 
                   <button
@@ -219,7 +219,7 @@
             </div>
             <button
               on:click={toggleDropdown}
-              class="absolute transform -translate-y-1/2 right-4 top-1/2 focus:outline-none"
+              class="absolute right-4 top-1/2 -translate-y-1/2 transform focus:outline-none"
               aria-label="Toggle tag dropdown"
             >
               <img
@@ -234,7 +234,7 @@
 
           {#if isOpen}
             <div
-              class="absolute z-10 w-full mt-1 overflow-auto bg-white border border-gray-300 rounded-md shadow-lg max-h-60"
+              class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-300 bg-white shadow-lg"
             >
               {#each filteredTags as tag}
                 <button
@@ -250,7 +250,7 @@
       </div>
 
       <div
-        class="flex flex-row items-start justify-between w-full mt-12 max-md:flex-col max-md:items-start"
+        class="mt-12 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
       >
         <div class="flex w-[40%] flex-col max-md:w-[100%]">
           <Label for="projectCountry" class="text-base font-semibold text-black">Country</Label>
@@ -264,7 +264,7 @@
               id="projectCountry"
               name="country"
               bind:value={project.country}
-              class="w-full h-full pl-4 pr-10 bg-transparent border-none outline-none appearance-none"
+              class="h-full w-full appearance-none border-none bg-transparent pl-4 pr-10 outline-none"
               required
             >
               <option value="" disabled selected hidden>--- Select a country ---</option>
@@ -279,7 +279,7 @@
       </div>
 
       <div
-        class="flex flex-row items-start justify-between w-full mt-9 max-md:flex-col max-md:items-start"
+        class="mt-9 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
       >
         <div class="flex w-[45%] flex-col max-md:w-[100%]">
           <Label for="projectDetails" class="text-base font-semibold text-black">

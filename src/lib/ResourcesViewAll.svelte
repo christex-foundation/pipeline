@@ -37,14 +37,14 @@
   </button>
 
   <div class="flex h-[1567.94px] flex-col items-start justify-start gap-5 self-stretch">
-    <div class="flex items-center self-stretch justify-between max-md:flex-wrap">
+    <div class="flex items-center justify-between self-stretch max-md:flex-wrap">
       <div
         class="w-full font-['Inter'] text-[18px] font-semibold leading-7 text-black md:text-[23px]"
       >
         All Project Resources
       </div>
 
-      <div class="flex items-center w-full gap-2 md:w-auto">
+      <div class="flex w-full items-center gap-2 md:w-auto">
         <div
           class="flex h-9 w-full items-center justify-between rounded-[39.71px] border border-[#e2e2e2] py-2 pl-4 pr-3 md:w-[250px]"
         >
@@ -59,9 +59,9 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap items-start w-full gap-4">
+    <div class="flex w-full flex-wrap items-start gap-4">
       {#if filteredResources.length > 0}
-        <div class="flex flex-wrap items-start w-full gap-4">
+        <div class="flex w-full flex-wrap items-start gap-4">
           {#each filteredResources as resource (resource.id)}
             <ResourceCard {...resource} />
           {/each}

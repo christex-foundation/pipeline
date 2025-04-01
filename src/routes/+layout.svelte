@@ -6,14 +6,13 @@
   import Footer from '$lib/Footer.svelte';
   import { page } from '$app/stores';
   import { Toaster } from 'svelte-sonner';
-  
 
   export let data;
 </script>
 
 <Toaster richColors position="top-right" closeButton />
 
-<div class="w-full min-h-screen bg-white">
+<div class="min-h-screen w-full bg-white">
   <SearchModal />
   {#if $page.url.pathname !== '/sign-in' && $page.url.pathname !== '/sign-up'}
     <Nav {data} />

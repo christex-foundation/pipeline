@@ -38,8 +38,8 @@
   };
 </script>
 
-<Card class="w-full p-0 mb-4 bg-white">
-  <CardHeader class="px-4 pt-4 pb-0 md:px-9 md:pt-9">
+<Card class="mb-4 w-full bg-white p-0">
+  <CardHeader class="px-4 pb-0 pt-4 md:px-9 md:pt-9">
     <CardTitle class="text-2xl font-bold leading-tight text-[#282828] md:text-[32px] md:leading-10">
       {update.title}
     </CardTitle>
@@ -49,7 +49,7 @@
     <div
       class="flex flex-col items-start justify-start gap-1 self-stretch border-b border-[#dcdedd] pb-5"
     >
-      <div class="inline-flex items-center justify-start w-full gap-3">
+      <div class="inline-flex w-full items-center justify-start gap-3">
         <Avatar class="h-10 w-10 border border-[#dcdedd] md:h-[42px] md:w-[42px]">
           <AvatarImage
             src={update.userProfile.image && update.userProfile.image !== ''
@@ -60,8 +60,8 @@
           <AvatarFallback>{getInitials(update.userProfile.name)}</AvatarFallback>
         </Avatar>
 
-        <div class="inline-flex flex-col justify-between w-full">
-          <div class="inline-flex items-center self-stretch gap-2">
+        <div class="inline-flex w-full flex-col justify-between">
+          <div class="inline-flex items-center gap-2 self-stretch">
             <div
               class="max-w-[200px] truncate text-sm font-normal leading-normal text-[#282828] md:max-w-none"
             >
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-start self-stretch justify-start gap-1 mt-2">
+    <div class="mt-2 flex flex-col items-start justify-start gap-1 self-stretch">
       <div class="flex flex-col items-start justify-start gap-[30px] self-stretch pb-2">
         <div class="self-stretch text-base font-normal leading-relaxed text-[#282828]">
           {@html truncatedContent}
@@ -89,7 +89,7 @@
     </div>
   </CardContent>
 
-  <CardFooter class="flex justify-between px-4 pt-0 pb-4 md:px-9 md:pb-9">
+  <CardFooter class="flex justify-between px-4 pb-4 pt-0 md:px-9 md:pb-9">
     <div class="flex items-center justify-start gap-6">
       <div class="flex items-center justify-start gap-2">
         <Icon icon="mdi:chat-outline" class="text-2xl text-[#8C8C8C]" />

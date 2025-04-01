@@ -65,11 +65,11 @@
   </div>
 </div>
 
-<main class="flex items-center justify-center w-full overflow-hidden">
-  <img src="/how_pipeline_works.png" alt="How Pipeline Works" class="object-cover w-full h-full" />
+<main class="flex w-full items-center justify-center overflow-hidden">
+  <img src="/how_pipeline_works.png" alt="How Pipeline Works" class="h-full w-full object-cover" />
 </main>
 
-<section class="flex items-center justify-center w-full text-black px-7 max-md:px-5">
+<section class="flex w-full items-center justify-center px-7 text-black max-md:px-5">
   <div class="flex w-full max-w-[1101px] flex-col items-center">
     {#each steps as step}
       <Step number={step.number} title={step.title} description={step.description} />

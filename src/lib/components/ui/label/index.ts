@@ -1,7 +1,7 @@
-import Root from "./label.svelte?inline";
+import Root from './label.svelte?inline';
 
 export {
-	Root,
-	//
-	Root as Label,
+  Root,
+  //
+  Root as Label,
 };

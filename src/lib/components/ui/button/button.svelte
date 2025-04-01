@@ -1,29 +1,3 @@
-<!-- <script>
-	import { Button as ButtonPrimitive } from "bits-ui";
-	import { cn } from "$lib/utils.js";
-	import { buttonVariants } from "$lib/utils.js";
-
-
-	let className = undefined;
-	export let variant = "default";
-	export let size = "default";
-	export let builders = [];
-	export { className as class };
-	
-</script>
-
-<ButtonPrimitive.Root
-	{builders}
-	class={cn(buttonVariants({ variant, size, className }))}
-	type="button"
-	{...$$restProps}
-	on:click
-	on:keydown
->
-	<slot />
-</ButtonPrimitive.Root> -->
-
-<!-- src/lib/components/ui/button/button.svelte -->
 <script>
   import { cva } from 'class-variance-authority';
   import { cn } from '$lib/utils';
@@ -47,7 +21,7 @@
           link: 'text-primary underline-offset-4 hover:underline',
         },
         size: {
-          default: 'w-full py-3 mt-8', // Applied w-full, py-3, and mt-8 from your styles
+          default: 'w-full py-3 mt-8',
           sm: 'h-9 rounded-full px-3',
           lg: 'h-11 rounded-full px-8 py-3',
         },

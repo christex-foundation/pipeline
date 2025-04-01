@@ -35,7 +35,7 @@
       };
     }}
   >
-    <div class="hidden mb-10 max-md:block">
+    <div class="mb-10 hidden max-md:block">
       <Logo />
     </div>
     <h2 class="mb-2 text-4xl font-semibold">Register</h2>
@@ -46,17 +46,17 @@
       <Input type="text" id="name" name="name" required />
     </div>
 
-    <div class="flex flex-col gap-2 mt-4 font-medium">
+    <div class="mt-4 flex flex-col gap-2 font-medium">
       <Label for="email" class="block">Email</Label>
       <Input type="email" id="email" name="email" required />
     </div>
 
-    <div class="flex flex-col gap-2 mt-4 font-medium">
+    <div class="mt-4 flex flex-col gap-2 font-medium">
       <Label for="password" class="block">Password</Label>
       <Input type="password" id="password" name="password" required />
     </div>
 
-    <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
+    <div class="mt-6 flex w-full flex-wrap items-center justify-between gap-6 text-sm leading-none">
       Already have an account?
       <a href="/sign-in" class="font-semibold text-neutral-400 hover:text-[#0b383c]">Sign In</a>
     </div>
@@ -65,7 +65,7 @@
       {loading ? 'Signing up...' : 'Sign up'}
     </Button>
 
-    <div class="flex w-full gap-2 mx-auto mt-6 text-sm font-light align-start max-md:mt-2">
+    <div class="align-start mx-auto mt-6 flex w-full gap-2 text-sm font-light max-md:mt-2">
       <Checkbox id="remember" name="rememberMe" />
       <Label for="remember" class="font-light">Remember me</Label>
     </div>

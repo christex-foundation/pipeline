@@ -46,7 +46,7 @@
       </CardHeader>
       <CardContent class="px-0">
         <Tabs value={selectedTab} onValueChange={(value) => (selectedTab = value)} class="w-full">
-          <TabsList class="grid w-full grid-cols-3 gap-2 p-0 bg-transparent">
+          <TabsList class="grid w-full grid-cols-3 gap-2 bg-transparent p-0">
             <TabsTrigger
               value="Card"
               class="flex items-center justify-center space-x-2 !rounded-full border border-gray-200 p-2 data-[state=active]:border-2 data-[state=active]:border-[#0b383c] data-[state=active]:bg-transparent"
@@ -73,7 +73,7 @@
           <div class="mt-6">
             <TabsContent value="Card" class="mt-0 space-y-4">
               <div class="space-y-1">
-                <Label for="card-number" class="items-center w-1/3 text-sm text-gray-600"
+                <Label for="card-number" class="w-1/3 items-center text-sm text-gray-600"
                   >Card number</Label
                 >
                 <Input
@@ -109,7 +109,7 @@
                           : 'Select your country'}
                         <Icon
                           icon="lucide:chevrons-up-down"
-                          class="w-4 h-4 mt-2 opacity-50 shrink-0"
+                          class="mt-2 h-4 w-4 shrink-0 opacity-50"
                         />
                       </Button>
                     </PopoverTrigger>
@@ -117,7 +117,7 @@
                       <Command>
                         <CommandInput placeholder="Search country..." />
                         <CommandEmpty>No country found.</CommandEmpty>
-                        <CommandGroup class="overflow-auto max-h-60">
+                        <CommandGroup class="max-h-60 overflow-auto">
                           {#each countryList as countryItem}
                             <button
                               class="cursor-pointer"
@@ -128,9 +128,9 @@
                             >
                               <CommandItem>
                                 {#if country === countryItem.code}
-                                  <Icon icon="mdi:check" class="w-4 h-4 mr-2" />
+                                  <Icon icon="mdi:check" class="mr-2 h-4 w-4" />
                                 {:else}
-                                  <div class="w-4 h-4 mr-2"></div>
+                                  <div class="mr-2 h-4 w-4"></div>
                                 {/if}
                                 {countryItem.name}
                               </CommandItem>
@@ -189,7 +189,7 @@
             </TabsContent>
           </div>
 
-          <div class="flex justify-end mt-4">
+          <div class="mt-4 flex justify-end">
             <Button
               class="w-[20%] rounded-full bg-[#0b383c] px-4 py-3 text-base text-white max-md:w-[40%]"
             >

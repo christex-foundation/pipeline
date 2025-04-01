@@ -11,18 +11,18 @@
   export let comments = 0;
 </script>
 
-<div class="inline-flex flex-col items-start justify-start w-full gap-4 mt-10">
-  <Card class="w-full p-0 bg-gray-200 shadow-none">
-    <CardContent class="flex items-start justify-start h-full gap-6 p-4">
-      <div class="flex items-center justify-center w-20 h-20 bg-gray-300">
+<div class="mt-10 inline-flex w-full flex-col items-start justify-start gap-4">
+  <Card class="w-full bg-gray-200 p-0 shadow-none">
+    <CardContent class="flex h-full items-start justify-start gap-6 p-4">
+      <div class="flex h-20 w-20 items-center justify-center bg-gray-300">
         <slot name="icon">
-          <div class="relative flex flex-col items-start justify-start w-16 h-16"></div>
+          <div class="relative flex h-16 w-16 flex-col items-start justify-start"></div>
         </slot>
       </div>
 
-      <div class="inline-flex flex-col items-start justify-start flex-1 gap-2">
+      <div class="inline-flex flex-1 flex-col items-start justify-start gap-2">
         <div class="inline-flex items-center justify-center gap-2">
-          <Avatar class="w-6 h-6 bg-gray-300">
+          <Avatar class="h-6 w-6 bg-gray-300">
             <slot name="profile-icon">
               <AvatarFallback class="text-xs">U</AvatarFallback>
             </slot>
@@ -33,7 +33,7 @@
         </div>
 
         <div class="inline-flex items-center justify-center gap-1">
-          <div class="text-xl font-medium text-center text-black">
+          <div class="text-center text-xl font-medium text-black">
             {title}
           </div>
         </div>
@@ -47,7 +47,7 @@
             <slot name="like-icon">
               <Icon icon="mdi-light:heart" class="text-2xl" />
             </slot>
-            <div class="text-xs font-normal text-center text-black">
+            <div class="text-center text-xs font-normal text-black">
               {likes}
             </div>
           </div>
@@ -55,7 +55,7 @@
             <slot name="comment-icon">
               <Icon icon="bi:chat" class="text-2xl" />
             </slot>
-            <div class="text-xs font-normal text-center text-black">
+            <div class="text-center text-xs font-normal text-black">
               {comments}
             </div>
           </div>

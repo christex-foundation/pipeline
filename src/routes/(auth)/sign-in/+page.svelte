@@ -16,7 +16,7 @@
   }
 </script>
 
-<section class="flex items-center justify-center basis-full">
+<section class="flex basis-full items-center justify-center">
   <form
     method="POST"
     class="w-[60%] max-md:w-[80%]"
@@ -33,7 +33,7 @@
       };
     }}
   >
-    <div class="hidden mb-10 max-md:block">
+    <div class="mb-10 hidden max-md:block">
       <Logo />
     </div>
     <h2 class="mb-2 text-4xl font-semibold">Sign in</h2>
@@ -43,12 +43,12 @@
       <Input type="email" id="email" name="email" required />
     </div>
 
-    <div class="flex flex-col gap-2 mt-6 font-medium">
+    <div class="mt-6 flex flex-col gap-2 font-medium">
       <Label for="password" class="block">Password</Label>
       <Input type="password" id="password" name="password" required />
     </div>
 
-    <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
+    <div class="mt-6 flex w-full flex-wrap items-center justify-between gap-6 text-sm leading-none">
       Don't have an account?
       <a href="/sign-up" class="font-semibold text-neutral-400 hover:text-[#0b383c]">Sign Up</a>
     </div>
@@ -57,7 +57,7 @@
       {loading ? 'Signing in...' : 'Sign in'}
     </Button>
 
-    <div class="flex flex-wrap items-center justify-between w-full gap-6 mt-6 text-sm leading-none">
+    <div class="mt-6 flex w-full flex-wrap items-center justify-between gap-6 text-sm leading-none">
       <Label>
         <Checkbox id="remember" type="checkbox" name="rememberMe" />
         Remember me

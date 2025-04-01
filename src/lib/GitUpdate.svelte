@@ -16,7 +16,7 @@
   };
 </script>
 
-<Card class="w-full p-4 bg-white md:p-6">
+<Card class="w-full bg-white p-4 md:p-6">
   <CardHeader class="px-0 pb-2">
     <CardTitle class="text-xl font-bold text-[#282828] md:text-2xl">
       {update.title}

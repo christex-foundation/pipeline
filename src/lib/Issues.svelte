@@ -29,9 +29,9 @@
   };
 </script>
 
-<h2 class="self-start mb-4 text-3xl font-bold text-teal-950">Tasks</h2>
+<h2 class="mb-4 self-start text-3xl font-bold text-teal-950">Tasks</h2>
 
-<div class="flex flex-col items-start w-full">
+<div class="flex w-full flex-col items-start">
   {#await fetchProjectIssues()}
     <p class="text-sm text-gray-500">Loading issues...</p>
   {:then issues}
@@ -46,11 +46,11 @@
             >
               <Icon icon="codicon:issues" class="text-3xl text-green-500" />
 
-              <div class="flex-1 min-w-0">
+              <div class="min-w-0 flex-1">
                 <a
                   href={issue.html_url}
                   target="_blank"
-                  class="block font-semibold truncate text-teal-950 hover:underline"
+                  class="block truncate font-semibold text-teal-950 hover:underline"
                   title={issue.title}
                 >
                   {issue.title}
@@ -62,7 +62,7 @@
                 </p>
               </div>
 
-              <Avatar class="flex-shrink-0 w-8 h-8">
+              <Avatar class="h-8 w-8 flex-shrink-0">
                 <AvatarImage src={issue.user.avatar_url} alt={issue.user.login} />
                 <AvatarFallback>{issue.user.login.substring(0, 2).toUpperCase()}</AvatarFallback>
               </Avatar>

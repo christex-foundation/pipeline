@@ -113,10 +113,10 @@
 <div class="mx-auto mt-8 flex w-full max-w-[1470px] flex-col justify-center gap-6 px-6 md:flex-row">
   <aside class="mt-[-15px] w-full max-md:overflow-x-auto md:mb-0 md:w-[28%]">
     <div
-      class="p-4 rounded-md shadow-sm md:flex-col"
+      class="rounded-md p-4 shadow-sm md:flex-col"
       style="position: sticky; top: 0; height: fit-content;"
     >
-      <span class="hidden mb-4 md:block">SDGs</span>
+      <span class="mb-4 hidden md:block">SDGs</span>
 
       <Accordion type="single" value="sdgs" collapsible>
         <AccordionItem value="sdgs">
@@ -131,21 +131,21 @@
     </div>
   </aside>
 
-  <section class="grid items-start flex-1 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+  <section class="grid flex-1 grid-cols-1 items-start gap-6 md:grid-cols-2 lg:grid-cols-3">
     {#if searchTerm && searchResults.length > 0}
-      <div class="text-xl font-semibold text-gray-700 col-span-full">
+      <div class="col-span-full text-xl font-semibold text-gray-700">
         Search results for: "{searchTerm}"
       </div>
       {#each searchResults as project}
         <Card {project} />
       {/each}
       {#if !searchResultsLoaded && !allSearchLoaded}
-        <div class="flex items-center justify-center mt-8 col-span-full">
+        <div class="col-span-full mt-8 flex items-center justify-center">
           <Button on:click={loadMoreSearchResults}>Load more</Button>
         </div>
       {/if}
     {:else if selectedTag}
-      <div class="text-xl font-semibold text-gray-700 col-span-full">
+      <div class="col-span-full text-xl font-semibold text-gray-700">
         Projects in: "{selectedTag}"
       </div>
       {#if categoryResult.length > 0}
@@ -153,30 +153,30 @@
           <Card {project} class="!h-auto !flex-shrink-0" />
         {/each}
         {#if !categoryResultLoaded && !allCategoryLoaded}
-          <div class="flex items-center justify-center mt-8 col-span-full">
+          <div class="col-span-full mt-8 flex items-center justify-center">
             <Button on:click={loadMoreCategoryResults}>Load more</Button>
           </div>
         {/if}
       {:else}
-        <p class="text-center text-gray-600 col-span-full">
+        <p class="col-span-full text-center text-gray-600">
           No projects found for "{selectedTag}".
         </p>
       {/if}
     {:else if !searchTerm}
-      <div class="text-xl font-semibold text-gray-700 col-span-full">Top Projects</div>
+      <div class="col-span-full text-xl font-semibold text-gray-700">Top Projects</div>
       {#each data.topProjects as project}
         <Card {project} />
       {:else}
         <p class="text-center text-gray-600 col-span-full">No projects found.</p>
       {/each}
 
-      <div class="mt-8 text-xl font-semibold text-gray-700 col-span-full">All Projects</div>
+      <div class="col-span-full mt-8 text-xl font-semibold text-gray-700">All Projects</div>
       {#if data.allProjects.length > 0}
         {#each loadedProjects as project (project.id)}
           <Card {project} />
         {/each}
         {#if !allProjectsLoaded}
-          <div class="flex items-center justify-center flex-grow w-full mt-8 col-span-full">
+          <div class="col-span-full mt-8 flex w-full flex-grow items-center justify-center">
             <div
               class="flex cursor-pointer"
               on:click={loadMoreProjects}
@@ -193,10 +193,10 @@
           </div>
         {/if}
       {:else}
-        <p class="text-center text-gray-600 col-span-full">No projects found.</p>
+        <p class="col-span-full text-center text-gray-600">No projects found.</p>
       {/if}
     {:else}
-      <p class="text-center text-gray-600 col-span-full">No search results found.</p>
+      <p class="col-span-full text-center text-gray-600">No search results found.</p>
     {/if}
   </section>
 </div>

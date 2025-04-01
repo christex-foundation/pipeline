@@ -90,11 +90,11 @@
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 </script>
 
-<div class="inline-flex flex-col items-start justify-start w-full h-full px-4 font-sans">
-  <div class="flex flex-col items-start self-stretch justify-start h-20 pb-12">
+<div class="inline-flex h-full w-full flex-col items-start justify-start px-4 font-sans">
+  <div class="flex h-20 flex-col items-start justify-start self-stretch pb-12">
     <button
       variant="outline"
-      class="flex items-center justify-center px-5 py-3 bg-white border border-gray-300"
+      class="flex items-center justify-center border border-gray-300 bg-white px-5 py-3"
       on:click={goBack}
     >
       <Icon icon="mdi-light:chevron-left" class="text-2xl" />
@@ -102,17 +102,17 @@
     </button>
   </div>
 
-  <div class="flex flex-col items-start self-stretch justify-start gap-6">
-    <div class="flex flex-col items-start self-stretch justify-start gap-3">
+  <div class="flex flex-col items-start justify-start gap-6 self-stretch">
+    <div class="flex flex-col items-start justify-start gap-3 self-stretch">
       <div class="self-stretch text-3xl font-bold text-gray-900">
         {selectedUpdate.title}
       </div>
 
       <div
-        class="flex flex-col items-start self-stretch justify-start h-16 gap-1 pb-5 border-b border-gray-200"
+        class="flex h-16 flex-col items-start justify-start gap-1 self-stretch border-b border-gray-200 pb-5"
       >
         <div class="inline-flex items-center justify-start gap-3">
-          <Avatar class="w-10 h-10 border border-gray-200">
+          <Avatar class="h-10 w-10 border border-gray-200">
             <AvatarImage
               src={selectedUpdate.userProfile.image && selectedUpdate.userProfile.image !== ''
                 ? selectedUpdate.userProfile.image
@@ -123,17 +123,17 @@
           </Avatar>
 
           <div class="inline-flex flex-col items-start justify-start">
-            <div class="inline-flex items-center self-stretch justify-between gap-2">
+            <div class="inline-flex items-center justify-between gap-2 self-stretch">
               <div class="h-6 text-sm font-normal text-gray-900">
                 {selectedUpdate.userProfile.name}
               </div>
-              <Badge variant="success" class="text-xs font-bold text-white bg-green-500">
+              <Badge variant="success" class="bg-green-500 text-xs font-bold text-white">
                 {selectedUpdate.user_id === selectedUpdate.userProfile.user_id
                   ? 'Creator'
                   : 'Member'}
               </Badge>
             </div>
-            <div class="self-stretch h-4 text-xs font-normal text-gray-500">
+            <div class="h-4 self-stretch text-xs font-normal text-gray-500">
               {updateDate}
             </div>
           </div>
@@ -141,23 +141,23 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-start self-stretch justify-start gap-8 pb-2">
+    <div class="flex flex-col items-start justify-start gap-8 self-stretch pb-2">
       <div class="self-stretch text-base font-normal leading-7 text-gray-900">
         {@html selectedUpdate.body}
       </div>
     </div>
   </div>
 
-  <div class="flex flex-col items-start self-stretch justify-start gap-4 pt-10">
-    <div class="flex flex-col items-start self-stretch justify-start h-5">
+  <div class="flex flex-col items-start justify-start gap-4 self-stretch pt-10">
+    <div class="flex h-5 flex-col items-start justify-start self-stretch">
       <div class="self-stretch text-base font-bold leading-tight text-gray-900">
         Comments ({comments.length})
       </div>
     </div>
 
-    <div class="flex flex-col w-full gap-4 py-4 md:flex-row md:items-center md:justify-between">
+    <div class="flex w-full flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between">
       {#if data.isAuthenticated}
-        <div class="flex flex-col w-full gap-4 md:flex-row">
+        <div class="flex w-full flex-col gap-4 md:flex-row">
           <Input
             type="text"
             bind:value={newComment}
@@ -187,13 +187,13 @@
     </div>
 
     {#if comments.length > 0}
-      <div class="w-full pr-1 overflow-y-auto max-h-96">
+      <div class="max-h-96 w-full overflow-y-auto pr-1">
         <div class="flex flex-col gap-3 p-1">
           {#each comments as comment}
             <Card class="border border-gray-200">
               <CardHeader class="p-4 pb-0">
                 <div class="flex items-start gap-3">
-                  <Avatar class="w-8 h-8 border border-gray-200">
+                  <Avatar class="h-8 w-8 border border-gray-200">
                     <AvatarImage
                       src={comment.userProfile.image && comment.userProfile.image !== ''
                         ? comment.userProfile.image

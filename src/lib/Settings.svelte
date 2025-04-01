@@ -8,9 +8,9 @@
   class="mx-auto flex w-[79%] flex-col text-3xl text-black max-lg:w-full max-md:mt-[-40px] max-md:max-w-full"
 >
   <div
-    class="flex flex-row items-start justify-between w-full mb-4 max-md:flex-col max-md:items-start"
+    class="mb-4 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
   >
-    <div class="flex flex-col mt-8">
+    <div class="mt-8 flex flex-col">
       <Label for="currentPassword" class="text-xl font-semibold text-black">Current Password</Label>
     </div>
     <div class="w-2/3">
@@ -18,9 +18,9 @@
     </div>
   </div>
   <div
-    class="flex flex-row items-start justify-between w-full mb-4 max-md:flex-col max-md:items-start"
+    class="mb-4 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
   >
-    <div class="flex flex-col mt-8">
+    <div class="mt-8 flex flex-col">
       <Label for="newPassword" class="text-xl font-semibold text-black">New Password</Label>
     </div>
     <div class="w-2/3">
@@ -28,8 +28,8 @@
     </div>
   </div>
 
-  <div class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start">
-    <div class="flex flex-col mt-8">
+  <div class="flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start">
+    <div class="mt-8 flex flex-col">
       <Label for="confirmPassword" class="text-xl font-semibold text-black">Confirm Password</Label>
     </div>
     <div class="w-2/3">

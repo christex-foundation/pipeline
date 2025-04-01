@@ -23,7 +23,7 @@
 </script>
 
 <div class="w-full bg-[#d1ea9a]/90 py-16">
-  <div class="max-w-4xl mx-auto text-center">
+  <div class="mx-auto max-w-4xl text-center">
     <h1
       class="font-['Inter'] text-5xl font-semibold leading-[54.51px] text-[#08292c] max-lg:text-2xl"
     >
@@ -33,27 +33,11 @@
   </div>
 </div>
 
-<Tabs bind:value={activeTab} class="w-full max-w-4xl mx-auto mt-12">
-  <div class="flex justify-center w-full">
+<Tabs bind:value={activeTab} class="mx-auto mt-12 w-full max-w-4xl">
+  <div class="flex w-full justify-center">
     <TabsList
       class="flex h-auto w-full justify-center space-x-6 !rounded-full border-2 !border-[#0b383c] bg-transparent py-1"
     >
-      <!-- <TabsTrigger 
-        value="funding" 
-        class={`w-[45%] sm:w-[47%] rounded-full border-2 px-4 py-4 sm:px-5 sm:py-5 md:px-6 md:py-6 text-xl sm:text-2xl font-semibold transition duration-300 
-          ${activeTab === 'funding' ? '!bg-[#0b383c] !text-lime-100 border-[#0b383c] border-2 !rounded-full' : 'text-[#0b383c] opacity-50 border-transparent'}`}
-      >
-        Funding
-      </TabsTrigger>
-      
-      <TabsTrigger 
-        value="resources" 
-        class={`w-[45%] sm:w-[47%] !rounded-full border-2 px-4 py-4 sm:px-5 sm:py-5 md:px-6 md:py-6 text-xl sm:text-2xl font-semibold transition duration-300 
-          ${activeTab === 'resources' ? '!bg-[#0b383c] !text-lime-100 border-[#0b383c] border-2 !rounded-full]' : 'text-[#0b383c] opacity-50 border-transparent'}`}
-      >
-        Resources
-      </TabsTrigger> -->
-
       <TabsTrigger
         value="funding"
         class={`w-[45%] rounded-full border-2 px-4 py-4 text-xl font-semibold transition duration-300 sm:w-[47%] sm:px-5 sm:py-5 sm:text-2xl md:px-6 md:py-6 ${activeTab === 'funding' ? '!rounded-full border-2 border-[#0b383c] !bg-[#0b383c] !text-lime-100' : 'border-transparent text-[#0b383c] opacity-50'}`}
@@ -70,7 +54,7 @@
     </TabsList>
   </div>
 
-  <div class="max-w-4xl mx-auto mt-8">
+  <div class="mx-auto mt-8 max-w-4xl">
     <TabsContent value="funding">
       <Contribute />
     </TabsContent>

@@ -53,28 +53,6 @@
   <p>No team members</p>
 {/if}
 
-<!-- <section class="flex flex-wrap items-center gap-6 mt-8 w-full max-w-[900px] max-md:mt-6 max-md:max-w-full justify-between">
-
-    <div class="flex items-center flex-grow gap-6">
-      <div class="flex justify-around">
-      <img src="/" class="flex-shrink-0 border-4 border-white bg-zinc-300 h-[80px] w-[80px] rounded-full" aria-label="teammate profile picture" alt=""></div>
-      
-   
-      <div class="flex flex-col flex-grow mr-14">
-        <div class="flex items-center gap-3">
-          <h1 class="text-2xl font-semibold text-black">Teammate</h1>
-          <span class="px-3 py-1 text-sm border rounded-full border-lime-800 bg-lime-200 text-lime-800">Designer</span>
-        </div>
-        <p class="mt-2 text-sm text-stone-500">
-          This will appear on your project page and must include your name, photo, and biography.
-        </p>
-      </div>
-    <button type="button" class="px-4 py-2 text-sm font-medium text-white transition-colors bg-red-600 rounded-full hover:bg-red-500">
-      Delete
-    </button>
-  </div>
-  </section> -->
-
 <form class="mt-8 flex w-[93%] max-w-[900px] flex-col max-md:max-w-full">
   <div class="mb-6 flex w-full items-center space-x-4">
     <label for="email" class="w-1/3 text-base font-medium">Email / Username</label>

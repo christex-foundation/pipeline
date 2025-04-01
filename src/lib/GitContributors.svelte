@@ -15,7 +15,7 @@
     class="h-16 w-16 rounded-full border-2 border-[#0B383C] shadow-md"
   />
 
-  <CardContent class="flex flex-col w-full mt-4 sm:ml-4 sm:mt-0">
+  <CardContent class="mt-4 flex w-full flex-col sm:ml-4 sm:mt-0">
     <a
       href={contributor.html_url}
       target="_blank"
@@ -25,7 +25,7 @@
       <Icon icon="ion:arrow-up-right-box-outline" class="text-2xl" />
     </a>
 
-    <div class="flex items-center gap-2 mt-1 text-sm">
+    <div class="mt-1 flex items-center gap-2 text-sm">
       <span class="rounded-lg bg-[#0B383C] px-3 py-1 text-xs font-medium text-white">
         Commits: {contributor?.contributions}
       </span>

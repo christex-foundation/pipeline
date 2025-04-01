@@ -15,24 +15,24 @@
 <Card
   class="flex w-[315px] min-w-[240px] shrink grow flex-col items-start overflow-hidden rounded-xl border border-solid border-gray-100 bg-white p-4 shadow-md "
 >
-  <div class="flex items-start w-full gap-4">
-    <Avatar class="flex-shrink-0 rounded-full h-14 w-14">
+  <div class="flex w-full items-start gap-4">
+    <Avatar class="h-14 w-14 flex-shrink-0 rounded-full">
       <AvatarImage src={resource.user_profile.image} alt="Profile Image" />
       <AvatarFallback class="bg-amber-200">
         <!-- svelte-ignore a11y-img-redundant-alt -->
         <img
           src="https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png"
           alt="Fallback Image"
-          class="object-cover w-full h-full rounded-full"
+          class="h-full w-full rounded-full object-cover"
         />
       </AvatarFallback>
     </Avatar>
 
-    <div class="flex-1 w-full">
-      <CardTitle class="text-base font-semibold leading-none text-black truncate">
+    <div class="w-full flex-1">
+      <CardTitle class="truncate text-base font-semibold leading-none text-black">
         {resource.title}
       </CardTitle>
-      <CardDescription class="mt-1 text-sm leading-tight truncate text-neutral-400">
+      <CardDescription class="mt-1 truncate text-sm leading-tight text-neutral-400">
         {resource.user_profile.name}
       </CardDescription>
     </div>
