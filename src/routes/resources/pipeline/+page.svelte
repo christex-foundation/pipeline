@@ -67,7 +67,7 @@
 
 <main class="flex items-center justify-center w-full overflow-hidden">
   <!-- svelte-ignore a11y-img-redundant-alt -->
-  <img src="/how.png" alt="Description of the image" class="object-cover w-full h-full" />
+  <img src="/how_pipeline_works.png" alt="How Pipeline Works" class="object-cover w-full h-full" />
 </main>
 
 <section class="flex items-center justify-center w-full text-black px-7 max-md:px-5">
