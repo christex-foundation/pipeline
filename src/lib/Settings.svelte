@@ -8,31 +8,31 @@
   class="mx-auto flex w-[79%] flex-col text-3xl text-black max-lg:w-full max-md:mt-[-40px] max-md:max-w-full"
 >
   <div
-    class="mb-4 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
+    class="flex flex-row items-start justify-between w-full mb-4 max-md:flex-col max-md:items-start"
   >
-    <div class="mt-8 flex flex-col">
-      <Label for="currentPassword" class="text-xl font-semibold text-black">Current Password</Label>
+    <div class="flex flex-col mt-8">
+      <Label for="currentPassword" class="text-xl font-semibold text-black max-md:mb-2">Current Password</Label>
     </div>
-    <div class="w-2/3">
+    <div class="w-2/3 max-md:w-full">
       <Input type="text" id="currentPassword" aria-required="true" />
     </div>
   </div>
   <div
-    class="mb-4 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
+    class="flex flex-row items-start justify-between w-full mb-4 max-md:flex-col max-md:items-start"
   >
-    <div class="mt-8 flex flex-col">
-      <Label for="newPassword" class="text-xl font-semibold text-black">New Password</Label>
+    <div class="flex flex-col mt-8">
+      <Label for="newPassword" class="text-xl font-semibold text-black max-md:mb-2">New Password</Label>
     </div>
-    <div class="w-2/3">
+    <div class="w-2/3 max-md:w-full">
       <Input type="text" id="newPassword" aria-required="true" />
     </div>
   </div>
 
-  <div class="flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start">
-    <div class="mt-8 flex flex-col">
-      <Label for="confirmPassword" class="text-xl font-semibold text-black">Confirm Password</Label>
+  <div class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start">
+    <div class="flex flex-col mt-8">
+      <Label for="confirmPassword" class="text-xl font-semibold text-black max-md:mb-2">Confirm Password</Label>
     </div>
-    <div class="w-2/3">
+    <div class="w-2/3 max-md:w-full">
       <Input type="text" id="confirmPassword" aria-required="true" />
     </div>
   </div>

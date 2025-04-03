@@ -55,11 +55,29 @@
   <Separator class="my-8 border-t border-black" />
 
   <Tabs defaultValue="overview" class="w-full">
-    <TabsList class="mb-6">
-      <TabsTrigger value="overview" class="text-xl">Examples of DPGs</TabsTrigger>
-      <TabsTrigger value="importance" class="text-xl">Why are DPGs important?</TabsTrigger>
-      <TabsTrigger value="standards" class="text-xl">DPG Standards</TabsTrigger>
-    </TabsList>
+    <div class="w-full pb-2 overflow-x-auto ">
+      <div class="w-full pb-2">
+        <TabsList class="flex !justify-start w-full gap-6 px-4 mb-6 bg-transparent min-w-fit">
+          <TabsTrigger 
+            value="overview" 
+            class="text-xl whitespace-nowrap max-sm:text-base px-0 text-gray-500 data-[state=active]:text-black data-[state=active]:border-b-2 data-[state=active]:border-lime-500 data-[state=active]:bg-transparent"
+          >
+            Examples of DPGs
+          </TabsTrigger>
+          <TabsTrigger 
+            value="importance" 
+            class="text-xl whitespace-nowrap max-sm:text-base px-0 text-gray-500 data-[state=active]:text-black data-[state=active]:border-b-2 data-[state=active]:border-lime-500 data-[state=active]:bg-transparent"
+          >
+            Why are DPGs important?
+          </TabsTrigger>
+          <TabsTrigger 
+            value="standards" 
+            class="text-xl whitespace-nowrap max-sm:text-base px-0 text-gray-500 data-[state=active]:text-black data-[state=active]:border-b-2 data-[state=active]:border-lime-500 data-[state=active]:bg-transparent"
+          >
+            DPG Standards
+          </TabsTrigger>
+        </TabsList>
+      </div>
 
     <TabsContent value="overview">
       <Card class="border-none shadow-none">
