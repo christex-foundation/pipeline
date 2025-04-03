@@ -66,7 +66,6 @@
 </div>
 
 <main class="flex items-center justify-center w-full overflow-hidden">
-  <!-- svelte-ignore a11y-img-redundant-alt -->
   <img src="/how_pipeline_works.png" alt="How Pipeline Works" class="object-cover w-full h-full" />
 </main>
 

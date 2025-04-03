@@ -18,9 +18,7 @@ import {
   getProjectExistingCategories,
   removeTags,
 } from '$lib/server/repo/categoryRepo.js';
-import {
-  getDpgStatuses,
-} from '../repo/dpgStatusRepo.js';
+import { getDpgStatuses } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';

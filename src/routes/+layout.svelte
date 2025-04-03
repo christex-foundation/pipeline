@@ -14,7 +14,6 @@
 
 <div class="min-h-screen w-full bg-white">
   <SearchModal />
-  <!-- temporary fix for the Nav & Footer component showing in the sign-in and sign-up pages -->
   {#if $page.url.pathname !== '/sign-in' && $page.url.pathname !== '/sign-up'}
     <Nav {data} />
   {/if}

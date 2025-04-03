@@ -3,6 +3,12 @@
   import { countries } from 'countries-list';
   import Icon from '@iconify/svelte';
 
+  import { Button } from '$lib/components/ui/button';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
+  import { Checkbox } from '$lib/components/ui/checkbox';
+  import { Textarea } from '$lib/components/ui/textarea';
+
   export let project = {};
 
   const countryList = Object.values(countries).sort((a, b) => a.name.localeCompare(b.name));
@@ -98,7 +104,7 @@
       </div>
 
       <div class="relative mb-[141px] h-[295.61px] self-stretch">
-        <label for="banner-upload" class="cursor-pointer">
+        <Label for="banner-upload" class="cursor-pointer">
           <div
             class="flex h-full w-full items-center justify-center overflow-hidden rounded-[37.69px] bg-[#d9d9d9]"
           >
@@ -108,7 +114,7 @@
               <div class="text-center">Click to upload banner image</div>
             {/if}
           </div>
-        </label>
+        </Label>
         <input
           type="file"
           id="banner-upload"
@@ -118,7 +124,7 @@
           on:change={handleBannerUpload}
         />
 
-        <label for="profile-upload" class="cursor-pointer">
+        <Label for="profile-upload" class="cursor-pointer">
           <div
             class="absolute bottom-[-92.6px] left-[46.69px] flex h-[185.19px] w-[185.19px] items-center justify-center overflow-hidden rounded-full border-8 border-white bg-[#d9d9d9]"
           >
@@ -132,7 +138,7 @@
               <div class="text-center text-sm">Click to upload profile picture</div>
             {/if}
           </div>
-        </label>
+        </Label>
         <input
           type="file"
           id="profile-upload"
@@ -149,18 +155,11 @@
         class="flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
       >
         <div class="flex flex-col">
-          <label for="projectTitle" class="text-base font-semibold text-black">Project title</label>
+          <Label for="projectTitle" class="text-base font-semibold text-black">Project title</Label>
           <p class="mt-2.5 text-sm text-stone-400">What is the title of your project</p>
         </div>
         <div class="w-[50%] max-md:w-full">
-          <input
-            type="text"
-            id="projectTitle"
-            name="title"
-            bind:value={project.title}
-            class="mt-2.5 min-h-[50px] w-full rounded-[75px] border-2 border-lime-800 px-4"
-            required
-          />
+          <Input type="text" id="projectTitle" name="title" bind:value={project.title} />
         </div>
       </div>
 
@@ -168,17 +167,17 @@
         class="mt-9 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
       >
         <div class="flex w-[45%] flex-col max-md:w-[100%]">
-          <label for="projectBio" class="font-basesemibold text- text-black">Project bio</label>
+          <Label for="projectBio" class="font-basesemibold text- text-black">Project bio</Label>
           <p class="mt-2.5 text-sm text-stone-400">Give a short description of your project</p>
         </div>
         <div class="w-[50%] max-md:w-[100%]">
-          <textarea
+          <Textarea
             id="projectBio"
             name="bio"
             bind:value={project.bio}
-            class="mt-2.5 min-h-[120px] w-full rounded-[31px] border-2 border-lime-800 p-4"
+            class="mt-2.5 min-h-[120px]"
             required
-          ></textarea>
+          ></Textarea>
         </div>
       </div>
 
@@ -186,7 +185,7 @@
         class="mt-9 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
       >
         <div class="flex w-[45%] flex-col max-md:w-[100%]">
-          <label for="projectTags" class="text-base font-semibold text-black">Project tags</label>
+          <Label for="projectTags" class="text-base font-semibold text-black">Project tags</Label>
           <p class="mt-2.5 text-sm text-stone-400">
             Select the keywords that best describe your project.
           </p>
@@ -210,7 +209,7 @@
                   >
                 </span>
               {/each}
-              <input
+              <Input
                 type="text"
                 bind:value={inputValue}
                 placeholder="Type to add tags"
@@ -254,7 +253,7 @@
         class="mt-12 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
       >
         <div class="flex w-[40%] flex-col max-md:w-[100%]">
-          <label for="projectCountry" class="text-base font-semibold text-black"> Country </label>
+          <Label for="projectCountry" class="text-base font-semibold text-black">Country</Label>
           <p class="mt-2.5 text-sm text-stone-400">
             Choose the location where you are running the project.
           </p>
@@ -273,7 +272,7 @@
                 <option value={countryOption.name}>{countryOption.name}</option>
               {/each}
             </select>
-            <!-- Custom Arrow Icon -->
+
             <Icon icon="radix-icons:caret-down" class="text-2xl" />
           </div>
         </div>
@@ -283,9 +282,9 @@
         class="mt-9 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
       >
         <div class="flex w-[45%] flex-col max-md:w-[100%]">
-          <label for="projectDetails" class="text-base font-semibold text-black">
+          <Label for="projectDetails" class="text-base font-semibold text-black">
             Project details
-          </label>
+          </Label>
           <p class="mt-2.5 text-sm text-stone-400">
             Tell potential contributors more about your project. <br /> Provide details that will
             motivate people to contribute.
@@ -293,13 +292,13 @@
           </p>
         </div>
         <div class="w-[50%] max-md:w-full">
-          <textarea
+          <Textarea
             id="projectDetails"
             name="details"
             bind:value={project.details}
-            class="mt-2.5 h-[140px] w-full rounded-[31px] border-2 border-lime-800 p-4"
+            class="mt-2.5 h-[140px] "
             required
-          ></textarea>
+          ></Textarea>
         </div>
       </div>
     </div>

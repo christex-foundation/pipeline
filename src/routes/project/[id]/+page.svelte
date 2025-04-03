@@ -17,6 +17,14 @@
   import Icon from '@iconify/svelte';
   import { onMount } from 'svelte';
   import Issues from '$lib/Issues.svelte';
+  import { Dialog, DialogHeader, DialogContent, DialogTitle } from '$lib/components/ui/dialog';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
+  import { Button } from '$lib/components/ui/button';
+  import { Textarea } from '$lib/components/ui/textarea';
+  import { Card, CardContent } from '$lib/components/ui/card';
+  import { Separator } from '$lib/components/ui/separator';
+
   import { format } from 'date-fns';
   import { toast } from 'svelte-sonner';
 
@@ -140,6 +148,8 @@
 <div class="mx-auto flex max-w-[1500px] flex-col items-start px-4 lg:flex-row lg:px-8">
   <div class="w-full max-md:w-[100%] lg:sticky lg:top-0 lg:w-[40%] lg:pr-4">
     <section class="relative mb-[64px] mt-6 flex w-full flex-col">
+      <!-- svelte-ignore a11y-no-redundant-roles -->
+      <!-- svelte-ignore a11y-img-redundant-alt -->
       <img
         loading="lazy"
         src={banner}
@@ -148,6 +158,7 @@
         aria-label="Project hero image"
         alt="Project image"
       />
+      <!-- svelte-ignore a11y-img-redundant-alt -->
       <img
         loading="lazy"
         class="absolute left-1/2 z-10 h-[120px] w-[120px] -translate-x-1/2 transform rounded-full outline outline-4 outline-white max-lg:left-[20px] lg:left-[50px] lg:translate-x-0"
@@ -158,13 +169,11 @@
     </section>
 
     <section class="mt-3 flex w-full flex-col">
-      <div class="flex items-start justify-between space-x-8 max-md:gap-2">
-        <h1
-          class="flex-grow break-words text-3xl font-semibold text-black max-lg:mt-2 max-lg:text-xl"
-        >
+      <div class="flex justify-between max-md:gap-2">
+        <h1 class="break-all text-3xl font-semibold text-black max-lg:mt-2 max-lg:text-xl">
           {project.title || 'Project Title'}
         </h1>
-        <div class="mt-2 flex items-center gap-1 whitespace-nowrap text-base text-neutral-600">
+        <div class="mt-2 flex items-center gap-1 text-base text-neutral-600">
           <img
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/edd6d143a10aa89a67f0101c84563e276eb2ea6bc943000847a62b3bcaeb9863?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
             alt="Date icon"
@@ -207,6 +216,12 @@
           >
             <button>EDIT PROJECT</button>
           </a>
+          <button
+            on:click={openUpdatePopup}
+            class="w-full rounded-full bg-lime-300 py-4 text-center text-base font-semibold text-black"
+          >
+            ADD UPDATE
+          </button>
         {:else}
           <form
             class="w-[50%]"
@@ -238,34 +253,38 @@
       </div>
     {/if}
 
-    <section
-      class="mt-8 flex w-full items-center justify-between gap-6 rounded-[20px] bg-lime-300 p-6 text-teal-950 max-md:mt-6"
-    >
-      <div class="flex w-[120px] flex-col items-center max-md:w-[80px]">
-        <div class="text-5xl font-semibold max-md:text-3xl">
-          {contributors.length + uniqueResourceIds || 0}
+    <Card class="mt-8 w-full rounded-[20px] border-0 bg-lime-300 px-6 text-teal-950 max-md:mt-6">
+      <CardContent class="flex items-center justify-between gap-6 p-0">
+        <div class="flex w-[120px] flex-col items-center max-md:w-[80px]">
+          <div class="text-5xl font-semibold max-md:text-3xl">
+            {contributors.length + uniqueResourceIds || 0}
+          </div>
+          <div class="text-sm max-md:text-[13px]">Contributors</div>
         </div>
-        <div class="text-sm max-md:text-[11px]">Contributors</div>
-      </div>
-      <div class="h-[100px] w-px bg-neutral-400 max-md:hidden"></div>
-      <div class="flex w-[120px] flex-col items-center max-md:w-[80px]">
-        <div class="text-5xl font-semibold max-md:text-3xl">
-          {project.dpgCount}<span class="text-3xl">/</span><span class="text-3xl text-teal-800"
-            >9</span
-          >
+
+        <Separator orientation="vertical" class="h-[100px] w-px bg-neutral-400 max-md:hidden" />
+
+        <div class="flex w-[120px] flex-col items-center max-md:w-[80px]">
+          <div class="text-5xl font-semibold max-md:text-3xl">
+            {project.dpgCount}<span class="text-3xl">/</span><span class="text-3xl text-teal-800"
+              >9</span
+            >
+          </div>
+          <div class="text-sm max-md:text-[12px]">DPG Status</div>
         </div>
-        <div class="text-sm max-md:text-[11px]">DPG Status</div>
-      </div>
-      <div class="h-[100px] w-px bg-neutral-400 max-md:hidden"></div>
-      <div class="flex w-[120px] flex-col items-center max-md:w-[95px]">
-        <div class="text-4xl font-semibold max-md:text-3xl">
-          ${amountFormat(project.current_funding || 0)}
+
+        <Separator orientation="vertical" class="h-[100px] w-px bg-neutral-400 max-md:hidden" />
+
+        <div class="flex w-[120px] flex-col items-center max-md:w-[95px]">
+          <div class="text-4xl font-semibold max-md:text-3xl">
+            ${amountFormat(project.current_funding || 0)}
+          </div>
+          <div class="text-sm max-md:text-[12px]">
+            raised of ${amountFormat(project.funding_goal || 0)}
+          </div>
         </div>
-        <div class="text-sm max-md:text-[11px]">
-          raised of ${amountFormat(project.funding_goal || 0)}
-        </div>
-      </div>
-    </section>
+      </CardContent>
+    </Card>
   </div>
 
   <div class="mt-4 w-full lg:mt-0 lg:w-[60%] lg:pl-4">
@@ -273,7 +292,7 @@
       class="flex flex-col items-start rounded-[20px] bg-white px-4 py-8 max-md:mt-6 max-md:px-4"
     >
       <ProjectNav
-        class="flex w-full flex-wrap items-start overflow-x-auto text-sm"
+        class="flex w-full flex-nowrap items-start overflow-x-auto whitespace-nowrap text-sm"
         {navItems}
         bind:activeItem={activeNavItem}
         on:navChange={handleNavChange}
@@ -320,65 +339,55 @@
                 ></div>
               </div>
 
-              <div class="flex w-full flex-col pb-14 max-md:w-full max-md:pl-5">
+              <div class="flex w-full flex-col pb-14 max-md:pl-5">
                 <div
-                  class="flex w-full items-center justify-between gap-4 text-center font-bold max-md:gap-2"
+                  class="flex w-full flex-wrap items-center justify-between gap-10 text-center font-bold max-md:max-w-full"
                 >
-                  <h1
-                    class="min-w-0 whitespace-nowrap text-4xl leading-tight text-black max-md:text-xl"
-                  >
+                  <h1 class="my-auto self-stretch text-4xl leading-tight text-black">
                     GitHub Contributors
                   </h1>
                   <button
                     class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
                     on:click={toggleGitDetail}
                   >
-                    <span>View All</span>
+                    <span class="my-auto self-stretch">View All</span>
+
                     <Icon icon="mdi:chevron-right" class="text-2xl" />
                   </button>
                 </div>
 
                 <div
-                  class="relative z-0 mt-5 grid w-full grid-cols-2 items-start gap-4 max-md:max-w-full max-md:grid-cols-1"
+                  class="relative z-0 mt-5 grid w-full grid-cols-2 items-start gap-4 max-md:max-w-full"
                 >
-                  {#if Array.isArray(contributors) && contributors.length > 0}
-                    {#each contributors as contributor}
-                      <GitContributors {contributor} {totalCommits} />
-                    {/each}
-                  {:else}
-                    <div class="col-span-2 mt-2 text-center text-gray-500">
-                      No GitHub contributions found.
-                    </div>
-                  {/if}
+                  {#each Array.isArray(contributors) ? contributors.slice(0, 4) : [] as contributor}
+                    <GitContributors {contributor} {totalCommits} />
+                  {/each}
                 </div>
               </div>
 
               <div class="flex max-w-[846px] flex-col max-md:pl-5">
                 <div
-                  class="flex w-full items-center justify-between gap-4 text-center font-bold max-md:gap-2"
+                  class="flex w-full flex-wrap items-center justify-between gap-10 text-center font-bold max-md:max-w-full"
                 >
-                  <h1
-                    class="min-w-0 whitespace-nowrap text-4xl leading-tight text-black max-md:text-2xl"
-                  >
-                    Resources
-                  </h1>
+                  <h2 class="my-auto self-stretch text-4xl leading-tight text-black">Resources</h2>
+
                   <button
                     class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
                     on:click={toggleResourceDetail}
                   >
-                    <span>View All</span>
-                    <Icon icon="mdi:chevron-right" class="text-2xl" />
+                    <span class="my-auto self-stretch">View All</span>
+                    <img
+                      loading="lazy"
+                      src="https://cdn.builder.io/api/v1/image/assets/TEMP/e13f9fadc17a702d863b8d21bc60e6c7ea08ee8a9506ba412086d7b1a1d15195?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
+                      alt=""
+                      class="my-auto aspect-square w-5 shrink-0 self-stretch object-contain"
+                    />
                   </button>
                 </div>
-
                 <div class="mt-5 flex w-full flex-wrap items-start gap-5 max-md:max-w-full">
-                  {#if projectResource && projectResource.length > 0}
-                    {#each projectResource as resource}
-                      <ResourceCard {resource} />
-                    {/each}
-                  {:else}
-                    <div class="mt-2 w-full text-center text-gray-500">No resources found.</div>
-                  {/if}
+                  {#each projectResource as resource}
+                    <ResourceCard {resource} />
+                  {/each}
                 </div>
               </div>
             {/if}
@@ -397,54 +406,66 @@
   </div>
 </div>
 
-{#if showUpdatePopup}
-  <form
-    action="?/addUpdate"
-    method="POST"
-    use:enhance={() => {
-      isAddingUpdate = true;
-      return async ({ result }) => {
-        if (result.type === 'success') {
-          closeUpdatePopup();
-        }
-        await invalidateAll();
-        await applyAction(result);
-        isAddingUpdate = false;
-      };
-    }}
-  >
-    <div class="z-1000 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="relative w-[400px] max-w-full rounded-lg bg-white p-8 shadow-lg">
-        <button
-          on:click={closeUpdatePopup}
-          class="absolute right-2 top-2 text-2xl font-bold text-gray-500 hover:text-gray-700"
-          style="z-index: 1000;"
-        >
-          &times;
-        </button>
+<div class="relative">
+  {#if showUpdatePopup}
+    <Dialog open onOpenChange={closeUpdatePopup}>
+      <DialogContent
+        class="fixed w-96 max-w-[25%] rounded-lg bg-white p-6 shadow-lg sm:left-[50%] sm:top-[50%] sm:max-w-[20%] sm:translate-x-[-50%] sm:translate-y-[-50%]"
+      >
+        <DialogHeader>
+          <DialogTitle class="mb-4 text-xl font-bold">Add Update</DialogTitle>
+        </DialogHeader>
 
-        <h2 class="mb-4 text-xl font-bold">Add Update</h2>
-        <label class="mb-2 block text-sm font-medium text-gray-700">
-          Title
-          <input type="text" name="title" class="mt-1 w-full rounded-lg border p-2" require />
-        </label>
-        <label class="mb-4 block text-sm font-medium text-gray-700">
-          Body
-          <textarea
-            rows="4"
-            name="body"
-            class="mt-1 w-full resize-none rounded-lg border p-2"
-            require
-          ></textarea>
-        </label>
-        <button
-          type="submit"
-          class="w-full rounded-lg bg-lime-300 py-2 text-black disabled:bg-gray-500"
-          disabled={isAddingUpdate}
+        <form
+          action="?/addUpdate"
+          method="POST"
+          use:enhance={() => {
+            return async ({ form, result }) => {
+              if (result.type === 'success') {
+                closeUpdatePopup();
+                form.reset();
+              }
+              await applyAction(result);
+              await invalidateAll();
+            };
+          }}
         >
-          {isAddingUpdate ? 'Adding Update...' : 'Add Update'}
-        </button>
-      </div>
-    </div>
-  </form>
-{/if}
+          <div class="space-y-3">
+            <Label class="block text-sm font-medium text-gray-700">
+              Title
+              <Input
+                type="text"
+                name="title"
+                class="mt-1 w-full rounded-lg border p-2"
+                required
+                disabled={isAddingUpdate}
+              />
+            </Label>
+            <Label class="block text-sm font-medium text-gray-700">
+              Body
+              <Textarea
+                rows="3"
+                name="body"
+                class="mt-1 w-full resize-none rounded-lg border p-2"
+                required
+                disabled={isAddingUpdate}
+              />
+            </Label>
+          </div>
+
+          <Button
+            type="submit"
+            class="mt-4 w-full rounded-lg bg-lime-300 py-2 text-black hover:bg-lime-400"
+            disabled={isAddingUpdate}
+          >
+            {#if isAddingUpdate}
+              <span class="flex items-center justify-center gap-2"> Adding Update... </span>
+            {:else}
+              Add Update
+            {/if}
+          </Button>
+        </form>
+      </DialogContent>
+    </Dialog>
+  {/if}
+</div>

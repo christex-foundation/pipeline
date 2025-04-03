@@ -9,8 +9,6 @@
     <Icon icon="tabler:checkbox" class="text-2xl" />
     <div class="my-auto self-stretch">
       <span class="text-xl font-semibold text-neutral-400">{rating || 0} </span>
-      <!-- <span class="text-base text-neutral-400">out of</span>
-        <span class="text-base font-extrabold text-neutral-400"> {total}</span> -->
     </div>
   </div>
 </div>

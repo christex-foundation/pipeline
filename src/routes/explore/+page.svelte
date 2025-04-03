@@ -1,6 +1,13 @@
 <script>
   import ProjectCategory from '$lib/ProjectCategory.svelte';
   import Card from '$lib/Card.svelte';
+  import {
+    Accordion,
+    AccordionItem,
+    AccordionTrigger,
+    AccordionContent,
+  } from '$lib/components/ui/accordion';
+  import { Button } from '$lib/components/ui/button';
 
   export let data;
   let loadedProjects = data.allProjects;
@@ -11,7 +18,6 @@
   let searchTerm = '';
   let selectedTag = '';
 
-  // Pagination state
   let currentPage = 1;
   let searchPage = 1;
   let categoryPage = 1;
@@ -110,19 +116,25 @@
     leading to unintended horizontal scrolling. This update applies `flex-col` and `space-y-2` to properly stack the heading above  
     the ProjectCategory component.-->
     <div
-  class="flex flex-col p-4 space-y-2 overflow-x-hidden rounded-md shadow-sm"
-  style="position: sticky; top: 0; height: fit-content;"
->
-  <h2 class="block mb-4 text-xl font-semibold text-gray-800">SDGs</h2><!--The `hidden` class on the `<h2>` element was preventing the "SDGs" heading from appearing on smaller screens. This update removes `hidden` and applies `block` to ensure visibility across all screen sizes. ---->
-  <ProjectCategory
-    on:categorySelected={handleCategorySelected}
-    class="flex min-w-max md:min-w-0 md:flex-col"
-  />
-</div>
+    class="flex flex-col p-4 space-y-2 overflow-x-hidden rounded-md shadow-sm"
+    style="position: sticky; top: 0; height: fit-content;"
+  >
+    <span class="block mb-4 text-xl font-semibold text-gray-800">SDGs</span>
 
+      <Accordion type="single" value="sdgs" collapsible>
+        <AccordionItem value="sdgs">
+          <AccordionTrigger class="no-underline hover:no-underline focus:no-underline">
+            Select SDG Category
+          </AccordionTrigger>
+          <AccordionContent>
+            <ProjectCategory on:categorySelected={handleCategorySelected} />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </div>
   </aside>
 
-  <section class="grid flex-1 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+  <section class="grid items-start flex-1 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
     {#if searchTerm && searchResults.length > 0}
       <div class="text-xl font-semibold text-gray-700 col-span-full">
         Search results for: "{searchTerm}"
@@ -132,12 +144,7 @@
       {/each}
       {#if !searchResultsLoaded && !allSearchLoaded}
         <div class="flex items-center justify-center mt-8 col-span-full">
-          <button
-            on:click={loadMoreSearchResults}
-            class="rounded-full border-2 border-[#516027] bg-[#d1ea9a] px-8 py-2 text-lg font-medium text-[#516027]"
-          >
-            Load more
-          </button>
+          <Button on:click={loadMoreSearchResults}>Load more</Button>
         </div>
       {/if}
     {:else if selectedTag}
@@ -146,16 +153,11 @@
       </div>
       {#if categoryResult.length > 0}
         {#each categoryResult as project}
-          <Card {project} />
+          <Card {project} class="!h-auto !flex-shrink-0" />
         {/each}
         {#if !categoryResultLoaded && !allCategoryLoaded}
           <div class="flex items-center justify-center mt-8 col-span-full">
-            <button
-              on:click={loadMoreCategoryResults}
-              class="rounded-full border-2 border-[#516027] bg-[#d1ea9a] px-8 py-2 text-lg font-medium text-[#516027]"
-            >
-              Load more
-            </button>
+            <Button on:click={loadMoreCategoryResults}>Load more</Button>
           </div>
         {/if}
       {:else}
@@ -185,11 +187,11 @@
               role="button"
               tabindex="0"
             >
-              <div
+              <Button
                 class="items-center rounded-full border-2 border-[#516027] bg-[#d1ea9a] px-[30px] py-[12px] transition-colors duration-300 hover:bg-[#c1da8a]"
               >
                 <span class="text-xl font-normal leading-snug text-[#516027]"> Load more </span>
-              </div>
+              </Button>
             </div>
           </div>
         {/if}

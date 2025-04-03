@@ -4,7 +4,10 @@
   import { onMount } from 'svelte';
   import { searchBarOpen } from './utils.js';
   import Icon from '@iconify/svelte';
+  import { Button } from '$lib/components/ui/button';
+  import { Popover, PopoverContent, PopoverTrigger } from '$lib/components/ui/popover';
 
+  let popoverOpen = false;
   let isResourcesOpen = false;
   let isMobileMenuOpen = false;
   let isSearchModalOpen = false;
@@ -53,7 +56,7 @@
   </div>
 
   <div class="flex items-center md:flex lg:flex">
-    <button
+    <Button
       on:click={toggleMobileMenu}
       class="text-white focus:outline-none lg:hidden"
       aria-label="Toggle mobile menu"
@@ -63,7 +66,7 @@
       {:else}
         <Icon icon="mdi:hamburger-menu" class="text-2xl" />
       {/if}
-    </button>
+    </Button>
   </div>
 
   <div class="hidden w-full max-w-[480px] items-center justify-center lg:flex">
@@ -84,25 +87,25 @@
   <div class="hidden h-[42.67px] grow-0 items-center justify-end gap-4 lg:flex">
     <div class="flex items-center gap-4">
       <a href="/" class="font-['Inter'] text-base font-semibold leading-none text-white"> Tasks </a>
-      <div class="relative resources-dropdown">
-        <button
-          on:click={toggleResources}
-          class="flex items-center justify-between w-full px-4 py-4 border-b border-cyan-800 focus:outline-none"
-        >
-          <span class="font-['Inter'] text-base font-semibold leading-none text-white">
-            Resources
-          </span>
-          <Icon
-            icon="radix-icons:caret-down"
-            class="transform text-2xl text-white transition-transform duration-200 {isResourcesOpen &&
-              'rotate-180'}"
-          />
-        </button>
-         <!--The dropdown links were styled to prevent text from breaking onto a new line and to include a rounded hover effect.-->
-        {#if isResourcesOpen}
-          <div
-            class="absolute left-0 block mt-2 rounded-md shadow-lg w-36 z-100 top-full bg-cyan-900" 
+      <Popover bind:open={popoverOpen}>
+        <PopoverTrigger class="focus:outline-none">
+          <Button
+            variant="ghost"
+            class="flex items-center gap-1 p-0 text-white hover:bg-transparent"
           >
+            <span class="font-['Inter'] text-base font-semibold leading-none"> Resources </span>
+            <Icon
+              icon="radix-icons:caret-down"
+              class={`text-2xl transition-transform duration-200 ${popoverOpen ? 'rotate-180' : ''}`}
+            />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          class="z-[999999] w-[18vh] rounded-md !border-cyan-800 !bg-cyan-900 p-0 shadow-lg"
+          sideOffset={5}
+          align="end"
+        >
+          <div class="flex flex-col">
             <a
               href="/resources/pipeline"
               class="flex w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 hover:rounded-md"
@@ -114,8 +117,8 @@
               >About DPGs</a
             >
           </div>
-        {/if}
-      </div>
+        </PopoverContent>
+      </Popover>
     </div>
 
     <div>
@@ -136,21 +139,23 @@
           <div
             class="align-center flex w-full items-center justify-between rounded-[48.77px] bg-[#115d5b] py-2 pl-4 pr-3 max-lg:w-full"
           >
-            <button
+            <Button
               type="button"
-              class="flex justify-between w-full "
+              class="flex justify-between w-full mt-2"
               on:click={() => ($searchBarOpen = !$searchBarOpen)}
             >
               <span
                 class="ml-[-18px] font-['Inter'] text-base py-2 font-semibold leading-none text-white/50 max-lg:px-8"
               >Search for a project...</span
               >
+            </Button>
           </div>
         </div>
 
         <a href="/" class="font-['Inter'] text-base font-semibold text-white"> Tasks </a>
+
         <div class="relative resources-dropdown">
-          <button
+          <Button
             on:click={toggleResources}
             class="flex items-center justify-between w-full px-4 py-4 border-b border-cyan-800 focus:outline-none"
           >
@@ -183,8 +188,8 @@
                 </clipPath>
               </defs>
             </svg>
-          </button>
-         <!--The dropdown links were styled to prevent them from floating so they can properly extend the navbar downward when clicked.-->
+          </Button>
+
           {#if isResourcesOpen}
             <div
               class=" block right-0 top-6 z-[9999] mt-2 w-36"

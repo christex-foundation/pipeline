@@ -1,6 +1,8 @@
 <script>
   import { onMount } from 'svelte';
   import { createEventDispatcher } from 'svelte';
+  import { Button } from '$lib/components/ui/button';
+
   const dispatch = createEventDispatcher();
 
   let loading = true;

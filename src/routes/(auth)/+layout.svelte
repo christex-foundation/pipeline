@@ -3,9 +3,9 @@
 </script>
 
 <Toaster richColors position="top-right" closeButton />
-<main class="h-screen -mb-16 overflow-hidden bg-white md:pr-0">
-  <div class="flex flex-col h-full gap-5 md:flex-row">
-    <section class="w-full h-full basis-full max-md:hidden md:w-5/12">
+<main class="-mb-16 h-screen overflow-hidden bg-white md:pr-0">
+  <div class="flex h-full flex-col gap-5 md:flex-row">
+    <section class="h-full w-full basis-full max-md:hidden md:w-5/12">
       <div
         class="flex h-full grow items-center gap-2.5 bg-cyan-950 py-10 pl-5 pr-2 md:py-24 md:pl-12"
       >

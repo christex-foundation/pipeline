@@ -1,74 +1,45 @@
 <script>
-  import { onMount } from 'svelte';
+  import { Popover, PopoverTrigger, PopoverContent } from '$lib/components/ui/popover';
   import { enhance } from '$app/forms';
   import Icon from '@iconify/svelte';
   import { afterNavigate } from '$app/navigation';
+  import { Button } from '$lib/components/ui/button';
 
-  let isOpen = false;
-  let dropdownNode;
-  let user = null;
-  let error = null;
   export let data;
 
-  afterNavigate(() => (isOpen = false));
-
+  let user = null;
   const defaultImageUrl =
     'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/userProfile.png';
 
-  function toggleDropdown(event) {
-    event.stopPropagation();
-    isOpen = !isOpen;
+  afterNavigate(() => {});
+
+  $: if (data.isAuthenticated) {
+    user = data.user;
   }
-
-  function handleClickOutside(event) {
-    if (!event.target.closest('button')) {
-      isOpen = false;
-    }
-  }
-
-  onMount(async () => {
-    const handleGlobalClick = (event) => {
-      if (isOpen && dropdownNode && !dropdownNode.contains(event.target)) {
-        handleClickOutside(event);
-      }
-    };
-
-    document.addEventListener('click', handleGlobalClick);
-
-    if (data.isAuthenticated) {
-      user = data.user;
-    }
-
-    return () => {
-      document.removeEventListener('click', handleGlobalClick);
-    };
-  });
 </script>
 
 <div class="relative flex items-center">
-  <button
-    on:click={toggleDropdown}
-    class="flex h-[43px] w-full items-center justify-between rounded-[51px] p-2.5 px-2"
-  >
-    {#if user?.id}
-      <img
-        loading="lazy"
-        src={user?.image_url ? user.image_url : defaultImageUrl}
-        alt="User avatar"
-        class="aspect-square w-[43px] rounded-[51px] object-contain"
-      />
-      <span class="ml-4 text-ellipsis whitespace-nowrap text-white lg:hidden"
-        >{user.display_name}</span
-      >
-    {/if}
-  </button>
+  <Popover>
+    <PopoverTrigger class="flex w-full items-center justify-between !rounded-[51px] px-2">
+      {#if user?.id}
+        <img
+          loading="lazy"
+          src={user?.image_url ? user.image_url : defaultImageUrl}
+          alt="User avatar"
+          class="aspect-square w-[43px] rounded-[51px] object-contain"
+        />
+        <span class="ml-4 text-ellipsis whitespace-nowrap text-white lg:hidden">
+          {user.display_name}
+        </span>
+      {/if}
+    </PopoverTrigger>
 
-  {#if isOpen}
-    <div
-      bind:this={dropdownNode}
-      class="absolute right-0 top-full z-[9999] mt-2 w-[280px] rounded-2xl bg-teal-600 shadow-lg max-lg:left-40 max-lg:-translate-x-[60px] max-md:left-20"
+    <PopoverContent
+      sideOffset={8}
+      class="z-[999999] w-[280px] !rounded-2xl border-0 bg-teal-600 p-0 shadow-lg max-lg:-translate-x-[60px] max-md:left-20"
+      align="end"
     >
-      <nav class="flex flex-col py-6">
+      <nav class="flex flex-col py-2">
         <div class="ml-6 flex items-center gap-3 max-lg:hidden">
           <div class="flex rounded-3xl p-3">
             <img
@@ -104,11 +75,11 @@
           <li class="mt-4 flex items-center gap-4">
             <Icon icon="humbleicons:logout" class="text-lg" />
             <form action="/profile/?/logout" method="post" use:enhance>
-              <button type="submit" class="text-left">Logout</button>
+              <Button type="submit" class="text-left">Logout</Button>
             </form>
           </li>
         </ul>
       </nav>
-    </div>
-  {/if}
+    </PopoverContent>
+  </Popover>
 </div>

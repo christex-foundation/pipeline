@@ -121,4 +121,3 @@ export async function getAllRelevantFiles(owner, repo, path = '', depth = 0) {
     throw new Error('Failed to retrieve relevant files');
   }
 }
-

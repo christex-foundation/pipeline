@@ -2,6 +2,12 @@
   import { countries } from 'countries-list';
   export let user = {};
 
+  import { Button } from '$lib/components/ui/button';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
+  import { Checkbox } from '$lib/components/ui/checkbox';
+  import { Textarea } from '$lib/components/ui/textarea';
+
   const countryList = Object.values(countries).sort((a, b) => a.name.localeCompare(b.name));
 
   let bannerImage = user.banner_url || null;
@@ -22,24 +28,12 @@
   }
 </script>
 
-<div
-  class="flex w-[80%] flex-col rounded-xl border border-neutral-200 bg-neutral-50 p-4 font-['Inter'] text-[30.91px] font-normal leading-[34px] shadow-md max-lg:w-full"
->
-  <span class="mb-10 font-semibold">Profile</span>
-  <input
-    type="hidden"
-    name="old_image"
-    value={user.image_url}
-    class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-  />
-  <input
-    type="hidden"
-    name="old_banner"
-    value={user.banner_url}
-    class="min-h-[48px] w-2/3 max-w-lg rounded-full border border-solid border-lime-800 px-6 py-2 transition-colors duration-200 focus:border-[#0b383c] focus:outline-none max-md:w-[100%]"
-  />
+<div class="rounded-xl border border-neutral-200 bg-neutral-50 p-4 shadow-md">
+  <h2 class="mb-4 text-2xl font-semibold text-black">Profile</h2>
+  <Input type="hidden" name="old_image" value={user.image_url} />
+  <input type="hidden" name="old_banner" value={user.banner_url} />
 
-  <div class="bg-white p-6">
+  <div class="flex flex-col gap-4 bg-white p-2">
     <div class="relative mb-[100px] h-[295.61px] self-stretch">
       <label for="banner-upload" class="cursor-pointer">
         <div
@@ -82,59 +76,30 @@
       />
     </div>
 
-    <div class="mt-10 flex w-full flex-col justify-center gap-6 max-md:mt-10 max-md:max-w-full">
-      <div
-        class="flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
-      >
-        <div class="mt-8 flex flex-col">
-          <label for="firstName" class="text-xl font-semibold text-black">Full Name</label>
-        </div>
-        <div class="w-[70%] max-md:w-full">
-          <input
-            type="text"
-            id="firstName"
-            name="name"
-            value={user.display_name}
-            class="mt-2.5 min-h-[70px] w-full rounded-[75px] border-2 border-lime-800 px-4 text-base max-lg:min-h-[55px] max-lg:w-full"
-            aria-required="true"
-          />
-        </div>
+    <div class="mt-4 flex w-full justify-between max-md:flex-col">
+      <Label for="firstName" class="text-base font-semibold">Full Name</Label>
+
+      <div class="w-2/3 max-md:w-full">
+        <Input type="text" id="firstName" name="name" value={user.display_name} required />
       </div>
     </div>
 
-    <div
-      class="flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
-    >
-      <div class="mt-8 flex flex-col">
-        <label for="email" class="text-xl font-semibold text-black">Email</label>
-      </div>
-      <div class="w-[70%] max-md:w-full">
-        <input
-          type="email"
-          id="email"
-          value={user.email}
-          class="mt-2.5 min-h-[70px] w-full rounded-[75px] border-2 border-lime-800 px-4 text-base max-lg:min-h-[55px]"
-          aria-required="true"
-          disabled
-        />
+    <div class="mt-4 flex w-full justify-between max-md:flex-col">
+      <Label for="email" class="text-base font-semibold">Email</Label>
+      <div class="w-2/3 max-md:w-full">
+        <Input type="email" id="email" value={user.email} disabled />
       </div>
     </div>
 
-    <div
-      class="mt-9 flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
-    >
-      <div class="mt-8 flex flex-col">
-        <label for="projectCountry" class="text-xl font-semibold text-black">Country</label>
-      </div>
-      <div class="w-[70%] max-md:w-full">
-        <div
-          class="pr-22 relative flex min-h-[70px] items-center rounded-[75px] border-2 border-lime-800 px-6 py-6 pl-4 max-lg:h-[10px] max-lg:py-2"
-        >
+    <div class="mt-4 flex w-full justify-between max-md:flex-col">
+      <Label for="country" class="text-base font-semibold">Country</Label>
+      <div class="w-2/3 max-md:w-full">
+        <div class="relative">
           <select
             id="country"
             name="country"
             bind:value={user.country}
-            class="w-full border-none bg-transparent pl-4 pr-10 text-base outline-none"
+            class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             aria-label="Select project country"
           >
             <option value="" class="w-full">Select a country</option>
@@ -146,20 +111,10 @@
       </div>
     </div>
 
-    <div
-      class="flex w-full flex-row items-start justify-between max-md:flex-col max-md:items-start"
-    >
-      <div class="mt-8 flex flex-col">
-        <label for="bio" class="text-xl font-semibold text-black">Bio</label>
-      </div>
-      <div class="w-[70%] max-md:w-full">
-        <textarea
-          id="bio"
-          name="bio"
-          value={user.bio}
-          class="mt-2.5 h-[100px] w-full rounded-[31px] border-2 border-lime-800 p-4 text-base"
-          aria-required="true"
-        ></textarea>
+    <div class="mt-4 flex w-full justify-between max-md:flex-col">
+      <Label for="bio" class="text-base font-semibold">Bio</Label>
+      <div class="w-2/3 max-md:w-full">
+        <Textarea id="bio" name="bio" value={user.bio} class="min-h-[100px]" />
       </div>
     </div>
   </div>

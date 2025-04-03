@@ -1,8 +1,11 @@
 <script>
   import { createEventDispatcher, onMount } from 'svelte';
   import GitContributors from '$lib/GitContributors.svelte';
-  import Icon from '@iconify/svelte';
   import { page } from '$app/stores';
+  import { Button } from '$lib/components/ui/button';
+  import { Input } from '$lib/components/ui/input';
+  import { Card } from '$lib/components/ui/card';
+  import Icon from '@iconify/svelte';
 
   const dispatch = createEventDispatcher();
 
@@ -24,57 +27,55 @@
   };
 
   let contributors = [];
+  let searchQuery = '';
 
   $: totalCommits = contributors.reduce((prev, curr) => prev + curr.contributions, 0);
+  $: filteredContributors = contributors.filter((contributor) =>
+    contributor.login.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   onMount(async () => {
     contributors = await fetchContribs();
   });
 </script>
 
- <div class="relative inline-flex h-[1639.94px] flex-col items-start justify-start gap-9 max-md:w-full w-[70%]">
-  <button class="inline-flex items-center gap-1" on:click={goBack}>
-    <div
-      class="flex items-center justify-center gap-1 rounded-[39.71px] border-2 border-[#516027] py-2 pl-1 pr-4"
-    >
-      <Icon icon="material-symbols-light:chevron-left" class="text-2xl" />
-      <span class="text-center font-['Inter'] text-[13px] font-bold leading-[13px] text-[#516027]">
-        Back
-      </span>
-    </div>
-  </button>
-  <div class="flex h-[1567.94px] flex-col items-start justify-start gap-5 self-stretch">
-    <div class="flex items-center self-stretch justify-between max-md:flex-wrap">
-      <div class="w-full font-['Inter'] text-[18px] md:text-[23px] font-semibold leading-7 text-black">
-        All Github Contributors
-      </div>
+<div class="relative flex w-full flex-col items-start gap-6">
+  <Button
+    variant="outline"
+    on:click={goBack}
+    class="flex items-center gap-1 rounded-full border-2 border-[#516027] px-4 py-2 hover:bg-[#f5f8e9]"
+  >
+    <Icon icon="material-symbols-light:chevron-left" class="text-2xl" />
+    <span class="text-sm font-bold text-[#516027]">Back</span>
+  </Button>
 
-      <div class="flex items-center w-full gap-2 md:w-auto">
-        <div
-          class="flex h-9 items-center justify-between rounded-[39.71px] border border-[#e2e2e2] py-2 pl-4 pr-3 w-full md:w-[250px]"
-        >
-          <input
-            type="text"
-            placeholder="Search Contributors"
-            class="border-none text-start font-['Inter'] text-[13px] font-normal leading-tight tracking-tight text-[#a0a0a0] w-full"
-          />
-          <Icon icon="mdi:search" class="text-2xl" />
-        </div>
+  <div class="flex w-full flex-col items-start gap-5">
+    <div class="flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <h2 class="text-xl font-semibold text-black md:text-2xl">All Github Contributors</h2>
+
+      <div class="relative flex w-full items-center md:w-72">
+        <Input
+          bind:value={searchQuery}
+          type="text"
+          placeholder="Search Contributors"
+          class="w-full pl-4 pr-10"
+        />
+        <Icon icon="mdi:search" class="absolute right-3 text-xl text-gray-500" />
       </div>
     </div>
 
-  <div class="relative z-0 grid w-full grid-cols-2 gap-4 mt-5 max-md:grid-cols-1 max-md:place-items-center">
-    {#if contributors && contributors.length > 0}
-    {#each contributors as contributor}
-      <GitContributors {contributor} {totalCommits} />
-    {/each}
-  {:else}
-    <div class="flex items-center justify-center w-full py-8">
-      <p class="text-lg text-gray-500">No contributors found</p>
-    </div>
-  {/if}
-  </div>
+    <Card class="w-full border-0 p-0 shadow-none">
+      <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+        {#if filteredContributors && filteredContributors.length > 0}
+          {#each filteredContributors as contributor}
+            <GitContributors {contributor} {totalCommits} />
+          {/each}
+        {:else}
+          <div class="col-span-2 flex w-full items-center justify-center py-8">
+            <p class="text-gray-500">No contributors found</p>
+          </div>
+        {/if}
+      </div>
+    </Card>
   </div>
 </div>
-
-

@@ -3,6 +3,11 @@
   import Logo from '$lib/Logo.svelte';
   import { toast } from 'svelte-sonner';
 
+  import { Button } from '$lib/components/ui/button';
+  import { Input } from '$lib/components/ui/input';
+  import { Label } from '$lib/components/ui/label';
+  import { Checkbox } from '$lib/components/ui/checkbox';
+
   let loading = false;
   export let form;
 
@@ -34,25 +39,13 @@
     <h2 class="mb-2 text-4xl font-semibold">Sign in</h2>
     <p class="mb-8 opacity-50">Enter your info to sign in</p>
     <div class="flex flex-col gap-2 font-medium">
-      <label for="email" class="block">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        class="w-full rounded-full border border-black px-4 py-2"
-        required
-      />
+      <Label for="email" class="block">Email</Label>
+      <Input type="email" id="email" name="email" required />
     </div>
 
     <div class="mt-6 flex flex-col gap-2 font-medium">
-      <label for="password" class="block">Password</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        class="w-full rounded-full border border-black px-4 py-2"
-        required
-      />
+      <Label for="password" class="block">Password</Label>
+      <Input type="password" id="password" name="password" required />
     </div>
 
     <div class="mt-6 flex w-full flex-wrap items-center justify-between gap-6 text-sm leading-none">
@@ -60,19 +53,15 @@
       <a href="/sign-up" class="font-semibold text-neutral-400 hover:text-[#0b383c]">Sign Up</a>
     </div>
 
-    <button
-      type="submit"
-      class="mt-8 w-full rounded-full bg-teal-900 py-3 font-light text-white disabled:bg-gray-500"
-      disabled={loading}
-    >
+    <Button type="submit" disabled={loading}>
       {loading ? 'Signing in...' : 'Sign in'}
-    </button>
+    </Button>
 
     <div class="mt-6 flex w-full flex-wrap items-center justify-between gap-6 text-sm leading-none">
-      <label class="flex items-center gap-2 font-medium text-black">
-        <input type="checkbox" name="rememberMe" />
+      <Label>
+        <Checkbox id="remember" type="checkbox" name="rememberMe" />
         Remember me
-      </label>
+      </Label>
       <a href="#forgot-password" class="font-semibold text-neutral-400">Forgot Password?</a>
     </div>
   </form>
