@@ -110,13 +110,16 @@
   }
 </script>
 
-<div class="mx-auto mt-8 flex w-full max-w-[1470px] flex-col justify-center gap-6 px-6 md:flex-col lg:flex-row">
-  <aside class="w-full md:mb-0 lg:w-[28%] lg:sticky lg:top-0 lg:self-start">
+<div class="mx-auto mt-8 flex w-full max-w-[1470px] flex-col justify-center gap-6 px-6 md:flex-row">
+  <aside class="mt-[-15px] w-full max-md:overflow-x-auto md:mb-0 md:w-[28%]">
+    <!--Previously, the `flex` container had `space-x-2`, causing the SDGs heading to align horizontally with the ProjectCategory,  
+    leading to unintended horizontal scrolling. This update applies `flex-col` and `space-y-2` to properly stack the heading above  
+    the ProjectCategory component.-->
     <div
-      class="p-4 rounded-md shadow-sm"
-      style="position: sticky; top: 0; height: fit-content;"
-    >
-      <span class="hidden mb-4 md:block">SDGs</span>
+    class="flex flex-col p-4 space-y-2 overflow-x-hidden rounded-md shadow-sm"
+    style="position: sticky; top: 0; height: fit-content;"
+  >
+    <span class="block mb-4 text-xl font-semibold text-gray-800">SDGs</span>
       <Accordion type="single" value="sdgs" collapsible>
         <AccordionItem value="sdgs">
           <AccordionTrigger class="no-underline hover:no-underline focus:no-underline">
