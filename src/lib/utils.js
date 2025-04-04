@@ -2,6 +2,8 @@ import { writable } from 'svelte/store';
 import { onMount } from 'svelte';
 import { fly } from 'svelte/transition';
 import { cubicOut } from 'svelte/easing';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function clickOutside(node, callback) {
   const handleClick = (event) => {
@@ -16,9 +18,15 @@ export function clickOutside(node, callback) {
   });
 }
 
-export function cn(...classes) {
-  return classes.filter(Boolean).join(' ');
+// export function cn(...classes) {
+//   return classes.filter(Boolean).join(' ');
+// }
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
 }
+
+
 
 export function flyAndScale(
   node,

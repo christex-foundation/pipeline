@@ -4,7 +4,6 @@
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
   import { browser } from '$app/environment';
-  import { goto } from '$app/navigation';
 
   let Dialog;
   let DialogContent;
@@ -87,11 +86,11 @@
 </script>
 
 {#if clientSideLoaded && Dialog && DialogContent && DialogHeader && $searchBarOpen}
-  <div class="fixed inset-0 z-10 bg-black/30 backdrop-blur-sm"></div>
+  <div class="fixed inset-0 z-[200000] bg-black/30 backdrop-blur-sm"></div>
   <svelte:component this={Dialog} bind:open={$searchBarOpen}>
     <svelte:component
       this={DialogContent}
-      class="mb-[30vh] w-full max-w-2xl border-cyan-800 !bg-[#0b383c] p-0"
+      class="z-[200001] mb-[30vh] w-full max-w-2xl border-cyan-800 !bg-[#0b383c] p-0"
     >
       <div class="p-6 border-b border-cyan-800">
         <div class="relative">
@@ -124,19 +123,6 @@
           <ul class="divide-y divide-cyan-800">
             {#each searchResults as project (project.id)}
               <li class="px-6 py-4 cursor-pointer hover:bg-cyan-900">
-                <div class="font-semibold text-[#d1ea9a]">
-                  <a href="/project/{project.id}">{project.title}</a>
-                </div>
-                <div class="text-sm text-white/70">{project.bio}</div>
-              </li>
-            {/each}
-<li class="px-6 py-4 cursor-pointer hover:bg-cyan-900">
-  <a href="/project/{project.id}" class="block">
-    <div class="font-semibold text-[#d1ea9a]">{project.title}</div>
-    <div class="text-sm text-white/70">{project.bio}</div>
-  </a>
-</li>
-              <li class="px-6 py-4 cursor-pointer hover:bg-cyan-900">
                 <div
                   on:click={() => handleProjectClick(project.id)}
                   on:keydown={(e) => e.key === 'Enter' && handleProjectClick(project.id)}
@@ -161,7 +147,7 @@
   <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
   <div
     transition:fade={{ duration: 200 }}
-    class="fixed inset-0 z-[100000] flex items-center justify-center !bg-black/70 p-4 !backdrop-blur-sm"
+    class="fixed inset-0 z-[200000] flex items-center justify-center !bg-black/70 p-4 !backdrop-blur-sm"
     on:click|self={closeModal}
     on:keydown={handleKeydown}
     role="dialog"
@@ -171,7 +157,7 @@
   >
     <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
     <div
-      class="mb-[30vh] w-full max-w-2xl overflow-hidden rounded-xl bg-[#0b383c] shadow-2xl"
+      class="z-[200001] mb-[30vh] w-full max-w-2xl overflow-hidden rounded-xl bg-[#0b383c] shadow-2xl"
       on:click|stopPropagation
       on:keydown={handleKeydown}
       role="document"

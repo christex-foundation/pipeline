@@ -23,6 +23,7 @@
   }
 
   function toggleMobileMenu() {
+    console.log('toggleMobileMenu');
     isMobileMenuOpen = !isMobileMenuOpen;
     if (!isMobileMenuOpen) {
       isResourcesOpen = false;
@@ -35,11 +36,6 @@
     if (isSearchModalOpen) {
       document.addEventListener('click', handleClickOutside);
     }
-
-    document.addEventListener('click', closeResources);
-    return () => {
-      document.removeEventListener('click', closeResources);
-    };
   });
 
   export let data = {
@@ -59,28 +55,28 @@
     <Button
       on:click={toggleMobileMenu}
       class="text-white focus:outline-none lg:hidden"
-      aria-label="Toggle mobile menu"
+      aria-label="Toggle mobile menu" variant="outline"
     >
       {#if isMobileMenuOpen}
         <Icon icon="mdi:close" class="text-2xl" />
       {:else}
         <Icon icon="mdi:hamburger-menu" class="text-2xl" />
       {/if}
-    </Button>
+  </Button>
   </div>
 
   <div class="hidden w-full max-w-[480px] items-center justify-center lg:flex">
     <div
       class="align-center flex w-full items-center justify-between rounded-[48.77px] bg-[#115d5b] pl-4 pr-3"
     >
-      <button
+      <Button
         type="button"
         class="flex items-center justify-between w-full p-2"
         on:click={() => ($searchBarOpen = !$searchBarOpen)}
       >
         <span class="text-sm text-white/50">Search for a project....</span>
         <Icon icon="mdi:search" class="text-2xl text-white/50" />
-      </button>
+      </Button>
     </div>
   </div>
 

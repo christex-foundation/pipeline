@@ -5,7 +5,7 @@
   import { Card } from '$lib/components/ui/card';
 </script>
 
-<Card class="border border-gray-200 p-6 shadow-lg">
+<Card class="p-6 mb-2 border border-gray-200 shadow-lg">
   <h3 class="mb-2 text-2xl font-semibold">Step {number}: {title}</h3>
   <p class="text-gray-600">{description}</p>
 </Card>

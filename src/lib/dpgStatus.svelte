@@ -10,7 +10,9 @@
   import { Checkbox } from '$lib/components/ui/checkbox';
 
   export let project;
+  console.log('project/dpgstatus', project)
   $: dpgStatuses = project.dpgStatus?.status;
+ 
 
   let checkedItems = new Set();
 </script>
@@ -29,15 +31,15 @@
         >
           <AccordionTrigger class="px-3 py-3 hover:bg-gray-50 hover:no-underline">
             <div class="flex items-center gap-2">
-              <div class="pointer-events-none flex">
+              <div class="flex pointer-events-none">
                 <Checkbox
                   checked={item.overallScore === 1 || checkedItems.has(item.name)}
                   class={item.overallScore === 1
-                    ? 'border-green-500 bg-green-500 data-[state=checked]:border-green-500 data-[state=checked]:bg-green-500'
+                    ? 'border-green-500 bg-lime-00 data-[state=checked]:border-green-500 data-[state=checked]:bg-green-500'
                     : 'border-gray-400 bg-white data-[state=checked]:border-gray-400 data-[state=checked]:bg-white'}
                 >
                   {#if item.overallScore === 1 || checkedItems.has(item.name)}
-                    <Check class="h-4 w-4 text-white" />
+                    <Check class="w-4 h-4 text-white" />
                   {/if}
                 </Checkbox>
               </div>
@@ -45,7 +47,7 @@
             </div>
           </AccordionTrigger>
           <AccordionContent class="p-4 pt-0 text-black">
-            <div class="mb-2 flex items-center gap-1">
+            <div class="flex items-center gap-1 mb-2">
               <div class="font-['Inter'] text-sm font-semibold leading-normal text-[#8a8a8a]">
                 Verdict
               </div>
@@ -55,7 +57,16 @@
           </AccordionContent>
         </AccordionItem>
       {/each}
-      <p>{project.dpgStatus.final_recommendation}</p>
+      <div class="mt-4 rounded-md border border-[#c9c9c9] p-4">
+        <div class="flex items-center gap-2 mb-3">
+          <Icon icon="mdi:star-check" class="text-xl text-green-500"></Icon>
+          <h3 class="font-['Inter'] text-lg font-semibold text-black">Final Recommendation</h3>
+        </div>
+        
+        <div class="p-3 rounded-md bg-gray-50">
+          <p class="font-['Inter'] text-sm leading-relaxed text-black">{project.dpgStatus.final_recommendation}</p>
+        </div>
+      </div>
     </Accordion>
   {:else}
     <h2 class="mb-4 text-start font-['Inter'] text-2xl font-semibold text-black">

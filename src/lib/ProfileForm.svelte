@@ -5,8 +5,16 @@
   import { Button } from '$lib/components/ui/button';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
-  import { Checkbox } from '$lib/components/ui/checkbox';
   import { Textarea } from '$lib/components/ui/textarea';
+  import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+  } from '$lib/components/ui/command';
+  import { Popover, PopoverContent, PopoverTrigger } from '$lib/components/ui/popover';
+  import Icon from '@iconify/svelte';
 
   const countryList = Object.values(countries).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -94,20 +102,44 @@
     <div class="mt-4 flex w-full justify-between max-md:flex-col">
       <Label for="country" class="text-base font-semibold">Country</Label>
       <div class="w-2/3 max-md:w-full">
-        <div class="relative">
-          <select
-            id="country"
-            name="country"
-            bind:value={user.country}
-            class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            aria-label="Select project country"
-          >
-            <option value="" class="w-full">Select a country</option>
-            {#each countryList as countryOption}
-              <option value={countryOption.name}>{countryOption.name}</option>
-            {/each}
-          </select>
-        </div>
+        <Popover>
+          <PopoverTrigger class="w-full">
+            <Button
+              variant="outline"
+              class="flex w-full justify-between !rounded-[25px] border !border-black px-3 py-2 text-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              aria-label="Select project country"
+            >
+              {user.country || 'Select a country'}
+              <Icon
+                icon="lucide:chevrons-up-down"
+                class="h-4 w-4 shrink-0 opacity-50"
+              />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent class="w-[var(--radix-popover-trigger-width)] p-0">
+            <Command>
+              <CommandInput placeholder="Search country..." />
+              <CommandEmpty>No country found.</CommandEmpty>
+              <CommandGroup class="max-h-60 overflow-auto">
+                {#each countryList as countryOption}
+                  <CommandItem 
+                    value={countryOption.name}
+                    onSelect={() => {
+                      user.country = countryOption.name;
+                    }}
+                  >
+                    {#if user.country === countryOption.name}
+                      <Icon icon="mdi:check" class="mr-2 h-4 w-4" />
+                    {:else}
+                      <div class="mr-2 h-4 w-4"></div>
+                    {/if}
+                    {countryOption.name}
+                  </CommandItem>
+                {/each}
+              </CommandGroup>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
 

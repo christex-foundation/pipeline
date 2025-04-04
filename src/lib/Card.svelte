@@ -43,7 +43,7 @@
   }
 </script>
 
-<Card class="flex h-full flex-col overflow-hidden rounded-3xl bg-gray-200">
+<Card class="flex flex-col overflow-hidden bg-gray-200 rounded-3xl" style="height: 500px;">
   <CardHeader class="relative p-0 pt-[75%]">
     <a href="/project/{project.id}" class="absolute inset-0 flex items-center justify-center">
       <div class="h-[90%] w-[95%] overflow-hidden rounded-3xl">
@@ -51,15 +51,15 @@
           loading="lazy"
           src={getImageLink()}
           alt={project.title}
-          class="h-full w-full object-cover"
+          class="object-cover w-full h-full"
         />
       </div>
     </a>
   </CardHeader>
 
-  <CardContent class="flex flex-grow flex-col justify-between p-4">
+  <CardContent class="flex flex-col flex-grow p-4">
     <div>
-      <div class="mb-2 flex items-center justify-between gap-2">
+      <div class="flex items-center justify-between gap-2 mb-2">
         <a href="/project/{project.id}">
           <h2 class="text-xl font-semibold text-black">{truncateText(project.title)}</h2>
         </a>
@@ -81,11 +81,11 @@
         raised of
         <span class="text-sm font-semibold">${amountFormat(project.funding_goal || 0)}</span>
       </div>
-      <Progress value={(project.current_funding / project.funding_goal) * 100} class="mt-2 h-2" />
+      <Progress value={(project.current_funding / project.funding_goal) * 100} class="h-2 mt-2" />
     </div>
   </CardContent>
 
-  <CardFooter class="flex justify-center p-4">
+  <CardFooter class="p-4">
     <ContributeButton {project} />
   </CardFooter>
 </Card>
