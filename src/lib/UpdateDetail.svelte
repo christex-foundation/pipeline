@@ -142,7 +142,7 @@
     </div>
 
     <div class="flex flex-col items-start justify-start gap-8 self-stretch pb-2">
-      <div class="self-stretch text-base font-normal leading-7 text-gray-900">
+      <div class="self-stretch text-base leading-7 font-normal text-gray-900">
         {@html selectedUpdate.body}
       </div>
     </div>
@@ -150,7 +150,7 @@
 
   <div class="flex flex-col items-start justify-start gap-4 self-stretch pt-10">
     <div class="flex h-5 flex-col items-start justify-start self-stretch">
-      <div class="self-stretch text-base font-bold leading-tight text-gray-900">
+      <div class="self-stretch text-base leading-tight font-bold text-gray-900">
         Comments ({comments.length})
       </div>
     </div>
@@ -222,7 +222,7 @@
         </div>
       </div>
     {:else}
-      <p class="italic text-gray-500">No comments yet</p>
+      <p class="text-gray-500 italic">No comments yet</p>
     {/if}
   </div>
 </div>

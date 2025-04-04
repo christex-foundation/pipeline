@@ -40,7 +40,7 @@
 
         <section class="mt-20 flex w-full flex-col max-md:mt-10 max-md:max-w-full">
           <div
-            class="flex min-h-[49px] w-full items-center gap-1 border-b border-black py-3.5 pl-4 pr-5 max-md:max-w-full max-md:pr-5"
+            class="flex min-h-[49px] w-full items-center gap-1 border-b border-black py-3.5 pr-5 pl-4 max-md:max-w-full max-md:pr-5"
           >
             <div
               class="my-auto flex w-[551px] min-w-[240px] flex-wrap items-center justify-between gap-10 self-stretch"

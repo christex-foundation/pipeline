@@ -11,7 +11,7 @@
 <div class="relative">
   <Dialog open={$modalOpen} onOpenChange={closeModal}>
     <DialogContent
-      class="fixed left-[50%] top-[50%] z-50 !flex !max-w-[678px] translate-x-[-50%] translate-y-[-50%] flex-col items-center overflow-hidden !rounded-[53px] border-0 bg-teal-600 p-0 px-20 !pb-14 !pt-24 !text-center font-semibold leading-none text-white max-md:px-5"
+      class="fixed top-[50%] left-[50%] z-50 !flex !max-w-[678px] translate-x-[-50%] translate-y-[-50%] flex-col items-center overflow-hidden !rounded-[53px] border-0 bg-teal-600 p-0 px-20 !pt-24 !pb-14 !text-center leading-none font-semibold text-white max-md:px-5"
     >
       <img
         loading="lazy"

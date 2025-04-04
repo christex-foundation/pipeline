@@ -1,4 +1,4 @@
- <script>
+<script>
   import { onMount } from 'svelte';
   import { countries } from 'countries-list';
   import Icon from '@iconify/svelte';
@@ -96,10 +96,7 @@
   });
 </script>
 
-
-<section
-  class="flex w-full max-w-[1235px] flex-col self-center bg-white p-6 md:p-10"
->
+<section class="flex w-full max-w-[1235px] flex-col self-center bg-white p-6 md:p-10">
   <div class="flex w-full flex-col">
     <div class="flex w-full flex-col">
       <div class="flex w-full flex-col items-start leading-none">
@@ -111,11 +108,10 @@
         </div>
       </div>
 
-      <div class="relative mb-24 h-[200px] md:h-[295.61px] self-stretch">
-  
+      <div class="relative mb-24 h-[200px] self-stretch md:h-[295.61px]">
         <Label for="banner-upload" class="cursor-pointer">
           <div
-            class="flex h-full w-full items-center justify-center overflow-hidden rounded-3xl md:rounded-[37.69px] bg-[#d9d9d9]"
+            class="flex h-full w-full items-center justify-center overflow-hidden rounded-3xl bg-[#d9d9d9] md:rounded-[37.69px]"
           >
             {#if ProjectBannerImage}
               <img src={ProjectBannerImage} alt="Banner" class="h-full w-full object-cover" />
@@ -133,10 +129,9 @@
           on:change={handleBannerUpload}
         />
 
-
         <Label for="profile-upload" class="cursor-pointer">
           <div
-            class="absolute -bottom-16 left-4 md:bottom-[-92.6px] md:left-[46.69px] flex h-32 w-32 md:h-[185.19px] md:w-[185.19px] items-center justify-center overflow-hidden rounded-full border-4 md:border-8 border-white bg-[#d9d9d9]"
+            class="absolute -bottom-16 left-4 flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#d9d9d9] md:bottom-[-92.6px] md:left-[46.69px] md:h-[185.19px] md:w-[185.19px] md:border-8"
           >
             {#if ProjectProfileImage}
               <img
@@ -160,9 +155,7 @@
       </div>
     </div>
 
-  
     <div class="flex w-full flex-col gap-6 md:gap-9">
-  
       <div class="flex flex-col md:flex-row md:items-start md:justify-between md:max-lg:flex-col">
         <div class="md:w-[45%] md:max-lg:w-full">
           <Label for="projectTitle" class="text-base font-semibold text-black">Project title</Label>
@@ -189,7 +182,6 @@
         </div>
       </div>
 
-
       <div class="flex flex-col md:flex-row md:items-start md:justify-between md:max-lg:flex-col">
         <div class="md:w-[45% md:max-lg:w-full]">
           <Label for="projectTags" class="text-base font-semibold text-black">Project tags</Label>
@@ -198,7 +190,9 @@
           </p>
         </div>
         <div class="mt-4 md:mt-0 md:w-[50%] md:max-lg:w-full">
-          <div class="flex min-h-[50px] flex-wrap items-center rounded-3xl border-2 border-lime-800 bg-white px-4 py-3 md:px-6">
+          <div
+            class="flex min-h-[50px] flex-wrap items-center rounded-3xl border-2 border-lime-800 bg-white px-4 py-3 md:px-6"
+          >
             <div class="flex flex-grow flex-wrap items-center gap-2 pr-8">
               {#each selectedTags as tag}
                 <span class="flex items-center rounded-full bg-lime-200 px-3 py-1 text-lime-800">
@@ -221,21 +215,25 @@
               />
               <input type="hidden" name="tags" value={JSON.stringify(selectedTags)} />
             </div>
-            
+
             <Popover bind:open={isOpen}>
               <PopoverTrigger>
                 <button
-                  class="absolute right-4 top-1/2 -translate-y-1/2 transform focus:outline-none"
+                  class="absolute top-1/2 right-4 -translate-y-1/2 transform focus:outline-none"
                   aria-label="Toggle tag dropdown"
                 >
                   <img
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/5884aaa40d84100252b9385acefd99519ea142223ddf8cccbdc39ac10099df1f?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
                     alt="Dropdown arrow"
-                    class="h-5 w-5 object-contain transition-transform duration-200 {isOpen ? 'rotate-180' : ''}"
+                    class="h-5 w-5 object-contain transition-transform duration-200 {isOpen
+                      ? 'rotate-180'
+                      : ''}"
                   />
                 </button>
               </PopoverTrigger>
-              <PopoverContent class="p-0 w-[var(--radix-popover-trigger-width)] rounded-md border border-gray-300 bg-white shadow-lg">
+              <PopoverContent
+                class="w-[var(--radix-popover-trigger-width)] rounded-md border border-gray-300 bg-white p-0 shadow-lg"
+              >
                 <div class="max-h-60 overflow-auto">
                   {#each filteredTags as tag}
                     <button
@@ -252,7 +250,6 @@
         </div>
       </div>
 
-  
       <div class="flex flex-col md:flex-row md:items-start md:justify-between md:max-lg:flex-col">
         <div class="md:w-[40%] md:max-lg:w-full">
           <Label for="projectCountry" class="text-base font-semibold text-black">Country</Label>
@@ -265,10 +262,10 @@
             <PopoverTrigger class="w-full">
               <Button
                 variant="outline"
-                class="flex h-[50px] w-full items-center justify-between rounded-[75px] border-2 border-lime-800 bg-transparent pl-4 pr-3 hover:bg-transparent"
+                class="flex h-[50px] w-full items-center justify-between rounded-[75px] border-2 border-lime-800 bg-transparent pr-3 pl-4 hover:bg-transparent"
               >
                 <span>
-                  {project.country || "--- Select a country ---"}
+                  {project.country || '--- Select a country ---'}
                 </span>
                 <Icon icon="radix-icons:caret-down" class="text-2xl" />
               </Button>
@@ -279,7 +276,7 @@
                 <CommandEmpty>No country found.</CommandEmpty>
                 <CommandGroup class="max-h-60 overflow-auto">
                   {#each countryList as countryOption (countryOption.name)}
-                    <CommandItem 
+                    <CommandItem
                       value={countryOption.name}
                       onSelect={() => {
                         project.country = countryOption.name;
@@ -300,7 +297,6 @@
         </div>
       </div>
 
-  
       <div class="flex flex-col md:flex-row md:items-start md:justify-between md:max-lg:flex-col">
         <div class="md:w-[45%] md:max-lg:w-full">
           <Label for="projectDetails" class="text-base font-semibold text-black">

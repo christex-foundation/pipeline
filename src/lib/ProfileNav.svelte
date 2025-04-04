@@ -18,7 +18,7 @@
 </script>
 
 <nav
-  class="flex w-full flex-wrap items-center justify-between gap-10 whitespace-nowrap text-3xl max-md:max-w-full"
+  class="flex w-full flex-wrap items-center justify-between gap-10 text-3xl whitespace-nowrap max-md:max-w-full"
 >
   {#each navSections as section (section.id)}
     <a

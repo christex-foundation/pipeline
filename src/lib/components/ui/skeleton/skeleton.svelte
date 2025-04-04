@@ -5,4 +5,4 @@
   export { className as class };
 </script>
 
-<div class={cn('animate-pulse rounded-md bg-muted', className)} {...$$restProps}></div>
+<div class={cn('bg-muted animate-pulse rounded-md', className)} {...$$restProps}></div>

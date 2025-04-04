@@ -106,14 +106,11 @@
           <PopoverTrigger class="w-full">
             <Button
               variant="outline"
-              class="flex w-full justify-between !rounded-[25px] border !border-black px-3 py-2 text-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              class="focus-visible:ring-ring flex w-full justify-between !rounded-[25px] border !border-black px-3 py-2 text-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
               aria-label="Select project country"
             >
               {user.country || 'Select a country'}
-              <Icon
-                icon="lucide:chevrons-up-down"
-                class="h-4 w-4 shrink-0 opacity-50"
-              />
+              <Icon icon="lucide:chevrons-up-down" class="h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
           <PopoverContent class="w-[var(--radix-popover-trigger-width)] p-0">
@@ -122,7 +119,7 @@
               <CommandEmpty>No country found.</CommandEmpty>
               <CommandGroup class="max-h-60 overflow-auto">
                 {#each countryList as countryOption}
-                  <CommandItem 
+                  <CommandItem
                     value={countryOption.name}
                     onSelect={() => {
                       user.country = countryOption.name;

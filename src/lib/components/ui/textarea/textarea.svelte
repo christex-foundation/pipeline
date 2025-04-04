@@ -10,7 +10,7 @@
 
 <textarea
   class={cn(
-    'flex min-h-[80px] w-full rounded-[31px] border-2 border-lime-800 bg-background px-4 py-4 text-sm placeholder:text-muted-foreground  disabled:cursor-not-allowed disabled:opacity-50',
+    'bg-background placeholder:text-muted-foreground flex min-h-[80px] w-full rounded-[31px] border-2 border-lime-800 px-4 py-4 text-sm  disabled:cursor-not-allowed disabled:opacity-50',
     className,
   )}
   bind:value

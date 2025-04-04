@@ -23,7 +23,7 @@
 
 <div class="flex w-full items-start justify-center">
   <div
-    class="mx-auto grid w-[90%] justify-center space-y-4 md:flex md:flex-row md:space-x-4 md:space-y-0"
+    class="mx-auto grid w-[90%] justify-center space-y-4 md:flex md:flex-row md:space-y-0 md:space-x-4"
   >
     <div class="h-max px-5 md:sticky md:w-1/3 md:px-0">
       <section class="mt-10 flex w-full max-w-[505px] flex-col max-md:mt-10 max-md:max-w-full">
@@ -53,7 +53,7 @@
           class="flex w-full flex-wrap items-center justify-between gap-4 text-black max-md:max-w-full"
         >
           <h2
-            class="my-auto mt-20 self-stretch text-3xl font-semibold leading-none max-md:text-4xl"
+            class="my-auto mt-20 self-stretch text-3xl leading-none font-semibold max-md:text-4xl"
           >
             {user?.display_name || ''}
           </h2>
@@ -68,14 +68,14 @@
           </div>
         </div>
 
-        <p class="mt-11 text-2xl font-light leading-9 text-black max-md:mt-10 max-md:max-w-full">
+        <p class="mt-11 text-2xl leading-9 font-light text-black max-md:mt-10 max-md:max-w-full">
           {user?.bio || ''}
         </p>
         <div
           class="mt-11 flex w-full flex-wrap items-center justify-between gap-4 max-md:mt-10 max-md:max-w-full"
         ></div>
         <div
-          class="mt-11 flex w-full flex-wrap items-center justify-around gap-2 text-2xl font-medium leading-none max-md:mt-10 max-md:max-w-full"
+          class="mt-11 flex w-full flex-wrap items-center justify-around gap-2 text-2xl leading-none font-medium max-md:mt-10 max-md:max-w-full"
         >
           <a href="/project/create" class="max-w-xs flex-1 md:max-w-sm">
             <Button

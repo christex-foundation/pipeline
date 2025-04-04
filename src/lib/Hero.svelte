@@ -3,14 +3,14 @@
 </script>
 
 <section
-  class="mb-0 mt-44 flex flex-wrap items-center gap-10 self-center max-md:mb-2.5 max-md:mt-10 max-md:max-w-full"
+  class="mt-44 mb-0 flex flex-wrap items-center gap-10 self-center max-md:mt-10 max-md:mb-2.5 max-md:max-w-full"
 >
   <div
     class="my-auto flex w-[583px] min-w-[240px] flex-col justify-center self-stretch max-md:max-w-full"
   >
     <div class="flex w-full flex-col max-md:max-w-full">
       <h1
-        class="text-7xl font-semibold leading-[94px] text-white max-md:max-w-full max-md:text-4xl max-md:leading-[50px] max-sm:ml-2"
+        class="text-7xl leading-[94px] font-semibold text-white max-md:max-w-full max-md:text-4xl max-md:leading-[50px] max-sm:ml-2"
       >
         Building a <br />Better<br /><span class="text-lime-300">Digital Future</span>
       </h1>

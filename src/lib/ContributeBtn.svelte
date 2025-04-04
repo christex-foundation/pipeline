@@ -21,9 +21,9 @@
 </script>
 
 <div class="my-8 flex w-full justify-center">
-  <div class="w-[15%] min-w-[300px] max-w-[800px]">
+  <div class="w-[15%] max-w-[800px] min-w-[300px]">
     <div
-      class="flex flex-wrap items-center gap-5 whitespace-nowrap border-[3px] border-solid p-2 text-center text-2xl font-semibold leading-none {borderColor} rounded-[85px] max-md:text-3xl"
+      class="flex flex-wrap items-center gap-5 border-[3px] border-solid p-2 text-center text-2xl leading-none font-semibold whitespace-nowrap {borderColor} rounded-[85px] max-md:text-3xl"
     >
       {#each buttons as button, index}
         <a

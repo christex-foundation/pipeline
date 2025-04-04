@@ -42,7 +42,7 @@
 
 <div class="mb-10 w-full bg-[#d1ea9a]/90 py-16">
   <div class="mx-auto max-w-4xl text-center">
-    <h1 class="font-['Inter'] text-[45.43px] font-semibold leading-[54.51px] text-[#08292c]">
+    <h1 class="font-['Inter'] text-[45.43px] leading-[54.51px] font-semibold text-[#08292c]">
       Create a Project
     </h1>
   </div>
@@ -99,7 +99,7 @@
 
             <div class="flex w-2/3 flex-col">
               <Input type="url" id="github" name="github" />
-              <p class="ml-5 mt-1 text-sm text-gray-600 max-md:w-[100%]">
+              <p class="mt-1 ml-5 text-sm text-gray-600 max-md:w-[100%]">
                 Follow <a
                   href="https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks"
                   target="_blank"

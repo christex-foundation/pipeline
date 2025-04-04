@@ -4,7 +4,7 @@
 
 <div class="mx-auto flex max-w-7xl flex-col items-center px-4 py-16 sm:px-6 lg:px-8">
   <h2
-    class="mb-16 text-center text-4xl font-semibold leading-tight text-black sm:text-5xl lg:text-7xl"
+    class="mb-16 text-center text-4xl leading-tight font-semibold text-black sm:text-5xl lg:text-7xl"
   >
     <span class="block text-3xl sm:text-4xl lg:text-6xl">How</span>
     <span class="text-4xl sm:text-5xl lg:text-7xl">Pipeline Works?</span>
@@ -20,7 +20,7 @@
       </div>
       <div class="w-full space-y-4 lg:w-1/2">
         <h3
-          class="font-['PP Mori'] text-3xl font-semibold leading-tight text-black sm:text-4xl lg:text-[50px]"
+          class="font-['PP Mori'] text-3xl leading-tight font-semibold text-black sm:text-4xl lg:text-[50px]"
         >
           Submit and Discover<br />DPG Ideas
         </h3>
@@ -41,7 +41,7 @@
       </div>
       <div class="w-full space-y-4 lg:w-1/2">
         <h3
-          class="font-['PP Mori'] text-3xl font-semibold leading-tight text-black sm:text-4xl lg:text-5xl"
+          class="font-['PP Mori'] text-3xl leading-tight font-semibold text-black sm:text-4xl lg:text-5xl"
         >
           Meet Criteria for<br />DPG Registry
         </h3>
@@ -62,7 +62,7 @@
       </div>
       <div class="w-full space-y-4 lg:w-1/2">
         <h3
-          class="font-['PP Mori'] text-3xl font-semibold leading-tight text-black sm:text-4xl lg:text-5xl"
+          class="font-['PP Mori'] text-3xl leading-tight font-semibold text-black sm:text-4xl lg:text-5xl"
         >
           Get Support to Bring Your DPG Ideas to Life
         </h3>
@@ -75,6 +75,6 @@
   </div>
 </div>
 
-<div class="mx-auto mb-16 mt-8 flex max-w-4xl justify-center text-center max-sm:w-[300px]">
+<div class="mx-auto mt-8 mb-16 flex max-w-4xl justify-center text-center max-sm:w-[300px]">
   <LearnMoreButton />
 </div>

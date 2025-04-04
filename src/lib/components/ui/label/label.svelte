@@ -10,7 +10,7 @@
 <label
   for={for_id}
   class={cn(
-    'flex items-center gap-2 text-sm font-medium leading-none text-black peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+    'flex items-center gap-2 text-sm leading-none font-medium text-black peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
     className,
   )}
   {...$$restProps}

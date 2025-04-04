@@ -39,8 +39,8 @@
 </script>
 
 <Card class="mb-4 w-full bg-white p-0">
-  <CardHeader class="px-4 pb-0 pt-4 md:px-9 md:pt-9">
-    <CardTitle class="text-2xl font-bold leading-tight text-[#282828] md:text-[32px] md:leading-10">
+  <CardHeader class="px-4 pt-4 pb-0 md:px-9 md:pt-9">
+    <CardTitle class="text-2xl leading-tight font-bold text-[#282828] md:text-[32px] md:leading-10">
       {update.title}
     </CardTitle>
   </CardHeader>
@@ -63,7 +63,7 @@
         <div class="inline-flex w-full flex-col justify-between">
           <div class="inline-flex items-center gap-2 self-stretch">
             <div
-              class="max-w-[200px] truncate text-sm font-normal leading-normal text-[#282828] md:max-w-none"
+              class="max-w-[200px] truncate text-sm leading-normal font-normal text-[#282828] md:max-w-none"
             >
               {update.userProfile.name}
             </div>
@@ -73,7 +73,7 @@
               {update.user_id === update.userProfile.user_id ? 'Creator' : 'Member'}
             </Badge>
           </div>
-          <div class="text-[13px] font-normal leading-[18px] text-[#282828]/50">
+          <div class="text-[13px] leading-[18px] font-normal text-[#282828]/50">
             {date}
           </div>
         </div>
@@ -82,18 +82,18 @@
 
     <div class="mt-2 flex flex-col items-start justify-start gap-1 self-stretch">
       <div class="flex flex-col items-start justify-start gap-[30px] self-stretch pb-2">
-        <div class="self-stretch text-base font-normal leading-relaxed text-[#282828]">
+        <div class="self-stretch text-base leading-relaxed font-normal text-[#282828]">
           {@html truncatedContent}
         </div>
       </div>
     </div>
   </CardContent>
 
-  <CardFooter class="flex justify-between px-4 pb-4 pt-0 md:px-9 md:pb-9">
+  <CardFooter class="flex justify-between px-4 pt-0 pb-4 md:px-9 md:pb-9">
     <div class="flex items-center justify-start gap-6">
       <div class="flex items-center justify-start gap-2">
         <Icon icon="mdi:chat-outline" class="text-2xl text-[#8C8C8C]" />
-        <div class="text-sm font-normal leading-normal text-[#9b9e9e]">0</div>
+        <div class="text-sm leading-normal font-normal text-[#9b9e9e]">0</div>
       </div>
     </div>
 

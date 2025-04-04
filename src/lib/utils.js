@@ -26,8 +26,6 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-
-
 export function flyAndScale(
   node,
   { duration = 150, y = 5, x = 0, start = 0.95, opacity = 0 } = {},

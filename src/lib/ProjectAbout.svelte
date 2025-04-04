@@ -6,9 +6,9 @@
   $: date = timeAgo(project.updated_at);
 </script>
 
-<article class="flex flex-col w-full mb-10">
+<article class="mb-10 flex w-full flex-col">
   <div class="flex items-baseline justify-between whitespace-nowrap max-md:gap-4">
-    <h2 class="text-2xl font-semibold leading-none text-black max-md:max-w-full">About Project</h2>
+    <h2 class="text-2xl leading-none font-semibold text-black max-md:max-w-full">About Project</h2>
 
     {#if project.updated_at}
       <p class="mt-1 max-md:text-xs">Last modified: {date}</p>

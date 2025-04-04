@@ -31,11 +31,11 @@
 </script>
 
 <section class="mx-auto mt-16 flex w-[1028px] max-w-full flex-col items-center px-4 max-md:mt-10">
-  <h2 class="mb-8 text-center text-5xl font-semibold leading-none text-black max-md:text-4xl">
+  <h2 class="mb-8 text-center text-5xl leading-none font-semibold text-black max-md:text-4xl">
     Examples
   </h2>
   <div
-    class="flex w-full flex-wrap items-start justify-center gap-16 text-3xl font-thin leading-8 text-black max-md:max-w-full"
+    class="flex w-full flex-wrap items-start justify-center gap-16 text-3xl leading-8 font-thin text-black max-md:max-w-full"
   >
     {#each examples as example}
       <ExampleItem {...example} />

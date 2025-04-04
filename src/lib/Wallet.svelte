@@ -18,7 +18,7 @@
 </script>
 
 <main
-  class="flex flex-col items-center overflow-hidden bg-white px-4 pb-[20px] pt-14 text-center leading-none max-md:mt-[-80px] sm:px-6"
+  class="flex flex-col items-center overflow-hidden bg-white px-4 pt-14 pb-[20px] text-center leading-none max-md:mt-[-80px] sm:px-6"
 >
   <section class="flex w-full max-w-full flex-col items-center sm:max-w-[1034px]">
     <div class="mt-20 flex w-full flex-col self-stretch">
@@ -40,7 +40,7 @@
         <Input
           type="text"
           id="amount"
-          class="mt-8 w-full gap-1.5 self-stretch rounded-full border-2 border-black py-4 pl-7 pr-16 text-3xl font-thin focus-visible:ring-0 focus-visible:ring-offset-0 max-md:h-[50px] sm:max-w-full sm:px-5 sm:text-lg"
+          class="mt-8 w-full gap-1.5 self-stretch rounded-full border-2 border-black py-4 pr-16 pl-7 text-3xl font-thin focus-visible:ring-0 focus-visible:ring-offset-0 max-md:h-[50px] sm:max-w-full sm:px-5 sm:text-lg"
           placeholder="$ USDC"
         />
       </div>
@@ -57,7 +57,7 @@
 </main>
 
 {#if $modalOpen}
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
     <div class="rounded-lg p-4">
       <WalletPopup {projectName} {totalAmount} />
     </div>

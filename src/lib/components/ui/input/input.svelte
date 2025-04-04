@@ -10,7 +10,7 @@
 
 <input
   class={cn(
-    'w-full rounded-full border border-black bg-background px-4 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+    'bg-background ring-offset-background placeholder:text-muted-foreground w-full rounded-full border border-black px-4 py-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
     className,
   )}
   bind:value

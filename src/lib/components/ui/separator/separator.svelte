@@ -10,7 +10,7 @@
 
 <SeparatorPrimitive.Root
   class={cn(
-    'shrink-0 bg-border',
+    'bg-border shrink-0',
     orientation === 'horizontal' ? 'h-[1px] w-full' : 'min-h-full w-[1px]',
     className,
   )}

@@ -83,7 +83,7 @@
   <section class="mx-auto mb-12 w-4/5 max-w-6xl max-lg:mb-2">
     <div
       class="mx-auto mt-5 flex items-center justify-center gap-6 space-x-28 rounded-[37px] bg-white px-10 py-5
-      max-md:w-full max-md:space-x-0 max-md:space-y-4"
+      max-md:w-full max-md:space-y-4 max-md:space-x-0"
     >
       {#each navItems as navItem}
         <!-- svelte-ignore a11y-click-events-have-key-events -->

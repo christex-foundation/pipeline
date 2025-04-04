@@ -28,8 +28,6 @@
   import { format } from 'date-fns';
   import { toast } from 'svelte-sonner';
 
-  
-
   let id;
   $: id = $page.params.id;
 
@@ -150,13 +148,13 @@
 
 <div class="mx-auto flex max-w-[1500px] flex-col items-start px-4 lg:flex-row lg:px-8">
   <div class="w-full max-md:w-[100%] lg:sticky lg:top-0 lg:w-[40%] lg:pr-4">
-    <section class="relative mb-[64px] mt-6 flex w-full flex-col">
+    <section class="relative mt-6 mb-[64px] flex w-full flex-col">
       <!-- svelte-ignore a11y-no-redundant-roles -->
       <!-- svelte-ignore a11y-img-redundant-alt -->
       <img
         loading="lazy"
         src={banner}
-        class="z-0 flex h-[250px] w-full rounded-[24px] bg-stone-300 max-md:max-w-full object-cover"
+        class="z-0 flex h-[250px] w-full rounded-[24px] bg-stone-300 object-cover max-md:max-w-full"
         role="img"
         aria-label="Project hero image"
         alt="Project image"
@@ -171,12 +169,14 @@
       />
     </section>
 
-    <section class="flex flex-col w-full mt-3">
+    <section class="mt-3 flex w-full flex-col">
       <div class="flex justify-between max-md:gap-2">
-        <h1 class="text-3xl font-semibold text-black break-all max-lg:mt-2 max-lg:text-xl">
+        <h1 class="text-3xl font-semibold break-all text-black max-lg:mt-2 max-lg:text-xl">
           {#if project.title}
             {#if project.title.length > 20}
-              <span class="lg:hidden" title={project.title}>{project.title.substring(0, 15)}...</span>
+              <span class="lg:hidden" title={project.title}
+                >{project.title.substring(0, 15)}...</span
+              >
               <span class="hidden lg:inline">{project.title}</span>
             {:else}
               {project.title}
@@ -185,7 +185,7 @@
             Project Title
           {/if}
         </h1>
-        <div class="flex items-center gap-1 mt-2 text-base text-neutral-600">
+        <div class="mt-2 flex items-center gap-1 text-base text-neutral-600">
           <img
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/edd6d143a10aa89a67f0101c84563e276eb2ea6bc943000847a62b3bcaeb9863?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
             alt="Date icon"
@@ -195,12 +195,12 @@
         </div>
       </div>
 
-      <p class="mt-3 text-xl font-light leading-8 text-black max-lg:text-base">
+      <p class="mt-3 text-xl leading-8 font-light text-black max-lg:text-base">
         {project.bio || 'Project bio'}
       </p>
     </section>
 
-    <section class="flex flex-wrap items-center gap-3 mt-2">
+    <section class="mt-2 flex flex-wrap items-center gap-3">
       <div class="flex flex-wrap gap-2 text-lg text-lime-800">
         {#if project.tags && project.tags.length > 0}
           {#each project.tags as tag}
@@ -213,7 +213,7 @@
     </section>
 
     {#if user}
-      <div class="flex items-center gap-3 mt-6">
+      <div class="mt-6 flex items-center gap-3">
         <a
           href="/project/{id}/contribute"
           class="w-full rounded-full bg-[#0b383c] py-4 text-center text-base font-semibold text-[#e9f5d3] max-md:w-[50%] lg:w-[50%]"
@@ -248,7 +248,7 @@
           >
             <button
               type="submit"
-              class="w-full py-4 text-base font-semibold text-center border-2 rounded-full"
+              class="w-full rounded-full border-2 py-4 text-center text-base font-semibold"
               class:bg-[#e9f5d3]={isFollowing}
               class:text-black={isFollowing}
             >
@@ -259,7 +259,9 @@
       </div>
     {/if}
 
-    <Card class="mt-8 w-full rounded-[20px] border-0 bg-lime-300 px-6 text-teal-950 max-md:mt-6 py-8">
+    <Card
+      class="mt-8 w-full rounded-[20px] border-0 bg-lime-300 px-6 py-8 text-teal-950 max-md:mt-6"
+    >
       <CardContent class="flex items-center justify-between gap-6 p-0">
         <div class="flex w-[120px] flex-col items-center max-md:w-[80px]">
           <div class="text-5xl font-semibold max-md:text-3xl">
@@ -281,7 +283,7 @@
 
         <Separator orientation="vertical" class="h-[100px] w-px bg-neutral-400 max-md:hidden" />
 
-        <div class="flex w-[120px] flex-col items-center max-md:w-[95px] whitespace-nowrap">
+        <div class="flex w-[120px] flex-col items-center whitespace-nowrap max-md:w-[95px]">
           <div class="text-4xl font-semibold max-md:text-3xl">
             ${amountFormat(project.current_funding || 0)}
           </div>
@@ -298,13 +300,13 @@
       class="flex flex-col items-start rounded-[20px] bg-white px-4 py-8 max-md:mt-6 max-md:px-4"
     >
       <ProjectNav
-        class="flex items-start w-full overflow-x-auto text-sm flex-nowrap whitespace-nowrap"
+        class="flex w-full flex-nowrap items-start overflow-x-auto text-sm whitespace-nowrap"
         {navItems}
         bind:activeItem={activeNavItem}
         on:navChange={handleNavChange}
       />
 
-      <section class="flex flex-col items-center w-full max-w-full mt-8">
+      <section class="mt-8 flex w-full max-w-full flex-col items-center">
         {#if activeNavItem === 'projectDetails'}
           <ProjectAbout {project} />
         {:else if activeNavItem === 'dpgStatus'}
@@ -313,11 +315,11 @@
           {#if showUpdateDetail}
             <UpdateDetail {data} {selectedUpdate} on:goBack={handleGoBack} />
           {:else}
-            <div class="flex justify-end w-full">
+            <div class="flex w-full justify-end">
               {#if user && user.id === project.user_id}
                 <button
                   on:click={openUpdatePopup}
-                  class="w-32 py-4 mb-4 text-base font-semibold text-center text-black rounded-full bg-lime-300 max-md:py-2 max-md:text-sm md:w-40"
+                  class="mb-4 w-32 rounded-full bg-lime-300 py-4 text-center text-base font-semibold text-black max-md:py-2 max-md:text-sm md:w-40"
                 >
                   ADD UPDATE
                 </button>
@@ -339,79 +341,84 @@
         {:else if activeNavItem === 'contributors'}
           <div class="w-auto px-4 md:w-full md:px-10">
             {#if !showGitDetail && !showResourceDetail}
-              <div class="inline-flex items-center self-stretch justify-start gap-1 mb-6">
+              <div class="mb-6 inline-flex items-center justify-start gap-1 self-stretch">
                 <div
-                  class="text-center font-['Roboto'] text-2xl font-normal leading-loose text-black md:text-[32px]"
+                  class="text-center font-['Roboto'] text-2xl leading-loose font-normal text-black md:text-[32px]"
                 ></div>
               </div>
-          
-              <div class="flex flex-col w-full pb-14 max-md:pl-5">
-                    <div
-                  class="flex flex-wrap items-center justify-between w-full gap-10 font-bold text-center max-md:max-w-full"
+
+              <div class="flex w-full flex-col pb-14 max-md:pl-5">
+                <div
+                  class="flex w-full flex-wrap items-center justify-between gap-10 text-center font-bold max-md:max-w-full"
                 >
-                  <h2 class="self-stretch my-auto text-4xl leading-tight text-black max-md:text-sm">GitHub Contributors</h2>
-          
+                  <h2 class="my-auto self-stretch text-4xl leading-tight text-black max-md:text-sm">
+                    GitHub Contributors
+                  </h2>
+
                   <Button
-                    class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
+                    class="flex items-center justify-center gap-1 rounded-[40px] border-2 border-solid border-lime-800 py-2 pr-2 pl-3 text-sm leading-none whitespace-nowrap text-lime-800 max-md:py-1"
                     on:click={toggleGitDetail}
                   >
-                    <span class="self-stretch my-auto">View All</span>
+                    <span class="my-auto self-stretch">View All</span>
                     <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/e13f9fadc17a702d863b8d21bc60e6c7ea08ee8a9506ba412086d7b1a1d15195?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
                       alt=""
-                      class="self-stretch object-contain w-5 my-auto aspect-square shrink-0"
+                      class="my-auto aspect-square w-5 shrink-0 self-stretch object-contain"
                     />
                   </Button>
                 </div>
-          
+
                 <div
-                  class="relative z-0 grid items-start w-full grid-cols-2 gap-4 mt-5 max-md:max-w-full"
+                  class="relative z-0 mt-5 grid w-full grid-cols-2 items-start gap-4 max-md:max-w-full"
                 >
                   {#if Array.isArray(contributors) && contributors.length > 0}
                     {#each contributors.slice(0, 4) as contributor}
                       <GitContributors {contributor} {totalCommits} />
                     {/each}
                   {:else}
-                    <div class="col-span-2 mt-6 text-center text-gray-500">No GitHub contributors available.</div>
+                    <div class="col-span-2 mt-6 text-center text-gray-500">
+                      No GitHub contributors available.
+                    </div>
                   {/if}
                 </div>
               </div>
-          
+
               <div class="flex max-w-[846px] flex-col max-md:pl-5">
                 <div
-                  class="flex flex-wrap items-center justify-between w-full gap-10 font-bold text-center max-md:max-w-full"
+                  class="flex w-full flex-wrap items-center justify-between gap-10 text-center font-bold max-md:max-w-full"
                 >
-                  <h2 class="self-stretch my-auto text-4xl leading-tight text-black max-md:text-xl">Resources</h2>
-          
+                  <h2 class="my-auto self-stretch text-4xl leading-tight text-black max-md:text-xl">
+                    Resources
+                  </h2>
+
                   <Button
-                    class="flex items-center justify-center gap-1 whitespace-nowrap rounded-[40px] border-2 border-solid border-lime-800 py-2 pl-3 pr-2 text-sm leading-none text-lime-800 max-md:py-1"
+                    class="flex items-center justify-center gap-1 rounded-[40px] border-2 border-solid border-lime-800 py-2 pr-2 pl-3 text-sm leading-none whitespace-nowrap text-lime-800 max-md:py-1"
                     on:click={toggleResourceDetail}
                   >
-                    <span class="self-stretch my-auto">View All</span>
+                    <span class="my-auto self-stretch">View All</span>
                     <img
                       loading="lazy"
                       src="https://cdn.builder.io/api/v1/image/assets/TEMP/e13f9fadc17a702d863b8d21bc60e6c7ea08ee8a9506ba412086d7b1a1d15195?placeholderIfAbsent=true&apiKey=567aaefef2da4f73a3149c6bc21f1ea8"
                       alt=""
-                      class="self-stretch object-contain w-5 my-auto aspect-square shrink-0"
+                      class="my-auto aspect-square w-5 shrink-0 self-stretch object-contain"
                     />
                   </Button>
                 </div>
-                <div class="flex flex-wrap items-start w-full gap-5 mt-5 max-md:max-w-full">
+                <div class="mt-5 flex w-full flex-wrap items-start gap-5 max-md:max-w-full">
                   {#if projectResource && projectResource.length > 0}
                     {#each projectResource as resource}
                       <ResourceCard {resource} />
                     {/each}
                   {:else}
-                    <div class="w-full mt-6 text-center text-gray-500">No resources available.</div>
+                    <div class="mt-6 w-full text-center text-gray-500">No resources available.</div>
                   {/if}
                 </div>
               </div>
             {/if}
-          
+
             {#if showGitDetail}
-             <GitContributorsViewAll on:goBack={handleGoBack} /> 
-            
+              <GitContributorsViewAll on:goBack={handleGoBack} />
             {:else if showResourceDetail}
               <ResourcesViewAll on:goBack={handleGoBack} />
             {/if}
@@ -428,10 +435,10 @@
   {#if showUpdatePopup}
     <Dialog open onOpenChange={closeUpdatePopup}>
       <DialogContent
-        class="fixed w-full max-w-[90%] rounded-lg bg-white p-4 shadow-lg sm:p-6 sm:max-w-[85%] md:max-w-[70%] lg:max-w-[50%] xl:max-w-[30%] sm:left-[50%] sm:top-[50%] sm:translate-x-[-50%] sm:translate-y-[-50%]"
+        class="fixed w-full max-w-[90%] rounded-lg bg-white p-4 shadow-lg sm:top-[50%] sm:left-[50%] sm:max-w-[85%] sm:translate-x-[-50%] sm:translate-y-[-50%] sm:p-6 md:max-w-[70%] lg:max-w-[50%] xl:max-w-[30%]"
       >
         <DialogHeader>
-          <DialogTitle class="mb-2 text-lg font-bold sm:text-xl sm:mb-4">Add Update</DialogTitle>
+          <DialogTitle class="mb-2 text-lg font-bold sm:mb-4 sm:text-xl">Add Update</DialogTitle>
         </DialogHeader>
 
         <form
@@ -448,13 +455,13 @@
             };
           }}
         >
-          <div class="space-y-2 sm:space-y-3 w-full">
+          <div class="w-full space-y-2 sm:space-y-3">
             <Label class="block text-sm font-medium text-gray-700">
               Title
               <Input
                 type="text"
                 name="title"
-                class="w-full p-2 mt-1 border rounded-lg"
+                class="mt-1 w-full rounded-lg border p-2"
                 required
                 disabled={isAddingUpdate}
               />
@@ -464,7 +471,7 @@
               <Textarea
                 rows="3"
                 name="body"
-                class="w-full p-2 mt-1 border rounded-lg resize-none"
+                class="mt-1 w-full resize-none rounded-lg border p-2"
                 required
                 disabled={isAddingUpdate}
               />
@@ -473,7 +480,7 @@
 
           <Button
             type="submit"
-            class="w-full py-2 mt-3 sm:mt-4 text-black rounded-lg bg-lime-300 hover:bg-lime-400"
+            class="mt-3 w-full rounded-lg bg-lime-300 py-2 text-black hover:bg-lime-400 sm:mt-4"
             disabled={isAddingUpdate}
           >
             {#if isAddingUpdate}

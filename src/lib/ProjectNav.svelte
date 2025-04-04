@@ -9,13 +9,13 @@
 </script>
 
 <nav
-  class="flex flex-wrap items-start justify-center gap-5 text-center text-2xl font-semibold leading-none text-lime-800 max-md:w-[100%] max-md:gap-4 max-md:text-sm"
+  class="flex flex-wrap items-start justify-center gap-5 text-center text-2xl leading-none font-semibold text-lime-800 max-md:w-[100%] max-md:gap-4 max-md:text-sm"
 >
   {#each navItems as item}
     <div class="flex flex-col items-center justify-center" style="width: {item.width};">
       <button
         on:click={() => handleClick(item)}
-        class="gap-2.5 self-stretch whitespace-nowrap text-base"
+        class="gap-2.5 self-stretch text-base whitespace-nowrap"
       >
         {item.label}
       </button>

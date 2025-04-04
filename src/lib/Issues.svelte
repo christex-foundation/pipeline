@@ -71,7 +71,7 @@
         {/each}
       </Card>
     {:else}
-      <p class="text-sm italic text-gray-600">No open issues on this repository</p>
+      <p class="text-sm text-gray-600 italic">No open issues on this repository</p>
     {/if}
   {/await}
 </div>
