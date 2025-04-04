@@ -104,12 +104,12 @@
           <div class="flex flex-col">
             <a
               href="/resources/pipeline"
-              class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
+              class="flex w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 hover:rounded-md"
               >About Pipeline</a
             >
             <a
               href="/resources/digital-public-good"
-              class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
+              class="flex w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 hover:rounded-md"
               >About DPGs</a
             >
           </div>
@@ -141,8 +141,8 @@
               on:click={() => ($searchBarOpen = !$searchBarOpen)}
             >
               <span
-                class="ml-[-18px] font-['Inter'] text-base font-semibold leading-none text-white max-lg:px-8 max-md:mb-[4px]"
-                >Search for a project...</span
+                class="ml-[-18px] font-['Inter'] text-base py-2 font-semibold leading-none text-white/50 max-lg:px-8"
+              >Search for a project...</span
               >
             </Button>
           </div>
@@ -188,16 +188,16 @@
 
           {#if isResourcesOpen}
             <div
-              class="absolute right-0 top-6 z-[9999] mt-2 w-[25vh] rounded-md bg-cyan-900 shadow-lg"
+              class=" block right-0 top-6 z-[9999] mt-2 w-36"
             >
               <a
                 href="/resources/pipeline"
-                class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
+                class="flex w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 hover:rounded-md"
                 >About Pipeline</a
               >
               <a
                 href="/resources/digital-public-good"
-                class="block w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800"
+                class="flex w-full px-4 py-3 text-left text-[#d1ea9a] hover:bg-cyan-800 hover:rounded-md"
                 >About DPGs</a
               >
             </div>
