@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
   import { Button } from '$lib/components/ui/button';
   import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
   import { Input } from '$lib/components/ui/input';
@@ -46,7 +46,7 @@
       </CardHeader>
       <CardContent class="px-0">
         <Tabs value={selectedTab} onValueChange={(value) => (selectedTab = value)} class="w-full">
-          <TabsList class="grid w-full grid-cols-3 gap-2 bg-transparent p-0">
+          <TabsList class="grid w-full grid-cols-3 gap-2 p-0 bg-transparent">
             <TabsTrigger
               value="Card"
               class="flex items-center justify-center space-x-2 !rounded-full border border-gray-200 p-2 data-[state=active]:border-2 data-[state=active]:border-[#0b383c] data-[state=active]:bg-transparent"
@@ -73,7 +73,7 @@
           <div class="mt-6">
             <TabsContent value="Card" class="mt-0 space-y-4">
               <div class="space-y-1">
-                <Label for="card-number" class="w-1/3 items-center text-sm text-gray-600"
+                <Label for="card-number" class="items-center w-1/3 text-sm text-gray-600"
                   >Card number</Label
                 >
                 <Input
@@ -109,7 +109,7 @@
                           : 'Select your country'}
                         <Icon
                           icon="lucide:chevrons-up-down"
-                          class="mt-2 h-4 w-4 shrink-0 opacity-50"
+                          class="w-4 h-4 mt-2 opacity-50 shrink-0"
                         />
                       </Button>
                     </PopoverTrigger>
@@ -117,7 +117,7 @@
                       <Command>
                         <CommandInput placeholder="Search country..." />
                         <CommandEmpty>No country found.</CommandEmpty>
-                        <CommandGroup class="max-h-60 overflow-auto">
+                        <CommandGroup class="overflow-auto max-h-60">
                           {#each countryList as countryItem}
                             <button
                               class="cursor-pointer"
@@ -128,9 +128,9 @@
                             >
                               <CommandItem>
                                 {#if country === countryItem.code}
-                                  <Icon icon="mdi:check" class="mr-2 h-4 w-4" />
+                                  <Icon icon="mdi:check" class="w-4 h-4 mr-2" />
                                 {:else}
-                                  <div class="mr-2 h-4 w-4"></div>
+                                  <div class="w-4 h-4 mr-2"></div>
                                 {/if}
                                 {countryItem.name}
                               </CommandItem>
@@ -189,7 +189,7 @@
             </TabsContent>
           </div>
 
-          <div class="mt-4 flex justify-end">
+          <div class="flex justify-end mt-4">
             <Button
               class="w-[20%] rounded-full bg-[#0b383c] px-4 py-3 text-base text-white max-md:w-[40%]"
             >
@@ -200,4 +200,195 @@
       </CardContent>
     </Card>
   </div>
+</div> -->
+
+
+
+<script>
+   import { onMount } from 'svelte';
+  import { page } from '$app/stores';
+  import { Input } from '$lib/components/ui/input';
+  import { Button } from "$lib/components/ui/button";
+  import { Dialog, DialogContent, DialogHeader, DialogTitle } from "$lib/components/ui/dialog";
+  
+  export let data;
+  let project = data.project;
+  let user = data.isAuthenticated ? data.user : null;
+  
+  let amount = 10;
+  let isLoading = false;
+  let error = null;
+  let payLink = '';
+  let showDialog = false;
+  let contributionId = ''; 
+
+//   async function handleContribute() {
+//   isLoading = true;
+//   error = null;
+
+//   try {
+//     const response = await fetch('/api/payments/create-paylink', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({
+//         projectId: project.id,
+//         projectTitle: project.title,
+//         projectBio: project.bio,
+//         amount: Number(amount)
+//       })
+//     });
+
+//     const result = await response.json();
+//     if (!response.ok) throw new Error(result.error || "Payment failed");
+
+//     payLink = result.payLink;
+//     contributionId = result.contributionId;
+//     showDialog = true;
+
+
+//     const pollInterval = setInterval(async () => {
+//       const statusResponse = await fetch('/api/payments/check-status', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ contributionId })
+//       });
+
+//       const statusResult = await statusResponse.json();
+      
+//       if (statusResult.status === 'paid') {
+//         clearInterval(pollInterval);
+
+
+//         window.location.reload();
+//       } else if (statusResult.status === 'failed') {
+//         clearInterval(pollInterval);
+//         error = 'Payment failed. Please try again.';
+//       }
+
+//     }, 5000); 
+
+  
+//     onDestroy(() => clearInterval(pollInterval));
+
+//   } catch (err) {
+//     error = err.message;
+//   } finally {
+//     isLoading = false;
+//   }
+// }
+
+  async function handleContribute() {
+    isLoading = true;
+    error = null;
+    payLink = '';
+
+    try {
+      const response = await fetch('/api/payments/create-paylink', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          projectId: project.id,
+          projectTitle: project.title,
+          projectBio: project.bio,
+          amount: Number(amount)
+        })
+      });
+
+      const result = await response.json();
+      console.log('API response:', result);
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Payment processing failed");
+      }
+
+      if (!result.payLink || !result.contributionId) {
+        throw new Error("Invalid response from server");
+      }
+
+      payLink = result.payLink;
+      showDialog = true;
+
+    } catch (err) {
+      error = err.message || "Payment failed";
+      console.error('Payment error:', err);
+    } finally {
+      isLoading = false;
+    }
+  }
+
+</script>
+
+<div class="w-full p-8 mx-auto mt-10 space-y-8 bg-white border shadow-lg max-w-ful rounded-3xl border-lime-200">
+  <div class="w-full space-y-4">
+    <div class="space-y-2">
+      <label for="amount" class="block text-sm font-medium text-gray-700">Amount ($)</label>
+      <Input 
+        type="number" 
+        id="amount" 
+        bind:value={amount} 
+        min="1" 
+        step="1" 
+        disabled={isLoading}
+      />
+    </div>
+  
+    <Button 
+      on:click={handleContribute} 
+      disabled={isLoading || !amount}
+      variant="default"
+    >
+      {isLoading ? 'Processing...' : 'Make a Contribution'}
+    </Button>
+  </div>
+
+  <p class="text-center text-neutral-400">By clicking “Make a Contribution”, you will be securely redirected to Helio, our trusted payment partner, to complete your contribution.</p>
 </div>
+
+
+
+<Dialog open={showDialog} onOpenChange={(open) => showDialog = open}>
+  <DialogContent class="max-w-md bg-white border border-lime-300 fixed-dialog">
+    <DialogHeader>
+      <DialogTitle class="text-lime-800">Your Payment Link</DialogTitle>
+    </DialogHeader>
+    <div class="p-4 space-y-4">
+      <p class="text-gray-700">Your secure payment link is ready. Click below to complete your contribution.</p>
+      
+      
+      <Button 
+        variant="outline" 
+        asChild
+        class="w-full py-2 bg-teal-800 border-2 rounded-full boorder text-lime-300 hover:"
+      >
+        <a href={payLink} target="_blank" rel="noopener noreferrer">
+          Open Payment Page
+        </a>
+      </Button>
+      
+      <div class="pt-2 text-xs text-gray-500 break-all">
+        <span class="font-medium">Link:</span> {payLink}
+      </div>
+    </div>
+  </DialogContent>
+</Dialog>
+
+ <style>
+  :global(.fixed-dialog) {
+    transform: translate(-50%, -50%) !important;
+    top: 50% !important;
+    left: 50% !important;
+    animation: none !important;
+    transition: opacity 150ms ease-in-out !important;
+  }
+  
+
+  :global([data-radix-popper-content-wrapper]) {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+</style>

@@ -118,6 +118,21 @@
     showGitDetail = showGitDetail;
   }
 
+
+  export async function updateCurrentFunding(projectId) {
+  try {
+    const res = await fetch(`/api/updateFunding/${projectId}`, { method: 'POST' });
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.error);
+    console.log(`Updated funding: ${result.totalFunding}`);
+ 
+    await invalidateAll();
+  } catch (err) {
+    console.error('Error updating funding:', err);
+  }
+}
+
+
   $: date = project.created_at ? format(new Date(project.created_at), 'd/M/yy') : '';
 
   $: banner = project.banner_image
@@ -137,6 +152,8 @@
     }
 
     contributors = await fetchContribs();
+
+    await updateCurrentFunding(id);
   });
 
   let totalCommits = 0;
@@ -448,7 +465,7 @@
             };
           }}
         >
-          <div class="space-y-2 sm:space-y-3 w-full">
+          <div class="w-full space-y-2 sm:space-y-3">
             <Label class="block text-sm font-medium text-gray-700">
               Title
               <Input
@@ -473,7 +490,7 @@
 
           <Button
             type="submit"
-            class="w-full py-2 mt-3 sm:mt-4 text-black rounded-lg bg-lime-300 hover:bg-lime-400"
+            class="w-full py-2 mt-3 text-black rounded-lg sm:mt-4 bg-lime-300 hover:bg-lime-400"
             disabled={isAddingUpdate}
           >
             {#if isAddingUpdate}

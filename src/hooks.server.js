@@ -77,31 +77,31 @@ const authGuard = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-const projectEvaluationWorker = new Worker(
-  'projectEvaluation',
-  async (job) => {
-    try {
-      const { github, projectId, supabaseUrl, supabaseAnonKey } = job.data;
+// const projectEvaluationWorker = new Worker(
+//   'projectEvaluation',
+//   async (job) => {
+//     try {
+//       const { github, projectId, supabaseUrl, supabaseAnonKey } = job.data;
 
-      const supabaseConn = createClient(supabaseUrl, supabaseAnonKey);
+//       const supabaseConn = createClient(supabaseUrl, supabaseAnonKey);
 
-      await evaluateProject(github, projectId, supabaseConn);
+//       await evaluateProject(github, projectId, supabaseConn);
 
-      console.log(`Evaluation completed for: ${github}`);
-    } catch (error) {
-      console.error('Worker encountered an error:', error);
-    }
-  },
-  {
-    connection: {
-      host: redisHost,
-      port: redisPort,
-      password: redisPassword,
-    },
-  },
-);
+//       console.log(`Evaluation completed for: ${github}`);
+//     } catch (error) {
+//       console.error('Worker encountered an error:', error);
+//     }
+//   },
+//   {
+//     connection: {
+//       host: redisHost,
+//       port: redisPort,
+//       password: redisPassword,
+//     },
+//   },
+// );
 
-console.log('Project evaluation worker is running...');
+// console.log('Project evaluation worker is running...');
 
 Sentry.init({
   dsn: 'https://a25a9dd442d4a7392fbee35b9ff029f7@o4508959238651904.ingest.us.sentry.io/4508959270502400',
