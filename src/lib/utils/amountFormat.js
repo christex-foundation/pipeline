@@ -1,11 +1,11 @@
 export function amountFormat(amount) {
   if (amount >= 1e9) {
-    return `${(amount / 1e9).toFixed(1)}B`;
+    return `${Math.floor(amount / 1e9)}B`;
   } else if (amount >= 1e6) {
-    return `${(amount / 1e6).toFixed(1)}M`;
+    return `${Math.floor(amount / 1e6)}M`;
   } else if (amount >= 1e3) {
-    return `${(amount / 1e3).toFixed(1)}K`;
+    return `${Math.floor(amount / 1e3)}K`;
   } else {
-    return amount.toString(); // return the number if it less than a thousand
+    return Math.floor(amount).toString(); // remove decimals for small numbers too
   }
 }

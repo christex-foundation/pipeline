@@ -23,7 +23,7 @@
 </script>
 
 <div class="w-full bg-[#d1ea9a]/90 py-16">
-  <div class="mx-auto max-w-4xl text-center">
+  <div class="max-w-4xl mx-auto text-center">
     <h1
       class="font-['Inter'] text-5xl font-semibold leading-[54.51px] text-[#08292c] max-lg:text-2xl"
     >
@@ -33,8 +33,8 @@
   </div>
 </div>
 
-<Tabs bind:value={activeTab} class="mx-auto mt-12 w-full max-w-4xl">
-  <div class="flex w-full justify-center">
+<Tabs bind:value={activeTab} class="w-full max-w-4xl mx-auto mt-12">
+  <div class="flex justify-center w-full">
     <TabsList
       class="flex h-auto w-full justify-center space-x-6 !rounded-full border-2 !border-[#0b383c] bg-transparent py-1"
     >
@@ -54,9 +54,9 @@
     </TabsList>
   </div>
 
-  <div class="mx-auto mt-8 max-w-4xl">
+  <div class="max-w-4xl mx-auto mt-8">
     <TabsContent value="funding">
-      <Contribute />
+      <Contribute {data} {id} />
     </TabsContent>
     <TabsContent value="resources">
       <Apply {id} />

@@ -7,6 +7,7 @@
   import { Card, CardHeader, CardContent, CardFooter } from '$lib/components/ui/card';
   import { Progress } from '$lib/components/ui/progress';
 
+
   import { onMount } from 'svelte';
   let isOpen = false;
 
@@ -41,6 +42,8 @@
     }
     return text;
   }
+
+
 </script>
 
 <Card class="flex flex-col overflow-hidden bg-gray-200 rounded-3xl" style="height: 500px;">
