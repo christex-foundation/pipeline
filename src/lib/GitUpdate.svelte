@@ -6,7 +6,7 @@
   import { Badge } from '$lib/components/ui/badge';
   import { Button } from '$lib/components/ui/button';
   import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '$lib/components/ui/card';
-
+  
   let date = '';
   date = dateTimeFormat(update.created_at);
 
@@ -14,9 +14,10 @@
     if (!name) return 'U';
     return name.substring(0, 2).toUpperCase();
   };
+  
 </script>
 
-<Card class="w-full p-4 bg-white md:p-6">
+<Card class="w-full p-4 mb-4 bg-white md:p-6">
   <CardHeader class="px-0 pb-2">
     <CardTitle class="text-xl font-bold text-[#282828] md:text-2xl">
       {update.title}
@@ -66,7 +67,7 @@
   <CardFooter class="px-0 pt-0">
     <div class="flex items-center gap-2 text-sm text-[#9b9e9e]">
       <Icon icon="radix-icons:commit" class="text-xl text-[#8C8C8C]" />
-      <span>16</span>
+      <span>{update.commits}</span>
     </div>
   </CardFooter>
 </Card>

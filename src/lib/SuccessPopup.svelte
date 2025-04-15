@@ -26,10 +26,9 @@
 
       <div class="mt-2 text-lg leading-5">
         Your contribution will help bring this project to life.<br />
-        You've earned 5 points in the leaderboard.
       </div>
 
-      <a href="/explore" class="mt-5 flex w-full justify-center">
+      <a href="/explore" class="flex justify-center w-full mt-5">
         <Button
           class="w-[411px] max-w-full gap-1 rounded-3xl bg-teal-950 px-5 py-5 text-sm text-lime-100 hover:bg-teal-900"
         >
