@@ -46,3 +46,9 @@ export function flyAndScale(
 
 // Store for search bar state
 export let searchBarOpen = writable(false);
+
+
+export function isValidUUID(uuid) {
+  const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return regex.test(uuid);
+}
