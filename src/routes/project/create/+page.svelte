@@ -38,7 +38,7 @@
     } catch (error) {}
   }
 
-  $: project.title && project.bio && fetchMatchingDPGs();
+  //$: project.title && project.bio && fetchMatchingDPGs();
 </script>
 
 <!-- Header Section -->
