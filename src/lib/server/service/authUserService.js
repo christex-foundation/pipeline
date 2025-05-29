@@ -2,11 +2,6 @@ import { loginUser, registerUser, logoutUser } from '$lib/server/repo/authUserRe
 import { createProfile } from '$lib/server/repo/userProfileRepo.js';
 import { json } from '@sveltejs/kit';
 
-// export async function getUser(token) {
-//   const user = await getAuthUser(token);
-//   return user;
-// }
-
 export async function login(loginData, supabase) {
   const data = await loginUser(loginData, supabase);
 

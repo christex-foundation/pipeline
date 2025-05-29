@@ -1,4 +1,3 @@
-// import { supabase } from '$lib/server/supabase.js';
 import { json } from '@sveltejs/kit';
 export async function uploadImage(file, supabase) {
   const timestamp = Date.now();

@@ -1,4 +1,4 @@
-//import { supabase } from "$lib/server/supabase.js"; // Import your Supabase client
+
 import { getProfile } from '$lib/server/repo/userProfileRepo.js';
 import { json } from '@sveltejs/kit';
 

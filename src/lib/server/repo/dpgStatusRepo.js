@@ -63,14 +63,4 @@ export async function createProjectDpgStatus(projectDpgStatusData, supabase) {
     result = data;
   }
   return result;
-
-  // const { data, error } = await supabase
-  //   .from('project_dpg_status')
-  //   .upsert(projectDpgStatusData, {
-  //     onConflict: ['project_id', 'status_id'],
-  //   })
-  //   .select();
-
-  // if (error) throw new Error(error.message);
-  // return data[0];
 }

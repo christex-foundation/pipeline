@@ -111,44 +111,6 @@ export async function getProjectsByCategory(categoryId, page, limit, supabase) {
   return mapProjectsWithTagsAndStatus(projects, projectCategories, categories);
 }
 
-// export async function getProjectById(id, supabase) {
-//   const project = await getProject(id, supabase);
-
-//   if (!project) {
-//     return null;
-//   }
-
-//   const projectCategories = await getProjectCategories([project.id], supabase);
-//   const categoryIds = projectCategories.map((pc) => pc.category_id);
-//   const categories = await getCategories(categoryIds, supabase);
-
-//   // Fetch all DPG statuses and the project's specific statuses
-//   const [allDpgStatuses, projectDpgStatuses] = await Promise.all([
-//     getAllDpgStatuses(supabase),
-//     getProjectDpgStatuses(project.id, supabase),
-//   ]);
-
-//   console.log('allDpgStatuses', allDpgStatuses);
-
-//   console.log('projectDpgStatuses', projectDpgStatuses);
-
-//   const dpgStatusMap = projectDpgStatuses.reduce((acc, status) => {
-//     acc[status.status_id] = true;
-//     return acc;
-//   }, {});
-
-//   const dpgStatuses = allDpgStatuses.map((status) => ({
-//     name: status.name,
-//     status: !!dpgStatusMap[status.id], // Set to true if found, otherwise false
-//   }));
-
-//   return {
-//     ...project,
-//     tags: categories,
-//     dpgCount: projectDpgStatuses.length,
-//     dpgStatuses,
-//   };
-// }
 
 export async function getProjectById(id, supabase) {
   const project = await getProject(id, supabase);

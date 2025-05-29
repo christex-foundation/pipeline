@@ -18,15 +18,9 @@ export function clickOutside(node, callback) {
   });
 }
 
-// export function cn(...classes) {
-//   return classes.filter(Boolean).join(' ');
-// }
-
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
-
-
 
 export function flyAndScale(
   node,
