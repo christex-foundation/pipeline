@@ -15,7 +15,7 @@ export async function getExistingBookmarks(projectId, userId, supabase) {
 export async function getExistingBookmarksByUserId(userId, start, end, supabase) {
   const { data, error } = await supabase
     .from('bookmark_project')
-    .select('*')
+    .select('project_id')
     .eq('user_id', userId)
     .range(start, end)
     .order('created_at', { ascending: false });
@@ -26,7 +26,6 @@ export async function getExistingBookmarksByUserId(userId, start, end, supabase)
 }
 
 export async function addBookmark(projectId, userId, supabase) {
-  console.log(userId);
   const { data, error } = await supabase
     .from('bookmark_project')
     .insert([

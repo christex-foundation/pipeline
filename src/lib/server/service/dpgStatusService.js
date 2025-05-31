@@ -5,7 +5,5 @@ export async function saveDPGStstatus(projectId, openAIResponse, supabase) {
 
   await updateProjectDpg(projectId, parsedResponse, supabase);
 
-  console.log('.');
-
   return parsedResponse;
 }

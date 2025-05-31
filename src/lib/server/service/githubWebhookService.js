@@ -96,11 +96,8 @@ export async function evaluateProject(url, projectId, supabase) {
 
   const dpgStatus = await checkDPGStatus(owner, repo, supabase);
 
-  console.log('..');
-
   console.log('Sending project update...');
   await saveDPGStstatus(projectId, dpgStatus, supabase);
-  console.log('..');
 }
 
 function cosineSimilarity(vec1, vec2) {

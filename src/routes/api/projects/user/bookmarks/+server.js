@@ -7,7 +7,7 @@ import { getUserBookmarkedProjects } from '$lib/server/service/projectService.js
  * Depricating in favour off /api/projects
  * TODO: use builder pattern
  */
-export async function GET({ request, url, locals }) {
+export async function GET({ request, url, locals, setHeaders }) {
   const page = parseInt(url.searchParams.get('page') || '1', 10);
   const limit = parseInt(url.searchParams.get('limit') || '6', 10);
   let user = locals.authUser;
@@ -15,6 +15,11 @@ export async function GET({ request, url, locals }) {
 
   try {
     const projects = await getUserBookmarkedProjects(user.id, page, limit, supabase);
+
+    setHeaders({
+      'Cache-Control': 'public, max-age=600, stale-while-revalidate=300',
+      Vary: 'Accept-Encoding',
+    });
 
     return json({ projects: projects }, { status: 200 });
   } catch (error) {

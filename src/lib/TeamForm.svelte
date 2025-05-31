@@ -5,8 +5,6 @@
       const nextSection = navSections[currentIndex + 1];
       currentSection = nextSection.id;
       goto(nextSection.href);
-    } else {
-      console.log('Project creation completed');
     }
   }
 

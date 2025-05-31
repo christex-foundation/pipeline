@@ -16,10 +16,10 @@
 </script>
 
 <svelte:head>
-  <title>Pipeline - Unleash Your Creativity</title>
+  <title>Pipeline - Empower the Future of Digital Public Goods</title>
   <meta
     name="description"
-    content="Unleash your creativity with our platform. Create unique content that can be edited and modified for an engaging experience."
+    content="Discover, contribute, and collaborate on open-source projects that drive social impact globally. Connect with a community of creators, contributors, and supporters passionate about digital public goods."
   />
 </svelte:head>
 

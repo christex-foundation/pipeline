@@ -5,71 +5,47 @@
   import { fade } from 'svelte/transition';
   import { browser } from '$app/environment';
   import * as Command from '$lib/components/ui/command';
+  import { searchService } from '$lib/utils/searchService.js';
+  import { createDebouncer } from '$lib/utils/debounce.js';
 
   let searchResults = [];
   let loading = false;
   let error = null;
   let term = '';
-  let searchTimeout = null;
 
-  async function searchProjects() {
-    if (!term) {
-      searchResults = [];
+  const updateSearchState = (loadingState, results = [], errorState = null) => {
+    loading = loadingState;
+    searchResults = results;
+    error = errorState;
+  };
+
+  const resetSearch = () => updateSearchState(false, [], null);
+
+  const searchProjects = async () => {
+    if (!term?.trim()) {
+      resetSearch();
       return;
     }
 
-    console.log(term);
+    updateSearchState(true, searchResults);
 
-    loading = true;
     try {
-      const response = await fetch(`/api/projects?term=${term}&page=1&limit=10`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const results = await searchService.searchProjects(term);
 
-      if (!response.ok) throw new Error(response.statusText);
+      if (results === null) return; // Request was cancelled
 
-      const data = await response.json();
-      searchResults = data.projects;
+      updateSearchState(false, results);
     } catch (e) {
-      error = e.message;
-    } finally {
-      loading = false;
+      updateSearchState(false, [], e.message);
     }
-  }
+  };
 
-  function debouncedSearch() {
-    // Clear existing timeout
-    if (searchTimeout) {
-      clearTimeout(searchTimeout);
-    }
-
-    // If no term, clear results immediately
-    if (!term) {
-      searchResults = [];
-      loading = false;
-      return;
-    }
-
-    // Set loading state immediately for better UX
-    loading = true;
-
-    // Set new timeout for 500ms
-    searchTimeout = setTimeout(() => {
-      searchProjects();
-    }, 500);
-  }
+  const debouncedSearch = createDebouncer(searchProjects, 300);
 
   function closeModal() {
     $searchBarOpen = false;
     term = '';
-    searchResults = [];
-    // Clear any pending search
-    if (searchTimeout) {
-      clearTimeout(searchTimeout);
-      searchTimeout = null;
-    }
-    loading = false;
+    resetSearch();
   }
 
   function handleKeydown(event) {
@@ -84,7 +60,6 @@
     window.location.href = `/project/${projectId}`;
   }
 
-  // Reactive statement to trigger debounced search when term changes
   $: if (term !== undefined) {
     debouncedSearch();
   }
@@ -101,10 +76,6 @@
       document.addEventListener('keydown', handleKeydown);
       return () => {
         document.removeEventListener('keydown', handleKeydown);
-        // Clear any pending search timeout on component destroy
-        if (searchTimeout) {
-          clearTimeout(searchTimeout);
-        }
       };
     }
   });
@@ -130,7 +101,7 @@
       role="document"
       tabindex="-1"
     >
-      <Command.Root class="border-none search-command-root">
+      <Command.Root class="search-command-root border-none" shouldFilter={false}>
         <div class="search-input-container">
           <Command.Input
             bind:value={term}

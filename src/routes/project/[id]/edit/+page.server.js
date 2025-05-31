@@ -2,29 +2,6 @@ import { redirect, fail } from '@sveltejs/kit';
 import { createProjectSchema } from '$lib/server/validator/projectSchema.js';
 import { uploadImageAndReturnUrl, removeImage } from '$lib/server/service/imageUploadService.js';
 
-export async function load({ locals, params, fetch }) {
-  let user = locals.authUser;
-  let id = params.id;
-
-  if (!user) {
-    throw redirect(307, '/explore');
-  }
-
-  try {
-    const response = await fetch(`/api/projects/singleProject/${id}`);
-    if (!response.ok) throw new Error(response.statusText);
-
-    const data = await response.json();
-
-    const project = data.project;
-
-    return { project };
-  } catch (error) {
-    console.error('Failed to fetch project:', error);
-    throw new Error('Failed to load project');
-  }
-}
-
 export const actions = {
   default: async ({ request, locals, params, fetch }) => {
     let id = params.id;

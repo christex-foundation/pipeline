@@ -1,48 +1,35 @@
 import { error } from '@sveltejs/kit';
-import { supabase } from '$lib/server/supabase.js';
 
-/** @type {import("./$types").LayoutServerLoad} */
-export async function load({ fetch, locals }) {
+/** @type {import("./$types.js").LayoutServerLoad} */
+export async function load({ fetch }) {
   try {
-    // Load user data
-    const userResponse = await fetch('/api/me');
-    const { user, error: userError } = await userResponse.json();
+    // Fetch all data in parallel for better performance
+    const [userResponse, projectsResponse, contributedResponse, followingResponse] =
+      await Promise.all([
+        fetch('/api/me'),
+        fetch('/api/projects/user/projects'),
+        fetch('/api/projects/user/contributed'),
+        fetch('/api/projects/user/bookmarks'),
+      ]);
 
+    // Handle user data (required)
     if (!userResponse.ok) {
-      return error(404, { message: userError });
+      return error(userResponse.status, { message: 'Failed to fetch user data' });
     }
 
-    // Load user's created projects
-    const projectsResponse = await fetch('/api/projects/user/projects');
-    let projects = [];
-    if (projectsResponse.ok) {
-      const projectsData = await projectsResponse.json();
-      projects = projectsData.projects || [];
+    const { user, error: userError } = await userResponse.json();
+    if (userError) {
+      return error(400, { message: userError });
     }
 
-    // Load contributed projects (direct Supabase query)
-    let contributedProjects = [];
-    if (locals?.authUser?.id) {
-      const subquery = await supabase
-        .from('project_resource')
-        .select('project_id')
-        .eq('user_id', locals.authUser.id);
+    // Handle optional data (graceful degradation)
+    const projects = projectsResponse.ok ? (await projectsResponse.json()).projects || [] : [];
 
-      const { data: contributed } = await supabase
-        .from('projects')
-        .select('*')
-        .in('id', subquery?.data?.flatMap((d) => d.project_id) || []);
+    const contributedProjects = contributedResponse.ok
+      ? (await contributedResponse.json()).projects || []
+      : [];
 
-      contributedProjects = contributed || [];
-    }
-
-    // Load following/bookmarked projects
-    const followingResponse = await fetch('/api/projects/user/bookmarks');
-    let following = [];
-    if (followingResponse.ok) {
-      const followingData = await followingResponse.json();
-      following = followingData.projects || [];
-    }
+    const following = followingResponse.ok ? (await followingResponse.json()).projects || [] : [];
 
     return {
       user,
@@ -50,7 +37,7 @@ export async function load({ fetch, locals }) {
       contributedProjects,
       following,
     };
-  } catch (_e) {
-    return error(500, { message: _e.message });
+  } catch (e) {
+    return error(500, { message: 'Failed to load profile data' });
   }
 }

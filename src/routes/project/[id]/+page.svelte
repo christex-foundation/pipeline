@@ -39,7 +39,7 @@
 
   export let data;
   const project = data.project;
-  const projectResource = data.resources;
+  const totalResources = data.totalResources;
 
   const githubLinkSplit = project?.github?.split('/') || [];
   const concat = githubLinkSplit[3] + '/' + githubLinkSplit[4];
@@ -287,7 +287,7 @@
           </div>
           <div class="text-center">
             <div class="text-display-md font-semibold text-white">
-              {projectResource.length}
+              {totalResources}
             </div>
             <div class="text-label-sm text-gray-400">updates</div>
           </div>
@@ -416,7 +416,6 @@
               form.reset();
             }
             await applyAction(result);
-            await invalidateAll();
           };
         }}
         class="space-y-4"
