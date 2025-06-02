@@ -22,30 +22,30 @@
 
 <div class="min-h-screen bg-dashboard-black">
   <!-- Breadcrumb Navigation -->
-  <nav class="mb-6 pt-8">
-    <div class="container mx-auto max-w-7xl px-8">
+  <nav class="pt-8 mb-6">
+    <div class="container px-8 mx-auto max-w-7xl">
       <div class="flex items-center gap-2">
         <a
           href="/explore"
-          class="flex items-center gap-2 text-body-lg font-medium text-gray-300 transition-colors hover:text-white"
+          class="flex items-center gap-2 font-medium text-gray-300 transition-colors text-body-lg hover:text-white"
         >
-          <Icon icon="lucide:arrow-left" class="h-5 w-5" />
+          <Icon icon="lucide:arrow-left" class="w-5 h-5" />
           Explore
         </a>
-        <Icon icon="lucide:chevron-right" class="h-4 w-4 text-gray-500" />
-        <span class="text-body-lg text-gray-400">Create Project</span>
+        <Icon icon="lucide:chevron-right" class="w-4 h-4 text-gray-500" />
+        <span class="text-gray-400 text-body-lg">Create Project</span>
       </div>
     </div>
   </nav>
 
   <!-- Header Section -->
   <div class="mb-12">
-    <div class="container mx-auto max-w-7xl px-8">
+    <div class="container px-8 mx-auto max-w-7xl">
       <div class="text-center">
-        <h1 class="mb-4 text-display-2xl font-semibold leading-tight text-white">
+        <h1 class="mb-4 font-semibold leading-tight text-white text-display-2xl">
           Create a Project
         </h1>
-        <p class="mx-auto max-w-2xl text-body-xl text-gray-300">
+        <p class="max-w-2xl mx-auto text-gray-300 text-body-xl">
           Share your project with the world and start building your community.
         </p>
       </div>
@@ -53,7 +53,7 @@
   </div>
 
   <!-- Main Form Container -->
-  <div class="container mx-auto max-w-7xl px-8 pb-20">
+  <div class="container px-8 pb-20 mx-auto max-w-7xl">
     <form
       action=""
       method="post"
@@ -79,11 +79,11 @@
         <!-- Left Column - Project Basics -->
         <div class="space-y-8">
           <div
-            class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6 shadow-card"
+            class="p-6 border rounded-2xl border-dashboard-gray-700 bg-dashboard-gray-900 shadow-card"
           >
             <div class="mb-6">
-              <h2 class="mb-2 text-heading-xl font-semibold text-white">Project Basics</h2>
-              <p class="text-body-lg text-gray-300">
+              <h2 class="mb-2 font-semibold text-white text-heading-xl">Project Basics</h2>
+              <p class="text-gray-300 text-body-lg">
                 Tell us about your project and what makes it special
               </p>
             </div>
@@ -96,11 +96,11 @@
         <div class="space-y-8">
           <!-- Links Section -->
           <div
-            class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6 shadow-card"
+            class="p-6 border rounded-2xl border-dashboard-gray-700 bg-dashboard-gray-900 shadow-card"
           >
             <div class="mb-6">
-              <h2 class="mb-2 text-heading-xl font-semibold text-white">Links & Social</h2>
-              <p class="text-body-lg text-gray-300">
+              <h2 class="mb-2 font-semibold text-white text-heading-xl">Links & Social</h2>
+              <p class="text-gray-300 text-body-lg">
                 Connect your project with social media and development platforms
               </p>
             </div>
@@ -110,11 +110,11 @@
 
           <!-- Funding Section -->
           <div
-            class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6 shadow-card"
+            class="p-6 border rounded-2xl border-dashboard-gray-700 bg-dashboard-gray-900 shadow-card"
           >
             <div class="mb-6">
-              <h2 class="mb-2 text-heading-xl font-semibold text-white">Funding Goals</h2>
-              <p class="text-body-lg text-gray-300">
+              <h2 class="mb-2 font-semibold text-white text-heading-xl">Funding Goals</h2>
+              <p class="text-gray-300 text-body-lg">
                 Set your funding goals and payment preferences
               </p>
             </div>
@@ -125,15 +125,15 @@
       </div>
 
       <!-- Submit Button -->
-      <div class="mt-12 flex justify-center">
+      <div class="flex justify-center mt-12">
         <Button
           type="submit"
           disabled={loading}
-          class="rounded-xl bg-dashboard-yellow-400 px-8 py-3 text-label-lg font-medium text-dashboard-black transition-colors hover:bg-dashboard-yellow-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dashboard-yellow-400 disabled:pointer-events-none disabled:opacity-50"
+          class="px-8 py-3 font-medium transition-colors rounded-xl bg-dashboard-yellow-400 text-label-lg text-dashboard-black hover:bg-dashboard-yellow-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dashboard-yellow-400 disabled:pointer-events-none disabled:opacity-50"
         >
           {#if loading}
             <span class="flex items-center gap-2">
-              <Icon icon="lucide:loader-2" class="h-4 w-4 animate-spin" />
+              <Icon icon="lucide:loader-2" class="w-4 h-4 animate-spin" />
               Creating Project...
             </span>
           {:else}
