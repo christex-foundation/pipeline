@@ -26,24 +26,7 @@ import { getDpgStatuses } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
-import { Queue } from 'bullmq';
-
-import {
-  supabaseAnonKey,
-  supabaseUrl,
-  redisHost,
-  redisPort,
-  redisPassword,
-} from '$lib/server/config.js';
-
-const projectEvaluationQueue = new Queue('projectEvaluation', {
-  connection: {
-    host: redisHost,
-    // @ts-ignore
-    port: redisPort,
-    password: redisPassword,
-  },
-});
+import { createEvaluateQueue } from '$lib/server/service/evaluateQueueService.js';
 
 export async function getProjectsWithDetails(term, page, limit, supabase) {
   const start = (page - 1) * limit;
@@ -178,14 +161,16 @@ export async function storeProject(user, projectData, supabase) {
     tags.map((tag) => assignCategory({ project_id: project.id, category_id: tag.id }, supabase)),
   );
 
-  console.log('Evaluating project:', project.github);
-  //Enqueue the project evaluation job
-  await projectEvaluationQueue.add('evaluateProject', {
-    github: project.github,
-    projectId: project.id,
-    supabaseUrl: supabaseUrl,
-    supabaseAnonKey: supabaseAnonKey,
-  });
+  console.log('Add Project evaluation to the queue');
+
+  await createEvaluateQueue(
+    {
+      project_id: project.id,
+      github_url: project.github,
+      status: 'pending',
+    },
+    supabase,
+  );
 
   return { success: true, projectId: project.id };
 }
