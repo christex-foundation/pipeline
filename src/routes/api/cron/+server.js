@@ -49,7 +49,6 @@ export async function GET(event) {
 
         // Process the task
         const result = await processTask(task, supabase);
-
         results.push(result);
 
         // Update task status to completed

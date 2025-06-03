@@ -6,4 +6,4 @@ export const GITHUB_TOKEN = env.PRIVATE_GITHUB_TOKEN;
 export const SUPABASE_SERVICE_KEY = env.PRIVATE_SUPABASE_SERVICE_KEY;
 export const supabaseUrl = env.VITE_SUPABASE_URL;
 export const supabaseAnonKey = env.VITE_SUPERBASE_ANON_KEY;
-export const cronSecret = env.VITE_CRON_SECRET;
+export const cronSecret = env.PRIVATE_CRON_SECRET;
