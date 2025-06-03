@@ -46,7 +46,7 @@
   "dependencies": {
     "@sentry/sveltekit": "^9.5.0",
     "@supabase/ssr": "^0.5.2",
-    "@supabase/supabase-js": "^2.45.4",
+    "@supabase/supabase-js": "^2.49.8",
     "animejs": "^4.0.2",
     "axios": "^1.7.7",
     "bullmq": "^5.41.7",
