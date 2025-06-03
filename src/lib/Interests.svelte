@@ -12,21 +12,28 @@
   }
 </script>
 
-<section class="mt-10 flex w-full max-w-[400px] flex-col items-start rounded-[30px]">
-  <h2 class="mb-6 text-4xl font-semibold text-black">{title}</h2>
-  <div class="mt-4 flex flex-wrap gap-3 text-xl">
+<div class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6 shadow-card">
+  <div class="mb-6">
+    <h2 class="mb-2 text-heading-xl font-semibold text-white">{title}</h2>
+    <p class="text-body-lg text-gray-300">Select your areas of interest and expertise</p>
+  </div>
+
+  <div class="flex flex-wrap gap-3">
     {#each interests as interest}
       <button
-        class="rounded-[30px] border-2 border-solid border-lime-800 px-5 py-4 text-base transition-colors duration-200 ease-in-out"
-        class:bg-lime-800={selectedInterests.includes(interest)}
-        class:text-white={selectedInterests.includes(interest)}
+        type="button"
+        class="rounded-xl border-2 border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-label-md font-medium transition-all duration-200 hover:border-dashboard-purple-500 hover:bg-dashboard-gray-700"
+        class:!border-dashboard-purple-500={selectedInterests.includes(interest)}
+        class:!bg-dashboard-purple-500={selectedInterests.includes(interest)}
+        class:!text-white={selectedInterests.includes(interest)}
+        class:text-gray-300={!selectedInterests.includes(interest)}
         on:click={() => toggleInterest(interest)}
       >
         {interest}
       </button>
     {/each}
   </div>
-</section>
+</div>
 
 <style>
   button {

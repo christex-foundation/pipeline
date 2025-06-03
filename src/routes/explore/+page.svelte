@@ -258,54 +258,56 @@
               </p>
             </div>
 
-            <!-- Create Project CTA Card -->
-            <div
-              class="group relative overflow-hidden rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6 shadow-card transition-all duration-300 hover:border-dashboard-gray-600 hover:shadow-lg"
-            >
-              <div class="flex h-full flex-col items-center justify-center text-center">
-                <!-- Icon -->
-                <div class="mb-4 rounded-full bg-dashboard-purple-500/10 p-4">
-                  <svg
-                    class="h-8 w-8 text-dashboard-purple-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    />
-                  </svg>
-                </div>
-
-                <!-- Text Content -->
-                <h3 class="mb-2 text-heading-md text-white">Create Your Project</h3>
-                <p class="mb-4 text-body-md text-gray-400">
-                  Have an innovative idea? Start your own project and connect with supporters who
-                  believe in your vision.
-                </p>
-
-                <!-- CTA Button -->
-                <a
-                  href="/project/create"
-                  class="rounded-xl bg-dashboard-purple-500 px-6 py-2 font-medium text-white transition-colors duration-300 hover:bg-dashboard-purple-600"
-                >
-                  <span class="flex items-center gap-2">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {#if data.isAuthenticated}
+              <!-- Create Project CTA Card -->
+              <div
+                class="group relative overflow-hidden rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6 shadow-card transition-all duration-300 hover:border-dashboard-gray-600 hover:shadow-lg"
+              >
+                <div class="flex h-full flex-col items-center justify-center text-center">
+                  <!-- Icon -->
+                  <div class="mb-4 rounded-full bg-dashboard-purple-500/10 p-4">
+                    <svg
+                      class="h-8 w-8 text-dashboard-purple-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="2"
-                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                       />
                     </svg>
-                    Start Creating
-                  </span>
-                </a>
+                  </div>
+
+                  <!-- Text Content -->
+                  <h3 class="mb-2 text-heading-md text-white">Create Your Project</h3>
+                  <p class="mb-4 text-body-md text-gray-400">
+                    Have an innovative idea? Start your own project and connect with supporters who
+                    believe in your vision.
+                  </p>
+
+                  <!-- CTA Button -->
+                  <a
+                    href="/project/create"
+                    class="rounded-xl bg-dashboard-purple-500 px-6 py-2 font-medium text-white transition-colors duration-300 hover:bg-dashboard-purple-600"
+                  >
+                    <span class="flex items-center gap-2">
+                      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
+                      </svg>
+                      Start Creating
+                    </span>
+                  </a>
+                </div>
               </div>
-            </div>
+            {/if}
 
             {#if data.allProjects.length > 0}
               {#each loadedProjects as project (project.id)}

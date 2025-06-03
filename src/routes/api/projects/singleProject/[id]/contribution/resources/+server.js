@@ -11,11 +11,6 @@ export async function GET({ params, locals, setHeaders }) {
   try {
     const totalResources = await getProjectResources(id, supabase);
 
-    setHeaders({
-      'Cache-Control': 'public, max-age=600, stale-while-revalidate=300',
-      Vary: 'Accept-Encoding',
-    });
-
     return json({ totalResources }, { status: 200 });
   } catch (error) {
     return json({ error: error.message }, { status: 500 });

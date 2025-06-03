@@ -14,10 +14,5 @@ export async function GET({ locals: { authUser, supabase }, setHeaders }) {
     ...profile,
   };
 
-  setHeaders({
-    'Cache-Control': 'public, max-age=600, stale-while-revalidate=300',
-    Vary: 'Accept-Encoding',
-  });
-
   return json({ user }, { status: 200 });
 }

@@ -15,11 +15,6 @@ export async function GET({ url, locals, setHeaders }) {
   try {
     const projects = await getProjectsWithDetails(term, page, limit, supabase);
 
-    setHeaders({
-      'Cache-Control': 'public, max-age=600, stale-while-revalidate=300',
-      Vary: 'Accept-Encoding',
-    });
-
     return json({ projects: projects }, { status: 200 });
   } catch (error) {
     return json({ error: error.message }, { status: 500 });

@@ -49,6 +49,8 @@ export async function getProject(id, supabase) {
       `*,
     category_project!inner (
         categories!inner (
+          title,
+          id,
           image
         )
       )`,
