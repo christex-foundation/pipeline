@@ -22,6 +22,7 @@ export async function getProjectsWithCategories(term, start, end, supabase) {
       current_funding,
       user_id,
       bio,
+      published_at,
       dpgStatus,
       category_project!inner (
         categories!inner (
@@ -30,6 +31,9 @@ export async function getProjectsWithCategories(term, start, end, supabase) {
       )
     `,
   );
+
+  // Only show published projects on explore page
+  query = query.not('published_at', 'is', null);
 
   // Conditionally add search filter only if term is provided
   if (term && term.trim() !== '') {
@@ -99,6 +103,7 @@ export async function getProjectsByUserIdWithCategories(userId, start, end, supa
     funding_goal,
     current_funding,
     user_id,
+    published_at,
     dpgStatus,
     category_project!inner (
       categories!inner (
