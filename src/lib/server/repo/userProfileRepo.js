@@ -8,7 +8,13 @@ export async function getMultipleProfiles(userIds, supabase) {
 }
 
 export async function getProfile(userId, supabase) {
-  const { data, error } = await supabase.from('profile').select('*').eq('user_id', userId).single();
+  const { data, error } = await supabase
+    .from('profile')
+    .select(
+      'name, bio, country, interests, skills, image, points, banner, github, discord, twitter, web',
+    )
+    .eq('user_id', userId)
+    .single();
 
   if (error) throw new Error(error.message);
   return data || {};

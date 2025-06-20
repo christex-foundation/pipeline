@@ -22,7 +22,6 @@
   }
 
   function toggleMobileMenu() {
-    console.log('toggleMobileMenu');
     isMobileMenuOpen = !isMobileMenuOpen;
     if (!isMobileMenuOpen) {
       isResourcesOpen = false;
@@ -80,14 +79,14 @@
     </div>
   </div>
 
-  <div class="grow-0 items-center justify-end gap-4 lg:flex" class:hidden={!data.isAuthenticated}>
+  <div class="grow-0 items-center justify-end gap-4 lg:flex">
     {#if data.isAuthenticated}
       <UserProfile {data} />
     {:else}
       <div>
         <a
           href="/sign-in"
-          class="hidden rounded-xl bg-dashboard-yellow-400 px-6 py-3 text-label-lg font-semibold text-dashboard-black transition-colors hover:bg-dashboard-yellow-500"
+          class="rounded-xl bg-dashboard-yellow-400 px-6 py-3 text-label-lg font-semibold text-dashboard-black transition-colors hover:bg-dashboard-yellow-500 max-lg:hidden"
         >
           Sign up / Log in
         </a>

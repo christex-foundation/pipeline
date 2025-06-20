@@ -79,7 +79,7 @@ describe('create project action', () => {
 
     // Act
     const result = await actions.default({ request, locals, fetch });
-    console.log(result);
+
     // Assert
     expect(result.type).toBe('success');
     expect(result.redirectTo).toBe(`/project/${fakeProjectId}`);

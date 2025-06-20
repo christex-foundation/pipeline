@@ -7,9 +7,9 @@
   const user = data.user;
 
   const socialLinks = [
-    { key: 'github', icon: 'mdi:github', prefix: '' },
-    { key: 'discord', icon: 'ph:discord-logo-fill', prefix: '' },
-    { key: 'twitter', icon: 'mdi:twitter', prefix: '' },
+    { key: 'github', icon: 'mdi:github', prefix: 'https://github.com/' },
+    { key: 'discord', icon: 'ph:discord-logo-fill', prefix: 'https://discord.com/users/' },
+    { key: 'twitter', icon: 'mdi:twitter', prefix: 'https://x.com/' },
     { key: 'website', icon: 'mdi:globe', prefix: '' },
     { key: 'email', icon: 'mdi:email', prefix: 'mailto:' },
   ];

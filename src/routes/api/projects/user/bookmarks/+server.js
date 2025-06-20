@@ -7,7 +7,7 @@ import { getUserBookmarkedProjects } from '$lib/server/service/projectService.js
  * Depricating in favour off /api/projects
  * TODO: use builder pattern
  */
-export async function GET({ request, url, locals }) {
+export async function GET({ request, url, locals, setHeaders }) {
   const page = parseInt(url.searchParams.get('page') || '1', 10);
   const limit = parseInt(url.searchParams.get('limit') || '6', 10);
   let user = locals.authUser;

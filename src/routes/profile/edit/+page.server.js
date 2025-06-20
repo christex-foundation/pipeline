@@ -36,8 +36,6 @@ export const actions = {
       data.image = old_image;
     }
 
-    console.log(data);
-
     try {
       const response = await fetch('/api/profile/update', {
         method: 'PUT',

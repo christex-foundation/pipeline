@@ -2,7 +2,7 @@
 import { getProjectById } from '$lib/server/service/projectService.js';
 import { json } from '@sveltejs/kit';
 
-export async function GET({ request, params, locals }) {
+export async function GET({ request, params, locals, setHeaders }) {
   const projectId = params.id;
   let supabase = locals.supabase;
 

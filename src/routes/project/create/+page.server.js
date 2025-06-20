@@ -12,8 +12,6 @@ export const actions = {
 
     const { data, error: validationError, success } = createProjectSchema.safeParse(form);
 
-    console.log(data);
-
     if (!success) {
       const errors = validationError.flatten().fieldErrors;
       const firstError = Object.values(errors).flat().at(0);

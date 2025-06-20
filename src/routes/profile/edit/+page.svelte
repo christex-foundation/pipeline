@@ -7,12 +7,6 @@
   import { applyAction, enhance } from '$app/forms';
   import { toast } from 'svelte-sonner';
 
-  import { Button } from '$lib/components/ui/button';
-  import { Input } from '$lib/components/ui/input';
-  import { Label } from '$lib/components/ui/label';
-  import { Checkbox } from '$lib/components/ui/checkbox';
-  import { Textarea } from '$lib/components/ui/textarea';
-
   let activeNavItem = 'Profile';
   let loading = false;
   export let data;
@@ -20,67 +14,78 @@
 </script>
 
 <!-- Main Content Container -->
-<div class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-  <!-- Breadcrumb Navigation -->
-  <nav class="mb-6 pt-8">
-    <div class="flex items-center gap-2">
-      <a
-        href="/profile"
-        class="flex items-center gap-2 text-body-lg font-medium text-gray-300 transition-colors hover:text-white"
-      >
-        <Icon icon="mdi:arrow-left" class="h-5 w-5" />
-        Profile
-      </a>
-      <Icon icon="mdi:chevron-right" class="h-4 w-4 text-gray-500" />
-      <span class="text-body-lg text-gray-400">Edit Profile</span>
-    </div>
-  </nav>
-
-  <!-- Content Section -->
-  <section class="mx-auto max-w-7xl pt-8">
-    <form
-      action="?/updateProfile"
-      method="POST"
-      class="flex w-full flex-col items-center"
-      enctype="multipart/form-data"
-      use:enhance={() => {
-        return async ({ result }) => {
-          loading = true;
-          if (result.type === 'failure') {
-            toast.error(result?.data?.error || 'failed to edit profile');
-          } else if (result.type === 'error') {
-            toast.error('could not update profile');
-          }
-          toast.success('Profile updated successfully');
-          loading = false;
-          await applyAction(result);
-        };
-      }}
-    >
-      <div class="grid grid-cols-1 gap-10 lg:grid-cols-2">
-        <!-- Left Column - Profile Information -->
-        <div class="space-y-8">
-          <ProfileForm {user} />
-        </div>
-
-        <!-- Right Column - Links & Social -->
-        <div class="space-y-8">
-          <ProfileLinks {user} />
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="mt-16">
-        <Button
-          type="submit"
-          class="h-12 rounded-xl bg-teal-600 px-8 text-base font-semibold text-white shadow-md transition-all duration-200 hover:bg-teal-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-teal-600"
-          disabled={loading}
+<div class="min-h-screen bg-dashboard-black">
+  <div class="container mx-auto max-w-7xl px-8 pb-20">
+    <!-- Breadcrumb Navigation -->
+    <nav class="mb-6 pt-8">
+      <div class="flex items-center gap-2">
+        <a
+          href="/profile"
+          class="flex items-center gap-2 text-body-lg font-medium text-gray-300 transition-colors hover:text-white"
         >
-          {loading ? 'Updating Profile...' : 'Update Profile'}
-        </Button>
+          <Icon icon="mdi:arrow-left" class="h-5 w-5" />
+          Profile
+        </a>
+        <Icon icon="mdi:chevron-right" class="h-4 w-4 text-gray-500" />
+        <span class="text-body-lg text-gray-400">Edit Profile</span>
       </div>
-    </form>
-  </section>
+    </nav>
+
+    <!-- Content Section -->
+    <section class="mx-auto max-w-7xl pt-8">
+      <form
+        action="?/updateProfile"
+        method="POST"
+        class="flex w-full flex-col items-center"
+        enctype="multipart/form-data"
+        use:enhance={() => {
+          loading = true;
+          return async ({ result }) => {
+            if (result.type === 'failure') {
+              const errorMessage = String(result?.data?.error || 'failed to edit profile');
+              toast.error(errorMessage);
+            } else if (result.type === 'error') {
+              toast.error('could not update profile');
+            } else {
+              toast.success('Profile updated successfully');
+            }
+            loading = false;
+            await applyAction(result);
+          };
+        }}
+      >
+        <div class="grid grid-cols-1 gap-10 lg:grid-cols-2">
+          <!-- Left Column - Profile Information -->
+          <div class="space-y-8">
+            <ProfileForm {user} />
+          </div>
+
+          <!-- Right Column - Links & Social -->
+          <div class="space-y-8">
+            <ProfileLinks {user} />
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-16">
+          <button
+            type="submit"
+            class="rounded-xl bg-dashboard-purple-500 px-8 py-3 text-label-lg font-medium text-white transition-colors hover:bg-dashboard-purple-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dashboard-purple-500 disabled:pointer-events-none disabled:opacity-50"
+            disabled={loading}
+          >
+            {#if loading}
+              <span class="flex items-center gap-2">
+                <Icon icon="lucide:loader-2" class="h-4 w-4 animate-spin" />
+                Updating Profile...
+              </span>
+            {:else}
+              Update Profile
+            {/if}
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
 </div>
 
 <style>

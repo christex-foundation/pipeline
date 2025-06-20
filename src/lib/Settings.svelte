@@ -1,47 +1,67 @@
 <script>
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
-  import { Button } from '$lib/components/ui/button';
 </script>
 
-<form
-  class="mx-auto flex w-[79%] flex-col text-3xl text-black max-lg:w-full max-md:mt-[-40px] max-md:max-w-full"
->
-  <div
-    class="flex flex-row items-start justify-between w-full mb-4 max-md:flex-col max-md:items-start"
-  >
-    <div class="flex flex-col mt-8">
-      <Label for="currentPassword" class="text-xl font-semibold text-black max-md:mb-2">Current Password</Label>
-    </div>
-    <div class="w-2/3 max-md:w-full">
-      <Input type="text" id="currentPassword" aria-required="true" />
-    </div>
-  </div>
-  <div
-    class="flex flex-row items-start justify-between w-full mb-4 max-md:flex-col max-md:items-start"
-  >
-    <div class="flex flex-col mt-8">
-      <Label for="newPassword" class="text-xl font-semibold text-black max-md:mb-2">New Password</Label>
-    </div>
-    <div class="w-2/3 max-md:w-full">
-      <Input type="text" id="newPassword" aria-required="true" />
-    </div>
+<div class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6 shadow-card">
+  <div class="mb-6">
+    <h2 class="mb-2 text-heading-xl font-semibold text-white">Account Settings</h2>
+    <p class="text-body-lg text-gray-300">Update your password and account preferences</p>
   </div>
 
-  <div class="flex flex-row items-start justify-between w-full max-md:flex-col max-md:items-start">
-    <div class="flex flex-col mt-8">
-      <Label for="confirmPassword" class="text-xl font-semibold text-black max-md:mb-2">Confirm Password</Label>
+  <form class="space-y-8">
+    <!-- Current Password -->
+    <div class="space-y-3">
+      <Label for="currentPassword" class="text-label-lg font-medium text-gray-300"
+        >Current Password</Label
+      >
+      <Input
+        type="password"
+        id="currentPassword"
+        aria-required="true"
+        class="w-full rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-body-lg text-white focus:border-dashboard-purple-500 focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500"
+      />
     </div>
-    <div class="w-2/3 max-md:w-full">
-      <Input type="text" id="confirmPassword" aria-required="true" />
+
+    <!-- New Password -->
+    <div class="space-y-3">
+      <Label for="newPassword" class="text-label-lg font-medium text-gray-300">New Password</Label>
+      <Input
+        type="password"
+        id="newPassword"
+        aria-required="true"
+        class="w-full rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-body-lg text-white focus:border-dashboard-purple-500 focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500"
+      />
     </div>
-  </div>
 
-  <Button
-    class="mt-8 self-end whitespace-nowrap rounded-[128px] bg-lime-800 px-16 py-2 text-xl text-white max-lg:w-[30%] max-lg:py-3 max-lg:text-base max-md:w-[45%] max-md:px-5"
-  >
-    Done
-  </Button>
+    <!-- Confirm Password -->
+    <div class="space-y-3">
+      <Label for="confirmPassword" class="text-label-lg font-medium text-gray-300"
+        >Confirm Password</Label
+      >
+      <Input
+        type="password"
+        id="confirmPassword"
+        aria-required="true"
+        class="w-full rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-body-lg text-white focus:border-dashboard-purple-500 focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500"
+      />
+    </div>
 
-  <Button>Delete Account</Button>
-</form>
+    <!-- Action Buttons -->
+    <div class="flex flex-col gap-4 pt-4 sm:flex-row sm:justify-between">
+      <button
+        type="submit"
+        class="rounded-xl bg-dashboard-purple-500 px-6 py-3 text-label-lg font-medium text-white transition-colors hover:bg-dashboard-purple-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dashboard-purple-500"
+      >
+        Update Password
+      </button>
+
+      <button
+        type="button"
+        class="rounded-xl bg-dashboard-error-500 px-6 py-3 text-label-lg font-medium text-white transition-colors hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+      >
+        Delete Account
+      </button>
+    </div>
+  </form>
+</div>

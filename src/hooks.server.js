@@ -2,7 +2,6 @@ import { createServerClient } from '@supabase/ssr';
 import { redirect, init, ServerInit } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { createClient } from '@supabase/supabase-js';
-import * as Sentry from '@sentry/sveltekit';
 
 import {
   SUPABASE_SERVICE_KEY,
@@ -77,6 +76,53 @@ const authGuard = async ({ event, resolve }) => {
   return resolve(event);
 };
 
+const apiProtection = async ({ event, resolve }) => {
+  if (event.url.pathname.startsWith('/api/')) {
+    // Define public API routes with allowed methods
+    const publicRoutes = [
+      { path: '/api/projects/singleProject', methods: ['GET'] },
+      { path: '/api/projects', methods: ['GET'] },
+      { path: '/api/signIn', methods: ['POST'] },
+      { path: '/api/signUp', methods: ['POST'] },
+      // { path: '/api/categories', methods: ['GET'] },
+    ];
+
+    const matchedRoute = publicRoutes.find((route) => event.url.pathname.startsWith(route.path));
+
+    const isPublicRoute = matchedRoute !== undefined;
+
+    // Check if the HTTP method is allowed for public routes
+    if (isPublicRoute && !matchedRoute.methods.includes(event.request.method)) {
+      return new Response('Method Not Allowed', { status: 405 });
+    }
+
+    // For protected routes, require authentication
+    if (!isPublicRoute) {
+      const { session } = await event.locals.safeGetSession();
+
+      if (!session) {
+        return new Response('Unauthorized', { status: 401 });
+      }
+    }
+
+    // Apply origin check for all API routes (public or protected)
+    const origin = event.request.headers.get('origin');
+    const host = event.request.headers.get('host');
+    const isDevelopment = process.env.NODE_ENV === 'development';
+
+    if (origin) {
+      const expectedOrigin = `${event.url.protocol}//${host}`;
+      const isValidOrigin = origin === expectedOrigin;
+
+      if (!isValidOrigin && !isDevelopment) {
+        return new Response('Forbidden', { status: 403 });
+      }
+    }
+  }
+
+  return resolve(event);
+};
+
 const projectEvaluationWorker = new Worker(
   'projectEvaluation',
   async (job) => {
@@ -103,11 +149,4 @@ const projectEvaluationWorker = new Worker(
 
 console.log('Project evaluation worker is running...');
 
-Sentry.init({
-  dsn: 'https://a25a9dd442d4a7392fbee35b9ff029f7@o4508959238651904.ingest.us.sentry.io/4508959270502400',
-  tracesSampleRate: 1,
-});
-
-export const handleError = Sentry.handleErrorWithSentry();
-
-export const handle = sequence(supabase, authGuard, Sentry.sentryHandle());
+export const handle = sequence(supabase, authGuard);
