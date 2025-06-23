@@ -19,8 +19,6 @@ export async function processEvaluationQueue(limit, supabase) {
     return { success: true, message: 'No pending tasks', processed: 0, results: [] };
   }
 
-  console.log(`Found ${tasks.length} pending tasks`);
-
   // Process each task
   const results = [];
   for (const task of tasks) {
