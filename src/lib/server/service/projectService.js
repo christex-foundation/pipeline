@@ -26,7 +26,7 @@ import { getDpgStatuses } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
-import { createEvaluateQueue } from '$lib/server/service/evaluateQueueService.js';
+import { addToEvaluationQueue } from '$lib/server/repo/evaluateQueueRepo.js';
 
 export async function getProjectsWithDetails(term, page, limit, supabase) {
   const start = (page - 1) * limit;
@@ -163,7 +163,7 @@ export async function storeProject(user, projectData, supabase) {
 
   console.log('Add Project evaluation to the queue');
 
-  await createEvaluateQueue(
+  await addToEvaluationQueue(
     {
       project_id: project.id,
       github_url: project.github,
