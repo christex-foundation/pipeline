@@ -4,25 +4,8 @@ import { createProjectUpdate } from '$lib/server/service/projectUpdatesService.j
 import { checkDPGStatus, getEmbedding } from '$lib/server/service/aiService.js';
 import { saveDPGStstatus } from '$lib/server/service/dpgStatusService.js';
 import { parseGithubUrl } from '$lib/server/github.js';
-import { Queue } from 'bullmq';
 import axios from 'axios';
-
-import {
-  supabaseAnonKey,
-  supabaseUrl,
-  redisHost,
-  redisPort,
-  redisPassword,
-} from '$lib/server/config.js';
-
-const projectEvaluationQueue = new Queue('projectEvaluation', {
-  connection: {
-    host: redisHost,
-    // @ts-ignore
-    port: redisPort,
-    password: redisPassword,
-  },
-});
+import { addToEvaluationQueue } from '$lib/server/repo/evaluateQueueRepo.js';
 
 export async function githubWebhook(data, supabase) {
   try {
@@ -64,17 +47,15 @@ export async function githubWebhook(data, supabase) {
     }
 
     console.log('Adding project to evaluation queue...');
-    await projectEvaluationQueue
-      .add('evaluateProject', {
-        github: project.github,
-        projectId: project.id,
-        supabaseUrl,
-        supabaseAnonKey,
-      })
-      .catch((err) => {
-        console.error('Failed to enqueue project evaluation:', err);
-      });
 
+    await addToEvaluationQueue(
+      {
+        project_id: project.id,
+        github_url: project.github,
+        status: 'pending',
+      },
+      supabase,
+    );
     return { success: true };
   } catch (error) {
     console.error('Error processing webhook:', error);
@@ -83,10 +64,7 @@ export async function githubWebhook(data, supabase) {
 }
 
 export async function evaluateProject(url, projectId, supabase) {
-  console.log('Evaluating project:', url);
-  console.log('Evaluating project ID:', projectId);
   const { owner, repo } = parseGithubUrl(url);
-  console.log('Owner:', owner, 'Repo:', repo);
 
   if (!owner || !repo) {
     return json({ success: false, message: 'Invalid GitHub repository URL' });
@@ -116,7 +94,7 @@ export async function getDpgSimilarProjects(projectData, supabase) {
     const { data } = await axios.get('https://app.digitalpublicgoods.net/api/v1/dpgs');
 
     if (!Array.isArray(data)) {
-      return res.status(500).json({ error: 'Invalid API response format.' });
+      return { error: 'Invalid API response format.' };
     }
 
     // Compute similarity scores for each project
@@ -142,6 +120,6 @@ export async function getDpgSimilarProjects(projectData, supabase) {
     return { data: sortedProjects };
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error. Please try again later.' });
+    return { error: 'Internal server error. Please try again later.' };
   }
 }

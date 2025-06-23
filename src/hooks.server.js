@@ -1,18 +1,13 @@
 import { createServerClient } from '@supabase/ssr';
-import { redirect, init, ServerInit } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { createClient } from '@supabase/supabase-js';
 
 import {
   SUPABASE_SERVICE_KEY,
   supabaseUrl,
-  redisHost,
-  redisPort,
-  redisPassword,
 } from '$lib/server/config.js';
 
-import { Worker } from 'bullmq';
-import { evaluateProject } from '$lib/server/service/githubWebhookService.js';
 
 const supabase = async ({ event, resolve }) => {
   /**
@@ -123,30 +118,5 @@ const apiProtection = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-const projectEvaluationWorker = new Worker(
-  'projectEvaluation',
-  async (job) => {
-    try {
-      const { github, projectId, supabaseUrl, supabaseAnonKey } = job.data;
-
-      const supabaseConn = createClient(supabaseUrl, supabaseAnonKey);
-
-      await evaluateProject(github, projectId, supabaseConn);
-
-      console.log(`Evaluation completed for: ${github}`);
-    } catch (error) {
-      console.error('Worker encountered an error:', error);
-    }
-  },
-  {
-    connection: {
-      host: redisHost,
-      port: redisPort,
-      password: redisPassword,
-    },
-  },
-);
-
-console.log('Project evaluation worker is running...');
 
 export const handle = sequence(supabase, authGuard);
