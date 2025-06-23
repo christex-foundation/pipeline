@@ -9,7 +9,7 @@ export async function getEvaluationQueue(limit, supabase) {
   return data;
 }
 
-export async function createEvaluationQueue(data, supabase) {
+export async function addToEvaluationQueue(data, supabase) {
   const { data: queueData, error } = await supabase.from('evaluation_queue').insert(data).select();
   if (error) throw new Error(error.message);
   return queueData;
