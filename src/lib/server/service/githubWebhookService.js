@@ -5,7 +5,7 @@ import { checkDPGStatus, getEmbedding } from '$lib/server/service/aiService.js';
 import { saveDPGStstatus } from '$lib/server/service/dpgStatusService.js';
 import { parseGithubUrl } from '$lib/server/github.js';
 import axios from 'axios';
-import { createEvaluateQueue } from '$lib/server/service/evaluateQueueService.js';
+import { addToEvaluationQueue } from '$lib/server/repo/evaluateQueueRepo.js';
 
 export async function githubWebhook(data, supabase) {
   try {
@@ -48,7 +48,7 @@ export async function githubWebhook(data, supabase) {
 
     console.log('Adding project to evaluation queue...');
 
-    await createEvaluateQueue(
+    await addToEvaluationQueue(
       {
         project_id: project.id,
         github_url: project.github,
