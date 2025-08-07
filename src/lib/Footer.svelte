@@ -95,6 +95,28 @@
           <Icon icon="mdi:github" class="h-4 w-4" />
           View on GitHub
         </a>
+        // ...existing code...
+      <div class="flex items-center">
+        <a
+          href="https://github.com/christex-foundation/pipeline"
+          target="_blank"
+          rel="noreferrer"
+          class="flex items-center gap-2 text-gray-400 transition-colors duration-300 hover:text-dashboard-yellow-400"
+        >
+          <Icon icon="mdi:github" class="h-4 w-4" />
+          View on GitHub
+        </a>
+        <a
+          href="https://github.com/orgs/christex-foundation/discussions"
+          target="_blank"
+          rel="noreferrer"
+          class="ml-4 text-gray-400 transition-colors duration-300 hover:text-dashboard-yellow-400"
+        >
+          Discuss
+        </a>
+        <a href="" class="ml-4">Join</a>
+      </div>
+// ...existing
       </div>
     </div>
   </div>
