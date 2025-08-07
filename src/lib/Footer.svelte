@@ -95,6 +95,8 @@
           <Icon icon="mdi:github" class="h-4 w-4" />
           View on GitHub
         </a>
+        <a href="https://github.com/christex-foundation/pipeline">join</a>
+
       </div>
     </div>
   </div>
