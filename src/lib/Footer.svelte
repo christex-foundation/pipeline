@@ -95,6 +95,15 @@
           <Icon icon="mdi:github" class="h-4 w-4" />
           View on GitHub
         </a>
+        <a
+          href="https://discourse.pipeline.foundation"
+          target="_blank"
+          rel="noreferrer"
+          class="ml-4 flex items-center gap-2 text-gray-400 transition-colors duration-300 hover:text-dashboard-yellow-400"
+        >
+          <Icon icon="mdi:forum" class="h-4 w-4" />
+          Community Forum
+        </a>
       </div>
     </div>
   </div>
