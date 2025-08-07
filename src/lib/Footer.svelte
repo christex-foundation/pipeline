@@ -55,6 +55,16 @@
               >Learn about DPGs</a
             >
           </li>
+          <li>
+            <a
+              href="https://discourse.digitalpublicgoods.net"
+              target="_blank"
+              class="transition-colors duration-300 hover:text-dashboard-yellow-400"
+            >
+              Join the Discourse
+            </a>href="">joint</a>
+            
+          </li>
         </ul>
       </nav>
 
