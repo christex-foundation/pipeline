@@ -11,6 +11,9 @@ import { processEvaluationQueue } from '$lib/server/service/evaluateQueueService
 export async function GET(event) {
   // Verify this is a legitimate cron job request from Vercel
   const authHeader = event.request.headers.get('authorization');
+  console.log('authHeader', authHeader);
+  console.log('cronSecret', cronSecret);
+  console.log('authHeader === `Bearer ${cronSecret}`:', authHeader === `Bearer ${cronSecret}`);
 
   // If CRON_SECRET is set, verify the authorization header
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
