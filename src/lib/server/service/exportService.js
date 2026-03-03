@@ -23,7 +23,7 @@ function stringifyCell(value) {
  * @returns {string}
  */
 function escapeCsv(value) {
-  if (value.includes('"') || value.includes(',') || value.includes('\n')) {
+  if (value.includes('"') || value.includes(',') || /[\r\n]/.test(value)) {
     return `"${value.replace(/"/g, '""')}"`;
   }
 
@@ -40,7 +40,7 @@ export function toCsv(rows) {
   }
 
   const headers = [...new Set(rows.flatMap((row) => Object.keys(row)))];
-  const headerRow = headers.join(',');
+  const headerRow = headers.map((header) => escapeCsv(header)).join(',');
   const body = rows
     .map((row) =>
       headers.map((header) => escapeCsv(stringifyCell(row[header] ?? ''))).join(','),

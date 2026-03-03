@@ -41,6 +41,7 @@ export async function GET({ url, locals }) {
 
     return new Response(JSON.stringify(payload, null, 2), { status: 200, headers });
   } catch (error) {
-    return json({ error: error.message || 'Failed to export data' }, { status: 500 });
+    console.error('Profile export failed', { error, userId: authUser?.id });
+    return json({ error: 'Failed to export data' }, { status: 500 });
   }
 }

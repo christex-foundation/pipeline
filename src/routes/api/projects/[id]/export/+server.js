@@ -6,7 +6,12 @@ import { json } from '@sveltejs/kit';
  * @param {string} projectId
  */
 function getExportHeaders(format, projectId) {
-  const filename = `pipeline-project-export-${projectId}-${new Date().toISOString().split('T')[0]}.${format}`;
+  const sanitizedProjectId = projectId
+    .replace(/[\r\n"]/g, '')
+    .replace(/[^A-Za-z0-9._-]/g, '_')
+    .slice(0, 64);
+  const safeProjectId = sanitizedProjectId || 'project';
+  const filename = `pipeline-project-export-${safeProjectId}-${new Date().toISOString().split('T')[0]}.${format}`;
   const contentType = format === 'csv' ? 'text/csv; charset=utf-8' : 'application/json';
 
   return {
@@ -50,6 +55,7 @@ export async function GET({ params, url, locals }) {
       return json({ error: 'Project not found' }, { status: 404 });
     }
 
-    return json({ error: error.message || 'Failed to export project data' }, { status: 500 });
+    console.error('Project export failed', { error, projectId, userId: authUser?.id });
+    return json({ error: 'Failed to export project data' }, { status: 500 });
   }
 }
