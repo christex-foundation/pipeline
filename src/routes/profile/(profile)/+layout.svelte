@@ -1,7 +1,7 @@
 <script>
   import { page } from '$app/stores';
   import Icon from '@iconify/svelte';
-  import { Button } from '$lib/components/ui/button';
+  import { toast } from 'svelte-sonner';
 
   export let data;
   const user = data.user;
@@ -49,6 +49,37 @@
   }
 
   $: activeTabIndex = getActiveTab(pathname);
+
+  /**
+   * @param {'json' | 'csv'} format
+   */
+  async function downloadMyData(format = 'json') {
+    try {
+      const response = await fetch(`/api/profile/export?format=${format}`);
+
+      if (!response.ok) {
+        throw new Error('Failed to export user data');
+      }
+
+      const blob = await response.blob();
+      const downloadUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+
+      const disposition = response.headers.get('content-disposition');
+      const filenameMatch = disposition?.match(/filename="(.+)"/);
+      const filename = filenameMatch?.[1] || `pipeline-user-export.${format}`;
+
+      link.href = downloadUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(downloadUrl);
+      toast.success(`Downloaded user data as ${format.toUpperCase()}`);
+    } catch (error) {
+      toast.error(error.message || 'Could not download user data');
+    }
+  }
 </script>
 
 <div class="min-h-screen bg-dashboard-black">
@@ -162,6 +193,15 @@
                   Edit Profile
                 </button>
               </a>
+
+              <button
+                on:click={() => downloadMyData('json')}
+                class="focus-ring flex w-full items-center justify-center gap-2 rounded-xl border border-dashboard-gray-600 bg-dashboard-gray-800 px-6 py-3 text-label-lg font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-dashboard-gray-700"
+                type="button"
+              >
+                <Icon icon="mdi:download" class="h-5 w-5" />
+                Download My Data
+              </button>
             </div>
           </div>
         </div>

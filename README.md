@@ -161,6 +161,15 @@ npm run check:watch
 npm run format
 ```
 
+### Data Export APIs
+
+Pipeline supports user/project data export in `JSON` and `CSV` formats:
+
+- `GET /api/profile/export?format=json|csv`
+  - Returns the authenticated user's data export file
+- `GET /api/projects/:id/export?format=json|csv`
+  - Returns project export data for project owners/team members
+
 ## 📁 Project Structure
 
 ```
