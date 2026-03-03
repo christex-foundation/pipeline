@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import Icon from '@iconify/svelte';
   import { toast } from 'svelte-sonner';
+  import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 
   export let data;
   const user = data.user;
@@ -53,7 +54,7 @@
   /**
    * @param {'json' | 'csv'} format
    */
-  async function downloadMyData(format = 'json') {
+  async function downloadMyData(format) {
     try {
       const response = await fetch(`/api/profile/export?format=${format}`);
 
@@ -194,14 +195,29 @@
                 </button>
               </a>
 
-              <button
-                on:click={() => downloadMyData('json')}
-                class="focus-ring flex w-full items-center justify-center gap-2 rounded-xl border border-dashboard-gray-600 bg-dashboard-gray-800 px-6 py-3 text-label-lg font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-dashboard-gray-700"
-                type="button"
-              >
-                <Icon icon="mdi:download" class="h-5 w-5" />
-                Download My Data
-              </button>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger
+                  class="focus-ring flex w-full items-center justify-center gap-2 rounded-xl border border-dashboard-gray-600 bg-dashboard-gray-800 px-6 py-3 text-label-lg font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-dashboard-gray-700"
+                >
+                  <Icon icon="mdi:download" class="h-5 w-5" />
+                  Download My Data
+                  <Icon icon="mdi:chevron-down" class="h-5 w-5" />
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content class="z-50 min-w-[180px] rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-1 text-white">
+                  <DropdownMenu.Item
+                    class="cursor-pointer rounded-lg px-3 py-2 text-sm hover:bg-dashboard-gray-800"
+                    on:click={() => downloadMyData('json')}
+                  >
+                    Download as JSON
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item
+                    class="cursor-pointer rounded-lg px-3 py-2 text-sm hover:bg-dashboard-gray-800"
+                    on:click={() => downloadMyData('csv')}
+                  >
+                    Download as CSV
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
             </div>
           </div>
         </div>

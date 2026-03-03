@@ -42,6 +42,12 @@
 - **Activity Feeds**: Stay updated with project developments and community activity
 - **Mobile-Responsive Design**: Seamless experience across all devices
 
+### 📤 **Data Portability**
+- **One-Click Data Download**: Users can download their account data directly from profile
+- **Multiple Export Formats**: Exports are available in JSON (default) and CSV formats
+- **Secure Export Access**: Project exports are restricted to project owners and project team members
+- **Export Safeguards**: Per-user rate limiting and record caps protect performance and prevent abuse
+
 ### 🔐 **Security & Authentication**
 - **Secure Authentication**: Supabase-powered authentication with social login options
 - **Content Security Policy**: Comprehensive CSP implementation for enhanced security
@@ -272,65 +278,6 @@ To enable real-time GitHub integration and automated project updates:
 6. Click **Add webhook**
 
 This enables automatic synchronization of project data with GitHub repositories.
-
-## 📤 Data Export APIs
-
-Pipeline supports authenticated data exports in `JSON` and `CSV` formats:
-
-- `GET /api/profile/export?format=json|csv`
-- `GET /api/projects/:id/export?format=json|csv`
-
-### Authentication and Authorization
-
-- Both endpoints require authentication. Unauthenticated requests return `401 Unauthorized`.
-- `GET /api/profile/export` exports only the currently authenticated user's data.
-- `GET /api/projects/:id/export` is authorized for:
-  - The project owner (`projects.user_id === requester id`)
-  - Project team members with a matching membership row in `project_members` (`project_id = :id` and `user_id = requester id`)
-- Project export authorization failures return `403 Forbidden`. Unknown projects return `404 Not Found`.
-
-### Exported Data Fields
-
-- Profile export (`/api/profile/export`) includes:
-  - `exported_at` timestamp
-  - `user`: authenticated `user_id` and profile data (can include PII such as contact/account profile details)
-  - `projects`: projects created by the user
-  - `contributions`: `project_resource` entries created by the user
-  - `bookmarks`: bookmarked project IDs and bookmark timestamps
-  - `updates`: project updates created by the user
-  - `comments`: update comments created by the user
-- Project export (`/api/projects/:id/export`) includes:
-  - `exported_at` timestamp
-  - `project`: project record (owner export may include full project fields; team-member export excludes sensitive fields like bank account, wallet address, and email)
-  - Project resources, updates, update comments, categories, and member metadata with timestamps where present in source tables
-
-### Response Format and Headers
-
-- Successful responses are file downloads (`Content-Disposition: attachment; filename="..."`), not inline API JSON pages.
-- `format=json` returns `Content-Type: application/json`.
-- `format=csv` returns `Content-Type: text/csv; charset=utf-8`.
-- `Cache-Control` is `no-store` for both endpoints.
-
-### Limits and Error Responses
-
-- Supported `format` values are `json` and `csv` (`400 Bad Request` for invalid format).
-- There are currently no endpoint-specific rate-limit or export-size caps implemented in application code.
-- Deployments may still enforce upstream/provider limits; clients should handle:
-  - `413 Payload Too Large` for provider-enforced response-size limits
-  - `429 Too Many Requests` for provider or edge rate limiting
-- Other expected responses:
-  - `401 Unauthorized` (no authenticated session)
-  - `403 Forbidden` (project export without owner/member access)
-  - `404 Not Found` (project export for unknown project)
-  - `500 Internal Server Error` (unexpected server failure)
-
-### Privacy, Portability, Retention, and Deletion
-
-- These exports support data portability workflows and are aligned with GDPR Article 20 (Right to Data Portability).
-- DPG Pipeline privacy posture also considers CCPA user rights around access and deletion requests.
-- Retention windows and deletion handling follow platform data-handling/legal policies; see:
-  - Privacy policy: https://pipeline-tau.vercel.app/privacy
-  - Data handling/legal documentation: [DPG Criterion 7 Privacy & Legal](./docs/DPG_CRITERION_7_PRIVACY_LEGAL.md)
 
 ## 📚 Documentation
 
