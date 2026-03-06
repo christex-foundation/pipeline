@@ -55,6 +55,13 @@
               >Learn about DPGs</a
             >
           </li>
+          <li>
+            <a
+              href="/privacy"
+              class="transition-colors duration-300 hover:text-dashboard-yellow-400"
+              >Privacy & Terms</a
+            >
+          </li>
         </ul>
       </nav>
 
