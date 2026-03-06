@@ -12,24 +12,25 @@
   async function downloadMyData() {
     exporting = true;
     try {
-      const response = await fetch('/api/data-export', {
-        method: 'POST'
-      });
+      const response = await fetch('/api/profile/export?format=json');
 
       if (!response.ok) {
         throw new Error('Failed to export data');
       }
 
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      const downloadUrl = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url;
-      a.download = `pipeline-data-${new Date().toISOString().split('T')[0]}.json`;
+
+      const disposition = response.headers.get('content-disposition');
+      const filenameMatch = disposition?.match(/filename="(.+)"/);
+      a.href = downloadUrl;
+      a.download = filenameMatch?.[1] || `pipeline-data-${new Date().toISOString().split('T')[0]}.json`;
       document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
+      window.URL.revokeObjectURL(downloadUrl);
       a.remove();
-      
+
       toast.success('Your data has been downloaded');
     } catch (error) {
       toast.error('Failed to download data. Please try again.');
