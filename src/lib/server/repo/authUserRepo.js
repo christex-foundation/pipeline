@@ -28,3 +28,9 @@ export async function logoutUser(supabase) {
     throw new Error('Failed to log out.');
   }
 }
+
+export async function deleteUser(userId) {
+  const { error } = await adminAuthClient.deleteUser(userId);
+
+  if (error) throw new Error(error.message);
+}

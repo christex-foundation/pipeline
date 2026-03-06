@@ -35,3 +35,8 @@ export async function updateProfile(id, profileData, supabase) {
   if (error) throw new Error(error.message);
   return data;
 }
+
+export async function deleteProfile(userId, supabase) {
+  const { error } = await supabase.from('profile').delete().eq('user_id', userId);
+  if (error) throw new Error(error.message);
+}

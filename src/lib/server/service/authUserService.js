@@ -1,5 +1,5 @@
-import { loginUser, registerUser, logoutUser } from '$lib/server/repo/authUserRepo.js';
-import { createProfile } from '$lib/server/repo/userProfileRepo.js';
+import { loginUser, registerUser, logoutUser, deleteUser } from '$lib/server/repo/authUserRepo.js';
+import { createProfile, deleteProfile } from '$lib/server/repo/userProfileRepo.js';
 import { json } from '@sveltejs/kit';
 
 export async function login(loginData, supabase) {
@@ -39,4 +39,9 @@ export async function register(registerData, supabase) {
 
 export async function signOut(supabase) {
   await logoutUser(supabase);
+}
+
+export async function deleteAccount(userId, supabase) {
+  await deleteProfile(userId, supabase);
+  await deleteUser(userId);
 }
