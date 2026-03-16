@@ -248,7 +248,7 @@
           For questions about this DPA or to request a custom agreement, contact us:
         </p>
         <ul class="mt-4 space-y-2 text-gray-300">
-          <li><strong class="text-white">Email:</strong> legal@christexfoundation.org</li>
+          <li><strong class="text-white">Email:</strong> hello@christex.foundation</li>
           <li><strong class="text-white">General:</strong> hello@christex.foundation</li>
         </ul>
       </div>
@@ -257,7 +257,7 @@
     <section class="rounded-xl border border-dashboard-purple-500/30 bg-dashboard-purple-500/10 p-6">
       <h3 class="mb-4 text-heading-lg font-semibold text-white">Questions?</h3>
       <p class="text-body-lg text-gray-300">
-        If you have any questions about this Data Processing Agreement, please contact us at <strong class="text-white">legal@christexfoundation.org</strong>.
+        If you have any questions about this Data Processing Agreement, please contact us at <strong class="text-white">hello@christex.foundation</strong>.
       </p>
     </section>
   </div>
