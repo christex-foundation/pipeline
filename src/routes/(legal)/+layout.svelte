@@ -4,21 +4,10 @@
 </script>
 
 <div class="min-h-screen bg-dashboard-black">
-  <header class="border-b border-dashboard-gray-700 bg-dashboard-gray-900">
-    <div class="container mx-auto flex h-16 items-center justify-between px-6">
-      <a href="/" class="flex items-center gap-2">
-        <Logo />
-        <span class="text-xl font-bold text-white">Pipeline</span>
-      </a>
-      <nav class="flex items-center gap-6">
-        <a href="/explore" class="text-gray-300 transition-colors hover:text-dashboard-yellow-400">Explore</a>
-        <a href="/resources/pipeline" class="text-gray-300 transition-colors hover:text-dashboard-yellow-400">Learn</a>
-      </nav>
-    </div>
-  </header>
-
   <div class="container mx-auto px-6 py-8">
-    <div class="mb-8 flex flex-wrap justify-center gap-4 rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-4">
+    <div
+      class="mb-8 flex flex-wrap justify-center gap-4 rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-4"
+    >
       <a
         href="/privacy"
         class="flex items-center gap-2 rounded-lg px-4 py-2 text-gray-300 transition-colors hover:bg-dashboard-gray-800 hover:text-white"
@@ -53,10 +42,4 @@
   <main>
     <slot />
   </main>
-
-  <footer class="mt-16 border-t border-dashboard-gray-700 bg-dashboard-gray-900 py-8">
-    <div class="container mx-auto px-6 text-center text-gray-400">
-      <p>&copy; {new Date().getFullYear()} Pipeline. Christex Foundation.</p>
-    </div>
-  </footer>
 </div>
