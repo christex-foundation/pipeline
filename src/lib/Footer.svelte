@@ -59,7 +59,21 @@
             <a
               href="/privacy"
               class="transition-colors duration-300 hover:text-dashboard-yellow-400"
-              >Privacy & Terms</a
+              >Privacy</a
+            >
+          </li>
+          <li>
+            <a
+              href="/terms"
+              class="transition-colors duration-300 hover:text-dashboard-yellow-400"
+              >Terms</a
+            >
+          </li>
+          <li>
+            <a
+              href="/cookies"
+              class="transition-colors duration-300 hover:text-dashboard-yellow-400"
+              >Cookies</a
             >
           </li>
         </ul>
