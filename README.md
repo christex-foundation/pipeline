@@ -42,6 +42,12 @@
 - **Activity Feeds**: Stay updated with project developments and community activity
 - **Mobile-Responsive Design**: Seamless experience across all devices
 
+### 📤 **Data Portability**
+- **One-Click Data Download**: Users can download their account data directly from profile
+- **Multiple Export Formats**: Exports are available in JSON (default) and CSV formats
+- **Secure Export Access**: Project exports are restricted to project owners and project team members
+- **Export Safeguards**: Per-user rate limiting and record caps protect performance and prevent abuse
+
 ### 🔐 **Security & Authentication**
 - **Secure Authentication**: Supabase-powered authentication with social login options
 - **Content Security Policy**: Comprehensive CSP implementation for enhanced security
