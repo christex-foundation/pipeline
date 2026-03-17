@@ -111,6 +111,115 @@ function humanizeKey(key) {
  * @param {string} value
  * @returns {string}
  */
+function escapeXml(value) {
+  if (value === null || value === undefined) {
+    return '';
+  }
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+/**
+ * @param {string} key
+ * @returns {string}
+ */
+function toXmlElementName(key) {
+  return key.replace(/[^A-Za-z0-9_-]/g, '_').replace(/^[0-9-]/, '_$');
+}
+
+/**
+ * Converts a value to XML representation
+ * @param {unknown} value
+ * @param {string} key
+ * @returns {string}
+ */
+function valueToXml(value, key) {
+  const elementName = toXmlElementName(key);
+  
+  if (value === null || value === undefined) {
+    return `<${elementName}/>`;
+  }
+  
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      return `<${elementName}></${elementName}>`;
+    }
+    return value.map((item) => valueToXml(item, 'item')).join('');
+  }
+  
+  if (typeof value === 'object') {
+    const children = Object.entries(value)
+      .map(([k, v]) => valueToXml(v, k))
+      .join('');
+    return `<${elementName}>${children}</${elementName}>`;
+  }
+  
+  return `<${elementName}>${escapeXml(String(value))}</${elementName}>`;
+}
+
+/**
+ * @param {Record<string, unknown>} payload
+ * @returns {string}
+ */
+export function toXml(payload) {
+  const rootName = payload.root_name || 'export';
+  const itemsName = payload.items_name || 'data';
+  
+  const data = { ...payload };
+  delete data.exported_at;
+  delete data.access_role;
+  delete data.root_name;
+  delete data.items_name;
+  
+  let content = '';
+  if (data && typeof data === 'object') {
+    content = Object.entries(data)
+      .map(([key, value]) => {
+        const elementName = toXmlElementName(key);
+        
+        if (Array.isArray(value)) {
+          if (value.length === 0) {
+            return `<${elementName}></${elementName}>`;
+          }
+          const items = value.map((item) => {
+            if (item !== null && typeof item === 'object' && !Array.isArray(item)) {
+              const children = Object.entries(item)
+                .map(([k, v]) => valueToXml(v, k))
+                .join('');
+              return `<item>${children}</item>`;
+            }
+            return `<item>${escapeXml(String(item))}</item>`;
+          }).join('');
+          return `<${elementName}>${items}</${elementName}>`;
+        }
+        
+        if (value !== null && typeof value === 'object') {
+          const children = Object.entries(value)
+            .map(([k, v]) => valueToXml(v, k))
+            .join('');
+          return `<${elementName}>${children}</${elementName}>`;
+        }
+        
+        return valueToXml(value, key);
+      })
+      .join('');
+  }
+  
+  const metadata = payload.exported_at 
+    ? `<exported_at>${escapeXml(String(payload.exported_at))}</exported_at>`
+    : '';
+  
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<${rootName}>${metadata}${content}</${rootName}>`;
+}
+
+/**
+ * @param {string} value
+ * @returns {string}
+ */
 function escapeCsv(value) {
   if (value.includes('"') || value.includes(',') || /[\r\n]/.test(value)) {
     return `"${value.replace(/"/g, '""')}"`;

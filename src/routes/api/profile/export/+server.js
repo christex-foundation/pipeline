@@ -7,11 +7,12 @@ import {
   getUserExportData,
   toCsv,
   toReadableRows,
+  toXml,
 } from '$lib/server/service/exportService.js';
 import { json } from '@sveltejs/kit';
 
 /**
- * @param {'json' | 'csv'} format
+ * @param {'json' | 'csv' | 'xml'} format
  * @param {string} userId
  */
 function getExportHeaders(format, userId) {
@@ -21,12 +22,16 @@ function getExportHeaders(format, userId) {
     .slice(0, 64);
   const safeUserId = sanitizedUserId || 'user';
   const filename = `pipeline-user-export-${safeUserId}-${new Date().toISOString().split('T')[0]}.${format}`;
-  const contentType = format === 'csv' ? 'text/csv; charset=utf-8' : 'application/json';
+  const contentTypes = {
+    json: 'application/json',
+    csv: 'text/csv; charset=utf-8',
+    xml: 'application/xml; charset=utf-8',
+  };
 
   return {
     'Content-Disposition': `attachment; filename="${filename}"`,
     'Cache-Control': 'no-store',
-    'Content-Type': contentType,
+    'Content-Type': contentTypes[format] || 'application/json',
   };
 }
 
@@ -39,8 +44,8 @@ export async function GET({ url, locals }) {
     return json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  if (format !== 'json' && format !== 'csv') {
-    return json({ error: "Invalid format. Use 'json' or 'csv'" }, { status: 400 });
+  if (format !== 'json' && format !== 'csv' && format !== 'xml') {
+    return json({ error: "Invalid format. Use 'json', 'csv', or 'xml'" }, { status: 400 });
   }
 
   const rateCheck = consumeExportRateLimit(authUser.id);
@@ -74,6 +79,11 @@ export async function GET({ url, locals }) {
       const rows = toReadableRows(payload);
       const csv = toCsv(rows);
       return new Response(csv, { status: 200, headers: { ...headers, ...metricsHeaders } });
+    }
+
+    if (format === 'xml') {
+      const xml = toXml(payload);
+      return new Response(xml, { status: 200, headers: { ...headers, ...metricsHeaders } });
     }
 
     return new Response(JSON.stringify(payload, null, 2), {

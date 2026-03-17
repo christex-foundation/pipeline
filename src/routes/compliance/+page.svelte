@@ -1,10 +1,6 @@
 <script>
   import Icon from '@iconify/svelte';
 
-  const currentScore = 6;
-  const totalCriteria = 9;
-  const percentage = Math.round((currentScore / totalCriteria) * 100);
-
   const criteria = [
     {
       id: 1,
@@ -53,11 +49,9 @@
     {
       id: 7,
       name: 'Adherence to Privacy and Applicable Laws',
-      status: 'fail',
-      description: 'Privacy policy, terms of service, and legal pages need to be created.',
-      icon: 'mdi:shield-lock',
-      issue: 424,
-      issueTitle: 'Create Privacy Policy and Legal Pages'
+      status: 'pass',
+      description: 'Privacy policy, terms of service, and legal pages have been created.',
+      icon: 'mdi:shield-lock'
     },
     {
       id: 8,
@@ -76,6 +70,10 @@
       issueTitle: 'Implement Content Moderation and Safety Features'
     }
   ];
+
+  const currentScore = criteria.filter(c => c.status === 'pass').length;
+  const totalCriteria = criteria.length;
+  const percentage = Math.round((currentScore / totalCriteria) * 100);
 
   const completedCriteria = criteria.filter(c => c.status === 'pass');
   const remainingCriteria = criteria.filter(c => c.status === 'fail');

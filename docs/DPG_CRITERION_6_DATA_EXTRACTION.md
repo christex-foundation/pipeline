@@ -46,6 +46,14 @@ Response: JSON project object
 // Get projects by category
 GET /api/projects?category={category_name}
 Response: Filtered JSON array
+
+// Export all projects (public)
+GET /api/projects/export?format=json|csv|xml&page=1&limit=100&search=term
+Response: Paginated export with metadata
+
+// Export single project (authenticated)
+GET /api/projects/{id}/export?format=json|csv|xml
+Response: Full project data export
 ```
 
 #### Categories API
@@ -57,6 +65,24 @@ Response: JSON array of categories
 // Get category statistics
 GET /api/categories/{id}/stats
 Response: JSON object with category metrics
+
+// Export all categories (public)
+GET /api/categories/export?format=json|csv|xml&page=1&limit=100
+Response: Paginated export with metadata
+```
+
+#### Contributions API
+```javascript
+// Export contributions (public)
+GET /api/contributions/export?format=json|csv|xml&page=1&limit=100&project_id={id}
+Response: Paginated export with metadata
+```
+
+#### Updates API
+```javascript
+// Export project updates (public)
+GET /api/updates/export?format=json|csv|xml&page=1&limit=100&project_id={id}
+Response: Paginated export with metadata
 ```
 
 #### Public Statistics API
