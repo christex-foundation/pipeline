@@ -1,10 +1,6 @@
 <script>
   import Icon from '@iconify/svelte';
 
-  const currentScore = 7;
-  const totalCriteria = 9;
-  const percentage = Math.round((currentScore / totalCriteria) * 100);
-
   const criteria = [
     {
       id: 1,
@@ -74,6 +70,10 @@
       issueTitle: 'Implement Content Moderation and Safety Features'
     }
   ];
+
+  const currentScore = criteria.filter(c => c.status === 'pass').length;
+  const totalCriteria = criteria.length;
+  const percentage = Math.round((currentScore / totalCriteria) * 100);
 
   const completedCriteria = criteria.filter(c => c.status === 'pass');
   const remainingCriteria = criteria.filter(c => c.status === 'fail');
