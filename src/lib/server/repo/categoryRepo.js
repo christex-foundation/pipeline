@@ -124,3 +124,9 @@ export async function assignCategory(categoryData, supabase) {
   if (error) throw new Error(error.message);
   return data[0];
 }
+
+export async function deleteCategoryProjectsByProjectIds(projectIds, supabase) {
+  if (!projectIds.length) return;
+  const { error } = await supabase.from('category_project').delete().in('project_id', projectIds);
+  if (error) throw new Error(error.message);
+}

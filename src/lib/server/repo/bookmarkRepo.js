@@ -50,3 +50,14 @@ export async function deleteBookmark(projectId, userId, supabase) {
   if (error) throw new Error(error.message);
   return data;
 }
+
+export async function deleteBookmarksByUserId(userId, supabase) {
+  const { error } = await supabase.from('bookmark_project').delete().eq('user_id', userId);
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteBookmarksByProjectIds(projectIds, supabase) {
+  if (!projectIds.length) return;
+  const { error } = await supabase.from('bookmark_project').delete().in('project_id', projectIds);
+  if (error) throw new Error(error.message);
+}
