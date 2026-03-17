@@ -20,3 +20,17 @@ export async function storeComment(commentData, supabase) {
   if (error) throw new Error(error.message);
   return data[0];
 }
+
+export async function deleteCommentsByUserId(userId, supabase) {
+  const { error } = await supabase.from('project_update_comment').delete().eq('user_id', userId);
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteCommentsByProjectIds(projectIds, supabase) {
+  if (!projectIds.length) return;
+  const { error } = await supabase
+    .from('project_update_comment')
+    .delete()
+    .in('project_id', projectIds);
+  if (error) throw new Error(error.message);
+}

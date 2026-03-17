@@ -64,3 +64,12 @@ export async function createProjectDpgStatus(projectDpgStatusData, supabase) {
   }
   return result;
 }
+
+export async function deleteDpgStatusesByProjectIds(projectIds, supabase) {
+  if (!projectIds.length) return;
+  const { error } = await supabase
+    .from('project_dpg_status')
+    .delete()
+    .in('project_id', projectIds);
+  if (error) throw new Error(error.message);
+}

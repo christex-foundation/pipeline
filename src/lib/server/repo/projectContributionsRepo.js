@@ -25,3 +25,14 @@ export async function getProjectResourcesCount(projectId, supabase) {
   if (error) throw new Error(error.message);
   return count;
 }
+
+export async function deleteResourcesByUserId(userId, supabase) {
+  const { error } = await supabase.from('project_resource').delete().eq('user_id', userId);
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteResourcesByProjectIds(projectIds, supabase) {
+  if (!projectIds.length) return;
+  const { error } = await supabase.from('project_resource').delete().in('project_id', projectIds);
+  if (error) throw new Error(error.message);
+}

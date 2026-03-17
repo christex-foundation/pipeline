@@ -76,6 +76,13 @@
               >Cookies</a
             >
           </li>
+          <li>
+            <a
+              href="/compliance"
+              class="transition-colors duration-300 hover:text-dashboard-yellow-400"
+              >Compliance</a
+            >
+          </li>
         </ul>
       </nav>
 
