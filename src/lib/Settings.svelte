@@ -7,6 +7,37 @@
 
   let showConfirm = false;
   let deleting = false;
+  let exporting = false;
+
+  async function downloadMyData() {
+    exporting = true;
+    try {
+      const response = await fetch('/api/profile/export?format=json');
+
+      if (!response.ok) {
+        throw new Error('Failed to export data');
+      }
+
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+
+      const disposition = response.headers.get('content-disposition');
+      const filenameMatch = disposition?.match(/filename="(.+)"/);
+      a.href = downloadUrl;
+      a.download = filenameMatch?.[1] || `pipeline-data-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(downloadUrl);
+      a.remove();
+
+      toast.success('Your data has been downloaded');
+    } catch (error) {
+      toast.error('Failed to download data. Please try again.');
+    } finally {
+      exporting = false;
+    }
+  }
 </script>
 
 <div class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6 shadow-card">
@@ -62,13 +93,34 @@
         Update Password
       </button>
 
-      <button
-        type="button"
-        on:click={() => (showConfirm = true)}
-        class="rounded-xl bg-dashboard-error-500 px-6 py-3 text-label-lg font-medium text-white transition-colors hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
-      >
-        Delete Account
-      </button>
+      <div class="flex gap-3">
+        <button
+          type="button"
+          on:click={downloadMyData}
+          disabled={exporting}
+          class="rounded-xl border border-dashboard-gray-600 px-4 py-3 text-label-lg font-medium text-gray-300 transition-colors hover:bg-dashboard-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dashboard-gray-500 disabled:pointer-events-none disabled:opacity-50"
+        >
+          {#if exporting}
+            <span class="flex items-center gap-2">
+              <Icon icon="lucide:loader-2" class="h-4 w-4 animate-spin" />
+              Exporting...
+            </span>
+          {:else}
+            <span class="flex items-center gap-2">
+              <Icon icon="mdi:download" class="h-4 w-4" />
+              Download My Data
+            </span>
+          {/if}
+        </button>
+
+        <button
+          type="button"
+          on:click={() => (showConfirm = true)}
+          class="rounded-xl bg-dashboard-error-500 px-6 py-3 text-label-lg font-medium text-white transition-colors hover:bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+        >
+          Delete Account
+        </button>
+      </div>
     </div>
   </form>
 </div>
