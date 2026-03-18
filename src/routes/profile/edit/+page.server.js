@@ -1,6 +1,7 @@
 import { redirect, fail } from '@sveltejs/kit';
 import { uploadImageAndReturnUrl, removeImage } from '$lib/server/service/imageUploadService.js';
 import { profileSchema } from '$lib/server/validator/profileScheme.js';
+import { deleteAccount } from '$lib/server/service/authUserService.js';
 
 export const actions = {
   updateProfile: async ({ request, locals, fetch }) => {
@@ -52,5 +53,32 @@ export const actions = {
     }
 
     redirect(307, '/profile');
+  },
+
+  deleteAccount: async ({ cookies, locals }) => {
+    const user = locals.authUser;
+    const supabase = locals.supabase;
+
+    if (!user) {
+      return fail(401, { error: 'Not authenticated' });
+    }
+
+    try {
+      await deleteAccount(user.id, supabase);
+
+      for (const token of ['access_token', 'refresh_token']) {
+        cookies.set(token, '', {
+          path: '/',
+          expires: new Date(0),
+          httpOnly: true,
+          secure: true,
+          sameSite: 'strict',
+        });
+      }
+    } catch (_) {
+      return fail(500, { error: 'Failed to delete account. Please try again later.' });
+    }
+
+    redirect(307, '/');
   },
 };

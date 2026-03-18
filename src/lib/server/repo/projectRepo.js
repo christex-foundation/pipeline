@@ -173,3 +173,8 @@ export async function deleteProject(id, supabase) {
   if (error) throw new Error(error.message);
   return data[0];
 }
+
+export async function deleteProjectsByUserId(userId, supabase) {
+  const { error } = await supabase.from('projects').delete().eq('user_id', userId);
+  if (error) throw new Error(error.message);
+}
