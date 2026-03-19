@@ -159,6 +159,16 @@ export async function getUserContributedProjects(userId, supabase) {
 export async function storeProject(user, projectData, supabase) {
   let { tags, ...projectFields } = projectData.data;
 
+  const normalizedGithubUrl = projectFields.github?.trim();
+
+  if (normalizedGithubUrl) {
+    const existingProject = await getProjectByGithub(normalizedGithubUrl, supabase);
+
+    if (existingProject?.id) {
+      return { success: true, projectId: existingProject.id };
+    }
+  }
+
   if (typeof tags === 'string') {
     try {
       tags = JSON.parse(tags);
@@ -170,7 +180,10 @@ export async function storeProject(user, projectData, supabase) {
     tags = tags ? [tags] : [];
   }
 
-  const project = await createProject({ ...projectFields, user_id: user.id }, supabase);
+  const project = await createProject(
+    { ...projectFields, github: normalizedGithubUrl, user_id: user.id },
+    supabase,
+  );
 
   await createTeamMember(user.id, project.id, supabase);
 
