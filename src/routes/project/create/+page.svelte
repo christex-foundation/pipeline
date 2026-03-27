@@ -58,20 +58,28 @@
       action=""
       method="post"
       enctype="multipart/form-data"
-      use:enhance={() => {
+      use:enhance={({ cancel }) => {
+        if (loading) {
+          cancel();
+          return;
+        }
+
         loading = true;
         return async ({ result }) => {
-          if (result.type === 'success' && result.data.redirectTo) {
-            toast.success('Project has been created successfully');
-            goto(result.data.redirectTo);
-          } else if (result.type === 'failure') {
-            toast.info(result?.data?.error || 'Could not create project');
-          } else if (result.type === 'error') {
-            toast.error('Could not create a project');
-          }
+          try {
+            if (result.type === 'success' && result.data.redirectTo) {
+              toast.success('Project has been created successfully');
+              goto(result.data.redirectTo);
+            } else if (result.type === 'failure') {
+              toast.info(result?.data?.error || 'Could not create project');
+            } else if (result.type === 'error') {
+              toast.error('Could not create a project');
+            }
 
-          await applyAction(result);
-          loading = false;
+            await applyAction(result);
+          } finally {
+            loading = false;
+          }
         };
       }}
     >

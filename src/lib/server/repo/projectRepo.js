@@ -140,7 +140,13 @@ export async function getProjectsByUserIdWithContributions(userId, supabase) {
 }
 
 export async function getProjectByGithub(url, supabase) {
-  const { data, error } = await supabase.from('projects').select('*').eq('github', url).single();
+  const { data, error } = await supabase
+    .from('projects')
+    .select('*')
+    .eq('github', url)
+    .order('created_at', { ascending: true })
+    .limit(1)
+    .maybeSingle();
   if (error) throw new Error(error.message);
   return data;
 }
