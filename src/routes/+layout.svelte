@@ -1,5 +1,6 @@
 <script>
   import SearchModal from '$lib/SearchModal.svelte';
+  import CookieConsent from '$lib/components/CookieConsent.svelte';
 
   import './app.css';
   import Nav from '$lib/Nav.svelte';
@@ -11,6 +12,7 @@
 </script>
 
 <Toaster richColors position="top-right" closeButton />
+<CookieConsent />
 
 <div class="min-h-screen w-full bg-dashboard-black">
   <SearchModal />

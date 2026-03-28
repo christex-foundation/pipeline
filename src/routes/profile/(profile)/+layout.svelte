@@ -40,12 +40,19 @@
       icon: 'mdi:heart',
       count: data.following?.length || 0,
     },
+    {
+      name: 'Privacy',
+      href: '/profile/privacy',
+      icon: 'mdi:shield-lock',
+      count: 0,
+    },
   ];
 
   function getActiveTab(pathname) {
     if (pathname === '/profile') return 0;
     if (pathname.endsWith('/contributed')) return 1;
     if (pathname.endsWith('/following')) return 2;
+    if (pathname.endsWith('/privacy')) return 3;
     return 0;
   }
 
