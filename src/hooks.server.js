@@ -123,30 +123,32 @@ const apiProtection = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-const projectEvaluationWorker = new Worker(
-  'projectEvaluation',
-  async (job) => {
-    try {
-      const { github, projectId, supabaseUrl, supabaseAnonKey } = job.data;
+if (redisHost) {
+  const projectEvaluationWorker = new Worker(
+    'projectEvaluation',
+    async (job) => {
+      try {
+        const { github, projectId, supabaseUrl, supabaseAnonKey } = job.data;
 
-      const supabaseConn = createClient(supabaseUrl, supabaseAnonKey);
+        const supabaseConn = createClient(supabaseUrl, supabaseAnonKey);
 
-      await evaluateProject(github, projectId, supabaseConn);
+        await evaluateProject(github, projectId, supabaseConn);
 
-      console.log(`Evaluation completed for: ${github}`);
-    } catch (error) {
-      console.error('Worker encountered an error:', error);
-    }
-  },
-  {
-    connection: {
-      host: redisHost,
-      port: redisPort,
-      password: redisPassword,
+        console.log(`Evaluation completed for: ${github}`);
+      } catch (error) {
+        console.error('Worker encountered an error:', error);
+      }
     },
-  },
-);
+    {
+      connection: {
+        host: redisHost,
+        port: redisPort,
+        password: redisPassword,
+      },
+    },
+  );
 
-console.log('Project evaluation worker is running...');
+  console.log('Project evaluation worker is running...');
+}
 
 export const handle = sequence(supabase, authGuard);
