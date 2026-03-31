@@ -8,6 +8,35 @@ Version numbers below are retroactively assigned milestones.
 
 ---
 
+## [0.9.0] - 2026-03-31 - Platform Independence (DPG Criterion 4)
+
+### Added
+
+- Provider abstraction layer for external services (`src/lib/server/providers/`)
+  - AI provider wrapping OpenAI with documented contract for alternative LLMs (Ollama, llama.cpp)
+  - Queue provider wrapping BullMQ with automatic in-memory fallback when Redis is unavailable
+  - Storage provider wrapping Supabase Storage with contract for alternatives (MinIO, local filesystem)
+  - Auth provider wrapping Supabase Auth with contract for alternatives (Keycloak, Ory, SuperTokens)
+- Provider registry (`providers/index.js`) with environment-variable-driven provider selection
+- In-memory queue fallback enabling deployment without Redis infrastructure
+- Provider contract documentation (`src/lib/server/providers/README.md`)
+- Repo layer documentation formalizing database abstraction pattern (`src/lib/server/repo/README.md`)
+
+### Changed
+
+- AI service now uses configurable provider instead of direct OpenAI SDK dependency
+- Queue operations use provider instead of direct BullMQ instantiation
+- Image storage uses provider instead of direct Supabase Storage calls
+- Auth operations use provider instead of direct Supabase Auth calls
+- Removed `adminAuthClient` export from `supabase.js` (moved to auth provider)
+
+### Documentation
+
+- Rewrote DPG Criterion 4 documentation to disclose all 6 external dependencies (added OpenAI, Redis)
+- Added architecture diagram showing provider and repo abstraction layers
+- Documented provider contracts with function signatures and open-source alternatives
+- Added provider configuration guide for alternative deployments
+
 ## [0.8.0] - 2026-03-17 - GDPR & Compliance
 
 ### Added

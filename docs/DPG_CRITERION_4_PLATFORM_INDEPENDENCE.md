@@ -1,4 +1,4 @@
-# 🌐 DPG Criterion 4: Platform Independence
+# DPG Criterion 4: Platform Independence
 
 ## Overview
 
@@ -17,6 +17,8 @@ DPG Pipeline is built using **web-based technologies** that ensure maximum platf
 
 ### Architecture Independence
 
+DPG Pipeline uses a **layered abstraction architecture** that decouples business logic from external service implementations:
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │                 Web Browser                         │
@@ -28,13 +30,25 @@ DPG Pipeline is built using **web-based technologies** that ensure maximum platf
 │                REST API Layer                       │
 │            (HTTP/HTTPS Standards)                   │
 ├─────────────────────────────────────────────────────┤
-│              Backend Services                       │
-│              (Node.js Runtime)                      │
-├─────────────────────────────────────────────────────┤
-│             PostgreSQL Database                     │
-│              (Standard SQL)                         │
+│            Service Layer (Business Logic)           │
+│                                                     │
+│  ┌──────────────┐     ┌──────────────────────────┐ │
+│  │  Repo Layer   │     │   Provider Layer          │ │
+│  │  (Database    │     │   (AI, Queue, Storage,   │ │
+│  │   Abstraction)│     │    Auth Abstraction)     │ │
+│  └──────┬───────┘     └──────────┬───────────────┘ │
+├─────────┼────────────────────────┼─────────────────┤
+│         ▼                        ▼                  │
+│   PostgreSQL              External Services         │
+│   (Standard SQL)     (Swappable via Providers)      │
 └─────────────────────────────────────────────────────┘
 ```
+
+**Two abstraction layers** ensure platform independence:
+
+1. **Repository Layer** (`src/lib/server/repo/`) — All database access goes through repo functions with vendor-neutral signatures. Each function takes plain JavaScript objects and returns plain JavaScript objects, with the database client injected as a parameter. See `src/lib/server/repo/README.md`.
+
+2. **Provider Layer** (`src/lib/server/providers/`) — All external service calls (AI, job queues, file storage, authentication) go through provider modules with documented function contracts. See `src/lib/server/providers/README.md`.
 
 ## Mandatory Dependencies Analysis
 
@@ -45,10 +59,10 @@ All core runtime dependencies are open source with permissive licenses:
 
 | Dependency | License | Platform Independent | Open Alternative |
 |------------|---------|---------------------|------------------|
-| **Node.js** | MIT | ✅ Cross-platform | ✅ Self (open source) |
-| **SvelteKit** | MIT | ✅ Web standards | ✅ Self (open source) |
-| **PostgreSQL** | PostgreSQL License | ✅ Cross-platform | ✅ Self (open source) |
-| **Vite** | MIT | ✅ Node.js based | ✅ Self (open source) |
+| **Node.js** | MIT | Yes, cross-platform | Self (open source) |
+| **SvelteKit** | MIT | Yes, web standards | Self (open source) |
+| **PostgreSQL** | PostgreSQL License | Yes, cross-platform | Self (open source) |
+| **Vite** | MIT | Yes, Node.js based | Self (open source) |
 
 #### Critical Analysis: No Vendor Lock-in
 - **Frontend**: Standard web technologies, no proprietary frameworks
@@ -59,67 +73,129 @@ All core runtime dependencies are open source with permissive licenses:
 ### External Service Dependencies
 
 #### Current External Services
-| Service | Type | Open Alternative | Migration Effort |
-|---------|------|------------------|------------------|
-| **Supabase** | BaaS | Self-hosted PostgreSQL + Auth | Medium |
-| **Vercel** | Hosting | Any Node.js hosting | Low |
-| **GitHub** | Code hosting | GitLab, Gitea, Codeberg | Low |
-| **Sentry** | Error tracking | Self-hosted Sentry, GlitchTip | Low |
+
+| Service | Type | Dependency Level | Open Alternative | Migration Effort |
+|---------|------|-----------------|------------------|------------------|
+| **Supabase** | BaaS (DB + Auth + Storage) | High | Self-hosted PostgreSQL + Keycloak + MinIO | Medium |
+| **OpenAI** | AI/LLM API | High | Ollama, llama.cpp, Hugging Face Inference, vLLM | Medium |
+| **Redis** | Job Queue Backend | Medium (optional) | In-memory queue (included), pgBoss, bee-queue | Low |
+| **Vercel** | Hosting | Low | Any Node.js hosting | Low |
+| **GitHub** | Code hosting + API | Low | GitLab, Gitea, Codeberg | Low |
+| **Sentry** | Error tracking | Low (unused) | Self-hosted Sentry, GlitchTip | Low |
 
 #### Service Independence Measures
 
-**1. Supabase (Database & Auth)**
-- **Dependency Level**: High (current implementation)
-- **Open Alternative**: Self-hosted PostgreSQL + open auth solutions
-- **Migration Path**: Database export/import + auth system replacement
-- **Effort**: Medium complexity migration
+**1. Supabase (Database, Auth & Storage)**
+- **Dependency Level**: High (current default implementation)
+- **Abstraction**: Database access isolated in repo layer (`src/lib/server/repo/`); auth and storage isolated in provider layer (`src/lib/server/providers/authProvider.js`, `storageProvider.js`)
+- **Open Alternatives**: Self-hosted PostgreSQL + Keycloak/Ory/SuperTokens for auth + MinIO for storage
+- **Migration Path**: Reimplement repo files for database, swap provider modules for auth/storage
 
-**2. Vercel (Hosting)**
+**2. OpenAI (AI Evaluation & Embeddings)**
+- **Dependency Level**: High (used for DPG status evaluation and project similarity)
+- **Abstraction**: All AI calls go through `src/lib/server/providers/aiProvider.js` with two functions: `chatCompletionWithSchema()` and `getEmbedding()`
+- **Open Alternatives**: Ollama (local LLMs), llama.cpp, Hugging Face Inference API, vLLM
+- **Migration Path**: Implement a new provider file with the same function signatures, update the import
+
+**3. Redis / BullMQ (Job Queue)**
+- **Dependency Level**: Medium (optional — application works without it)
+- **Abstraction**: Queue operations go through `src/lib/server/providers/queueProvider.js` or `inMemoryQueue.js`
+- **Built-in Alternative**: In-memory queue fallback is included and auto-selected when Redis is not configured
+- **Migration Path**: Already handled — no Redis required for deployment
+
+**4. Vercel (Hosting)**
 - **Dependency Level**: Low (deployment only)
 - **Open Alternative**: Any Node.js compatible hosting
-- **Migration Path**: Standard deployment process
+- **Migration Path**: Standard deployment process; uses `@sveltejs/adapter-auto`
 - **Effort**: Low complexity migration
 
-**3. GitHub (Version Control)**
-- **Dependency Level**: Low (development workflow)
+**5. GitHub (Version Control & API)**
+- **Dependency Level**: Low (development workflow + repo data fetching)
 - **Open Alternative**: GitLab, Gitea, Codeberg
-- **Migration Path**: Git repository migration
+- **Migration Path**: Git repository migration + update API endpoints in `src/lib/server/github.js`
 - **Effort**: Low complexity migration
+
+## Provider Configuration
+
+External services are configured via environment variables:
+
+| Variable | Service | Required | Default |
+|----------|---------|----------|---------|
+| `VITE_SUPABASE_URL` | Supabase | Yes | - |
+| `VITE_SUPERBASE_ANON_KEY` | Supabase | Yes | - |
+| `PRIVATE_SUPABASE_SERVICE_KEY` | Supabase Auth (admin) | Yes | - |
+| `PRIVATE_OPENAI_API_KEY` | OpenAI | Yes (for AI features) | - |
+| `PRIVATE_GITHUB_TOKEN` | GitHub API | No (improves rate limits) | - |
+| `REDIS_HOST` | Redis/BullMQ | No | Falls back to in-memory queue |
+| `REDIS_PORT` | Redis/BullMQ | No | - |
+| `REDIS_PASSWORD` | Redis/BullMQ | No | - |
+
+When `REDIS_HOST` is not set, the application automatically uses the in-memory queue provider, enabling deployment without Redis infrastructure.
 
 ## Open Source Alternative Implementation
 
 ### Database Independence
-```javascript
-// Current: Supabase client
-import { createClient } from '@supabase/supabase-js'
 
-// Alternative: Direct PostgreSQL connection
-import { Pool } from 'pg'
-// OR alternative: Prisma ORM with any database
-import { PrismaClient } from '@prisma/client'
+The **repository layer** (`src/lib/server/repo/`) provides the database abstraction. Each repo function has a vendor-neutral signature — to swap from Supabase to raw PostgreSQL:
+
+```javascript
+// Current implementation (Supabase query builder):
+export async function getProfile(userId, supabase) {
+  const { data, error } = await supabase
+    .from('profile').select('name, bio, country, ...').eq('user_id', userId).single();
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+// Alternative implementation (pg Pool):
+export async function getProfile(userId, pool) {
+  const { rows } = await pool.query(
+    'SELECT name, bio, country, ... FROM profile WHERE user_id = $1', [userId]
+  );
+  if (!rows[0]) throw new Error('Profile not found');
+  return rows[0];
+}
 ```
 
-**Migration Strategy**:
-1. Extract data using Supabase export tools
-2. Set up PostgreSQL instance
-3. Implement authentication using open source solutions (e.g., Auth0 alternative)
-4. Update connection configurations
+The service layer calling `getProfile()` requires no changes — both implementations have the same signature and return shape.
 
 ### Authentication Independence
-```javascript
-// Current: Supabase Auth
-import { supabaseAuth } from './supabase'
 
-// Alternative: Open source auth solutions
-// Option 1: Custom JWT implementation
-import jwt from 'jsonwebtoken'
-// Option 2: Passport.js
-import passport from 'passport'
-// Option 3: Auth0 alternative (Keycloak, Ory)
+Auth is abstracted in `src/lib/server/providers/authProvider.js`:
+
+```javascript
+// To swap to Keycloak or custom JWT, reimplement these functions:
+export async function createUser({ email, password }) { /* ... */ }
+export async function deleteUser(userId) { /* ... */ }
+export async function signInWithPassword(credentials, client) { /* ... */ }
+export async function signOut(client) { /* ... */ }
+export async function createSessionClient(cookieHandlers) { /* ... */ }
+export async function getSessionAndUser(client) { /* ... */ }
+```
+
+### AI Independence
+
+AI is abstracted in `src/lib/server/providers/aiProvider.js`:
+
+```javascript
+// To swap to Ollama or another LLM provider, reimplement these functions:
+export async function chatCompletionWithSchema(messages, zodSchema, schemaName) { /* ... */ }
+export async function getEmbedding(text) { /* ... */ }
+```
+
+### File Storage Independence
+
+Storage is abstracted in `src/lib/server/providers/storageProvider.js`:
+
+```javascript
+// To swap to MinIO or local filesystem, reimplement these functions:
+export async function uploadFile(bucket, path, file) { /* ... */ }
+export function getPublicUrl(bucket, path) { /* ... */ }
+export async function deleteFiles(bucket, paths) { /* ... */ }
 ```
 
 ### Hosting Independence
-**Current Deployment**: Vercel  
+**Current Deployment**: Vercel (via `@sveltejs/adapter-auto`)
 **Alternative Options**:
 - **Self-hosted**: Any VPS with Node.js support
 - **Open Source PaaS**: Dokku, CapRover
@@ -146,64 +222,10 @@ import passport from 'passport'
 - **Containers**: Docker support for easy deployment
 - **Cloud Platforms**: AWS, GCP, Azure, DigitalOcean, Linode, etc.
 
-## Migration and Portability Documentation
+## Self-Hosting Documentation
 
-### Complete Migration Guide
-
-#### 1. Database Migration
-```bash
-# Export current data from Supabase
-pg_dump -h your-supabase-host -U postgres your_db > backup.sql
-
-# Import to new PostgreSQL instance
-psql -h new-postgres-host -U postgres new_db < backup.sql
-
-# Update environment variables
-VITE_SUPABASE_URL=your_new_postgres_connection
-```
-
-#### 2. Authentication Migration
-```javascript
-// Replace Supabase auth with open alternative
-// Example: Implementing JWT-based authentication
-
-// auth/jwt.js
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
-
-export const authenticateUser = async (email, password) => {
-  // Custom authentication logic
-  const user = await getUserByEmail(email)
-  const valid = await bcrypt.compare(password, user.password_hash)
-  if (valid) {
-    return jwt.sign({ userId: user.id }, process.env.JWT_SECRET)
-  }
-  throw new Error('Invalid credentials')
-}
-```
-
-#### 3. File Storage Migration
-```javascript
-// Current: Supabase Storage
-import { supabase } from './supabase'
-await supabase.storage.from('uploads').upload(path, file)
-
-// Alternative: Local filesystem or S3-compatible storage
-import fs from 'fs/promises'
-import { S3Client } from '@aws-sdk/client-s3'
-
-// Local storage
-await fs.writeFile(`./uploads/${filename}`, buffer)
-
-// S3-compatible (MinIO, Wasabi, etc.)
-const s3 = new S3Client({ endpoint: 'https://your-s3-endpoint' })
-```
-
-### Self-Hosting Documentation
-
-#### Docker Deployment
+### Docker Deployment
 ```dockerfile
-# Dockerfile for complete self-hosting
 FROM node:20-alpine
 
 WORKDIR /app
@@ -217,9 +239,8 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-#### Docker Compose for Complete Stack
+### Docker Compose for Complete Stack
 ```yaml
-# docker-compose.yml - Complete self-hosted stack
 version: '3.8'
 services:
   app:
@@ -230,7 +251,7 @@ services:
       - DATABASE_URL=postgresql://postgres:password@db:5432/pipeline
     depends_on:
       - db
-      
+
   db:
     image: postgres:15
     environment:
@@ -249,105 +270,44 @@ volumes:
 
 | Component | Current Solution | Open Source Alternative | Implementation Effort |
 |-----------|------------------|-------------------------|----------------------|
-| **Frontend** | SvelteKit | ✅ Already open source | N/A |
-| **Backend** | Node.js | ✅ Already open source | N/A |
-| **Database** | Supabase (PostgreSQL) | PostgreSQL | Low |
-| **Authentication** | Supabase Auth | Keycloak, Auth0 alternative | Medium |
-| **File Storage** | Supabase Storage | MinIO, local filesystem | Low |
-| **Email Service** | (TBD) | Postal, self-hosted SMTP | Low |
-| **Monitoring** | Sentry | GlitchTip, self-hosted Sentry | Low |
-| **Analytics** | (TBD) | Plausible, Matomo | Low |
-
-### Implementation Guides
-
-#### Authentication Alternatives
-1. **Keycloak**: Enterprise-grade open source identity management
-2. **Ory**: Modern open source identity infrastructure
-3. **Supertokens**: Open source alternative to Auth0
-4. **Custom JWT**: Simple JWT-based authentication
-
-#### Database Alternatives
-1. **PostgreSQL**: Direct PostgreSQL connection
-2. **CockroachDB**: Distributed SQL database
-3. **Prisma**: Database toolkit with multiple database support
-
-#### File Storage Alternatives
-1. **MinIO**: S3-compatible object storage
-2. **SeaweedFS**: Simple and highly scalable distributed file system
-3. **Local filesystem**: Simple file system storage
-
-## Platform Independence Validation
-
-### Automated Testing
-```javascript
-// CI/CD testing across platforms
-// .github/workflows/platform-test.yml
-name: Platform Independence Test
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [18.x, 20.x]
-    
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm test
-    - run: npm run build
-```
-
-### Manual Verification
-- **Regular testing** on different operating systems
-- **Browser compatibility testing** across major browsers
-- **Mobile device testing** for responsive design
-- **Performance testing** on various hardware configurations
+| **Frontend** | SvelteKit | Already open source | N/A |
+| **Backend** | Node.js | Already open source | N/A |
+| **Database** | Supabase (PostgreSQL) | PostgreSQL (direct) | Low — rewrite repo files |
+| **Authentication** | Supabase Auth | Keycloak, Ory, SuperTokens | Medium — swap auth provider |
+| **File Storage** | Supabase Storage | MinIO, local filesystem | Low — swap storage provider |
+| **AI Evaluation** | OpenAI GPT-4o | Ollama, llama.cpp, vLLM | Medium — swap AI provider |
+| **Job Queue** | BullMQ (Redis) | In-memory (included), pgBoss | Low — auto-fallback included |
+| **Monitoring** | Sentry (unused) | GlitchTip, self-hosted Sentry | Low |
 
 ## Risk Assessment and Mitigation
 
 ### Vendor Lock-in Risks
 | Risk | Probability | Impact | Mitigation |
 |------|-------------|---------|------------|
-| **Supabase Service Changes** | Medium | Medium | Migration guide and alternatives documented |
-| **Vercel Hosting Issues** | Low | Low | Multiple hosting alternatives available |
+| **Supabase Service Changes** | Medium | Medium | Repo layer abstracts DB; auth/storage providers are swappable |
+| **OpenAI API Changes/Pricing** | Medium | Medium | AI provider abstraction; open-source LLM alternatives documented |
+| **Redis Unavailability** | Low | Low | In-memory queue fallback included and auto-selected |
+| **Vercel Hosting Issues** | Low | Low | Uses adapter-auto; deployable anywhere |
 | **GitHub Service Issues** | Low | Low | Git repository easily portable |
 | **Node.js Ecosystem Changes** | Low | Low | Standard web technologies as fallback |
 
 ### Mitigation Strategies
-1. **Regular Migration Testing**: Quarterly testing of migration procedures
-2. **Documentation Maintenance**: Keeping migration guides current
-3. **Alternative Service Monitoring**: Monitoring developments in alternative services
-4. **Community Engagement**: Active participation in open source alternatives
-
-## Future Platform Independence Goals
-
-### Short-term (2025)
-- **Plugin Architecture**: Modular architecture for easy service replacement
-- **Configuration Management**: Centralized configuration for easy service switching
-- **Migration Automation**: Automated scripts for common migration scenarios
-
-### Long-term (2026+)
-- **Multi-tenancy**: Support for multiple hosting configurations
-- **Federation**: Support for federated deployments
-- **Edge Computing**: Support for edge deployment scenarios
+1. **Abstraction Layers**: Provider and repo layers ensure services can be swapped by reimplementing a single file
+2. **Built-in Fallbacks**: In-memory queue works without Redis infrastructure
+3. **Documentation**: Provider contracts documented in `src/lib/server/providers/README.md`
+4. **Regular Migration Testing**: Quarterly testing of migration procedures
+5. **Community Engagement**: Active participation in open source alternatives
 
 ## Conclusion
 
 DPG Pipeline demonstrates strong platform independence through:
 
-1. **Open Source Foundation**: Built entirely on open source technologies
-2. **Web Standards**: Uses standard web technologies ensuring broad compatibility
-3. **Service Independence**: Clear migration paths for all external services
-4. **Documentation**: Comprehensive migration and alternative implementation guides
-5. **Automated Testing**: Multi-platform testing ensuring compatibility
-6. **Risk Mitigation**: Proactive risk assessment and mitigation strategies
+1. **Abstraction Layers**: Two-tier abstraction (repo layer for database, provider layer for external services) ensures no single vendor lock-in
+2. **Open Source Foundation**: Built entirely on open source technologies with permissive licenses
+3. **Web Standards**: Uses standard web technologies ensuring broad compatibility
+4. **Built-in Fallbacks**: In-memory queue included for Redis-free deployment
+5. **Documented Contracts**: Every provider has a documented function contract enabling alternative implementations
+6. **Complete Disclosure**: All 6 external service dependencies are documented with open alternatives and migration paths
 
 The platform can be fully deployed and operated using only open source components, ensuring true platform independence and avoiding vendor lock-in.
 

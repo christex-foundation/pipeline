@@ -4,25 +4,13 @@ import { createProjectUpdate } from '$lib/server/service/projectUpdatesService.j
 import { checkDPGStatus, getEmbedding } from '$lib/server/service/aiService.js';
 import { saveDPGStstatus } from '$lib/server/service/dpgStatusService.js';
 import { parseGithubUrl } from '$lib/server/github.js';
-import { Queue } from 'bullmq';
+import { getQueueProvider } from '$lib/server/providers/index.js';
 import axios from 'axios';
 
-import {
-  supabaseAnonKey,
-  supabaseUrl,
-  redisHost,
-  redisPort,
-  redisPassword,
-} from '$lib/server/config.js';
+import { supabaseAnonKey, supabaseUrl } from '$lib/server/config.js';
 
-const projectEvaluationQueue = new Queue('projectEvaluation', {
-  connection: {
-    host: redisHost,
-    // @ts-ignore
-    port: redisPort,
-    password: redisPassword,
-  },
-});
+const { createQueue } = await getQueueProvider();
+const projectEvaluationQueue = createQueue('projectEvaluation');
 
 export async function githubWebhook(data, supabase) {
   try {

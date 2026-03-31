@@ -1,32 +1,23 @@
-import { createServerClient } from '@supabase/ssr';
-import { redirect, init, ServerInit } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { createClient } from '@supabase/supabase-js';
 
-import {
-  SUPABASE_SERVICE_KEY,
-  supabaseUrl,
-  redisHost,
-  redisPort,
-  redisPassword,
-} from '$lib/server/config.js';
-
-import { Worker } from 'bullmq';
+import { supabaseUrl, supabaseAnonKey } from '$lib/server/config.js';
+import { createSessionClient, getSessionAndUser } from '$lib/server/providers/authProvider.js';
+import { getQueueProvider } from '$lib/server/providers/index.js';
 import { evaluateProject } from '$lib/server/service/githubWebhookService.js';
 
 const supabase = async ({ event, resolve }) => {
   /**
    * Creates a Supabase client specific to this server request
-   * Uses public URL and anon key for client-side initialization
+   * via the auth provider abstraction layer.
    */
-  event.locals.supabase = createServerClient(supabaseUrl, SUPABASE_SERVICE_KEY, {
-    cookies: {
-      getAll: () => event.cookies.getAll(),
-      setAll: (cookiesToSet) => {
-        cookiesToSet.forEach(({ name, value, options }) => {
-          event.cookies.set(name, value, { ...options, path: '/' });
-        });
-      },
+  event.locals.supabase = createSessionClient({
+    getAll: () => event.cookies.getAll(),
+    setAll: (cookiesToSet) => {
+      cookiesToSet.forEach(({ name, value, options }) => {
+        event.cookies.set(name, value, { ...options, path: '/' });
+      });
     },
   });
 
@@ -34,24 +25,7 @@ const supabase = async ({ event, resolve }) => {
    * Safe session getter that validates the JWT
    */
   event.locals.safeGetSession = async () => {
-    const {
-      data: { session },
-    } = await event.locals.supabase.auth.getSession();
-
-    if (!session) {
-      return { session: null, user: null };
-    }
-
-    const {
-      data: { user },
-      error,
-    } = await event.locals.supabase.auth.getUser();
-
-    if (error || !user) {
-      return { session: null, user: null };
-    }
-
-    return { session, user };
+    return getSessionAndUser(event.locals.supabase);
   };
 
   return resolve(event, {
@@ -123,32 +97,22 @@ const apiProtection = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-if (redisHost) {
-  const projectEvaluationWorker = new Worker(
-    'projectEvaluation',
-    async (job) => {
-      try {
-        const { github, projectId, supabaseUrl, supabaseAnonKey } = job.data;
+const { createWorker } = await getQueueProvider();
 
-        const supabaseConn = createClient(supabaseUrl, supabaseAnonKey);
+createWorker('projectEvaluation', async (job) => {
+  try {
+    const { github, projectId, supabaseUrl, supabaseAnonKey } = job.data;
 
-        await evaluateProject(github, projectId, supabaseConn);
+    const supabaseConn = createClient(supabaseUrl, supabaseAnonKey);
 
-        console.log(`Evaluation completed for: ${github}`);
-      } catch (error) {
-        console.error('Worker encountered an error:', error);
-      }
-    },
-    {
-      connection: {
-        host: redisHost,
-        port: redisPort,
-        password: redisPassword,
-      },
-    },
-  );
+    await evaluateProject(github, projectId, supabaseConn);
 
-  console.log('Project evaluation worker is running...');
-}
+    console.log(`Evaluation completed for: ${github}`);
+  } catch (error) {
+    console.error('Worker encountered an error:', error);
+  }
+});
+
+console.log('Project evaluation worker is running...');
 
 export const handle = sequence(supabase, authGuard);

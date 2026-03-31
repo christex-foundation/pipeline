@@ -1,15 +1,9 @@
 //@ts-check
 
 import { json } from '@sveltejs/kit';
-import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$lib/server/config';
-import { zodResponseFormat } from 'openai/helpers/zod';
 import { z } from 'zod';
 import { getAllRelevantFiles, parseGithubUrl } from '$lib/server/github.js';
-
-const openai = new OpenAI({
-  apiKey: OPENAI_API_KEY,
-});
+import { chatCompletionWithSchema } from '$lib/server/providers/aiProvider.js';
 
 const DPGStatus = z.object({
   recommendation: z.string(),
@@ -54,12 +48,7 @@ export async function POST({ request }) {
  * @param {any} messages
  */
 async function fetchAIResponse(messages) {
-  return await openai.beta.chat.completions.parse({
-    model: 'gpt-4o',
-    messages,
-    response_format: zodResponseFormat(DPGStatus, 'DPGStatus'),
-    temperature: 0,
-  });
+  return await chatCompletionWithSchema(messages, DPGStatus, 'DPGStatus');
 }
 
 /**

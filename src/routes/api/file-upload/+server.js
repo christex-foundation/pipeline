@@ -1,6 +1,8 @@
 //@ts-check
-import { supabase } from '$lib/server/supabase.js';
 import { json } from '@sveltejs/kit';
+import { uploadFile, getPublicUrl } from '$lib/server/providers/storageProvider.js';
+
+const BUCKET = 'pipeline-images';
 
 export async function POST({ request }) {
   const formData = await request.formData();
@@ -18,18 +20,15 @@ export async function POST({ request }) {
   const fileNameWithoutExtension =
     originalFileName.substring(0, originalFileName.lastIndexOf('.')) || originalFileName;
   const newFileName = `${fileNameWithoutExtension}-${timestamp}.${fileExtension}`;
+  const path = `uploads/${newFileName}`;
 
-  const { data, error } = await supabase.storage
-    .from('pipeline-images')
-    .upload(`uploads/${newFileName}`, file);
-
-  if (error) {
+  try {
+    await uploadFile(BUCKET, path, file);
+  } catch (error) {
     return json({ error: error.message }, { status: 500 });
   }
 
-  const { data: imgData } = await supabase.storage
-    .from('pipeline-images')
-    .getPublicUrl(`uploads/${newFileName}`);
+  const publicUrl = getPublicUrl(BUCKET, path);
 
-  return json({ url: imgData.publicUrl });
+  return json({ url: publicUrl });
 }

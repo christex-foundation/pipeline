@@ -1,12 +1,12 @@
 //@ts-check
 import { uploadImage, deleteImage } from '../repo/imageUploadRepo.js';
 
-export async function uploadImageAndReturnUrl(file, supabase) {
-  const url = await uploadImage(file, supabase);
+export async function uploadImageAndReturnUrl(file) {
+  const url = await uploadImage(file);
   return url;
 }
 
-export async function removeImage(url, supabase) {
+export async function removeImage(url) {
   if (!url) {
     console.error('No URL provided for removeImage');
     return;
@@ -20,7 +20,7 @@ export async function removeImage(url, supabase) {
       return;
     }
 
-    await deleteImage(fileName, supabase);
+    await deleteImage(fileName);
   } catch (error) {
     console.error('Error in removeImage:', error);
   }
