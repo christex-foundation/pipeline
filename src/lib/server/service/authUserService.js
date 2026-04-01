@@ -1,17 +1,11 @@
 import { loginUser, registerUser, logoutUser, deleteUser } from '$lib/server/repo/authUserRepo.js';
 import { createProfile, getProfile, deleteProfile } from '$lib/server/repo/userProfileRepo.js';
-import {
-  getProjectsByUserId,
-  deleteProjectsByUserId,
-} from '$lib/server/repo/projectRepo.js';
+import { getProjectsByUserId, deleteProjectsByUserId } from '$lib/server/repo/projectRepo.js';
 import {
   deleteBookmarksByUserId,
   deleteBookmarksByProjectIds,
 } from '$lib/server/repo/bookmarkRepo.js';
-import {
-  deleteMembersByUserId,
-  deleteMembersByProjectIds,
-} from '$lib/server/repo/memberRepo.js';
+import { deleteMembersByUserId, deleteMembersByProjectIds } from '$lib/server/repo/memberRepo.js';
 import {
   deleteResourcesByUserId,
   deleteResourcesByProjectIds,
@@ -103,7 +97,7 @@ export async function deleteAccount(userId, supabase) {
     ...projects.map((p) => p.banner_image),
   ].filter(Boolean);
   for (const url of imageUrls) {
-    await removeImage(url, supabase);
+    await removeImage(url);
   }
 
   // Phase 5: Delete profile and auth user

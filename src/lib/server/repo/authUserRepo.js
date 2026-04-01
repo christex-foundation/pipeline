@@ -1,36 +1,23 @@
-import { adminAuthClient } from '$lib/server/supabase.js';
+import {
+  createUser,
+  deleteUser as deleteAuthUser,
+  signInWithPassword,
+  signOut,
+} from '$lib/server/providers/authProvider.js';
 
 export async function registerUser(registerData) {
   const { email, password } = registerData;
-
-  const { data: signUpData, error } = await adminAuthClient.createUser({
-    email,
-    password,
-    email_confirm: true,
-  });
-
-  if (error) throw new Error(error.message);
-  return signUpData;
+  return createUser({ email, password });
 }
 
 export async function loginUser(loginData, supabase) {
-  const { data, error } = await supabase.auth.signInWithPassword(loginData);
-
-  if (error) throw new Error(error.message);
-  return data;
+  return signInWithPassword(loginData, supabase);
 }
 
 export async function logoutUser(supabase) {
-  const { error } = await supabase.auth.signOut();
-
-  if (error) {
-    console.error('Error during sign-out:', error.message);
-    throw new Error('Failed to log out.');
-  }
+  return signOut(supabase);
 }
 
 export async function deleteUser(userId) {
-  const { error } = await adminAuthClient.deleteUser(userId);
-
-  if (error) throw new Error(error.message);
+  return deleteAuthUser(userId);
 }

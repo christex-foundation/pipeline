@@ -21,20 +21,22 @@ export const actions = {
 
     data.tags = tags;
 
+    const supabase = locals.supabase;
+
     if (banner_image?.size > 0) {
       if (old_banner) {
-        await removeImage(old_banner, locals.supabase);
+        await removeImage(old_banner, supabase);
       }
-      data.banner_image = await uploadImageAndReturnUrl(banner_image, locals.supabase);
+      data.banner_image = await uploadImageAndReturnUrl(banner_image, supabase);
     } else {
       data.banner_image = old_banner;
     }
 
     if (image?.size > 0) {
       if (old_image) {
-        await removeImage(old_image, locals.supabase);
+        await removeImage(old_image, supabase);
       }
-      data.image = await uploadImageAndReturnUrl(image, locals.supabase);
+      data.image = await uploadImageAndReturnUrl(image, supabase);
     } else {
       data.image = old_image;
     }

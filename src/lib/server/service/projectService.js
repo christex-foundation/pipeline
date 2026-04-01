@@ -26,24 +26,11 @@ import { getDpgStatuses } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
-import { Queue } from 'bullmq';
+import { getQueueProvider } from '$lib/server/providers/index.js';
+import { supabaseAnonKey, supabaseUrl } from '$lib/server/config.js';
 
-import {
-  supabaseAnonKey,
-  supabaseUrl,
-  redisHost,
-  redisPort,
-  redisPassword,
-} from '$lib/server/config.js';
-
-const projectEvaluationQueue = new Queue('projectEvaluation', {
-  connection: {
-    host: redisHost,
-    // @ts-ignore
-    port: redisPort,
-    password: redisPassword,
-  },
-});
+const { createQueue } = await getQueueProvider();
+const projectEvaluationQueue = createQueue('projectEvaluation');
 
 export async function getProjectsWithDetails(term, page, limit, supabase) {
   const start = (page - 1) * limit;

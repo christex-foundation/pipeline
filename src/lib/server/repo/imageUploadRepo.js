@@ -1,4 +1,8 @@
 import { json } from '@sveltejs/kit';
+import { uploadFile, getPublicUrl, deleteFiles } from '$lib/server/providers/storageProvider.js';
+
+const BUCKET = 'pipeline-images';
+
 export async function uploadImage(file, supabase) {
   const timestamp = Date.now();
   const originalFileName = file.name;
@@ -6,26 +10,17 @@ export async function uploadImage(file, supabase) {
   const fileNameWithoutExtension =
     originalFileName.substring(0, originalFileName.lastIndexOf('.')) || originalFileName;
   const newFileName = `${fileNameWithoutExtension}-${timestamp}.${fileExtension}`;
+  const path = `uploads/${newFileName}`;
 
-  const { data, error } = await supabase.storage
-    .from('pipeline-images')
-    .upload(`uploads/${newFileName}`, file);
-
-  if (error) {
+  try {
+    await uploadFile(BUCKET, path, file, supabase);
+  } catch (error) {
     return json({ error: error.message }, { status: 500 });
   }
 
-  const { data: imgData } = await supabase.storage
-    .from('pipeline-images')
-    .getPublicUrl(`uploads/${newFileName}`);
-
-  return imgData.publicUrl;
+  return getPublicUrl(BUCKET, path, supabase);
 }
 
 export async function deleteImage(fileName, supabase) {
-  const { data, error } = await supabase.storage
-    .from('pipeline-images')
-    .remove([`uploads/${fileName}`]);
-  if (error) throw new Error(error.message);
-  return data;
+  return deleteFiles(BUCKET, [`uploads/${fileName}`], supabase);
 }
