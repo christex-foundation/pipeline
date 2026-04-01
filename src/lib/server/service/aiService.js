@@ -6,7 +6,7 @@ import { getAllRelevantFiles } from '$lib/server/github.js';
 import {
   chatCompletionWithSchema,
   getEmbedding as getEmbeddingFromProvider,
-} from '$lib/server/providers/aiProvider.js';
+} from '$lib/server/providers/index.js';
 
 const DPGStatus = z.object({
   name: z.string(),

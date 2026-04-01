@@ -21,18 +21,18 @@ export const actions = {
 
     if (banner?.size > 0) {
       if (old_banner) {
-        await removeImage(old_banner);
+        await removeImage(old_banner, supabase);
       }
-      data.banner = await uploadImageAndReturnUrl(banner);
+      data.banner = await uploadImageAndReturnUrl(banner, supabase);
     } else {
       data.banner = old_banner;
     }
 
     if (image?.size > 0) {
       if (old_image) {
-        await removeImage(old_image);
+        await removeImage(old_image, supabase);
       }
-      data.image = await uploadImageAndReturnUrl(image);
+      data.image = await uploadImageAndReturnUrl(image, supabase);
     } else {
       data.image = old_image;
     }

@@ -3,7 +3,7 @@ import { uploadFile, getPublicUrl, deleteFiles } from '$lib/server/providers/sto
 
 const BUCKET = 'pipeline-images';
 
-export async function uploadImage(file) {
+export async function uploadImage(file, supabase) {
   const timestamp = Date.now();
   const originalFileName = file.name;
   const fileExtension = originalFileName.split('.').pop();
@@ -13,14 +13,14 @@ export async function uploadImage(file) {
   const path = `uploads/${newFileName}`;
 
   try {
-    await uploadFile(BUCKET, path, file);
+    await uploadFile(BUCKET, path, file, supabase);
   } catch (error) {
     return json({ error: error.message }, { status: 500 });
   }
 
-  return getPublicUrl(BUCKET, path);
+  return getPublicUrl(BUCKET, path, supabase);
 }
 
-export async function deleteImage(fileName) {
-  return deleteFiles(BUCKET, [`uploads/${fileName}`]);
+export async function deleteImage(fileName, supabase) {
+  return deleteFiles(BUCKET, [`uploads/${fileName}`], supabase);
 }

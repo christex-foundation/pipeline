@@ -1,11 +1,10 @@
 //@ts-check
-import { supabase } from '$lib/server/supabase.js';
 
 /**
  * Uploads a file to the storage bucket.
  *
  * Provider contract:
- * - Input: bucket name, file path within bucket, file data
+ * - Input: bucket name, file path within bucket, file data, storage client
  * - Output: the raw upload result (provider-specific)
  * - Throws on error
  *
@@ -15,9 +14,10 @@ import { supabase } from '$lib/server/supabase.js';
  * @param {string} bucket - Storage bucket name
  * @param {string} path - File path within the bucket
  * @param {File|Blob|Buffer} file - File data to upload
+ * @param {any} supabase - Supabase client instance
  * @returns {Promise<any>} Upload result
  */
-export async function uploadFile(bucket, path, file) {
+export async function uploadFile(bucket, path, file, supabase) {
   const { data, error } = await supabase.storage.from(bucket).upload(path, file);
   if (error) throw new Error(error.message);
   return data;
@@ -28,9 +28,10 @@ export async function uploadFile(bucket, path, file) {
  *
  * @param {string} bucket - Storage bucket name
  * @param {string} path - File path within the bucket
+ * @param {any} supabase - Supabase client instance
  * @returns {string} Public URL
  */
-export function getPublicUrl(bucket, path) {
+export function getPublicUrl(bucket, path, supabase) {
   const { data } = supabase.storage.from(bucket).getPublicUrl(path);
   return data.publicUrl;
 }
@@ -40,9 +41,10 @@ export function getPublicUrl(bucket, path) {
  *
  * @param {string} bucket - Storage bucket name
  * @param {string[]} paths - Array of file paths to delete
+ * @param {any} supabase - Supabase client instance
  * @returns {Promise<any>} Deletion result
  */
-export async function deleteFiles(bucket, paths) {
+export async function deleteFiles(bucket, paths, supabase) {
   const { data, error } = await supabase.storage.from(bucket).remove(paths);
   if (error) throw new Error(error.message);
   return data;

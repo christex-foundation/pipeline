@@ -4,7 +4,7 @@ import { uploadFile, getPublicUrl } from '$lib/server/providers/storageProvider.
 
 const BUCKET = 'pipeline-images';
 
-export async function POST({ request }) {
+export async function POST({ request, locals }) {
   const formData = await request.formData();
 
   const file = formData.get('file');
@@ -23,12 +23,12 @@ export async function POST({ request }) {
   const path = `uploads/${newFileName}`;
 
   try {
-    await uploadFile(BUCKET, path, file);
+    await uploadFile(BUCKET, path, file, locals.supabase);
   } catch (error) {
     return json({ error: error.message }, { status: 500 });
   }
 
-  const publicUrl = getPublicUrl(BUCKET, path);
+  const publicUrl = getPublicUrl(BUCKET, path, locals.supabase);
 
   return json({ url: publicUrl });
 }

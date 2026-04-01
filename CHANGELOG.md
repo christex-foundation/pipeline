@@ -8,6 +8,14 @@ Version numbers below are retroactively assigned milestones.
 
 ---
 
+## [0.9.1] - 2026-04-01 - Provider Abstraction Fixes
+
+### Fixed
+
+- AI service and AI API route now import from the provider registry (`providers/index.js`) instead of directly from `aiProvider.js`, ensuring provider swaps apply consistently
+- Storage provider functions (`uploadFile`, `getPublicUrl`, `deleteFiles`) now accept an injected `supabase` client parameter instead of importing a global client, matching the repo layer convention
+- Updated `imageUploadRepo`, `imageUploadService`, and all page server callers (`project/create`, `project/edit`, `profile/edit`, `api/file-upload`) to pass `supabase` through the call chain
+
 ## [0.9.0] - 2026-03-31 - Platform Independence (DPG Criterion 4)
 
 ### Added

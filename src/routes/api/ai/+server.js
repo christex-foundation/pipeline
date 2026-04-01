@@ -3,7 +3,7 @@
 import { json } from '@sveltejs/kit';
 import { z } from 'zod';
 import { getAllRelevantFiles, parseGithubUrl } from '$lib/server/github.js';
-import { chatCompletionWithSchema } from '$lib/server/providers/aiProvider.js';
+import { chatCompletionWithSchema } from '$lib/server/providers/index.js';
 
 const DPGStatus = z.object({
   recommendation: z.string(),

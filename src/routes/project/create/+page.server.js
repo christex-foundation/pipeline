@@ -24,11 +24,11 @@ export const actions = {
     data.matchedDPGs = parsedMatchedDPGs;
 
     if (banner_image?.name) {
-      data.banner_image = await uploadImageAndReturnUrl(banner_image);
+      data.banner_image = await uploadImageAndReturnUrl(banner_image, supabase);
     }
 
     if (image?.name) {
-      data.image = await uploadImageAndReturnUrl(image);
+      data.image = await uploadImageAndReturnUrl(image, supabase);
     }
 
     try {
