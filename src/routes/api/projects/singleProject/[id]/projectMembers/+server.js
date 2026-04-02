@@ -1,45 +1,26 @@
-import { supabase } from '$lib/server/supabase.js';
 import { json } from '@sveltejs/kit';
+import { teamMembers } from '$lib/server/repo/memberRepo.js';
+import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 
-export async function GET({ params }) {
+export async function GET({ params, locals }) {
   const { id } = params;
+  const supabase = locals.supabase;
 
   try {
-    const { data: members, error: membersError } = await supabase
-      .from('project_members')
-      .select('*')
-      .eq('project_id', id)
-      .order('created_at', { ascending: false });
+    const members = await teamMembers(id, supabase);
 
-    if (membersError) {
-      return json({ error: membersError.message }, { status: 500 });
-    }
-
-    // If no members, return early
     if (!members || members.length === 0) {
       return json({ members: [] }, { status: 200 });
     }
 
-    // Extract unique user_ids from project members
     const userIds = [...new Set(members.map((member) => member.user_id))];
+    const profiles = await getMultipleProfiles(userIds, supabase);
 
-    // Fetch profiles that match the user_ids
-    const { data: profiles, error: profilesError } = await supabase
-      .from('profile')
-      .select('*')
-      .in('user_id', userIds);
-
-    if (profilesError) {
-      return json({ error: profilesError.message }, { status: 500 });
-    }
-
-    // Map profiles by user_id for easy lookup
     const profilesByUserId = profiles.reduce((acc, profile) => {
       acc[profile.user_id] = profile;
       return acc;
     }, {});
 
-    // Attach the corresponding profile to each member
     const membersWithProfiles = members.map((member) => ({
       ...member,
       userProfile: profilesByUserId[member.user_id] || null,
