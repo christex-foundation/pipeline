@@ -113,7 +113,7 @@
       <p class="mb-4 text-gray-400 sm:mb-0">
         &copy; {currentYear} Pipeline Copyright and rights reserved
       </p>
-      <div class="flex items-center">
+      <div class="flex items-center gap-4">
         <a
           href="https://github.com/christex-foundation/pipeline"
           target="_blank"
@@ -123,6 +123,16 @@
           <Icon icon="mdi:github" class="h-4 w-4" />
           View on GitHub
         </a>
+        <a
+          href="https://discourse.digitalpublicgoods.net"
+          target="_blank"
+          rel="noreferrer"
+          class="flex items-center gap-2 text-gray-400 transition-colors duration-300 hover:text-dashboard-yellow-400"
+        >
+          <Icon icon="mdi:forum" class="h-4 w-4" />
+          Join Discourse
+        </a>
+
       </div>
     </div>
   </div>
