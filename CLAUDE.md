@@ -2,7 +2,7 @@
 
 DPG Pipeline is a SvelteKit web platform by the Christex Foundation for managing Digital Public Goods (DPGs). It connects contributors, funders, and open-source projects aligned with UN Sustainable Development Goals.
 
-**always update the CHANGELOG file**
+**CHANGELOG**: Only update `CHANGELOG.md` for actual releases, not internal refactors or cleanup. Versions in the changelog must match `package.json` version. Bump `package.json` version when cutting a release, and add the corresponding changelog entry at that point.
 
 ## Commands
 
