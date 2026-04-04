@@ -1,9 +1,5 @@
-import { supabase } from '$lib/server/supabase.js';
 import { json } from '@sveltejs/kit';
-import {
-  getUserBookmarkedProjects,
-  getUserContributedProjects,
-} from '$lib/server/service/projectService.js';
+import { getUserContributedProjects } from '$lib/server/service/projectService.js';
 
 export async function GET({ request, locals, setHeaders }) {
   let user = locals.authUser;

@@ -8,6 +8,24 @@ Version numbers below are retroactively assigned milestones.
 
 ---
 
+## [0.9.2] - 2026-04-04 - Criterion 4 Route Cleanup
+
+### Removed
+
+- Dead direct-write `POST` handler from `/api/projects` that bypassed the service/repo pattern
+- Incomplete `invitemember` endpoint with no callers and no return value
+- Unused global Supabase imports from `user/bookmarks`, `user/projects`, and `user/contributed` routes
+- Unused `getUserBookmarkedProjects` import from `user/contributed` route
+
+### Fixed
+
+- `projectUpdates/store` now uses request-scoped `locals.supabase` instead of the global Supabase client
+- `imageUploadRepo.js` now throws `Error` on upload failure instead of returning an HTTP `json()` response, restoring the repo layer contract
+
+### Changed
+
+- `projectMembers` route now delegates to `getTeamMembers()` in the service layer instead of performing inline multi-table orchestration with the global client
+
 ## [0.9.1] - 2026-04-01 - Provider Abstraction Fixes
 
 ### Fixed

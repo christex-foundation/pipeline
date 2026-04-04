@@ -105,7 +105,7 @@ export async function getTeamMembers(projectId, supabase) {
 
   const userIds = members.map((member) => member.user_id);
 
-  const profiles = await getMultipleProfiles(userIds, supabase);
+  const profiles = userIds.length > 0 ? await getMultipleProfiles(userIds, supabase) : [];
 
   const profilesByUserId = profiles.reduce((acc, profile) => {
     acc[profile.user_id] = profile;
