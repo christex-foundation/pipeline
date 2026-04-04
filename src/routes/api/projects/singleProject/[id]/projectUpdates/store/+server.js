@@ -1,4 +1,3 @@
-import { supabase } from '$lib/server/supabase.js';
 import { createProjectUpdate } from '$lib/server/service/projectUpdatesService.js';
 import { json } from '@sveltejs/kit';
 
@@ -7,6 +6,7 @@ export async function POST({ params, request, locals }) {
   const { title, body } = await request.json();
 
   let user = locals.authUser;
+  let supabase = locals.supabase;
 
   try {
     await createProjectUpdate({ project_id: id, title, body, user_id: user.id }, supabase);
