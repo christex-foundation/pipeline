@@ -139,25 +139,25 @@ function toXmlElementName(key) {
  */
 function valueToXml(value, key) {
   const elementName = toXmlElementName(key);
-  
+
   if (value === null || value === undefined) {
     return `<${elementName}/>`;
   }
-  
+
   if (Array.isArray(value)) {
     if (value.length === 0) {
       return `<${elementName}></${elementName}>`;
     }
     return value.map((item) => valueToXml(item, 'item')).join('');
   }
-  
+
   if (typeof value === 'object') {
     const children = Object.entries(value)
       .map(([k, v]) => valueToXml(v, k))
       .join('');
     return `<${elementName}>${children}</${elementName}>`;
   }
-  
+
   return `<${elementName}>${escapeXml(String(value))}</${elementName}>`;
 }
 
@@ -168,51 +168,53 @@ function valueToXml(value, key) {
 export function toXml(payload) {
   const rootName = payload.root_name || 'export';
   const itemsName = payload.items_name || 'data';
-  
+
   const data = { ...payload };
   delete data.exported_at;
   delete data.access_role;
   delete data.root_name;
   delete data.items_name;
-  
+
   let content = '';
   if (data && typeof data === 'object') {
     content = Object.entries(data)
       .map(([key, value]) => {
         const elementName = toXmlElementName(key);
-        
+
         if (Array.isArray(value)) {
           if (value.length === 0) {
             return `<${elementName}></${elementName}>`;
           }
-          const items = value.map((item) => {
-            if (item !== null && typeof item === 'object' && !Array.isArray(item)) {
-              const children = Object.entries(item)
-                .map(([k, v]) => valueToXml(v, k))
-                .join('');
-              return `<item>${children}</item>`;
-            }
-            return `<item>${escapeXml(String(item))}</item>`;
-          }).join('');
+          const items = value
+            .map((item) => {
+              if (item !== null && typeof item === 'object' && !Array.isArray(item)) {
+                const children = Object.entries(item)
+                  .map(([k, v]) => valueToXml(v, k))
+                  .join('');
+                return `<item>${children}</item>`;
+              }
+              return `<item>${escapeXml(String(item))}</item>`;
+            })
+            .join('');
           return `<${elementName}>${items}</${elementName}>`;
         }
-        
+
         if (value !== null && typeof value === 'object') {
           const children = Object.entries(value)
             .map(([k, v]) => valueToXml(v, k))
             .join('');
           return `<${elementName}>${children}</${elementName}>`;
         }
-        
+
         return valueToXml(value, key);
       })
       .join('');
   }
-  
-  const metadata = payload.exported_at 
+
+  const metadata = payload.exported_at
     ? `<exported_at>${escapeXml(String(payload.exported_at))}</exported_at>`
     : '';
-  
+
   return `<?xml version="1.0" encoding="UTF-8"?>\n<${rootName}>${metadata}${content}</${rootName}>`;
 }
 
@@ -240,9 +242,7 @@ export function toCsv(rows) {
   const headers = [...new Set(rows.flatMap((row) => Object.keys(row)))];
   const headerRow = headers.map((header) => escapeCsv(header)).join(',');
   const body = rows
-    .map((row) =>
-      headers.map((header) => escapeCsv(stringifyCell(row[header] ?? ''))).join(','),
-    )
+    .map((row) => headers.map((header) => escapeCsv(stringifyCell(row[header] ?? ''))).join(','))
     .join('\n');
 
   return `${headerRow}\n${body}\n`;

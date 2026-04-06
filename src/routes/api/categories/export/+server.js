@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { getAllCategories } from '$lib/server/repo/categoryRepo.js';
+import { allCategories } from '$lib/server/service/categoryService.js';
 import { toCsv, toXml } from '$lib/server/service/exportService.js';
 
 const DEFAULT_PAGE_SIZE = 100;
@@ -23,7 +23,10 @@ function getExportHeaders(format) {
 export async function GET({ url, locals }) {
   const format = (url.searchParams.get('format') || 'json').toLowerCase();
   const page = Math.max(1, parseInt(url.searchParams.get('page')) || 1);
-  const limit = Math.min(MAX_PAGE_SIZE, Math.max(1, parseInt(url.searchParams.get('limit')) || DEFAULT_PAGE_SIZE));
+  const limit = Math.min(
+    MAX_PAGE_SIZE,
+    Math.max(1, parseInt(url.searchParams.get('limit')) || DEFAULT_PAGE_SIZE),
+  );
 
   if (format !== 'json' && format !== 'csv' && format !== 'xml') {
     return json({ error: "Invalid format. Use 'json', 'csv', or 'xml'" }, { status: 400 });
@@ -32,13 +35,13 @@ export async function GET({ url, locals }) {
   const supabase = locals?.supabase;
 
   try {
-    const allCategories = await getAllCategories(supabase);
-    
+    const allCats = await allCategories(supabase);
+
     const start = (page - 1) * limit;
     const end = start + limit;
-    const categories = allCategories.slice(start, end);
-    
-    const total = allCategories.length;
+    const categories = allCats.slice(start, end);
+
+    const total = allCats.length;
     const hasMore = end < total;
 
     const payload = {

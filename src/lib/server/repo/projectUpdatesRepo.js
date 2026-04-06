@@ -1,5 +1,15 @@
 //@ts-check
 
+export async function getAllUpdates(supabase) {
+  const { data, error } = await supabase
+    .from('project_updates')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) throw new Error(error.message);
+  return data || [];
+}
+
 export async function getUpdates(projectId, supabase) {
   const { data, error } = await supabase
     .from('project_updates')

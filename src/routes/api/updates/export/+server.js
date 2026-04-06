@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { toCsv, toXml } from '$lib/server/service/exportService.js';
+import { getAllProjectUpdates } from '$lib/server/service/projectUpdatesService.js';
 
 const DEFAULT_PAGE_SIZE = 100;
 const MAX_PAGE_SIZE = 1000;
@@ -24,20 +25,13 @@ function sanitizeUpdate(update) {
   return safe;
 }
 
-async function getAllUpdates(supabase) {
-  const { data, error } = await supabase
-    .from('project_updates')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) throw new Error(error.message);
-  return data || [];
-}
-
 export async function GET({ url, locals }) {
   const format = (url.searchParams.get('format') || 'json').toLowerCase();
   const page = Math.max(1, parseInt(url.searchParams.get('page')) || 1);
-  const limit = Math.min(MAX_PAGE_SIZE, Math.max(1, parseInt(url.searchParams.get('limit')) || DEFAULT_PAGE_SIZE));
+  const limit = Math.min(
+    MAX_PAGE_SIZE,
+    Math.max(1, parseInt(url.searchParams.get('limit')) || DEFAULT_PAGE_SIZE),
+  );
   const projectId = url.searchParams.get('project_id');
 
   if (format !== 'json' && format !== 'csv' && format !== 'xml') {
@@ -47,18 +41,18 @@ export async function GET({ url, locals }) {
   const supabase = locals?.supabase;
 
   try {
-    let updates = await getAllUpdates(supabase);
-    
+    let updates = await getAllProjectUpdates(supabase);
+
     if (projectId) {
-      updates = updates.filter(u => u.project_id === projectId);
+      updates = updates.filter((u) => u.project_id === projectId);
     }
-    
+
     updates = updates.map(sanitizeUpdate);
-    
+
     const start = (page - 1) * limit;
     const end = start + limit;
     const paginatedUpdates = updates.slice(start, end);
-    
+
     const total = updates.length;
     const hasMore = end < total;
 

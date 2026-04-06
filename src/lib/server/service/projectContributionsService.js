@@ -1,10 +1,15 @@
 //@ts-check
 import {
+  getAllContributions,
   getProjectResourcesCount,
   getResources,
   storeResource,
 } from '$lib/server/repo/projectContributionsRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
+
+export async function getAllProjectContributions(supabase) {
+  return getAllContributions(supabase);
+}
 
 export async function getProjectResource(projectId, supabase) {
   const resources = await getResources(projectId, supabase);
