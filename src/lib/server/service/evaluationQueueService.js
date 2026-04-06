@@ -30,7 +30,13 @@ export async function requestEvaluation(projectId, githubUrl, trigger, requested
   }
 
   try {
-    const evaluation = await insertEvaluationRequest(projectId, githubUrl, trigger, requestedBy, supabase);
+    const evaluation = await insertEvaluationRequest(
+      projectId,
+      githubUrl,
+      trigger,
+      requestedBy,
+      supabase,
+    );
     return { success: true, evaluation, message: 'Evaluation requested' };
   } catch (error) {
     // Unique constraint violation — another request raced us

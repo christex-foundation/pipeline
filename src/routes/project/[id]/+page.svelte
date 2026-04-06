@@ -390,7 +390,11 @@
                 Detailed evaluation against Digital Public Good standards
               </p>
             </div>
-            <DpgStatus {project} isOwner={user?.id === project.user_id} evaluations={data.evaluations} />
+            <DpgStatus
+              {project}
+              isOwner={user?.id === project.user_id}
+              evaluations={data.evaluations}
+            />
           </div>
         {:else if activeNavItem === 'tasks'}
           <div class="space-y-6">

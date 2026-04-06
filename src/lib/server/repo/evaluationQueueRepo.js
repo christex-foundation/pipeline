@@ -9,7 +9,13 @@
  * @param {import('@supabase/supabase-js').SupabaseClient} supabase
  * @returns {Promise<object>}
  */
-export async function insertEvaluationRequest(projectId, githubUrl, trigger, requestedBy, supabase) {
+export async function insertEvaluationRequest(
+  projectId,
+  githubUrl,
+  trigger,
+  requestedBy,
+  supabase,
+) {
   const { data, error } = await supabase
     .from('evaluation_queue')
     .insert({

@@ -149,7 +149,7 @@
                     <Icon icon={getIconForStandard(item.name)} class="h-5 w-5 text-red-400" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <h4 class="text-heading-sm font-medium text-white line-clamp-2">
+                    <h4 class="line-clamp-2 text-heading-sm font-medium text-white">
                       {item.name}
                     </h4>
                     <p class="mt-1 text-body-sm text-red-300">Needs attention</p>
@@ -227,7 +227,7 @@
                     <Icon icon={getIconForStandard(item.name)} class="h-5 w-5 text-green-400" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <h4 class="text-heading-sm font-medium text-white line-clamp-2">
+                    <h4 class="line-clamp-2 text-heading-sm font-medium text-white">
                       {item.name}
                     </h4>
                     <div class="mt-1 flex items-center gap-1">
@@ -251,9 +251,7 @@
                   <div class="rounded-xl border border-green-500/30 bg-green-500/5 p-4">
                     <div class="mb-2 flex items-center gap-2">
                       <Icon icon="mdi:check-circle" class="h-5 w-5 text-green-400" />
-                      <span class="text-label-md font-medium text-green-400"
-                        >Status: Complete</span
-                      >
+                      <span class="text-label-md font-medium text-green-400">Status: Complete</span>
                     </div>
                     <p class="text-body-sm text-gray-300">
                       This standard has been successfully met by your project.
@@ -403,7 +401,7 @@
                   <span class="text-body-sm text-gray-400">{run.result.score}</span>
                 {/if}
                 <span
-                  class="rounded-full px-2 py-0.5 text-body-xs {run.status === 'completed'
+                  class="text-body-xs rounded-full px-2 py-0.5 {run.status === 'completed'
                     ? 'bg-green-500/10 text-green-400'
                     : 'bg-red-500/10 text-red-400'}"
                 >

@@ -20,7 +20,10 @@ export async function POST({ params, locals }) {
   }
 
   if (authUser.id !== project.user_id) {
-    return json({ success: false, message: 'Only the project creator can request evaluations' }, { status: 403 });
+    return json(
+      { success: false, message: 'Only the project creator can request evaluations' },
+      { status: 403 },
+    );
   }
 
   if (!project.github) {

@@ -224,4 +224,3 @@ export async function updateProject(userId, projectId, projectData, supabase) {
 }
 
 export { getProjects };
-
