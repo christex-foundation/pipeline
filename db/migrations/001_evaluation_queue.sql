@@ -41,17 +41,16 @@ CREATE INDEX IF NOT EXISTS evaluation_queue_project_id
 -- RLS policies
 ALTER TABLE public.evaluation_queue ENABLE ROW LEVEL SECURITY;
 
--- Authenticated users can read all evaluation queue entries
+-- Anyone can read evaluation queue entries (public data, needed for project pages)
 CREATE POLICY "evaluation_queue_select"
   ON public.evaluation_queue FOR SELECT
-  TO authenticated
   USING (true);
 
--- Authenticated users can insert evaluation requests
+-- Anyone can insert evaluation requests (webhook has no user session;
+-- ownership is enforced at the API layer, not RLS)
 CREATE POLICY "evaluation_queue_insert"
   ON public.evaluation_queue FOR INSERT
-  TO authenticated
   WITH CHECK (true);
 
 -- Only service role can update (dpg-evaluator uses service key)
--- No UPDATE policy for authenticated role means only service_role can update.
+-- No UPDATE policy for anon/authenticated means only service_role can update.

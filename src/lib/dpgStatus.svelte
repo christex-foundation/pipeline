@@ -91,8 +91,7 @@
       >
         <Icon
           icon={requesting ? 'lucide:loader-2' : 'lucide:refresh-cw'}
-          class="mr-2 inline h-4 w-4"
-          class:animate-spin={requesting}
+          class="mr-2 inline h-4 w-4 {requesting ? 'animate-spin' : ''}"
         />
         {#if hasActiveEvaluation}
           Evaluation in progress
@@ -359,8 +358,7 @@
           >
             <Icon
               icon={requesting ? 'lucide:loader-2' : 'lucide:play'}
-              class="mr-2 inline h-4 w-4"
-              class:animate-spin={requesting}
+              class="mr-2 inline h-4 w-4 {requesting ? 'animate-spin' : ''}"
             />
             Request Evaluation
           </button>

@@ -17,7 +17,9 @@ export async function load({ params, fetch }) {
       resourcesRes.json(),
     ]);
 
-    const evaluationsData = await evaluationsRes.json();
+    const evaluationsData = evaluationsRes.ok
+      ? await evaluationsRes.json()
+      : { active: null, latest: null, history: [] };
 
     return {
       project: projectData.project || [],

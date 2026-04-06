@@ -42,8 +42,10 @@ export async function githubWebhook(data, supabase) {
       );
     }
 
-    console.log('Requesting project evaluation...');
-    await requestEvaluation(project.id, project.github, 'webhook', null, supabase);
+    if (data.action === 'closed' && data.pull_request?.merged) {
+      console.log('Requesting project evaluation...');
+      await requestEvaluation(project.id, project.github, 'webhook', null, supabase);
+    }
 
     return { success: true };
   } catch (error) {
