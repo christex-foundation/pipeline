@@ -38,13 +38,22 @@
   let date;
 
   export let data;
-  const project = data.project;
-  const totalResources = data.totalResources;
+  let project;
+  let totalResources;
+  let githubLinkSplit = [];
+  let concat = '';
 
-  const githubLinkSplit = project?.github?.split('/') || [];
-  const concat = githubLinkSplit[3] + '/' + githubLinkSplit[4];
+  $: project = data.project;
+  $: totalResources = data.totalResources;
+  $: githubLinkSplit = project?.github?.split('/') || [];
+  $: concat =
+    githubLinkSplit[3] && githubLinkSplit[4] ? `${githubLinkSplit[3]}/${githubLinkSplit[4]}` : '';
 
   const fetchContribs = async () => {
+    if (!concat) {
+      return [];
+    }
+
     try {
       const res = await fetch(`https://api.github.com/repos/${concat}/contributors`);
       const data = await res.json();
