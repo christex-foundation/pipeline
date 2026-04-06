@@ -91,6 +91,29 @@ CREATE TABLE IF NOT EXISTS public.project_dpg_status (
     CONSTRAINT project_dpg_status_status_id_fkey FOREIGN KEY (status_id) REFERENCES dpg_status(id)
 ) TABLESPACE pg_default;
 
+CREATE TABLE IF NOT EXISTS public.evaluation_queue (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+    project_id uuid NOT NULL,
+    github_url text NOT NULL,
+    status text NOT NULL DEFAULT 'pending'::text,
+    trigger text NOT NULL DEFAULT 'manual'::text,
+    requested_by uuid NULL,
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now(),
+    started_at timestamp with time zone NULL,
+    completed_at timestamp with time zone NULL,
+    retry_count integer DEFAULT 0,
+    result jsonb NULL,
+    error text NULL,
+    report_url text NULL,
+    report_markdown text NULL,
+    CONSTRAINT evaluation_queue_pkey PRIMARY KEY (id),
+    CONSTRAINT evaluation_queue_project_id_fkey FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    CONSTRAINT evaluation_queue_requested_by_fkey FOREIGN KEY (requested_by) REFERENCES auth.users(id),
+    CONSTRAINT evaluation_queue_status_check CHECK (status IN ('pending', 'running', 'completed', 'failed', 'cancelled')),
+    CONSTRAINT evaluation_queue_trigger_check CHECK (trigger IN ('manual', 'webhook', 'auto'))
+);
+
 CREATE TABLE IF NOT EXISTS public.project_members (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
     created_at timestamp with time zone NOT NULL DEFAULT now(),

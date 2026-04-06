@@ -9,35 +9,9 @@ Routes/Actions --> Services --> Repos (database abstraction)
                    Services --> Providers (external service abstraction)
 ```
 
-The **repo layer** (`src/lib/server/repo/`) abstracts database access. The **provider layer** abstracts everything else: AI, job queues, file storage, and authentication.
+The **repo layer** (`src/lib/server/repo/`) abstracts database access. The **provider layer** abstracts everything else: file storage and authentication.
 
 ## Provider Modules
-
-### AI Provider (`aiProvider.js`)
-
-Wraps AI/LLM functionality for DPG evaluation and text embeddings.
-
-**Default implementation**: OpenAI (`gpt-4o` for chat, `text-embedding-ada-002` for embeddings)
-
-**Contract**:
-
-- `chatCompletionWithSchema(messages, zodSchema, schemaName)` - Sends chat messages and returns structured output validated against a Zod schema
-- `getEmbedding(text)` - Returns a numerical embedding vector for the input text
-
-**Open-source alternatives**: Ollama, llama.cpp, Hugging Face Inference API, vLLM
-
-### Queue Provider (`queueProvider.js` / `inMemoryQueue.js`)
-
-Wraps job queue functionality for async project evaluation.
-
-**Default implementation**: BullMQ (Redis-backed) when `REDIS_HOST` is set, in-memory fallback otherwise
-
-**Contract**:
-
-- `createQueue(name)` - Returns a queue handle with `.add(jobName, data)`
-- `createWorker(name, handler)` - Registers a handler function for the named queue
-
-**Open-source alternatives**: bee-queue, agenda (MongoDB-backed), pgBoss (PostgreSQL-backed)
 
 ### Storage Provider (`storageProvider.js`)
 
@@ -72,35 +46,12 @@ Wraps authentication and session management.
 
 ### Registry (`index.js`)
 
-Central module that selects the active provider based on environment configuration. Currently:
-
-- Queue provider is auto-selected based on `REDIS_HOST` availability
-- AI, Storage, and Auth providers use their default implementations
+Central module that re-exports provider functions. Storage and Auth providers use their default implementations.
 
 ## Implementing a Custom Provider
 
 To swap an external service:
 
-1. Create a new file in this directory (e.g., `ollamaAiProvider.js`)
+1. Create a new file in this directory (e.g., `minioStorageProvider.js`)
 2. Export the same functions with identical signatures as the default provider
 3. Update the import in `index.js` or the consuming service to use your implementation
-
-Example: swapping OpenAI for Ollama
-
-```javascript
-// ollamaAiProvider.js
-import Ollama from 'ollama';
-
-export async function chatCompletionWithSchema(messages, zodSchema, schemaName) {
-  const response = await ollama.chat({ model: 'llama3', messages });
-  // Parse and validate response against zodSchema
-  return {
-    choices: [{ message: { parsed: zodSchema.parse(JSON.parse(response.message.content)) } }],
-  };
-}
-
-export async function getEmbedding(text) {
-  const response = await ollama.embeddings({ model: 'llama3', prompt: text });
-  return response.embedding;
-}
-```

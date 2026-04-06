@@ -2,9 +2,10 @@ export async function load({ params, fetch }) {
   const { id } = params;
 
   try {
-    const [projectRes, resourcesRes] = await Promise.all([
+    const [projectRes, resourcesRes, evaluationsRes] = await Promise.all([
       fetch(`/api/projects/singleProject/${id}`),
       fetch(`/api/projects/singleProject/${id}/contribution/resources`),
+      fetch(`/api/projects/${id}/evaluations`),
     ]);
 
     if (!projectRes.ok || !resourcesRes.ok) {
@@ -16,9 +17,14 @@ export async function load({ params, fetch }) {
       resourcesRes.json(),
     ]);
 
+    const evaluationsData = evaluationsRes.ok
+      ? await evaluationsRes.json()
+      : { active: null, latest: null, history: [] };
+
     return {
       project: projectData.project || [],
       totalResources: resourcesData.totalResources,
+      evaluations: evaluationsData,
     };
   } catch (e) {
     return {
