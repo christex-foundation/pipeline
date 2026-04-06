@@ -8,6 +8,21 @@ Version numbers below are retroactively assigned milestones.
 
 ---
 
+## [0.9.3] - 2026-04-06 - Server Layer Boundary Enforcement
+
+### Fixed
+
+- Export and profile routes that bypassed the service layer by importing repos directly, now routed through services
+- Remaining inline `supabase.from()` calls in route handlers extracted to repo/service layer
+
+### Added
+
+- ESLint configuration (`eslint.config.js`) with architecture boundary rules enforcing routes -> services -> repos layering
+- `npm run lint` script for running server boundary checks
+- New service functions: `getProfileByUserId`, `getExportProjects`, `getAllProjectUpdates`, `getAllProjectContributions`, `allCategories`
+- New repo functions: `getAllUpdates` (projectUpdatesRepo), `getAllContributions` (projectContributionsRepo)
+- Server layer boundaries guide (`docs/architecture/server-boundaries.md`)
+
 ## [0.9.2] - 2026-04-04 - Criterion 4 Route Cleanup
 
 ### Removed

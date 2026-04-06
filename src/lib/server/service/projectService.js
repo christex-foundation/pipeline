@@ -236,12 +236,3 @@ export async function getExportProjects(term, start, end, supabase) {
   return getProjects(term, start, end, supabase);
 }
 
-export async function createProjectRecord(projectData, supabase) {
-  return createProject(projectData, supabase);
-}
-
-export async function addTeamMember(userId, projectId, supabase) {
-  return createTeamMember(userId, projectId, supabase);
-}
-
-export async function deleteProject(id, supabase) {}
