@@ -16,6 +16,8 @@ export async function insertEvaluationRequest(
   requestedBy,
   supabase,
 ) {
+  const PUBLIC_COLUMNS = 'id, project_id, status, created_at, completed_at, result';
+
   // Try with all columns first (requires migration).
   // Fall back to core columns if the new ones don't exist yet.
   let { data, error } = await supabase
@@ -26,7 +28,7 @@ export async function insertEvaluationRequest(
       trigger,
       requested_by: requestedBy,
     })
-    .select()
+    .select(PUBLIC_COLUMNS)
     .single();
 
   if (error && error.message?.includes('column')) {
@@ -36,7 +38,7 @@ export async function insertEvaluationRequest(
         project_id: projectId,
         github_url: githubUrl,
       })
-      .select()
+      .select(PUBLIC_COLUMNS)
       .single());
   }
 
@@ -53,7 +55,7 @@ export async function insertEvaluationRequest(
 export async function getActiveEvaluation(projectId, supabase) {
   const { data, error } = await supabase
     .from('evaluation_queue')
-    .select('*')
+    .select('id, project_id, status, created_at')
     .eq('project_id', projectId)
     .in('status', ['pending', 'running'])
     .maybeSingle();
@@ -72,7 +74,7 @@ export async function getActiveEvaluation(projectId, supabase) {
 export async function getEvaluationHistory(projectId, supabase, limit = 10) {
   const { data, error } = await supabase
     .from('evaluation_queue')
-    .select('*')
+    .select('id, project_id, status, created_at, completed_at, result')
     .eq('project_id', projectId)
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -90,7 +92,7 @@ export async function getEvaluationHistory(projectId, supabase, limit = 10) {
 export async function getLatestCompletedEvaluation(projectId, supabase) {
   const { data, error } = await supabase
     .from('evaluation_queue')
-    .select('*')
+    .select('id, project_id, status, created_at, completed_at, result')
     .eq('project_id', projectId)
     .eq('status', 'completed')
     .order('completed_at', { ascending: false })

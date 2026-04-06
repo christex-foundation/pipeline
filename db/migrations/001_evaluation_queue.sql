@@ -91,12 +91,14 @@ CREATE POLICY "evaluation_queue_select"
   ON public.evaluation_queue FOR SELECT
   USING (true);
 
--- Anyone can insert evaluation requests (webhook has no user session;
--- ownership is enforced at the API layer, not RLS)
+-- Only authenticated users can insert evaluation requests.
+-- Ownership is enforced at the API layer; this prevents anonymous abuse via PostgREST.
+-- dpg-evaluator uses service_role, so it bypasses RLS and doesn't need a policy.
 DROP POLICY IF EXISTS "evaluation_queue_insert" ON public.evaluation_queue;
 CREATE POLICY "evaluation_queue_insert"
   ON public.evaluation_queue FOR INSERT
-  WITH CHECK (true);
+  TO authenticated
+  WITH CHECK (auth.uid() IS NOT NULL);
 
 -- Only service_role can update (dpg-evaluator uses service key).
 -- No UPDATE policy for anon/authenticated = only service_role can update.
