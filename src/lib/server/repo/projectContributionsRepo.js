@@ -1,5 +1,15 @@
 //@ts-check
 
+export async function getAllContributions(supabase) {
+  const { data, error } = await supabase
+    .from('project_resource')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) throw new Error(error.message);
+  return data || [];
+}
+
 export async function getResources(projectId, supabase) {
   const { data, error } = await supabase
     .from('project_resource')

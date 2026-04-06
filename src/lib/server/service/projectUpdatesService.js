@@ -1,6 +1,15 @@
 //@ts-check
-import { getUpdates, storeProjectUpdate } from '$lib/server/repo/projectUpdatesRepo.js';
+import {
+  getAllUpdates,
+  getUpdates,
+  storeProjectUpdate,
+} from '$lib/server/repo/projectUpdatesRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
+
+export async function getAllProjectUpdates(supabase) {
+  return getAllUpdates(supabase);
+}
+
 export async function getProjectUpdates(projectId, supabase) {
   const updates = await getUpdates(projectId, supabase);
 

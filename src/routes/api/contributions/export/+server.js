@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { toCsv, toXml } from '$lib/server/service/exportService.js';
+import { getAllProjectContributions } from '$lib/server/service/projectContributionsService.js';
 
 const DEFAULT_PAGE_SIZE = 100;
 const MAX_PAGE_SIZE = 1000;
@@ -24,20 +25,13 @@ function sanitizeContribution(contribution) {
   return safe;
 }
 
-async function getAllContributions(supabase) {
-  const { data, error } = await supabase
-    .from('project_resource')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) throw new Error(error.message);
-  return data || [];
-}
-
 export async function GET({ url, locals }) {
   const format = (url.searchParams.get('format') || 'json').toLowerCase();
   const page = Math.max(1, parseInt(url.searchParams.get('page')) || 1);
-  const limit = Math.min(MAX_PAGE_SIZE, Math.max(1, parseInt(url.searchParams.get('limit')) || DEFAULT_PAGE_SIZE));
+  const limit = Math.min(
+    MAX_PAGE_SIZE,
+    Math.max(1, parseInt(url.searchParams.get('limit')) || DEFAULT_PAGE_SIZE),
+  );
   const projectId = url.searchParams.get('project_id');
 
   if (format !== 'json' && format !== 'csv' && format !== 'xml') {
@@ -47,18 +41,18 @@ export async function GET({ url, locals }) {
   const supabase = locals?.supabase;
 
   try {
-    let contributions = await getAllContributions(supabase);
-    
+    let contributions = await getAllProjectContributions(supabase);
+
     if (projectId) {
-      contributions = contributions.filter(c => c.project_id === projectId);
+      contributions = contributions.filter((c) => c.project_id === projectId);
     }
-    
+
     contributions = contributions.map(sanitizeContribution);
-    
+
     const start = (page - 1) * limit;
     const end = start + limit;
     const paginatedContributions = contributions.slice(start, end);
-    
+
     const total = contributions.length;
     const hasMore = end < total;
 
