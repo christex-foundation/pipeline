@@ -163,6 +163,9 @@ npm run check
 # Type checking with watch mode
 npm run check:watch
 
+# Architecture boundary linting
+npm run lint
+
 # Code formatting
 npm run format
 ```

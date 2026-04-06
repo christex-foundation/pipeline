@@ -219,11 +219,20 @@ Each service should document the subset it relies on with JSDoc.
 
 ## Adoption Notes
 
-This ADR is not implemented yet.
+This ADR is partially implemented.
+
+PR `#452` now enforces the current server layering rules with ESLint:
+
+- routes must go through services instead of importing repos directly
+- routes must not import `$lib/server/supabase.js`
+- repos must stay free of HTTP helpers
+
+That enforcement is complementary to this ADR.
+It establishes the route -> service -> repo boundary now, while the remaining ADR work changes the request dependency shape later from `locals.supabase` to a neutral request context such as `{ db, authUser }`.
 
 The intended migration path is:
 
-1. stop adding new route-level uses of `locals.supabase`
+1. ~~stop adding new route-level uses of `locals.supabase`~~ — enforced via ESLint
 2. introduce a neutral request context shape
 3. update routes to call services with that context
 4. keep repository functions as the explicit boundary for database access
