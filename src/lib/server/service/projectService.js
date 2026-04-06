@@ -26,11 +26,7 @@ import { getDpgStatuses } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
-import { getQueueProvider } from '$lib/server/providers/index.js';
-import { supabaseAnonKey, supabaseUrl } from '$lib/server/config.js';
-
-const { createQueue } = await getQueueProvider();
-const projectEvaluationQueue = createQueue('projectEvaluation');
+import { requestEvaluation } from '$lib/server/service/evaluationQueueService.js';
 
 export async function getProjectsWithDetails(term, page, limit, supabase) {
   const start = (page - 1) * limit;
@@ -178,14 +174,9 @@ export async function storeProject(user, projectData, supabase) {
     tags.map((tag) => assignCategory({ project_id: project.id, category_id: tag.id }, supabase)),
   );
 
-  console.log('Evaluating project:', project.github);
-  //Enqueue the project evaluation job
-  await projectEvaluationQueue.add('evaluateProject', {
-    github: project.github,
-    projectId: project.id,
-    supabaseUrl: supabaseUrl,
-    supabaseAnonKey: supabaseAnonKey,
-  });
+  if (project.github) {
+    await requestEvaluation(project.id, project.github, 'auto', user.id, supabase);
+  }
 
   return { success: true, projectId: project.id };
 }
