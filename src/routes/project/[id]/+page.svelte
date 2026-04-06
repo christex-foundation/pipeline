@@ -14,7 +14,6 @@
   import DpgStatus from '$lib/dpgStatus.svelte';
   import CategoryTag from '$lib/CategoryTag.svelte';
   import { amountFormat } from '$lib/utils/amountFormat.js';
-  import { dateTimeWithTimeFormat, timeAgo } from '$lib/utils/dateTimeFormat.js';
   import Icon from '@iconify/svelte';
   import { onMount } from 'svelte';
   import Issues from '$lib/Issues.svelte';
@@ -145,69 +144,6 @@
   let totalCommits = 0;
   let isRequestingEvaluation = false;
 
-  const evaluationStatusLabels = {
-    not_requested: 'Not requested',
-    pending: 'Pending',
-    running: 'Running',
-    completed: 'Completed',
-    failed: 'Failed',
-    cancelled: 'Cancelled',
-  };
-
-  function getEvaluationStatusClass(status) {
-    if (status === 'completed') {
-      return 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200';
-    }
-
-    if (status === 'failed') {
-      return 'border-rose-500/30 bg-rose-500/10 text-rose-200';
-    }
-
-    if (status === 'running') {
-      return 'border-sky-500/30 bg-sky-500/10 text-sky-200';
-    }
-
-    if (status === 'pending') {
-      return 'border-amber-500/30 bg-amber-500/10 text-amber-200';
-    }
-
-    return 'border-dashboard-gray-600 bg-dashboard-gray-800 text-gray-200';
-  }
-
-  function formatEvaluationTimestamp(value) {
-    return value ? dateTimeWithTimeFormat(value) : 'Not yet available';
-  }
-
-  function formatEvaluationTimestampWithRelative(value) {
-    if (!value) {
-      return 'Not yet available';
-    }
-
-    return `${dateTimeWithTimeFormat(value)} (${timeAgo(value)})`;
-  }
-
-  function getEvaluationSummaryText(status, latestResult, isProjectOwner) {
-    if (status === 'pending') {
-      return 'Evaluation requested and waiting to run.';
-    }
-
-    if (status === 'running') {
-      return 'Evaluation in progress.';
-    }
-
-    if (status === 'failed') {
-      return isProjectOwner
-        ? 'The latest evaluation did not complete. You can request another run once there is no active job.'
-        : 'The latest evaluation did not complete.';
-    }
-
-    if (status === 'completed') {
-      return latestResult?.summary || 'The latest evaluation completed successfully.';
-    }
-
-    return 'No evaluation has been requested yet.';
-  }
-
   async function requestEvaluation() {
     if (isRequestingEvaluation) {
       return;
@@ -236,27 +172,7 @@
   }
 
   $: evaluation = project.evaluation || {};
-  $: evaluationStatus = evaluation.currentStatus || 'not_requested';
-  $: currentEvaluationRun = evaluation.currentRun || null;
-  $: activeEvaluationRun = evaluation.activeRun || null;
-  $: latestCompletedEvaluation = evaluation.latestCompletedRun || null;
-  $: latestFailedEvaluation = evaluation.latestFailedRun || null;
-  $: latestEvaluationResult = evaluation.latestResult || null;
   $: isProjectOwner = data.user?.id === project.user_id;
-  $: hasActiveEvaluation = evaluation.hasActiveRun === true;
-  $: evaluationButtonDisabled = isRequestingEvaluation || hasActiveEvaluation || !project.github;
-  $: evaluationButtonLabel = hasActiveEvaluation
-    ? evaluationStatus === 'running'
-      ? 'Evaluation running'
-      : 'Evaluation queued'
-    : latestCompletedEvaluation
-      ? 'Request evaluation again'
-      : 'Request evaluation';
-  $: creatorHelperText = !project.github
-    ? 'Add a GitHub repository to enable evaluation requests.'
-    : hasActiveEvaluation
-      ? 'An evaluation request is already queued or running.'
-      : 'Manual requests are added to the shared evaluation queue.';
 
   $: {
     if (Array.isArray(contributors)) {
@@ -510,145 +426,13 @@
                 Detailed evaluation against Digital Public Good standards
               </p>
             </div>
-            <div
-              class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900/80 p-6 shadow-card"
-            >
-              <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                <div class="space-y-3">
-                  <div class="flex flex-wrap items-center gap-3">
-                    <h3 class="text-heading-lg font-semibold text-white">DPG Evaluation</h3>
-                    <span
-                      class={`inline-flex items-center rounded-full border px-3 py-1 text-label-sm font-medium ${getEvaluationStatusClass(
-                        evaluationStatus,
-                      )}`}
-                    >
-                      {evaluationStatusLabels[evaluationStatus] || 'Unknown'}
-                    </span>
-                    {#if latestEvaluationResult?.score}
-                      <span class="text-label-md font-medium text-dashboard-yellow-300">
-                        {latestEvaluationResult.score}
-                      </span>
-                    {/if}
-                  </div>
-
-                  <p class="max-w-3xl text-body-md text-gray-300">
-                    {getEvaluationSummaryText(
-                      evaluationStatus,
-                      latestEvaluationResult,
-                      isProjectOwner,
-                    )}
-                  </p>
-                </div>
-
-                {#if isProjectOwner}
-                  <div class="w-full max-w-sm space-y-2 lg:w-auto">
-                    <button
-                      type="button"
-                      class="inline-flex w-full items-center justify-center rounded-xl bg-dashboard-yellow-400 px-5 py-3 text-label-lg font-medium text-dashboard-black transition-colors hover:bg-dashboard-yellow-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dashboard-yellow-400 disabled:cursor-not-allowed disabled:opacity-60"
-                      on:click={requestEvaluation}
-                      disabled={evaluationButtonDisabled}
-                    >
-                      {#if isRequestingEvaluation}
-                        <span class="flex items-center gap-2">
-                          <Icon icon="lucide:loader-2" class="h-4 w-4 animate-spin" />
-                          Requesting...
-                        </span>
-                      {:else}
-                        <span class="flex items-center gap-2">
-                          <Icon icon="lucide:shield-check" class="h-4 w-4" />
-                          {evaluationButtonLabel}
-                        </span>
-                      {/if}
-                    </button>
-                    <p class="text-body-sm text-gray-400">{creatorHelperText}</p>
-                  </div>
-                {/if}
-              </div>
-
-              <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                <div
-                  class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-800/60 p-4"
-                >
-                  <div class="text-label-sm uppercase tracking-wide text-gray-400">
-                    Last completed
-                  </div>
-                  <div class="mt-2 text-body-md font-medium text-white">
-                    {formatEvaluationTimestampWithRelative(latestCompletedEvaluation?.completed_at)}
-                  </div>
-                </div>
-
-                <div
-                  class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-800/60 p-4"
-                >
-                  <div class="text-label-sm uppercase tracking-wide text-gray-400">
-                    Latest summary
-                  </div>
-                  <div class="mt-2 text-body-md font-medium text-white">
-                    {latestEvaluationResult?.approvalLikelihood
-                      ? `Approval likelihood: ${latestEvaluationResult.approvalLikelihood}`
-                      : latestEvaluationResult?.score || 'No completed evaluation yet'}
-                  </div>
-                </div>
-
-                <div
-                  class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-800/60 p-4"
-                >
-                  <div class="text-label-sm uppercase tracking-wide text-gray-400">
-                    Requested at
-                  </div>
-                  <div class="mt-2 text-body-md font-medium text-white">
-                    {formatEvaluationTimestamp(currentEvaluationRun?.created_at)}
-                  </div>
-                </div>
-
-                <div
-                  class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-800/60 p-4"
-                >
-                  <div class="text-label-sm uppercase tracking-wide text-gray-400">Total runs</div>
-                  <div class="mt-2 text-body-md font-medium text-white">
-                    {evaluation.totalRuns || 0}
-                  </div>
-                </div>
-              </div>
-
-              {#if isProjectOwner}
-                <div class="mt-4 grid gap-4 md:grid-cols-3">
-                  <div
-                    class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-800/40 p-4"
-                  >
-                    <div class="text-label-sm uppercase tracking-wide text-gray-400">
-                      Started at
-                    </div>
-                    <div class="mt-2 text-body-md font-medium text-white">
-                      {formatEvaluationTimestamp(activeEvaluationRun?.started_at)}
-                    </div>
-                  </div>
-
-                  <div
-                    class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-800/40 p-4"
-                  >
-                    <div class="text-label-sm uppercase tracking-wide text-gray-400">
-                      Latest failure
-                    </div>
-                    <div class="mt-2 text-body-md font-medium text-white">
-                      {latestFailedEvaluation?.error || 'No recent failure'}
-                    </div>
-                  </div>
-
-                  <div
-                    class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-800/40 p-4"
-                  >
-                    <div class="text-label-sm uppercase tracking-wide text-gray-400">
-                      Completed at
-                    </div>
-                    <div class="mt-2 text-body-md font-medium text-white">
-                      {formatEvaluationTimestamp(currentEvaluationRun?.completed_at)}
-                    </div>
-                  </div>
-                </div>
-              {/if}
-            </div>
-            <DpgStatus {project} />
+            <DpgStatus
+              {project}
+              isOwner={isProjectOwner}
+              {evaluation}
+              {requestEvaluation}
+              {isRequestingEvaluation}
+            />
           </div>
         {:else if activeNavItem === 'tasks'}
           <div class="space-y-6">

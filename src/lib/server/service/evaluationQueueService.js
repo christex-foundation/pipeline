@@ -62,6 +62,7 @@ function buildEvaluationSummary(runs) {
     latestCompletedRun,
     latestFailedRun,
     latestResult,
+    history: runs,
     totalRuns: runs.length,
     hasActiveRun: activeRunIsCurrent,
     canRequestNewEvaluation: !activeRunIsCurrent,
