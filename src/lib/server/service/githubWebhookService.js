@@ -4,13 +4,7 @@ import { createProjectUpdate } from '$lib/server/service/projectUpdatesService.j
 import { checkDPGStatus, getEmbedding } from '$lib/server/service/aiService.js';
 import { saveDPGStstatus } from '$lib/server/service/dpgStatusService.js';
 import { parseGithubUrl } from '$lib/server/github.js';
-import { getQueueProvider } from '$lib/server/providers/index.js';
 import axios from 'axios';
-
-import { supabaseAnonKey, supabaseUrl } from '$lib/server/config.js';
-
-const { createQueue } = await getQueueProvider();
-const projectEvaluationQueue = createQueue('projectEvaluation');
 
 export async function githubWebhook(data, supabase) {
   try {
@@ -51,17 +45,9 @@ export async function githubWebhook(data, supabase) {
       );
     }
 
-    console.log('Adding project to evaluation queue...');
-    await projectEvaluationQueue
-      .add('evaluateProject', {
-        github: project.github,
-        projectId: project.id,
-        supabaseUrl,
-        supabaseAnonKey,
-      })
-      .catch((err) => {
-        console.error('Failed to enqueue project evaluation:', err);
-      });
+    console.log(
+      'Skipping automatic evaluation enqueue. Shared Supabase queue flow is not wired here yet.',
+    );
 
     return { success: true };
   } catch (error) {

@@ -26,19 +26,6 @@ Wraps AI/LLM functionality for DPG evaluation and text embeddings.
 
 **Open-source alternatives**: Ollama, llama.cpp, Hugging Face Inference API, vLLM
 
-### Queue Provider (`queueProvider.js` / `inMemoryQueue.js`)
-
-Wraps job queue functionality for async project evaluation.
-
-**Default implementation**: BullMQ (Redis-backed) when `REDIS_HOST` is set, in-memory fallback otherwise
-
-**Contract**:
-
-- `createQueue(name)` - Returns a queue handle with `.add(jobName, data)`
-- `createWorker(name, handler)` - Registers a handler function for the named queue
-
-**Open-source alternatives**: bee-queue, agenda (MongoDB-backed), pgBoss (PostgreSQL-backed)
-
 ### Storage Provider (`storageProvider.js`)
 
 Wraps file storage for image uploads.
@@ -74,7 +61,6 @@ Wraps authentication and session management.
 
 Central module that selects the active provider based on environment configuration. Currently:
 
-- Queue provider is auto-selected based on `REDIS_HOST` availability
 - AI, Storage, and Auth providers use their default implementations
 
 ## Implementing a Custom Provider

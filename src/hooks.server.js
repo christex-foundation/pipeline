@@ -1,11 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { createClient } from '@supabase/supabase-js';
 
-import { supabaseUrl, supabaseAnonKey } from '$lib/server/config.js';
 import { createSessionClient, getSessionAndUser } from '$lib/server/providers/authProvider.js';
-import { getQueueProvider } from '$lib/server/providers/index.js';
-import { evaluateProject } from '$lib/server/service/githubWebhookService.js';
 
 const supabase = async ({ event, resolve }) => {
   /**
@@ -96,23 +92,5 @@ const apiProtection = async ({ event, resolve }) => {
 
   return resolve(event);
 };
-
-const { createWorker } = await getQueueProvider();
-
-createWorker('projectEvaluation', async (job) => {
-  try {
-    const { github, projectId, supabaseUrl, supabaseAnonKey } = job.data;
-
-    const supabaseConn = createClient(supabaseUrl, supabaseAnonKey);
-
-    await evaluateProject(github, projectId, supabaseConn);
-
-    console.log(`Evaluation completed for: ${github}`);
-  } catch (error) {
-    console.error('Worker encountered an error:', error);
-  }
-});
-
-console.log('Project evaluation worker is running...');
 
 export const handle = sequence(supabase, authGuard);
