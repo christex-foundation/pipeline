@@ -1,4 +1,3 @@
-import { json } from '@sveltejs/kit';
 import { uploadFile, getPublicUrl, deleteFiles } from '$lib/server/providers/storageProvider.js';
 
 const BUCKET = 'pipeline-images';
@@ -12,11 +11,7 @@ export async function uploadImage(file, supabase) {
   const newFileName = `${fileNameWithoutExtension}-${timestamp}.${fileExtension}`;
   const path = `uploads/${newFileName}`;
 
-  try {
-    await uploadFile(BUCKET, path, file, supabase);
-  } catch (error) {
-    return json({ error: error.message }, { status: 500 });
-  }
+  await uploadFile(BUCKET, path, file, supabase);
 
   return getPublicUrl(BUCKET, path, supabase);
 }
