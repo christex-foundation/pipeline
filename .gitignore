@@ -29,3 +29,6 @@ vite.config.ts.timestamp-*
 
 # Claude
 .claude
+
+# Worktrees
+.worktrees
