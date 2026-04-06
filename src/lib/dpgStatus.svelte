@@ -19,6 +19,7 @@
   $: hasActiveEvaluation = evaluation?.hasActiveRun === true;
   $: showHistory =
     evaluationHistory.filter((run) => ['completed', 'failed'].includes(run.status)).length > 1;
+  $: showEvaluationScore = !hasActiveEvaluation && latestEvaluationResult?.score;
 
   // Separate completed and incomplete items for better focus
   $: completedItems = dpgStatuses?.filter((item) => item.overallScore === 1) || [];
@@ -71,35 +72,6 @@
 
 <div class="w-full space-y-8">
   {#if dpgStatuses != null}
-    {#if isOwner}
-      <div class="flex flex-wrap items-center justify-end gap-4">
-        {#if latestCompletedEvaluation}
-          <span class="mr-auto text-body-sm text-gray-500">
-            Last evaluated: {formatDate(latestCompletedEvaluation.completed_at)}
-          </span>
-        {/if}
-
-        <button
-          type="button"
-          on:click={requestEvaluation}
-          disabled={hasActiveEvaluation || isRequestingEvaluation}
-          class="flex items-center gap-2 text-label-md font-medium text-dashboard-purple-400 transition-colors hover:text-dashboard-purple-300 disabled:opacity-50"
-        >
-          <Icon
-            icon={hasActiveEvaluation || isRequestingEvaluation
-              ? 'lucide:loader-2'
-              : 'lucide:refresh-cw'}
-            class={`h-4 w-4 ${hasActiveEvaluation || isRequestingEvaluation ? 'animate-spin' : ''}`}
-          />
-          {#if hasActiveEvaluation}
-            Evaluating
-          {:else}
-            Re-evaluate
-          {/if}
-        </button>
-      </div>
-    {/if}
-
     <div class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-800/40 p-5">
       <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div class="space-y-2">
@@ -110,9 +82,16 @@
             >
               {evaluationStatus === 'not_requested' ? 'Completed' : evaluationStatus}
             </span>
-            {#if latestEvaluationResult?.score}
+            {#if showEvaluationScore}
               <span class="text-label-md font-medium text-dashboard-yellow-300">
                 {latestEvaluationResult.score}
+              </span>
+            {:else if hasActiveEvaluation}
+              <span
+                class="inline-flex items-center gap-2 text-label-md font-medium text-dashboard-purple-300"
+              >
+                <Icon icon="lucide:loader-2" class="h-4 w-4 animate-spin" />
+                Evaluating
               </span>
             {/if}
           </div>
@@ -126,17 +105,52 @@
           {/if}
         </div>
 
-        {#if hasActiveEvaluation}
-          <div
-            class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900/80 px-4 py-3 text-right"
-          >
-            <div class="text-body-sm text-gray-400">Current run</div>
-            <div class="text-body-md font-medium text-white">
-              {evaluationStatus === 'running' ? 'In progress' : 'Queued'}
-            </div>
-            <div class="mt-1 text-body-sm text-gray-500">
-              Requested {formatDate(currentEvaluationRun?.created_at)}
-            </div>
+        {#if isOwner}
+          <div class="flex flex-col items-start gap-2 md:items-end">
+            {#if hasActiveEvaluation}
+              <div
+                class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900/80 px-4 py-3 text-left md:text-right"
+              >
+                <div class="text-body-sm text-gray-400">Current run</div>
+                <div class="text-body-md font-medium text-white">
+                  {evaluationStatus === 'running' ? 'In progress' : 'Queued'}
+                </div>
+                <div class="mt-1 text-body-sm text-gray-500">
+                  Requested {formatDate(currentEvaluationRun?.created_at)}
+                </div>
+              </div>
+            {:else}
+              <button
+                type="button"
+                on:click={requestEvaluation}
+                disabled={isRequestingEvaluation || !project.github}
+                class="flex items-center gap-2 text-label-md font-medium text-dashboard-purple-400 transition-colors hover:text-dashboard-purple-300 disabled:opacity-50"
+              >
+                <Icon
+                  icon={isRequestingEvaluation
+                    ? 'lucide:loader-2'
+                    : latestCompletedEvaluation
+                      ? 'lucide:refresh-cw'
+                      : 'lucide:play'}
+                  class={`h-4 w-4 ${isRequestingEvaluation ? 'animate-spin' : ''}`}
+                />
+                {#if latestCompletedEvaluation}
+                  Re-evaluate
+                {:else}
+                  Request evaluation
+                {/if}
+              </button>
+
+              {#if latestCompletedEvaluation}
+                <div class="text-body-sm text-gray-500">
+                  Last evaluated: {formatDate(latestCompletedEvaluation.completed_at)}
+                </div>
+              {/if}
+            {/if}
+          </div>
+        {:else if latestCompletedEvaluation}
+          <div class="text-body-sm text-gray-500">
+            Last evaluated: {formatDate(latestCompletedEvaluation.completed_at)}
           </div>
         {/if}
       </div>
