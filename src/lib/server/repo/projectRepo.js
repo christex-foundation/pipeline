@@ -65,6 +65,17 @@ export async function getProject(id, supabase) {
   return data || {};
 }
 
+export async function getProjectForEvaluation(id, supabase) {
+  const { data, error } = await supabase
+    .from('projects')
+    .select('id, title, user_id, github')
+    .eq('id', id)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
 export async function getProjectsByIds(Ids, supabase) {
   const { data, error } = await supabase
     .from('projects')

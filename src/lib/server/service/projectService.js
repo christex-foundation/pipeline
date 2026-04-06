@@ -10,6 +10,7 @@ import {
   getProjectsWithCategories,
   getProjectsByUserIdWithCategories,
   getProjectsByUserIdWithContributions,
+  getProjectForEvaluation,
 } from '$lib/server/repo/projectRepo.js';
 import { createTeamMember, teamMembers } from '$lib/server/repo/memberRepo.js';
 import {
@@ -26,6 +27,7 @@ import { getDpgStatuses } from '../repo/dpgStatusRepo.js';
 import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
+import { getProjectEvaluationSummary } from './evaluationQueueService.js';
 
 export async function getProjectsWithDetails(term, page, limit, supabase) {
   const start = (page - 1) * limit;
@@ -84,7 +86,13 @@ export async function getProjectById(id, supabase) {
     return null;
   }
 
-  return mapProjectsWithDetails([project])[0];
+  const mappedProject = mapProjectsWithDetails([project])[0];
+  const evaluation = await getProjectEvaluationSummary(id);
+
+  return {
+    ...mappedProject,
+    evaluation,
+  };
 }
 
 export async function getProjectByGithubUrl(githubUrl, supabase) {
@@ -93,6 +101,10 @@ export async function getProjectByGithubUrl(githubUrl, supabase) {
     return null;
   }
   return project;
+}
+
+export async function getProjectByIdForEvaluation(id, supabase) {
+  return await getProjectForEvaluation(id, supabase);
 }
 
 export async function getTeamMembers(projectId, supabase) {

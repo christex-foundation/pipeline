@@ -1,9 +1,6 @@
-import { json } from '@sveltejs/kit';
 import { getProjectByGithubUrl } from '$lib/server/service/projectService.js';
 import { createProjectUpdate } from '$lib/server/service/projectUpdatesService.js';
-import { checkDPGStatus, getEmbedding } from '$lib/server/service/aiService.js';
-import { saveDPGStstatus } from '$lib/server/service/dpgStatusService.js';
-import { parseGithubUrl } from '$lib/server/github.js';
+import { getEmbedding } from '$lib/server/service/aiService.js';
 import axios from 'axios';
 
 export async function githubWebhook(data, supabase) {
@@ -56,24 +53,6 @@ export async function githubWebhook(data, supabase) {
   }
 }
 
-export async function evaluateProject(url, projectId, supabase) {
-  console.log('Evaluating project:', url);
-  console.log('Evaluating project ID:', projectId);
-  const { owner, repo } = parseGithubUrl(url);
-  console.log('Owner:', owner, 'Repo:', repo);
-
-  if (!owner || !repo) {
-    return json({ success: false, message: 'Invalid GitHub repository URL' });
-  }
-
-  console.log('Fetching project by GitHub URL...', url);
-
-  const dpgStatus = await checkDPGStatus(owner, repo, supabase);
-
-  console.log('Sending project update...');
-  await saveDPGStstatus(projectId, dpgStatus, supabase);
-}
-
 function cosineSimilarity(vec1, vec2) {
   const dotProduct = vec1.reduce((sum, val, i) => sum + val * vec2[i], 0);
   const magnitude1 = Math.sqrt(vec1.reduce((sum, val) => sum + val * val, 0));
@@ -90,7 +69,7 @@ export async function getDpgSimilarProjects(projectData, supabase) {
     const { data } = await axios.get('https://app.digitalpublicgoods.net/api/v1/dpgs');
 
     if (!Array.isArray(data)) {
-      return res.status(500).json({ error: 'Invalid API response format.' });
+      throw new Error('Invalid API response format.');
     }
 
     // Compute similarity scores for each project
@@ -116,6 +95,6 @@ export async function getDpgSimilarProjects(projectData, supabase) {
     return { data: sortedProjects };
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error. Please try again later.' });
+    return { error: 'Internal server error. Please try again later.' };
   }
 }

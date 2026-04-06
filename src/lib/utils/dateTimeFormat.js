@@ -6,6 +6,16 @@ export function dateTimeFormat(date) {
   });
 }
 
+export function dateTimeWithTimeFormat(date) {
+  return new Date(date).toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
 export function dateFormat(date) {
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -21,11 +31,11 @@ export function timeAgo(date) {
   const now = new Date();
   const givenDate = new Date(date);
 
-  if (isNaN(givenDate)) {
+  if (Number.isNaN(givenDate.getTime())) {
     return 'invalid date';
   }
 
-  const diffInSeconds = Math.floor((now - givenDate) / 1000);
+  const diffInSeconds = Math.floor((now.getTime() - givenDate.getTime()) / 1000);
 
   const intervals = {
     year: 31536000, // 60 * 60 * 24 * 365
