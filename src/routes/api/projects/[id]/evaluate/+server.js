@@ -30,14 +30,19 @@ export async function POST({ params, locals }) {
     return json({ success: false, message: 'Project has no GitHub repository' }, { status: 400 });
   }
 
-  const result = await requestEvaluation(
-    project.id,
-    project.github,
-    'manual',
-    authUser.id,
-    locals.supabase,
-  );
+  try {
+    const result = await requestEvaluation(
+      project.id,
+      project.github,
+      'manual',
+      authUser.id,
+      locals.supabase,
+    );
 
-  const status = result.success ? 201 : 409;
-  return json(result, { status });
+    const status = result.success ? 201 : 409;
+    return json(result, { status });
+  } catch (error) {
+    console.error('Evaluation request failed:', error);
+    return json({ success: false, message: 'Failed to queue evaluation' }, { status: 500 });
+  }
 }

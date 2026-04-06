@@ -1,30 +1,70 @@
 -- db/migrations/001_evaluation_queue.sql
 -- Run this in the Supabase SQL Editor.
--- The evaluation_queue table may already exist (dpg-evaluator writes to it).
--- This migration formalizes the schema and adds constraints.
+--
+-- The evaluation_queue table already exists (dpg-evaluator created it).
+-- Existing columns: id, project_id, github_url, status, created_at, updated_at,
+--   started_at, completed_at, retry_count, error, result
+--
+-- This migration adds missing columns, constraints, indexes, and RLS policies.
 
--- Create table if it doesn't exist
-CREATE TABLE IF NOT EXISTS public.evaluation_queue (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  project_id UUID NOT NULL REFERENCES public.projects(id) ON DELETE CASCADE,
-  github_url TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'pending'
-    CHECK (status IN ('pending', 'running', 'completed', 'failed', 'cancelled')),
-  trigger TEXT NOT NULL DEFAULT 'manual'
-    CHECK (trigger IN ('manual', 'webhook', 'auto')),
-  requested_by UUID REFERENCES auth.users(id),
-  created_at TIMESTAMPTZ DEFAULT now(),
-  updated_at TIMESTAMPTZ DEFAULT now(),
-  started_at TIMESTAMPTZ,
-  completed_at TIMESTAMPTZ,
-  retry_count INTEGER DEFAULT 0,
-  result JSONB,
-  error TEXT,
-  report_url TEXT,
-  report_markdown TEXT
-);
+-- ============================================================================
+-- 1. Add missing columns (idempotent — safe to re-run)
+-- ============================================================================
 
--- Safety net: only one active evaluation per project
+-- Who/what triggered the evaluation: 'manual', 'webhook', or 'auto'
+ALTER TABLE public.evaluation_queue
+  ADD COLUMN IF NOT EXISTS trigger TEXT NOT NULL DEFAULT 'manual';
+
+-- User who requested the evaluation (null for webhook-triggered)
+ALTER TABLE public.evaluation_queue
+  ADD COLUMN IF NOT EXISTS requested_by UUID REFERENCES auth.users(id);
+
+-- URL to the evaluation report (set by dpg-evaluator on completion)
+ALTER TABLE public.evaluation_queue
+  ADD COLUMN IF NOT EXISTS report_url TEXT;
+
+-- Full evaluation report markdown (set by dpg-evaluator on completion)
+ALTER TABLE public.evaluation_queue
+  ADD COLUMN IF NOT EXISTS report_markdown TEXT;
+
+-- ============================================================================
+-- 2. Add CHECK constraints
+-- ============================================================================
+
+-- Status must be one of the defined values
+-- (using DO block for idempotency — skips if constraint already exists)
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname = 'evaluation_queue_status_check'
+      AND conrelid = 'public.evaluation_queue'::regclass
+  ) THEN
+    ALTER TABLE public.evaluation_queue
+      ADD CONSTRAINT evaluation_queue_status_check
+      CHECK (status IN ('pending', 'running', 'completed', 'failed', 'cancelled'));
+  END IF;
+END $$;
+
+-- Trigger must be one of the defined values
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname = 'evaluation_queue_trigger_check'
+      AND conrelid = 'public.evaluation_queue'::regclass
+  ) THEN
+    ALTER TABLE public.evaluation_queue
+      ADD CONSTRAINT evaluation_queue_trigger_check
+      CHECK (trigger IN ('manual', 'webhook', 'auto'));
+  END IF;
+END $$;
+
+-- ============================================================================
+-- 3. Add indexes (IF NOT EXISTS — safe to re-run)
+-- ============================================================================
+
+-- Safety net: only one active evaluation per project at a time
 CREATE UNIQUE INDEX IF NOT EXISTS evaluation_queue_one_active_per_project
   ON public.evaluation_queue (project_id)
   WHERE status IN ('pending', 'running');
@@ -38,19 +78,25 @@ CREATE INDEX IF NOT EXISTS evaluation_queue_status_created
 CREATE INDEX IF NOT EXISTS evaluation_queue_project_id
   ON public.evaluation_queue (project_id, created_at DESC);
 
--- RLS policies
+-- ============================================================================
+-- 4. RLS policies
+-- ============================================================================
+
 ALTER TABLE public.evaluation_queue ENABLE ROW LEVEL SECURITY;
 
--- Anyone can read evaluation queue entries (public data, needed for project pages)
+-- Anyone can read evaluation queue entries (public project pages need this)
+-- Drop first for idempotency, then create
+DROP POLICY IF EXISTS "evaluation_queue_select" ON public.evaluation_queue;
 CREATE POLICY "evaluation_queue_select"
   ON public.evaluation_queue FOR SELECT
   USING (true);
 
 -- Anyone can insert evaluation requests (webhook has no user session;
 -- ownership is enforced at the API layer, not RLS)
+DROP POLICY IF EXISTS "evaluation_queue_insert" ON public.evaluation_queue;
 CREATE POLICY "evaluation_queue_insert"
   ON public.evaluation_queue FOR INSERT
   WITH CHECK (true);
 
--- Only service role can update (dpg-evaluator uses service key)
--- No UPDATE policy for anon/authenticated means only service_role can update.
+-- Only service_role can update (dpg-evaluator uses service key).
+-- No UPDATE policy for anon/authenticated = only service_role can update.

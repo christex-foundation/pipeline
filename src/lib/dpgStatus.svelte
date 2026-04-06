@@ -30,9 +30,11 @@
   }
 
   let requesting = false;
+  let errorMessage = '';
 
   async function handleRequestEvaluation() {
     requesting = true;
+    errorMessage = '';
     try {
       const res = await fetch(`/api/projects/${project.id}/evaluate`, {
         method: 'POST',
@@ -40,9 +42,12 @@
       const data = await res.json();
       if (data.success) {
         evaluations = { ...evaluations, active: data.evaluation };
+      } else {
+        errorMessage = data.message || 'Failed to request evaluation';
       }
     } catch (err) {
       console.error('Failed to request evaluation:', err);
+      errorMessage = 'Something went wrong. Please try again.';
     } finally {
       requesting = false;
     }
@@ -64,44 +69,35 @@
 </script>
 
 <div class="w-full space-y-8">
-  <!-- Evaluation Controls (owner only) -->
-  {#if isOwner}
-    <div
-      class="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-800/50 p-4"
-    >
-      <div class="flex items-center gap-3">
-        {#if hasActiveEvaluation}
-          <div class="flex items-center gap-2">
-            <Icon icon="lucide:loader-2" class="h-4 w-4 animate-spin text-dashboard-purple-400" />
-            <span class="text-body-md text-dashboard-purple-300">
-              Evaluation {evaluations.active.status}...
-            </span>
-          </div>
-        {:else if evaluations?.latest}
-          <span class="text-body-sm text-gray-400">
-            Last evaluated: {formatDate(evaluations.latest.completed_at)}
-          </span>
-        {/if}
-      </div>
+  <!-- Evaluation Controls (owner only, shown when results exist) -->
+  {#if isOwner && dpgStatuses}
+    <div class="flex flex-wrap items-center justify-end gap-4">
+      {#if evaluations?.latest}
+        <span class="mr-auto text-body-sm text-gray-500">
+          Last evaluated: {formatDate(evaluations.latest.completed_at)}
+        </span>
+      {/if}
 
       <button
         on:click={handleRequestEvaluation}
         disabled={hasActiveEvaluation || requesting}
-        class="rounded-xl border border-dashboard-purple-500 bg-dashboard-gray-800 px-4 py-2 text-label-md font-medium text-dashboard-purple-400 transition-colors hover:bg-dashboard-purple-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dashboard-purple-500 disabled:cursor-not-allowed disabled:opacity-50"
+        class="flex items-center gap-2 text-label-md font-medium text-dashboard-purple-400 transition-colors hover:text-dashboard-purple-300 disabled:opacity-50"
       >
         <Icon
-          icon={requesting ? 'lucide:loader-2' : 'lucide:refresh-cw'}
-          class="mr-2 inline h-4 w-4 {requesting ? 'animate-spin' : ''}"
+          icon={requesting || hasActiveEvaluation ? 'lucide:loader-2' : 'lucide:refresh-cw'}
+          class="h-4 w-4 {requesting || hasActiveEvaluation ? 'animate-spin' : ''}"
         />
         {#if hasActiveEvaluation}
-          Evaluation in progress
-        {:else if dpgStatuses}
-          Re-evaluate
+          Evaluating
         {:else}
-          Request Evaluation
+          Re-evaluate
         {/if}
       </button>
     </div>
+
+    {#if errorMessage}
+      <p class="text-body-sm text-red-400">{errorMessage}</p>
+    {/if}
   {/if}
 
   {#if dpgStatuses != null}
@@ -309,7 +305,7 @@
       </div>
     </div>
   {:else if hasActiveEvaluation}
-    <!-- Pending/Running State -->
+    <!-- Pending/Running State (no previous results) -->
     <div class="space-y-6 text-center">
       <div>
         <h3 class="mb-2 text-heading-lg font-semibold text-white">DPG Standards Evaluation</h3>
@@ -362,6 +358,14 @@
             />
             Request Evaluation
           </button>
+          {#if errorMessage}
+            <div
+              class="flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2 text-body-sm text-red-300"
+            >
+              <Icon icon="mdi:alert-circle" class="h-4 w-4 flex-shrink-0" />
+              <span>{errorMessage}</span>
+            </div>
+          {/if}
         {/if}
       </div>
     </div>

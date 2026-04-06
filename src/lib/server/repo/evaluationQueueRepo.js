@@ -16,7 +16,9 @@ export async function insertEvaluationRequest(
   requestedBy,
   supabase,
 ) {
-  const { data, error } = await supabase
+  // Try with all columns first (requires migration).
+  // Fall back to core columns if the new ones don't exist yet.
+  let { data, error } = await supabase
     .from('evaluation_queue')
     .insert({
       project_id: projectId,
@@ -26,6 +28,17 @@ export async function insertEvaluationRequest(
     })
     .select()
     .single();
+
+  if (error && error.message?.includes('column')) {
+    ({ data, error } = await supabase
+      .from('evaluation_queue')
+      .insert({
+        project_id: projectId,
+        github_url: githubUrl,
+      })
+      .select()
+      .single());
+  }
 
   if (error) throw new Error(error.message);
   return data;
