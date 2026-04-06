@@ -19,9 +19,8 @@ Version numbers below are retroactively assigned milestones.
 
 - ESLint configuration (`eslint.config.js`) with architecture boundary rules enforcing routes -> services -> repos layering
 - `npm run lint` script for running server boundary checks
-- New service functions: `getProfileByUserId`, `getExportProjects`, `getAllProjectUpdates`, `getAllProjectContributions`, `allCategories`
+- New service functions: `getProfileByUserId`, `getAllProjectUpdates`, `getAllProjectContributions`
 - New repo functions: `getAllUpdates` (projectUpdatesRepo), `getAllContributions` (projectContributionsRepo)
-- Server layer boundaries guide (`docs/architecture/server-boundaries.md`)
 
 ## [0.9.2] - 2026-04-04 - Criterion 4 Route Cleanup
 

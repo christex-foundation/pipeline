@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { getExportProjects } from '$lib/server/service/projectService.js';
+import { getProjects } from '$lib/server/service/projectService.js';
 import { toCsv, toXml } from '$lib/server/service/exportService.js';
 
 const DEFAULT_PAGE_SIZE = 100;
@@ -43,7 +43,7 @@ export async function GET({ url, locals }) {
   const end = start + limit - 1;
 
   try {
-    let projects = await getExportProjects(search, start, end, supabase);
+    let projects = await getProjects(search, start, end, supabase);
     projects = projects.map(sanitizeProject);
 
     const total = projects.length;

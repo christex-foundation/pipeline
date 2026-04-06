@@ -232,7 +232,5 @@ export async function updateProject(userId, projectId, projectData, supabase) {
   return { success: true };
 }
 
-export async function getExportProjects(term, start, end, supabase) {
-  return getProjects(term, start, end, supabase);
-}
+export { getProjects };
 
