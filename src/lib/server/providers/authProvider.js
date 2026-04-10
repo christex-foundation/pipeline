@@ -101,6 +101,36 @@ export function createSessionClient(cookieHandlers) {
  * @param {any} supabaseClient - Request-scoped Supabase client
  * @returns {Promise<{ session: any, user: any }>}
  */
+/**
+ * Initiates linking a social identity provider to the current user.
+ * Returns a URL to redirect the user to for OAuth authorization.
+ *
+ * @param {any} supabaseClient - Request-scoped Supabase client
+ * @param {{ provider: string, redirectTo: string, scopes: string }} options
+ * @returns {Promise<{ url: string|null }>}
+ */
+export async function linkIdentity(supabaseClient, { provider, redirectTo, scopes }) {
+  const { data, error } = await supabaseClient.auth.linkIdentity({
+    provider,
+    options: { redirectTo, scopes },
+  });
+  if (error) throw new Error(error.message);
+  return { url: data?.url || null };
+}
+
+/**
+ * Exchanges an OAuth code for a session. Used in OAuth callback routes.
+ *
+ * @param {any} supabaseClient - Request-scoped Supabase client
+ * @param {string} code - The authorization code from the OAuth callback
+ * @returns {Promise<{ session: any }>}
+ */
+export async function exchangeCodeForSession(supabaseClient, code) {
+  const { data, error } = await supabaseClient.auth.exchangeCodeForSession(code);
+  if (error) throw new Error(error.message);
+  return { session: data.session };
+}
+
 export async function getSessionAndUser(supabaseClient) {
   const {
     data: { session },
