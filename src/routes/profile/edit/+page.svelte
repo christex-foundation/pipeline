@@ -6,11 +6,23 @@
   import Icon from '@iconify/svelte';
   import { applyAction, enhance } from '$app/forms';
   import { toast } from 'svelte-sonner';
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
 
   let activeNavItem = 'Profile';
   let loading = false;
   export let data;
   let user = data.user;
+  let githubConnection = data.githubConnection;
+
+  onMount(() => {
+    const urlParams = $page.url.searchParams;
+    if (urlParams.get('github') === 'linked') {
+      toast.success('GitHub account connected successfully');
+    } else if (urlParams.get('error') === 'github_link_failed') {
+      toast.error('Failed to connect GitHub account. Please try again.');
+    }
+  });
 </script>
 
 <!-- Main Content Container -->
@@ -62,7 +74,7 @@
 
           <!-- Right Column - Links & Social -->
           <div class="space-y-8">
-            <ProfileLinks {user} />
+            <ProfileLinks {user} {githubConnection} />
           </div>
         </div>
 
