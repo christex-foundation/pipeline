@@ -1,29 +1,13 @@
 <script>
   import ProfileForm from '$lib/ProfileForm.svelte';
   import ProfileLinks from '$lib/ProfileLinks.svelte';
-  import Settings from '$lib/Settings.svelte';
-  import Interests from '$lib/Interests.svelte';
   import Icon from '@iconify/svelte';
   import { applyAction, enhance } from '$app/forms';
   import { toast } from 'svelte-sonner';
-  import { page } from '$app/stores';
-  import { onMount } from 'svelte';
 
-  let activeNavItem = 'Profile';
   let loading = false;
   export let data;
   let user = data.user;
-  let githubConnection = data.githubConnection;
-  let activeSubmitAction = 'updateProfile';
-
-  onMount(() => {
-    const urlParams = $page.url.searchParams;
-    if (urlParams.get('github') === 'linked') {
-      toast.success('GitHub account connected successfully');
-    } else if (urlParams.get('error') === 'github_link_failed') {
-      toast.error('Failed to connect GitHub account. Please try again.');
-    }
-  });
 </script>
 
 <!-- Main Content Container -->
@@ -51,21 +35,15 @@
         method="POST"
         class="flex w-full flex-col items-center"
         enctype="multipart/form-data"
-        use:enhance={({ submitter }) => {
-          activeSubmitAction = submitter?.dataset.submitAction || 'updateProfile';
-          loading = activeSubmitAction === 'updateProfile';
-
+        use:enhance={() => {
+          loading = true;
           return async ({ result }) => {
             if (result.type === 'failure') {
               const errorMessage = String(result?.data?.error || 'failed to edit profile');
               toast.error(errorMessage);
             } else if (result.type === 'error') {
-              toast.error(
-                activeSubmitAction === 'updateProfile'
-                  ? 'could not update profile'
-                  : 'Could not update GitHub connection',
-              );
-            } else if (activeSubmitAction === 'updateProfile') {
+              toast.error('could not update profile');
+            } else {
               toast.success('Profile updated successfully');
             }
 
@@ -82,7 +60,7 @@
 
           <!-- Right Column - Links & Social -->
           <div class="space-y-8">
-            <ProfileLinks {user} {githubConnection} />
+            <ProfileLinks {user} />
           </div>
         </div>
 
@@ -90,7 +68,6 @@
         <div class="mt-16">
           <button
             type="submit"
-            data-submit-action="updateProfile"
             class="rounded-xl bg-dashboard-purple-500 px-8 py-3 text-label-lg font-medium text-white transition-colors hover:bg-dashboard-purple-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dashboard-purple-500 disabled:pointer-events-none disabled:opacity-50"
             disabled={loading}
           >
