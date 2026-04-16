@@ -69,7 +69,7 @@
       </AvatarFallback>
     </Avatar>
 
-    <div class="w-full min-w-0 flex-1">
+    <div class="w-full flex-1 min-w-0">
       <CardTitle class="truncate text-base font-semibold leading-none text-black">
         {resource.title}
       </CardTitle>

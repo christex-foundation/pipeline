@@ -25,8 +25,7 @@
       const disposition = response.headers.get('content-disposition');
       const filenameMatch = disposition?.match(/filename="(.+)"/);
       a.href = downloadUrl;
-      a.download =
-        filenameMatch?.[1] || `pipeline-data-${new Date().toISOString().split('T')[0]}.json`;
+      a.download = filenameMatch?.[1] || `pipeline-data-${new Date().toISOString().split('T')[0]}.json`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(downloadUrl);
@@ -134,9 +133,7 @@
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
     on:click|self={() => (showConfirm = false)}
   >
-    <div
-      class="mx-4 w-full max-w-md rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6 shadow-xl"
-    >
+    <div class="mx-4 w-full max-w-md rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6 shadow-xl">
       <div class="mb-4 flex items-center gap-3">
         <div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-500/20">
           <Icon icon="mdi:alert-outline" class="h-5 w-5 text-red-400" />

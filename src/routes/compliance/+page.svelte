@@ -7,35 +7,35 @@
       name: 'Relevance to Sustainable Development Goals (SDGs)',
       status: 'pass',
       description: 'Clear alignment with SDG targets and measurable impact indicators.',
-      icon: 'mdi:earth',
+      icon: 'mdi:earth'
     },
     {
       id: 2,
       name: 'Use of Approved Open Licenses',
       status: 'pass',
       description: 'MIT License - approved open source license properly documented.',
-      icon: 'mdi:license',
+      icon: 'mdi:license'
     },
     {
       id: 3,
       name: 'Clear Ownership',
       status: 'pass',
       description: 'Ownership and governance structure clearly defined and documented.',
-      icon: 'mdi:account-check',
+      icon: 'mdi:account-check'
     },
     {
       id: 4,
       name: 'Platform Independence',
       status: 'pass',
       description: 'Functional open alternatives available without significant changes.',
-      icon: 'mdi:devices',
+      icon: 'mdi:devices'
     },
     {
       id: 5,
       name: 'Documentation',
       status: 'pass',
       description: 'Comprehensive documentation covering all aspects of the project.',
-      icon: 'mdi:file-document',
+      icon: 'mdi:file-document'
     },
     {
       id: 6,
@@ -44,21 +44,21 @@
       description: 'API endpoints for data export in JSON, CSV, and XML formats required.',
       icon: 'mdi:database-export',
       issue: 423,
-      issueTitle: 'Implement Data Export API for DPG Compliance',
+      issueTitle: 'Implement Data Export API for DPG Compliance'
     },
     {
       id: 7,
       name: 'Adherence to Privacy and Applicable Laws',
       status: 'pass',
       description: 'Privacy policy, terms of service, and legal pages have been created.',
-      icon: 'mdi:shield-lock',
+      icon: 'mdi:shield-lock'
     },
     {
       id: 8,
       name: 'Adherence to Standards & Best Practices',
       status: 'pass',
       description: 'Standards and best practices documentation in place.',
-      icon: 'mdi:check-circle',
+      icon: 'mdi:check-circle'
     },
     {
       id: 9,
@@ -67,16 +67,16 @@
       description: 'Content moderation, safety features, and user protection required.',
       icon: 'mdi:heart-plus',
       issue: 425,
-      issueTitle: 'Implement Content Moderation and Safety Features',
-    },
+      issueTitle: 'Implement Content Moderation and Safety Features'
+    }
   ];
 
-  const currentScore = criteria.filter((c) => c.status === 'pass').length;
+  const currentScore = criteria.filter(c => c.status === 'pass').length;
   const totalCriteria = criteria.length;
   const percentage = Math.round((currentScore / totalCriteria) * 100);
 
-  const completedCriteria = criteria.filter((c) => c.status === 'pass');
-  const remainingCriteria = criteria.filter((c) => c.status === 'fail');
+  const completedCriteria = criteria.filter(c => c.status === 'pass');
+  const remainingCriteria = criteria.filter(c => c.status === 'fail');
 
   function exportReport() {
     const report = {
@@ -85,20 +85,20 @@
       overallScore: {
         current: currentScore,
         total: totalCriteria,
-        percentage: percentage,
+        percentage: percentage
       },
-      criteria: criteria.map((c) => ({
+      criteria: criteria.map(c => ({
         id: c.id,
         name: c.name,
         status: c.status.toUpperCase(),
         description: c.description,
-        linkedIssue: c.issue || null,
+        linkedIssue: c.issue || null
       })),
       summary: {
         completed: completedCriteria.length,
         remaining: remainingCriteria.length,
-        readyForCertification: percentage >= 100,
-      },
+        readyForCertification: percentage >= 100
+      }
     };
 
     const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
@@ -115,10 +115,7 @@
 
 <svelte:head>
   <title>DPG Compliance Dashboard - Pipeline</title>
-  <meta
-    name="description"
-    content="Track Digital Public Goods compliance status and progress toward certification"
-  />
+  <meta name="description" content="Track Digital Public Goods compliance status and progress toward certification" />
 </svelte:head>
 
 <div class="min-h-screen bg-dashboard-gray-900">
@@ -129,15 +126,11 @@
           <Icon icon="mdi:shield-check" class="text-4xl text-dashboard-purple-500" />
           <h1 class="text-4xl font-bold text-white">DPG Compliance Dashboard</h1>
         </div>
-        <p class="text-lg text-gray-400">
-          Track progress toward Digital Public Goods certification
-        </p>
+        <p class="text-lg text-gray-400">Track progress toward Digital Public Goods certification</p>
       </div>
 
       <div class="mb-12 grid gap-6 md:grid-cols-3">
-        <div
-          class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-800 p-6 text-center"
-        >
+        <div class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-800 p-6 text-center">
           <Icon icon="mdi:trophy" class="mx-auto mb-3 h-10 w-10 text-dashboard-yellow-400" />
           <div class="text-4xl font-bold text-white">
             {currentScore}<span class="text-2xl text-gray-400">/{totalCriteria}</span>
@@ -145,20 +138,13 @@
           <div class="mt-1 text-gray-400">Criteria Complete</div>
         </div>
 
-        <div
-          class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-800 p-6 text-center"
-        >
-          <Icon
-            icon="mdi:progress-check"
-            class="mx-auto mb-3 h-10 w-10 text-dashboard-purple-500"
-          />
+        <div class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-800 p-6 text-center">
+          <Icon icon="mdi:progress-check" class="mx-auto mb-3 h-10 w-10 text-dashboard-purple-500" />
           <div class="text-4xl font-bold text-white">{percentage}%</div>
           <div class="mt-1 text-gray-400">Progress</div>
         </div>
 
-        <div
-          class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-800 p-6 text-center"
-        >
+        <div class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-800 p-6 text-center">
           <Icon icon="mdi:target" class="mx-auto mb-3 h-10 w-10 text-green-400" />
           <div class="text-4xl font-bold text-white">{remainingCriteria.length}</div>
           <div class="mt-1 text-gray-400">Remaining</div>
@@ -168,7 +154,7 @@
       <div class="mb-8">
         <div class="h-6 overflow-hidden rounded-full bg-dashboard-gray-700">
           <div
-            class="h-full bg-gradient-to-r from-dashboard-yellow-400 to-dashboard-purple-500 transition-all duration-700 ease-out"
+            class="h-full transition-all duration-700 ease-out bg-gradient-to-r from-dashboard-yellow-400 to-dashboard-purple-500"
             style="width: {percentage}%"
           ></div>
         </div>
@@ -193,15 +179,12 @@
                 <div class="flex-shrink-0 rounded-lg bg-red-500/10 p-2">
                   <Icon icon={criterion.icon} class="h-5 w-5 text-red-400" />
                 </div>
-                <div class="min-w-0 flex-1">
-                  <h3 class="line-clamp-2 font-medium text-white">{criterion.name}</h3>
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-medium text-white line-clamp-2">{criterion.name}</h3>
                   <p class="mt-1 text-sm text-red-300">{criterion.description}</p>
                   <div class="mt-2 flex items-center gap-2 text-sm text-dashboard-purple-400">
                     <span>Issue #{criterion.issue}</span>
-                    <Icon
-                      icon="mdi:arrow-right"
-                      class="h-4 w-4 transition-transform group-hover:translate-x-1"
-                    />
+                    <Icon icon="mdi:arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
               </a>
@@ -228,7 +211,7 @@
                   class="h-5 w-5 {criterion.status === 'pass' ? 'text-green-400' : 'text-red-400'}"
                 />
               </div>
-              <div class="min-w-0 flex-1">
+              <div class="flex-1 min-w-0">
                 <h3 class="font-medium text-white">{criterion.name}</h3>
                 <p class="text-sm text-gray-400">{criterion.description}</p>
                 {#if criterion.issue}
