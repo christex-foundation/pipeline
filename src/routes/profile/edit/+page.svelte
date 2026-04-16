@@ -14,6 +14,7 @@
   export let data;
   let user = data.user;
   let githubConnection = data.githubConnection;
+  let activeSubmitAction = 'updateProfile';
 
   onMount(() => {
     const urlParams = $page.url.searchParams;
@@ -50,17 +51,24 @@
         method="POST"
         class="flex w-full flex-col items-center"
         enctype="multipart/form-data"
-        use:enhance={() => {
-          loading = true;
+        use:enhance={({ submitter }) => {
+          activeSubmitAction = submitter?.dataset.submitAction || 'updateProfile';
+          loading = activeSubmitAction === 'updateProfile';
+
           return async ({ result }) => {
             if (result.type === 'failure') {
               const errorMessage = String(result?.data?.error || 'failed to edit profile');
               toast.error(errorMessage);
             } else if (result.type === 'error') {
-              toast.error('could not update profile');
-            } else {
+              toast.error(
+                activeSubmitAction === 'updateProfile'
+                  ? 'could not update profile'
+                  : 'Could not update GitHub connection',
+              );
+            } else if (activeSubmitAction === 'updateProfile') {
               toast.success('Profile updated successfully');
             }
+
             loading = false;
             await applyAction(result);
           };
@@ -82,6 +90,7 @@
         <div class="mt-16">
           <button
             type="submit"
+            data-submit-action="updateProfile"
             class="rounded-xl bg-dashboard-purple-500 px-8 py-3 text-label-lg font-medium text-white transition-colors hover:bg-dashboard-purple-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dashboard-purple-500 disabled:pointer-events-none disabled:opacity-50"
             disabled={loading}
           >
@@ -99,10 +108,3 @@
     </section>
   </div>
 </div>
-
-<style>
-  .selected {
-    transform: scale(1.05);
-    font-weight: 600;
-  }
-</style>

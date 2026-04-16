@@ -2,7 +2,6 @@
 import { getGitHubUser } from '$lib/server/providers/githubProvider.js';
 import {
   getConnection,
-  getConnectionWithToken,
   upsertConnection,
   deleteConnection,
 } from '$lib/server/repo/githubConnectionRepo.js';
@@ -66,16 +65,4 @@ export async function getConnectionStatus(userId, supabase) {
     username: connection.github_username,
     connectedAt: connection.connected_at,
   };
-}
-
-/**
- * Returns the GitHub access token for a user. Used by githubApiService.
- *
- * @param {string} userId
- * @param {any} supabase
- * @returns {Promise<string|null>}
- */
-export async function getAccessToken(userId, supabase) {
-  const connection = await getConnectionWithToken(userId, supabase);
-  return connection?.access_token || null;
 }

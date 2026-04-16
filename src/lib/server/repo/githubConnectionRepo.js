@@ -19,25 +19,6 @@ export async function getConnection(userId, supabase) {
 }
 
 /**
- * Returns the GitHub connection for a user including the access token.
- * Only use this server-side when making GitHub API calls.
- *
- * @param {string} userId
- * @param {any} supabase
- * @returns {Promise<any>}
- */
-export async function getConnectionWithToken(userId, supabase) {
-  const { data, error } = await supabase
-    .from('github_connections')
-    .select('*')
-    .eq('user_id', userId)
-    .single();
-
-  if (error && error.code !== 'PGRST116') throw new Error(error.message);
-  return data;
-}
-
-/**
  * Upserts a GitHub connection (inserts or updates on user_id conflict).
  *
  * @param {{ user_id: string, github_user_id: number, github_username: string, access_token: string, scopes: string }} connectionData

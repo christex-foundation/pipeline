@@ -18,7 +18,6 @@
   import Icon from '@iconify/svelte';
   import { onMount } from 'svelte';
   import Issues from '$lib/Issues.svelte';
-  import GitHubManager from '$lib/GitHubManager.svelte';
   import { Dialog, DialogHeader, DialogContent, DialogTitle } from '$lib/components/ui/dialog';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
@@ -93,19 +92,7 @@
   const navItems = [
     { id: 'dpgStatus', label: 'DPG Assessment', width: '150px' },
     { id: 'tasks', label: 'Issues & Tasks', width: '120px' },
-    { id: 'github', label: 'GitHub', width: '90px' },
   ];
-
-  // Parse owner/repo from project github URL
-  let ghOwner = '';
-  let ghRepo = '';
-  $: {
-    const parts = project?.github?.split('/') || [];
-    if (parts.length >= 5) {
-      ghOwner = parts[3];
-      ghRepo = parts[4];
-    }
-  }
 
   function handleNavChange(event) {
     activeNavItem = event.detail;
@@ -418,30 +405,6 @@
               <p class="text-body-lg text-gray-300">Open issues and development tasks</p>
             </div>
             <Issues />
-          </div>
-        {:else if activeNavItem === 'github'}
-          <div class="space-y-6">
-            <div>
-              <h2 class="mb-2 text-display-md font-semibold text-white lg:text-display-xl">
-                GitHub Management
-              </h2>
-              <p class="text-body-lg text-gray-300">
-                Manage pull requests and issues for this project
-              </p>
-            </div>
-            {#if ghOwner && ghRepo}
-              <GitHubManager owner={ghOwner} repo={ghRepo} isAuthenticated={data.isAuthenticated} />
-            {:else}
-              <div
-                class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900/30 p-8 text-center"
-              >
-                <Icon icon="mdi:github" class="mx-auto mb-4 h-12 w-12 text-gray-500" />
-                <p class="text-heading-sm font-medium text-gray-400">No GitHub repository linked</p>
-                <p class="mt-1 text-body-sm text-gray-500">
-                  This project doesn't have a GitHub repository connected.
-                </p>
-              </div>
-            {/if}
           </div>
         {/if}
       </section>

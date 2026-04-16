@@ -19,7 +19,7 @@ export const actions = {
       const { url: authUrl } = await linkIdentity(locals.supabase, {
         provider: 'github',
         redirectTo: `${url.origin}/auth/github/callback`,
-        scopes: 'repo read:user',
+        scopes: 'read:user',
       });
 
       if (authUrl) {

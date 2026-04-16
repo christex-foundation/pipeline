@@ -16,7 +16,7 @@ export async function GET({ url, locals }) {
       throw redirect(303, '/profile/edit?error=github_link_failed');
     }
 
-    await linkGitHub(session.user.id, session.provider_token, 'repo,read:user', locals.supabase);
+    await linkGitHub(session.user.id, session.provider_token, 'read:user', locals.supabase);
   } catch (err) {
     if (err.status === 303) throw err;
     throw redirect(303, '/profile/edit?error=github_link_failed');
