@@ -26,6 +26,9 @@ export async function getProjectsWithCategories(term, start, end, supabase) {
       dpgStatus,
       category_project!inner (
         categories!inner (
+          id,
+          sdg_id,
+          title,
           image
         )
       )
@@ -107,6 +110,9 @@ export async function getProjectsByUserIdWithCategories(userId, start, end, supa
     dpgStatus,
     category_project!inner (
       categories!inner (
+        id,
+        sdg_id,
+        title,
         image
       )
     )

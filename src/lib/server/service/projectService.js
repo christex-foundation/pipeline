@@ -38,7 +38,9 @@ export async function getProjectsWithDetails(term, page, limit, supabase) {
 
 function mapProjectsWithDetails(projects) {
   return projects.map((project) => {
-    const tags = project.category_project?.map((cp) => cp.categories).filter(Boolean) || [];
+    const tags = (project.category_project?.map((cp) => cp.categories).filter(Boolean) ?? []).sort(
+      (a, b) => (a?.sdg_id ?? 99) - (b?.sdg_id ?? 99),
+    );
 
     const dpgTotalScore =
       project.dpgStatus?.status?.reduce(
