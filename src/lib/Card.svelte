@@ -23,9 +23,7 @@
     Array.isArray(project.dpgStatus?.status) && project.dpgStatus.status.length > 0;
 
   const getImageLink = () => {
-    return project.banner_image
-      ? project.banner_image
-      : 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/banner.png?t=2024-11-20T15%3A45%3A51.937Z';
+    return project.banner_image ? project.banner_image : '/defaults/banner.png';
   };
 
   onMount(() => {
@@ -105,13 +103,21 @@
           </a>
         </div>
 
-        <!-- SDG Tags -->
-        <div class="flex flex-wrap gap-2">
-          {#each project?.tags || [] as tag}
+        <!-- SDG Tags (capped at 4, with +N overflow chip) -->
+        <div class="flex flex-wrap items-center gap-2">
+          {#each (project?.tags ?? []).slice(0, 4) as tag}
             <div class="transform transition-transform duration-200 hover:scale-105">
               <CategoryTag {tag} />
             </div>
           {/each}
+          {#if (project?.tags?.length ?? 0) > 4}
+            <span
+              class="inline-flex items-center rounded-full bg-dashboard-gray-700/60 px-2 py-1 text-label-sm font-medium text-gray-300"
+              title={`${project.tags.length - 4} more`}
+            >
+              +{project.tags.length - 4}
+            </span>
+          {/if}
         </div>
 
         <!-- Spacer -->
