@@ -11,6 +11,9 @@
 
   export let data;
   let loadedProjects = data.allProjects;
+  // Keep paginated list in sync with the initial server load: exclude projects
+  // already surfaced in the Top Projects hero so they don't appear twice.
+  const topProjectIds = (data.topProjects ?? []).map((p) => p.id);
 
   let searchResults = [];
   let categoryResult = [];
@@ -31,12 +34,16 @@
   // TODO: we would find a way around it later
   async function fetchAllProjects() {
     try {
-      const response = await fetch(`/api/projects?page=${currentPage}&limit=${itemsPerPage}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+      const excludeParam = topProjectIds.length ? `&excludeIds=${topProjectIds.join(',')}` : '';
+      const response = await fetch(
+        `/api/projects?page=${currentPage}&limit=${itemsPerPage}${excludeParam}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error(response.statusText);
