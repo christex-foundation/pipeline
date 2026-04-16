@@ -10,6 +10,7 @@ import {
   getProjectsWithCategories,
   getProjectsByUserIdWithCategories,
   getProjectsByUserIdWithContributions,
+  getPublishedProjectsWithDpgStatus,
 } from '$lib/server/repo/projectRepo.js';
 import { createTeamMember, teamMembers } from '$lib/server/repo/memberRepo.js';
 import {
@@ -28,11 +29,11 @@ import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
 import { requestEvaluation } from '$lib/server/service/evaluationQueueService.js';
 
-export async function getProjectsWithDetails(term, page, limit, supabase) {
+export async function getProjectsWithDetails(term, page, limit, supabase, excludeIds = []) {
   const start = (page - 1) * limit;
   const end = start + limit - 1;
 
-  const projects = await getProjectsWithCategories(term, start, end, supabase);
+  const projects = await getProjectsWithCategories(term, start, end, supabase, excludeIds);
   return mapProjectsWithDetails(projects);
 }
 
@@ -56,6 +57,19 @@ function mapProjectsWithDetails(projects) {
       dpgCount: dpgTotalScore,
     };
   });
+}
+
+export async function getTopProjectsByReadiness(limit, supabase) {
+  const projects = await getPublishedProjectsWithDpgStatus(supabase);
+  const withDetails = mapProjectsWithDetails(projects);
+
+  // Exclude fully-ready projects — Top Projects is a "closest-to-ready" spotlight.
+  const notYetReady = withDetails.filter((p) => p.dpgCount < 9);
+
+  // Stable sort by dpgCount DESC; ties preserve repo ordering (created_at DESC).
+  notYetReady.sort((a, b) => b.dpgCount - a.dpgCount);
+
+  return notYetReady.slice(0, limit);
 }
 
 export async function getUserProjects(userId, page, limit, supabase) {
