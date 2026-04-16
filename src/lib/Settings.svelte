@@ -159,7 +159,7 @@
         </button>
 
         <form
-          action="?/deleteAccount"
+          action="/profile/edit?/deleteAccount"
           method="POST"
           use:enhance={() => {
             deleting = true;

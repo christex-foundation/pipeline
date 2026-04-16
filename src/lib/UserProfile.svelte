@@ -71,20 +71,6 @@
             class="dashboard-menu-item group flex cursor-pointer items-center gap-4 p-3"
           >
             <Icon
-              icon="mdi:cog"
-              class="text-xl text-gray-400 transition-colors duration-200 group-hover:text-dashboard-purple-500"
-            />
-            <a
-              href="/profile/settings"
-              class="text-body-lg font-medium text-gray-300 transition-colors duration-200 group-hover:text-white"
-              >Settings</a
-            >
-          </DropdownMenu.Item>
-
-          <DropdownMenu.Item
-            class="dashboard-menu-item group flex cursor-pointer items-center gap-4 p-3"
-          >
-            <Icon
               icon="humbleicons:logout"
               class="text-xl text-gray-400 transition-colors duration-200 group-hover:text-dashboard-error-500"
             />
