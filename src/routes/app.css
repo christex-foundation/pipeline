@@ -56,45 +56,28 @@
   * {
     @apply border-border;
   }
-
+  
   body {
-    @apply bg-background font-sans text-foreground;
-    font-feature-settings:
-      'rlig' 1,
-      'calt' 1;
+    @apply font-sans bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   /* Ensure Space Grotesk loads properly */
   .font-sans {
-    font-family:
-      'Space Grotesk',
-      ui-sans-serif,
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      'Helvetica Neue',
-      Arial,
-      'Noto Sans',
-      sans-serif,
-      'Apple Color Emoji',
-      'Segoe UI Emoji',
-      'Segoe UI Symbol',
-      'Noto Color Emoji';
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 }
 
 @layer components {
   /* Complex component patterns that would be verbose with pure utilities */
-
+  
   /* Enhanced focus ring for interactive elements */
   .focus-ring {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
-
+  
   /* Hover lift effect for cards */
   .hover-lift {
-    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-cardHover;
+    @apply transition-all duration-200 hover:shadow-cardHover hover:-translate-y-0.5;
   }
 }
