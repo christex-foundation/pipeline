@@ -44,8 +44,13 @@ export async function getProjectsByCategoriesWithPagination(categoryIds, start, 
       funding_goal,
       current_funding,
       user_id,
+      published_at,
+      dpgStatus,
       category_project!inner (
         categories!inner (
+          id,
+          sdg_id,
+          title,
           image
         )
       )

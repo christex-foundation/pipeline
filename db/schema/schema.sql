@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS public.projects (
     wallet_address text NULL,
     image text NULL,
     banner_image text NULL,
+    published_at timestamp with time zone NULL,
+    "dpgStatus" jsonb NULL,
     CONSTRAINT projects_pkey PRIMARY KEY (id),
     CONSTRAINT projects_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
 ) TABLESPACE pg_default;
@@ -76,6 +78,10 @@ CREATE TABLE IF NOT EXISTS public.profile (
     image text NULL,
     bio text NULL,
     country text NULL,
+    banner text NULL,
+    discord text NULL,
+    twitter text NULL,
+    web text NULL,
     CONSTRAINT users_pkey PRIMARY KEY (id),
     CONSTRAINT profile_user_id_key UNIQUE (user_id),
     CONSTRAINT profile_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
@@ -86,6 +92,8 @@ CREATE TABLE IF NOT EXISTS public.project_dpg_status (
     created_at timestamp with time zone NOT NULL DEFAULT now(),
     project_id uuid NULL,
     status_id uuid NULL,
+    score numeric NULL,
+    explanation text NULL,
     CONSTRAINT project_dpg_status_pkey PRIMARY KEY (id),
     CONSTRAINT project_dpg_status_project_id_fkey FOREIGN KEY (project_id) REFERENCES projects(id),
     CONSTRAINT project_dpg_status_status_id_fkey FOREIGN KEY (status_id) REFERENCES dpg_status(id)

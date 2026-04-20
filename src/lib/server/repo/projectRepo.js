@@ -12,7 +12,9 @@ export async function getProjects(term, start, end, supabase) {
   return data || [];
 }
 
-export async function getProjectsWithCategories(term, start, end, supabase) {
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export async function getProjectsWithCategories(term, start, end, supabase, excludeIds = []) {
   let query = supabase.from('projects').select(
     `
       id,
@@ -26,6 +28,9 @@ export async function getProjectsWithCategories(term, start, end, supabase) {
       dpgStatus,
       category_project!inner (
         categories!inner (
+          id,
+          sdg_id,
+          title,
           image
         )
       )
@@ -35,12 +40,52 @@ export async function getProjectsWithCategories(term, start, end, supabase) {
   // Only show published projects on explore page
   query = query.not('published_at', 'is', null);
 
+  // Exclude projects already surfaced in the Top Projects hero.
+  // Filter to UUID-shaped values so user-supplied strings can't reach PostgREST.
+  const safeExcludeIds = Array.isArray(excludeIds)
+    ? excludeIds.filter((id) => UUID_RE.test(id))
+    : [];
+  if (safeExcludeIds.length > 0) {
+    query = query.not('id', 'in', `(${safeExcludeIds.join(',')})`);
+  }
+
   // Conditionally add search filter only if term is provided
   if (term && term.trim() !== '') {
     query = query.ilike('title', `%${term}%`);
   }
 
   const { data, error } = await query.range(start, end).order('created_at', { ascending: false });
+
+  if (error) throw new Error(error.message);
+  return data || [];
+}
+
+export async function getPublishedProjectsWithDpgStatus(supabase) {
+  const { data, error } = await supabase
+    .from('projects')
+    .select(
+      `
+      id,
+      title,
+      banner_image,
+      funding_goal,
+      current_funding,
+      user_id,
+      bio,
+      published_at,
+      dpgStatus,
+      category_project!inner (
+        categories!inner (
+          id,
+          sdg_id,
+          title,
+          image
+        )
+      )
+    `,
+    )
+    .not('published_at', 'is', null)
+    .order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
   return data || [];
@@ -107,6 +152,9 @@ export async function getProjectsByUserIdWithCategories(userId, start, end, supa
     dpgStatus,
     category_project!inner (
       categories!inner (
+        id,
+        sdg_id,
+        title,
         image
       )
     )

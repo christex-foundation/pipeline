@@ -1,6 +1,7 @@
 <script>
   import Icon from '@iconify/svelte';
   import * as Popover from '$lib/components/ui/popover';
+  import { getIconForStandard } from '$lib/utils/dpgStandards.js';
 
   export let project;
   export let isOwner = false;
@@ -11,23 +12,6 @@
   // Separate completed and incomplete items for better focus
   $: completedItems = dpgStatuses?.filter((item) => item.overallScore === 1) || [];
   $: incompleteItems = dpgStatuses?.filter((item) => item.overallScore !== 1) || [];
-
-  // DPG Standard icons for better visual representation
-  const standardIcons = {
-    'Relevance to Sustainable Development Goals (SDGs)': 'mdi:earth',
-    'Use of Approved Open Licenses': 'mdi:license',
-    'Clear Ownership': 'mdi:account-check',
-    'Platform Independence': 'mdi:devices',
-    Documentation: 'mdi:file-document',
-    'Mechanism for Extracting Data and Content': 'mdi:database-export',
-    'Adherence to Privacy and Applicable Laws': 'mdi:shield-lock',
-    'Adherence to Standards & Best Practices': 'mdi:check-circle',
-    'Do No Harm By Design': 'mdi:heart-plus',
-  };
-
-  function getIconForStandard(name) {
-    return standardIcons[name] || 'mdi:checkbox-marked-circle';
-  }
 
   let requesting = false;
   let errorMessage = '';

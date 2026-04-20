@@ -1,11 +1,9 @@
 <script>
-  import ProgressBar from './ProgressBar.svelte';
   import ContributeButton from './ContributeButton.svelte';
   import CategoryTag from './CategoryTag.svelte';
   import DPGRating from './DPGRating.svelte';
-  import { amountFormat } from '$lib/utils/amountFormat.js';
-  import { Card, CardHeader, CardContent, CardFooter } from '$lib/components/ui/card';
-  import { Progress } from '$lib/components/ui/progress';
+  import DPGReadiness from './DPGReadiness.svelte';
+  import { timeAgo } from '$lib/utils/dateTimeFormat.js';
   import { onMount } from 'svelte';
 
   let isOpen = false;
@@ -21,10 +19,11 @@
 
   export let project;
 
+  $: hasEvaluation =
+    Array.isArray(project.dpgStatus?.status) && project.dpgStatus.status.length > 0;
+
   const getImageLink = () => {
-    return project.banner_image
-      ? project.banner_image
-      : 'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/defaults/banner.png?t=2024-11-20T15%3A45%3A51.937Z';
+    return project.banner_image ? project.banner_image : '/defaults/banner.png';
   };
 
   onMount(() => {
@@ -86,7 +85,7 @@
         <!-- DPG Rating Badge -->
         <div class="absolute right-4 top-4">
           <div class="dashboard-badge">
-            <DPGRating rating={project.dpgStatusCount} />
+            <DPGRating rating={project.dpgStatusCount} evaluated={hasEvaluation} />
           </div>
         </div>
       </div>
@@ -104,51 +103,35 @@
           </a>
         </div>
 
-        <!-- SDG Tags -->
-        <div class="flex flex-wrap gap-2">
-          {#each project?.tags || [] as tag}
+        <!-- SDG Tags (capped at 4, with +N overflow chip) -->
+        <div class="flex flex-wrap items-center gap-2">
+          {#each (project?.tags ?? []).slice(0, 4) as tag}
             <div class="transform transition-transform duration-200 hover:scale-105">
               <CategoryTag {tag} />
             </div>
           {/each}
+          {#if (project?.tags?.length ?? 0) > 4}
+            <span
+              class="inline-flex items-center rounded-full bg-dashboard-gray-700/60 px-2 py-1 text-label-sm font-medium text-gray-300"
+              title={`${project.tags.length - 4} more`}
+            >
+              +{project.tags.length - 4}
+            </span>
+          {/if}
         </div>
 
         <!-- Spacer -->
         <div class="flex-grow"></div>
 
-        <!-- Funding Information -->
-        <div class="space-y-3">
-          <div class="text-gray-300">
-            <div class="flex flex-wrap items-baseline gap-1">
-              <span class="text-display-md font-bold text-white"
-                >${amountFormat(project.current_funding || 0)}</span
-              >
-              <span class="text-body-sm text-gray-400">raised of</span>
-              <span class="text-heading-md font-semibold text-gray-300"
-                >${amountFormat(project.funding_goal || 0)}</span
-              >
-            </div>
-          </div>
+        <!-- DPG Readiness -->
+        <DPGReadiness dpgStatus={project.dpgStatus} count={project.dpgStatusCount || 0} />
 
-          <!-- Progress Bar -->
-          <div class="relative">
-            <div class="h-2 overflow-hidden rounded-full bg-dashboard-gray-700">
-              <div
-                class="h-full rounded-full bg-gradient-to-r from-dashboard-purple-500 to-dashboard-purple-400 transition-all duration-1000 ease-out"
-                style="width: {Math.min(
-                  (project.current_funding / project.funding_goal) * 100,
-                  100,
-                )}%"
-              ></div>
-            </div>
-            <!-- Progress percentage -->
-            <div class="mt-2">
-              <span class="text-label-sm font-medium text-gray-400">
-                {Math.round((project.current_funding / project.funding_goal) * 100)}% funded
-              </span>
-            </div>
+        <!-- Launch recency -->
+        {#if project.published_at}
+          <div class="text-label-sm text-gray-500">
+            Launched {timeAgo(project.published_at)}
           </div>
-        </div>
+        {/if}
 
         <!-- Contribute Button -->
         <div class="pt-2">
