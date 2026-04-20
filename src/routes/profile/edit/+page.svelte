@@ -1,13 +1,10 @@
 <script>
   import ProfileForm from '$lib/ProfileForm.svelte';
   import ProfileLinks from '$lib/ProfileLinks.svelte';
-  import Settings from '$lib/Settings.svelte';
-  import Interests from '$lib/Interests.svelte';
   import Icon from '@iconify/svelte';
   import { applyAction, enhance } from '$app/forms';
   import { toast } from 'svelte-sonner';
 
-  let activeNavItem = 'Profile';
   let loading = false;
   export let data;
   let user = data.user;
@@ -49,6 +46,7 @@
             } else {
               toast.success('Profile updated successfully');
             }
+
             loading = false;
             await applyAction(result);
           };
@@ -87,10 +85,3 @@
     </section>
   </div>
 </div>
-
-<style>
-  .selected {
-    transform: scale(1.05);
-    font-weight: 600;
-  }
-</style>
