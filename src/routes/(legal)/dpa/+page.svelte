@@ -9,22 +9,49 @@
 
 <div class="min-h-screen bg-dashboard-black py-12">
   <div class="container mx-auto max-w-4xl px-6">
-    <h1 class="mb-4 text-heading-2xl font-bold text-white">Data Processing Agreement</h1>
+    <h1 class="text-heading-2xl mb-4 font-bold text-white">Data Processing Agreement</h1>
     <p class="mb-12 text-body-lg text-gray-400">Last updated: March 2026</p>
 
     <nav class="mb-12 rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6">
       <h2 class="mb-4 text-heading-lg font-semibold text-white">Contents</h2>
       <ul class="space-y-2">
         <li><a href="#scope" class="text-dashboard-purple-400 hover:underline">1. Scope</a></li>
-        <li><a href="#definitions" class="text-dashboard-purple-400 hover:underline">2. Definitions</a></li>
-        <li><a href="#processor" class="text-dashboard-purple-400 hover:underline">3. Processor Obligations</a></li>
-        <li><a href="#subprocessors" class="text-dashboard-purple-400 hover:underline">4. Sub-Processors</a></li>
-        <li><a href="#data-security" class="text-dashboard-purple-400 hover:underline">5. Data Security</a></li>
-        <li><a href="#data-transfers" class="text-dashboard-purple-400 hover:underline">6. Data Transfers</a></li>
+        <li>
+          <a href="#definitions" class="text-dashboard-purple-400 hover:underline">2. Definitions</a
+          >
+        </li>
+        <li>
+          <a href="#processor" class="text-dashboard-purple-400 hover:underline"
+            >3. Processor Obligations</a
+          >
+        </li>
+        <li>
+          <a href="#subprocessors" class="text-dashboard-purple-400 hover:underline"
+            >4. Sub-Processors</a
+          >
+        </li>
+        <li>
+          <a href="#data-security" class="text-dashboard-purple-400 hover:underline"
+            >5. Data Security</a
+          >
+        </li>
+        <li>
+          <a href="#data-transfers" class="text-dashboard-purple-400 hover:underline"
+            >6. Data Transfers</a
+          >
+        </li>
         <li><a href="#audits" class="text-dashboard-purple-400 hover:underline">7. Audits</a></li>
-        <li><a href="#incidents" class="text-dashboard-purple-400 hover:underline">8. Data Breaches</a></li>
-        <li><a href="#termination" class="text-dashboard-purple-400 hover:underline">9. Termination</a></li>
-        <li><a href="#contact" class="text-dashboard-purple-400 hover:underline">10. Contact</a></li>
+        <li>
+          <a href="#incidents" class="text-dashboard-purple-400 hover:underline">8. Data Breaches</a
+          >
+        </li>
+        <li>
+          <a href="#termination" class="text-dashboard-purple-400 hover:underline">9. Termination</a
+          >
+        </li>
+        <li>
+          <a href="#contact" class="text-dashboard-purple-400 hover:underline">10. Contact</a>
+        </li>
       </ul>
     </nav>
 
@@ -35,10 +62,13 @@
       </div>
       <div class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6">
         <p class="text-body-lg text-gray-300">
-          This Data Processing Agreement ("DPA") applies to Enterprise users of Pipeline who require enhanced data processing terms beyond our standard Privacy Policy. This DPA supplements and is incorporated into our Terms of Service.
+          This Data Processing Agreement ("DPA") applies to Enterprise users of Pipeline who require
+          enhanced data processing terms beyond our standard Privacy Policy. This DPA supplements
+          and is incorporated into our Terms of Service.
         </p>
         <p class="mt-4 text-body-lg text-gray-300">
-          This DPA applies when Pipeline processes Personal Data on behalf of Enterprise customers in connection with the provision of our services.
+          This DPA applies when Pipeline processes Personal Data on behalf of Enterprise customers
+          in connection with the provision of our services.
         </p>
       </div>
     </section>
@@ -51,22 +81,29 @@
       <div class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6">
         <ul class="list-disc space-y-4 pl-6 text-gray-300">
           <li>
-            <strong class="text-white">"Personal Data":</strong> Any information relating to an identified or identifiable natural person, as defined under GDPR and other applicable data protection laws.
+            <strong class="text-white">"Personal Data":</strong> Any information relating to an identified
+            or identifiable natural person, as defined under GDPR and other applicable data protection
+            laws.
           </li>
           <li>
-            <strong class="text-white">"Processing":</strong> Any operation performed on Personal Data, including collection, storage, use, transmission, or deletion.
+            <strong class="text-white">"Processing":</strong> Any operation performed on Personal Data,
+            including collection, storage, use, transmission, or deletion.
           </li>
           <li>
-            <strong class="text-white">"Controller":</strong> The Enterprise user who determines the purposes and means of processing Personal Data.
+            <strong class="text-white">"Controller":</strong> The Enterprise user who determines the
+            purposes and means of processing Personal Data.
           </li>
           <li>
-            <strong class="text-white">"Processor":</strong> Christex Foundation (Pipeline) who processes Personal Data on behalf of the Controller.
+            <strong class="text-white">"Processor":</strong> Christex Foundation (Pipeline) who processes
+            Personal Data on behalf of the Controller.
           </li>
           <li>
-            <strong class="text-white">"Sub-processor":</strong> Third parties engaged by the Processor to process Personal Data.
+            <strong class="text-white">"Sub-processor":</strong> Third parties engaged by the Processor
+            to process Personal Data.
           </li>
           <li>
-            <strong class="text-white">"Data Protection Laws":</strong> GDPR, CCPA, PIPEDA, and other applicable data protection regulations.
+            <strong class="text-white">"Data Protection Laws":</strong> GDPR, CCPA, PIPEDA, and other
+            applicable data protection regulations.
           </li>
         </ul>
       </div>
@@ -78,12 +115,12 @@
         <h2 class="text-heading-xl font-bold text-white">3. Processor Obligations</h2>
       </div>
       <div class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6">
-        <p class="mb-4 text-body-lg text-gray-300">
-          The Processor shall:
-        </p>
+        <p class="mb-4 text-body-lg text-gray-300">The Processor shall:</p>
         <ul class="list-disc space-y-2 pl-6 text-gray-300">
           <li>Process Personal Data only on documented instructions from the Controller</li>
-          <li>Ensure personnel processing Personal Data are subject to confidentiality obligations</li>
+          <li>
+            Ensure personnel processing Personal Data are subject to confidentiality obligations
+          </li>
           <li>Implement appropriate technical and organizational security measures</li>
           <li>Assist the Controller in responding to data subject requests</li>
           <li>Delete or return all Personal Data upon termination of the agreement</li>
@@ -101,27 +138,32 @@
         <p class="text-body-lg text-gray-300">
           We use the following sub-processors to provide and improve our services:
         </p>
-        
+
         <div class="mt-6 space-y-4">
           <div>
             <h3 class="text-heading-md font-semibold text-white">Supabase</h3>
-            <p class="text-gray-300">Database and authentication services. Data stored in AWS US/EU regions.</p>
-            <p class="text-sm text-gray-400 mt-1">Privacy: supabase.com/privacy</p>
+            <p class="text-gray-300">
+              Database and authentication services. Data stored in AWS US/EU regions.
+            </p>
+            <p class="mt-1 text-sm text-gray-400">Privacy: supabase.com/privacy</p>
           </div>
           <div>
             <h3 class="text-heading-md font-semibold text-white">Vercel</h3>
             <p class="text-gray-300">Web hosting and edge network distribution.</p>
-            <p class="text-sm text-gray-400 mt-1">Privacy: vercel.com/legal/privacy-policy</p>
+            <p class="mt-1 text-sm text-gray-400">Privacy: vercel.com/legal/privacy-policy</p>
           </div>
           <div>
             <h3 class="text-heading-md font-semibold text-white">Sentry</h3>
-            <p class="text-gray-300">Error tracking and performance monitoring. No personal data processing.</p>
-            <p class="text-sm text-gray-400 mt-1">Privacy: sentry.io/privacy</p>
+            <p class="text-gray-300">
+              Error tracking and performance monitoring. No personal data processing.
+            </p>
+            <p class="mt-1 text-sm text-gray-400">Privacy: sentry.io/privacy</p>
           </div>
         </div>
 
         <p class="mt-6 text-body-lg text-gray-300">
-          We will notify Enterprise customers of any changes to sub-processors. Enterprise customers may object to changes within 30 days.
+          We will notify Enterprise customers of any changes to sub-processors. Enterprise customers
+          may object to changes within 30 days.
         </p>
       </div>
     </section>
@@ -133,9 +175,10 @@
       </div>
       <div class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6">
         <p class="text-body-lg text-gray-300">
-          We implement appropriate technical and organizational measures to ensure security appropriate to the risk:
+          We implement appropriate technical and organizational measures to ensure security
+          appropriate to the risk:
         </p>
-        
+
         <div class="mt-6 space-y-4">
           <div>
             <h3 class="text-heading-md font-semibold text-white">Encryption</h3>
@@ -168,7 +211,8 @@
       </div>
       <div class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6">
         <p class="text-body-lg text-gray-300">
-          Personal Data may be transferred to and processed in countries outside the European Economic Area (EEA).
+          Personal Data may be transferred to and processed in countries outside the European
+          Economic Area (EEA).
         </p>
         <p class="mt-4 text-body-lg text-gray-300">
           For transfers outside the EEA, we ensure appropriate safeguards through:
@@ -199,7 +243,8 @@
           <li>GDPR compliance documentation</li>
         </ul>
         <p class="mt-4 text-body-lg text-gray-300">
-          Enterprise customers may request additional audits at their own expense, with reasonable notice (minimum 30 days).
+          Enterprise customers may request additional audits at their own expense, with reasonable
+          notice (minimum 30 days).
         </p>
       </div>
     </section>
@@ -210,9 +255,7 @@
         <h2 class="text-heading-xl font-bold text-white">8. Data Breaches</h2>
       </div>
       <div class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6">
-        <p class="text-body-lg text-gray-300">
-          In the event of a Personal Data breach, we shall:
-        </p>
+        <p class="text-body-lg text-gray-300">In the event of a Personal Data breach, we shall:</p>
         <ul class="mt-4 list-disc space-y-2 pl-6 text-gray-300">
           <li>Notify the Controller without undue delay, and within 72 hours of becoming aware</li>
           <li>Provide details of the nature of the breach</li>
@@ -230,10 +273,22 @@
       </div>
       <div class="rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-6">
         <ul class="list-disc space-y-2 pl-6 text-gray-300">
-          <li><strong class="text-white">Termination:</strong> Either party may terminate this DPA with 30 days written notice</li>
-          <li><strong class="text-white">Effect:</strong> Upon termination, we will delete or return all Personal Data within 30 days</li>
-          <li><strong class="text-white">Retention:</strong> We may retain Personal Data as required by law, with documentation</li>
-          <li><strong class="text-white">Survival:</strong> Confidentiality and security obligations survive termination</li>
+          <li>
+            <strong class="text-white">Termination:</strong> Either party may terminate this DPA with
+            30 days written notice
+          </li>
+          <li>
+            <strong class="text-white">Effect:</strong> Upon termination, we will delete or return all
+            Personal Data within 30 days
+          </li>
+          <li>
+            <strong class="text-white">Retention:</strong> We may retain Personal Data as required by
+            law, with documentation
+          </li>
+          <li>
+            <strong class="text-white">Survival:</strong> Confidentiality and security obligations survive
+            termination
+          </li>
         </ul>
       </div>
     </section>
@@ -254,10 +309,14 @@
       </div>
     </section>
 
-    <section class="rounded-xl border border-dashboard-purple-500/30 bg-dashboard-purple-500/10 p-6">
+    <section
+      class="rounded-xl border border-dashboard-purple-500/30 bg-dashboard-purple-500/10 p-6"
+    >
       <h3 class="mb-4 text-heading-lg font-semibold text-white">Questions?</h3>
       <p class="text-body-lg text-gray-300">
-        If you have any questions about this Data Processing Agreement, please contact us at <strong class="text-white">hello@christex.foundation</strong>.
+        If you have any questions about this Data Processing Agreement, please contact us at <strong
+          class="text-white">hello@christex.foundation</strong
+        >.
       </p>
     </section>
   </div>

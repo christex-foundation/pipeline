@@ -1,5 +1,6 @@
 //@ts-check
 import { getGitHubUser } from '$lib/server/providers/githubProvider.js';
+import { unlinkIdentityByProvider, supabaseAdmin } from '$lib/server/providers/authProvider.js';
 import {
   getConnection,
   upsertConnection,
@@ -28,7 +29,7 @@ export async function linkGitHub(userId, providerToken, scopes, supabase) {
       access_token: providerToken,
       scopes,
     },
-    supabase,
+    supabaseAdmin,
   );
 
   await updateProfile({ id: userId }, { github: githubUser.username }, supabase);
@@ -44,7 +45,8 @@ export async function linkGitHub(userId, providerToken, scopes, supabase) {
  * @returns {Promise<void>}
  */
 export async function unlinkGitHub(userId, supabase) {
-  await deleteConnection(userId, supabase);
+  await unlinkIdentityByProvider(supabase, 'github');
+  await deleteConnection(userId, supabaseAdmin);
   await updateProfile({ id: userId }, { github: null }, supabase);
 }
 
@@ -52,11 +54,10 @@ export async function unlinkGitHub(userId, supabase) {
  * Returns the connection status for a user.
  *
  * @param {string} userId
- * @param {any} supabase
  * @returns {Promise<{ connected: boolean, username: string|null, connectedAt: string|null }>}
  */
-export async function getConnectionStatus(userId, supabase) {
-  const connection = await getConnection(userId, supabase);
+export async function getConnectionStatus(userId) {
+  const connection = await getConnection(userId, supabaseAdmin);
   if (!connection) {
     return { connected: false, username: null, connectedAt: null };
   }

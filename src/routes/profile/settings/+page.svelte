@@ -4,19 +4,22 @@
   import Icon from '@iconify/svelte';
   import { toast } from 'svelte-sonner';
   import { page } from '$app/stores';
-  import { onMount } from 'svelte';
 
   export let data;
   let githubConnection = data.githubConnection;
+  let lastToastState = '';
 
-  onMount(() => {
-    const urlParams = $page.url.searchParams;
-    if (urlParams.get('github') === 'linked') {
+  $: toastState = `${$page.url.searchParams.get('github') || ''}:${$page.url.searchParams.get('error') || ''}`;
+
+  $: if (toastState !== lastToastState) {
+    lastToastState = toastState;
+
+    if ($page.url.searchParams.get('github') === 'linked') {
       toast.success('GitHub account connected successfully');
-    } else if (urlParams.get('error') === 'github_link_failed') {
+    } else if ($page.url.searchParams.get('error') === 'github_link_failed') {
       toast.error('Failed to connect GitHub account. Please try again.');
     }
-  });
+  }
 </script>
 
 <div class="min-h-screen bg-dashboard-black">

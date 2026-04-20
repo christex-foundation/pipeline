@@ -7,7 +7,7 @@ export async function load({ locals }) {
   const user = locals.authUser;
   if (!user) return { githubConnection: null };
 
-  const githubConnection = await getConnectionStatus(user.id, locals.supabase);
+  const githubConnection = await getConnectionStatus(user.id);
   return { githubConnection };
 }
 
@@ -24,10 +24,10 @@ export const actions = {
         throw redirect(303, authUrl);
       }
 
-      return fail(500, { error: 'Failed to get GitHub authorization URL.' });
+      throw redirect(303, '/profile/settings?error=github_link_failed');
     } catch (err) {
       if (err.status === 303) throw err;
-      return fail(500, { error: 'Failed to initiate GitHub connection.' });
+      throw redirect(303, '/profile/settings?error=github_link_failed');
     }
   },
 

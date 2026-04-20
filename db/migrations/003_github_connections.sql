@@ -1,3 +1,7 @@
+-- 003_github_connections.sql
+-- Adds the github_connections table used by GitHub account linking.
+-- Safe to run multiple times (idempotent).
+
 CREATE TABLE IF NOT EXISTS public.github_connections (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
     user_id uuid NOT NULL,
@@ -17,17 +21,24 @@ ALTER TABLE public.github_connections ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Users can view own connection" ON public.github_connections;
 CREATE POLICY "Users can view own connection"
-    ON public.github_connections FOR SELECT USING (auth.uid() = user_id);
+  ON public.github_connections FOR SELECT
+  USING (auth.uid() = user_id);
 
 DROP POLICY IF EXISTS "Users can insert own connection" ON public.github_connections;
 CREATE POLICY "Users can insert own connection"
-    ON public.github_connections FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id);
+  ON public.github_connections FOR INSERT
+  TO authenticated
+  WITH CHECK (auth.uid() = user_id);
 
 DROP POLICY IF EXISTS "Users can update own connection" ON public.github_connections;
 CREATE POLICY "Users can update own connection"
-    ON public.github_connections FOR UPDATE TO authenticated USING (auth.uid() = user_id)
-    WITH CHECK (auth.uid() = user_id);
+  ON public.github_connections FOR UPDATE
+  TO authenticated
+  USING (auth.uid() = user_id)
+  WITH CHECK (auth.uid() = user_id);
 
 DROP POLICY IF EXISTS "Users can delete own connection" ON public.github_connections;
 CREATE POLICY "Users can delete own connection"
-    ON public.github_connections FOR DELETE TO authenticated USING (auth.uid() = user_id);
+  ON public.github_connections FOR DELETE
+  TO authenticated
+  USING (auth.uid() = user_id);

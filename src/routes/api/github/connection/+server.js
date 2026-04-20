@@ -5,7 +5,7 @@ export async function GET({ locals }) {
   const user = locals.authUser;
   if (!user) return json({ error: 'Unauthorized' }, { status: 401 });
 
-  const status = await getConnectionStatus(user.id, locals.supabase);
+  const status = await getConnectionStatus(user.id);
   return json(status);
 }
 

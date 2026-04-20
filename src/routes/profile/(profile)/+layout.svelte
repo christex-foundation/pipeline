@@ -203,7 +203,9 @@
                   Download My Data
                   <Icon icon="mdi:chevron-down" class="h-5 w-5" />
                 </DropdownMenu.Trigger>
-                <DropdownMenu.Content class="z-50 min-w-[180px] rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-1 text-white">
+                <DropdownMenu.Content
+                  class="z-50 min-w-[180px] rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-1 text-white"
+                >
                   <DropdownMenu.Item
                     class="cursor-pointer rounded-lg px-3 py-2 text-sm hover:bg-dashboard-gray-800"
                     on:click={() => downloadMyData('json')}
