@@ -44,7 +44,9 @@ Three hooks run via `sequence()`:
 
 ### Async Job Processing
 
-BullMQ worker in `hooks.server.js` processes a `projectEvaluation` queue. When a project is created, a job is queued that fetches GitHub repo files and evaluates against 9 DPG criteria using OpenAI GPT-4o (via `aiService.js`).
+Project evaluation runs **out-of-process**. When a project is created or re-evaluated, a row is inserted into `public.evaluation_queue` (see `db/migrations/001_evaluation_queue.sql`). A separate service (`~/Github/dpg-evaluator`) polls the queue with `service_role` credentials, fetches GitHub repo files, evaluates against the 9 DPG criteria, and writes results back to `projects.dpgStatus`. This app does not run AI or hold the OpenAI key.
+
+Per-criterion results are stored in the `projects.dpgStatus` JSONB column as `{ status: [{ name, overallScore, explanation }, ...], final_recommendation }`. A failed criterion has `overallScore !== 1`.
 
 ### State Management
 

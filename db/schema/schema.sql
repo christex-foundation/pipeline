@@ -87,6 +87,9 @@ CREATE TABLE IF NOT EXISTS public.profile (
     CONSTRAINT profile_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
 ) TABLESPACE pg_default;
 
+-- TODO: decide whether to keep or drop. Nothing on main reads or writes this table;
+-- per-criterion data currently lives in projects.dpgStatus JSONB. Either wire this
+-- up as the canonical store or remove it.
 CREATE TABLE IF NOT EXISTS public.project_dpg_status (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
     created_at timestamp with time zone NOT NULL DEFAULT now(),
