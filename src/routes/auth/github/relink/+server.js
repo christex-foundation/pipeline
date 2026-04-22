@@ -12,7 +12,7 @@ export async function GET({ url, locals }) {
     const { url: authUrl } = await linkIdentity(locals.supabase, {
       provider: 'github',
       redirectTo: `${url.origin}/auth/github/callback?retried=1`,
-      scopes: 'read:user',
+      scopes: 'read:user public_repo',
     });
 
     if (authUrl) {
