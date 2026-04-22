@@ -1,11 +1,117 @@
 <script>
   import Icon from '@iconify/svelte';
   import * as Popover from '$lib/components/ui/popover';
-  import { getIconForStandard } from '$lib/utils/dpgStandards.js';
+  import { getIconForStandard, isFileBasedCriterion } from '$lib/utils/dpgStandards.js';
 
   export let project;
   export let isOwner = false;
   export let evaluations = { active: null, latest: null, history: [] };
+
+  // Per-criterion state for the "Check missing files" flow. Keyed by criterion name.
+  // Shape: { status: 'idle' | 'loading' | 'loaded' | 'error', missing?: string[],
+  //          errorMessage?: string, issues?: Record<filename, { status, url?, errorMessage? }> }
+  let criterionCheck = {};
+
+  async function checkMissing(criterionName) {
+    criterionCheck = {
+      ...criterionCheck,
+      [criterionName]: { status: 'loading', issues: {} },
+    };
+    try {
+      const res = await fetch(
+        `/api/projects/${project.id}/criteria/${encodeURIComponent(criterionName)}/missing-files`,
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        criterionCheck = {
+          ...criterionCheck,
+          [criterionName]: {
+            status: 'error',
+            errorMessage: data.error || 'Failed to check repo',
+            issues: {},
+          },
+        };
+        return;
+      }
+      criterionCheck = {
+        ...criterionCheck,
+        [criterionName]: { status: 'loaded', missing: data.missing || [], issues: {} },
+      };
+    } catch (_err) {
+      criterionCheck = {
+        ...criterionCheck,
+        [criterionName]: {
+          status: 'error',
+          errorMessage: 'Something went wrong. Please try again.',
+          issues: {},
+        },
+      };
+    }
+  }
+
+  async function createFileIssue(criterionName, filename) {
+    const current = criterionCheck[criterionName];
+    criterionCheck = {
+      ...criterionCheck,
+      [criterionName]: {
+        ...current,
+        issues: { ...current.issues, [filename]: { status: 'loading' } },
+      },
+    };
+    try {
+      const res = await fetch(
+        `/api/projects/${project.id}/criteria/${encodeURIComponent(criterionName)}/issues`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename }),
+        },
+      );
+      const data = await res.json();
+      const next = criterionCheck[criterionName];
+      if (!res.ok) {
+        criterionCheck = {
+          ...criterionCheck,
+          [criterionName]: {
+            ...next,
+            issues: {
+              ...next.issues,
+              [filename]: {
+                status: 'error',
+                errorMessage: data.error || 'Failed to create issue',
+              },
+            },
+          },
+        };
+        return;
+      }
+      criterionCheck = {
+        ...criterionCheck,
+        [criterionName]: {
+          ...next,
+          issues: {
+            ...next.issues,
+            [filename]: { status: 'created', url: data.url, number: data.number },
+          },
+        },
+      };
+    } catch (_err) {
+      const next = criterionCheck[criterionName];
+      criterionCheck = {
+        ...criterionCheck,
+        [criterionName]: {
+          ...next,
+          issues: {
+            ...next.issues,
+            [filename]: {
+              status: 'error',
+              errorMessage: 'Something went wrong. Please try again.',
+            },
+          },
+        },
+      };
+    }
+  }
 
   $: dpgStatuses = project.dpgStatus?.status;
 
@@ -177,6 +283,90 @@
                       documentation accordingly.
                     </p>
                   </div>
+
+                  {#if isOwner && isFileBasedCriterion(item.name) && project.github_repo}
+                    {@const state = criterionCheck[item.name] || { status: 'idle', issues: {} }}
+                    <div
+                      class="rounded-xl border border-dashboard-purple-500/30 bg-dashboard-purple-500/5 p-4"
+                    >
+                      <div class="mb-3 flex items-center gap-2">
+                        <Icon icon="mdi:github" class="h-5 w-5 text-dashboard-purple-400" />
+                        <span class="text-label-md font-medium text-dashboard-purple-400">
+                          Check repo for missing files
+                        </span>
+                      </div>
+
+                      {#if state.status === 'idle'}
+                        <button
+                          type="button"
+                          on:click={() => checkMissing(item.name)}
+                          class="w-full rounded-lg bg-dashboard-purple-500/10 px-3 py-2 text-body-sm font-medium text-dashboard-purple-300 hover:bg-dashboard-purple-500/20"
+                        >
+                          Check repo
+                        </button>
+                      {:else if state.status === 'loading'}
+                        <p class="text-body-sm text-gray-400">Checking repo…</p>
+                      {:else if state.status === 'error'}
+                        <p class="text-body-sm text-red-300">{state.errorMessage}</p>
+                        <button
+                          type="button"
+                          on:click={() => checkMissing(item.name)}
+                          class="mt-2 text-body-sm text-dashboard-purple-300 hover:underline"
+                        >
+                          Try again
+                        </button>
+                      {:else if state.status === 'loaded'}
+                        {#if state.missing.length === 0}
+                          <p class="text-body-sm text-green-300">
+                            All required files are present.
+                          </p>
+                        {:else}
+                          <p class="mb-2 text-body-sm text-gray-300">
+                            Missing from your repo:
+                          </p>
+                          <ul class="space-y-2">
+                            {#each state.missing as filename}
+                              {@const issue = state.issues?.[filename] || { status: 'idle' }}
+                              <li
+                                class="flex items-center justify-between gap-2 rounded-lg bg-dashboard-gray-800 px-3 py-2"
+                              >
+                                <code class="text-body-sm text-white">{filename}</code>
+                                {#if issue.status === 'idle'}
+                                  <button
+                                    type="button"
+                                    on:click={() => createFileIssue(item.name, filename)}
+                                    class="shrink-0 rounded-md bg-dashboard-purple-500/20 px-2 py-1 text-body-xs font-medium text-dashboard-purple-300 hover:bg-dashboard-purple-500/30"
+                                  >
+                                    Create issue
+                                  </button>
+                                {:else if issue.status === 'loading'}
+                                  <span class="text-body-xs text-gray-400">Creating…</span>
+                                {:else if issue.status === 'created'}
+                                  <a
+                                    href={issue.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="shrink-0 text-body-xs font-medium text-green-400 hover:underline"
+                                  >
+                                    #{issue.number} →
+                                  </a>
+                                {:else if issue.status === 'error'}
+                                  <button
+                                    type="button"
+                                    on:click={() => createFileIssue(item.name, filename)}
+                                    class="shrink-0 text-body-xs text-red-300 hover:underline"
+                                    title={issue.errorMessage}
+                                  >
+                                    Retry
+                                  </button>
+                                {/if}
+                              </li>
+                            {/each}
+                          </ul>
+                        {/if}
+                      {/if}
+                    </div>
+                  {/if}
                 </div>
               </Popover.Content>
             </Popover.Root>

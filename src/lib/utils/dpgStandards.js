@@ -15,3 +15,12 @@ export const standardIcons = {
 export function getIconForStandard(name) {
   return standardIcons[name] || 'mdi:checkbox-marked-circle';
 }
+
+// Criteria whose failure corresponds to missing repo files. Must stay in sync
+// with CRITERION_REQUIRED_FILES in src/lib/server/service/criterionCheckService.js.
+// The UI uses this to decide whether to show the "Check missing files" button.
+export const fileBasedCriteria = new Set(['Use of Approved Open Licenses', 'Documentation']);
+
+export function isFileBasedCriterion(name) {
+  return fileBasedCriteria.has(name);
+}
