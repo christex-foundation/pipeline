@@ -1,5 +1,7 @@
 import { json } from '@sveltejs/kit';
 import {
+  COMMENT_RATE_LIMIT_MAX,
+  consumeCommentRateLimit,
   createProjectComment,
   getProjectComments,
 } from '$lib/server/service/projectCommentService.js';
@@ -24,6 +26,21 @@ export async function POST({ params, request, locals }) {
 
   if (!user) {
     return json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const rateCheck = consumeCommentRateLimit(user.id);
+  if (!rateCheck.allowed) {
+    return json(
+      { error: 'Rate limit exceeded. Please retry later.' },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(rateCheck.retryAfterSeconds),
+          'X-RateLimit-Limit': String(COMMENT_RATE_LIMIT_MAX),
+          'X-RateLimit-Remaining': String(rateCheck.remaining),
+        },
+      },
+    );
   }
 
   let payload;
