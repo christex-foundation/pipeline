@@ -13,6 +13,10 @@ export const createIssueSchema = repoParamsSchema.extend({
   assignees: z.array(z.string()).optional(),
 });
 
+export const fileParamsSchema = repoParamsSchema.extend({
+  path: z.string().min(1),
+});
+
 export const updateIssueSchema = repoParamsSchema.extend({
   issue_number: z.number().int().positive(),
   state: z.enum(['open', 'closed']),

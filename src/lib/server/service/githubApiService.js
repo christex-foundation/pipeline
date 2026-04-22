@@ -9,6 +9,7 @@ import {
   updatePullRequestSchema,
   mergePullRequestSchema,
   listPullRequestsSchema,
+  fileParamsSchema,
 } from '$lib/server/validator/githubSchema.js';
 
 /**
@@ -27,6 +28,30 @@ async function getClientForUser(userId, supabase) {
     throw err;
   }
   return createGitHubClient(token);
+}
+
+// ─── Repo contents ───────────────────────────────────────────────────────────
+
+/**
+ * Returns true if a file exists at the given path on the default branch, false
+ * if it does not. Any other error (401, 403, 5xx) is rethrown.
+ *
+ * @param {string} userId
+ * @param {unknown} params
+ * @param {any} supabase
+ * @returns {Promise<boolean>}
+ */
+export async function fileExists(userId, params, supabase) {
+  const { owner, repo, path } = fileParamsSchema.parse(params);
+  const octokit = await getClientForUser(userId, supabase);
+
+  try {
+    await octokit.rest.repos.getContent({ owner, repo, path });
+    return true;
+  } catch (err) {
+    if (err.status === 404) return false;
+    throw err;
+  }
 }
 
 // ─── Issues ──────────────────────────────────────────────────────────────────
