@@ -18,6 +18,7 @@
   import Icon from '@iconify/svelte';
   import { onMount } from 'svelte';
   import Issues from '$lib/Issues.svelte';
+  import ProjectComments from '$lib/ProjectComments.svelte';
   import { Dialog, DialogHeader, DialogContent, DialogTitle } from '$lib/components/ui/dialog';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
@@ -92,6 +93,7 @@
   const navItems = [
     { id: 'dpgStatus', label: 'DPG Assessment', width: '150px' },
     { id: 'tasks', label: 'Issues & Tasks', width: '120px' },
+    { id: 'comments', label: 'Comments', width: '100px' },
   ];
 
   function handleNavChange(event) {
@@ -405,6 +407,16 @@
               <p class="text-body-lg text-gray-300">Open issues and development tasks</p>
             </div>
             <Issues />
+          </div>
+        {:else if activeNavItem === 'comments'}
+          <div class="space-y-6">
+            <div>
+              <h2 class="mb-2 text-display-md font-semibold text-white lg:text-display-xl">
+                Comments
+              </h2>
+              <p class="text-body-lg text-gray-300">Share feedback and discuss this project</p>
+            </div>
+            <ProjectComments projectId={id} isAuthenticated={data.isAuthenticated} />
           </div>
         {/if}
       </section>
