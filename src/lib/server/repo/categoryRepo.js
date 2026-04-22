@@ -38,7 +38,7 @@ export async function getProjectsByCategoriesWithPagination(categoryIds, start, 
     .select(
       `
       project_id,
-      projects (id,
+      projects!inner (id,
       title,
       banner_image,
       funding_goal,
@@ -58,6 +58,7 @@ export async function getProjectsByCategoriesWithPagination(categoryIds, start, 
     `,
     )
     .in('category_id', categoryIds)
+    .not('projects.published_at', 'is', null)
     .range(start, end);
 
   if (error) throw new Error(error.message);
