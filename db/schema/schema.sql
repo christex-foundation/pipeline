@@ -174,6 +174,18 @@ CREATE TABLE IF NOT EXISTS public.project_update_comment (
     CONSTRAINT project_update_comment_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
 ) TABLESPACE pg_default;
 
+CREATE TABLE IF NOT EXISTS public.project_comment (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+    project_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    body text NOT NULL,
+    created_at timestamp with time zone NOT NULL DEFAULT now(),
+    deleted_at timestamp with time zone NULL,
+    CONSTRAINT project_comment_pkey PRIMARY KEY (id),
+    CONSTRAINT project_comment_project_id_fkey FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    CONSTRAINT project_comment_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
+) TABLESPACE pg_default;
+
 INSERT INTO
   public.categories (title, description, created_at, sdg_id, image)
 VALUES
