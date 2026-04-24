@@ -17,4 +17,8 @@ export {
   signOut,
   createSessionClient,
   getSessionAndUser,
+  linkIdentity,
+  exchangeCodeForSession,
+  unlinkIdentityByProvider,
 } from './authProvider.js';
+export { createGitHubClient, getGitHubUser } from './githubProvider.js';

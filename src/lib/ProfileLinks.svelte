@@ -1,6 +1,7 @@
 <script>
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
+
   export let user;
 </script>
 
@@ -40,7 +41,12 @@
         placeholder="username"
         class="w-full rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-body-lg text-white focus:border-dashboard-purple-500 focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500"
       />
-      <p class="text-body-sm text-gray-400">Showcase your code repositories and contributions</p>
+      <p class="text-body-sm text-gray-400">
+        To connect your GitHub account and sync your verified username, go to <a
+          href="/profile/settings"
+          class="text-dashboard-purple-500 hover:underline">Settings</a
+        >
+      </p>
     </div>
 
     <!-- Discord -->
