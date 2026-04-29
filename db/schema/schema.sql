@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS public.projects (
     user_id uuid NULL,
     title text NULL,
     bio text NULL,
-    github_repo text NULL,
+    github text NULL,
     funding_goal double precision NULL,
     current_funding double precision NULL,
     status text NULL,
