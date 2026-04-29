@@ -33,8 +33,8 @@
 
 <Toaster richColors position="top-right" closeButton />
 <main class="bg-dashboard-black sm:-mb-16 sm:h-screen sm:overflow-hidden md:pr-0">
-  <div class="flex flex-col h-full gap-0 md:flex-row md:gap-5">
-    <section class="flex-shrink-0 w-full md:w-5/12">
+  <div class="flex h-full flex-col gap-0 md:flex-row md:gap-5">
+    <section class="w-full flex-shrink-0 md:w-5/12">
       <div
         class="relative flex flex-col items-center justify-center gap-2.5 bg-dashboard-gray-900 pb-10 pl-0 pr-0 pt-10 md:h-full md:py-24 md:pl-12 md:pr-2"
       >
@@ -88,7 +88,7 @@
       </div>
     </section>
 
-    <div class="flex items-center justify-center flex-1 min-h-0 bg-white">
+    <div class="flex min-h-0 flex-1 items-center justify-center bg-white">
       <section
         class="mt-20 flex w-full max-w-[1235px] flex-col items-center justify-center pb-20 max-md:mt-10 max-md:px-5"
       >

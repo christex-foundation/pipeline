@@ -1,7 +1,10 @@
 <script>
   import Icon from '@iconify/svelte';
+  import { page } from '$app/stores';
+  import { toast } from 'svelte-sonner';
   import * as Popover from '$lib/components/ui/popover';
-  import { getIconForStandard } from '$lib/utils/dpgStandards.js';
+  import { getDocsUrl, getIconForStandard, getRemediation } from '$lib/utils/dpgStandards.js';
+  import { buildBadgeHtml, buildBadgeMarkdown } from '$lib/utils/dpgBadge.js';
 
   export let project;
   export let isOwner = false;
@@ -12,6 +15,22 @@
   // Separate completed and incomplete items for better focus
   $: completedItems = dpgStatuses?.filter((item) => item.overallScore === 1) || [];
   $: incompleteItems = dpgStatuses?.filter((item) => item.overallScore !== 1) || [];
+
+  // Badge snippets — built on the client so the origin matches the host the
+  // user is actually viewing (works in dev, preview, and prod without config).
+  $: origin = $page.url.origin;
+  $: badgeSrc = `${origin}/api/projects/${project.id}/badge.svg`;
+  $: badgeMarkdown = buildBadgeMarkdown(origin, project.id);
+  $: badgeHtml = buildBadgeHtml(origin, project.id);
+
+  async function copy(text, label) {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success(`${label} copied to clipboard`);
+    } catch (_) {
+      toast.error('Could not copy — your browser blocked clipboard access');
+    }
+  }
 
   let requesting = false;
   let errorMessage = '';
@@ -119,6 +138,8 @@
 
         <div class="grid gap-4 md:grid-cols-2">
           {#each incompleteItems as item}
+            {@const remediation = getRemediation(item.name, project.github)}
+            {@const docsUrl = getDocsUrl(item.name)}
             <Popover.Root>
               <Popover.Trigger
                 class="group rounded-xl border border-red-500/30 bg-red-500/5 p-4 text-left transition-all duration-200 hover:border-red-500/50 hover:bg-red-500/10"
@@ -168,14 +189,42 @@
                   </div>
 
                   <div class="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-4">
-                    <div class="mb-2 flex items-center gap-2">
+                    <div class="mb-3 flex items-center gap-2">
                       <Icon icon="mdi:lightbulb" class="h-5 w-5 text-yellow-400" />
                       <span class="text-label-md font-medium text-yellow-400">Next Steps</span>
                     </div>
-                    <p class="text-body-sm text-gray-300">
-                      Review the requirements for this standard and update your project
-                      documentation accordingly.
-                    </p>
+
+                    {#if remediation}
+                      <a
+                        href={remediation.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="mb-2 inline-flex items-center gap-2 rounded-lg border border-dashboard-purple-500/40 bg-dashboard-purple-500/10 px-3 py-2 text-label-md font-medium text-dashboard-purple-300 transition-colors hover:bg-dashboard-purple-500/20"
+                      >
+                        <Icon icon="mdi:github" class="h-4 w-4" />
+                        {remediation.label}
+                        <Icon icon="lucide:external-link" class="h-3.5 w-3.5" />
+                      </a>
+                    {:else if !project.github}
+                      <p class="mb-2 text-body-sm text-gray-400">
+                        Add a GitHub repo to your project to get a one-click fix.
+                      </p>
+                    {:else}
+                      <p class="mb-2 text-body-sm text-gray-300">
+                        This standard isn't directly fixable in code — review the official guidance
+                        below.
+                      </p>
+                    {/if}
+
+                    <a
+                      href={docsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1.5 text-body-sm font-medium text-yellow-400 hover:text-yellow-300"
+                    >
+                      Learn more about this standard
+                      <Icon icon="lucide:external-link" class="h-3 w-3" />
+                    </a>
                   </div>
                 </div>
               </Popover.Content>
@@ -285,6 +334,64 @@
               >{Math.round((project.dpgCount / 9) * 100)}% Complete</span
             >
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Embeddable badge for READMEs -->
+    <div class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-800/50 p-6">
+      <div class="mb-4 flex items-center gap-3">
+        <Icon icon="mdi:shield-star" class="h-6 w-6 text-dashboard-purple-400" />
+        <h3 class="text-heading-lg font-semibold text-white">Show your DPG score</h3>
+      </div>
+
+      <p class="mb-4 text-body-md text-gray-300">
+        Embed this badge in your project's README to show contributors and funders how DPG-ready you
+        are. The badge updates automatically as your score changes.
+      </p>
+
+      <div
+        class="mb-5 flex items-center gap-3 rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-900 px-4 py-3"
+      >
+        <img src={badgeSrc} alt="DPG Score badge preview" />
+        <span class="text-body-sm text-gray-500">— live preview</span>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <div class="mb-2 flex items-center justify-between">
+            <span class="text-label-md font-medium text-gray-300">Markdown</span>
+            <button
+              type="button"
+              on:click={() => copy(badgeMarkdown, 'Markdown snippet')}
+              class="inline-flex items-center gap-1.5 text-label-sm font-medium text-dashboard-purple-400 hover:text-dashboard-purple-300"
+            >
+              <Icon icon="lucide:copy" class="h-3.5 w-3.5" />
+              Copy
+            </button>
+          </div>
+          <pre
+            class="overflow-x-auto rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-900 p-3 text-body-sm text-gray-300"><code
+              >{badgeMarkdown}</code
+            ></pre>
+        </div>
+
+        <div>
+          <div class="mb-2 flex items-center justify-between">
+            <span class="text-label-md font-medium text-gray-300">HTML</span>
+            <button
+              type="button"
+              on:click={() => copy(badgeHtml, 'HTML snippet')}
+              class="inline-flex items-center gap-1.5 text-label-sm font-medium text-dashboard-purple-400 hover:text-dashboard-purple-300"
+            >
+              <Icon icon="lucide:copy" class="h-3.5 w-3.5" />
+              Copy
+            </button>
+          </div>
+          <pre
+            class="overflow-x-auto rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-900 p-3 text-body-sm text-gray-300"><code
+              >{badgeHtml}</code
+            ></pre>
         </div>
       </div>
     </div>

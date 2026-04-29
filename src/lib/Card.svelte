@@ -120,6 +120,24 @@
           {/if}
         </div>
 
+        <!-- Signal pills -->
+        {#if project.pills?.hot || project.pills?.newEvaluation || project.pills?.fundingNeeded || project.pills?.trending}
+          <div class="flex flex-wrap items-center gap-2">
+            {#if project.pills?.hot}
+              <span class="pill pill-hot">🔥 Hot</span>
+            {/if}
+            {#if project.pills?.trending}
+              <span class="pill pill-trending">Trending</span>
+            {/if}
+            {#if project.pills?.newEvaluation}
+              <span class="pill pill-new-eval">New Evaluation</span>
+            {/if}
+            {#if project.pills?.fundingNeeded}
+              <span class="pill pill-funding">Funding Needed</span>
+            {/if}
+          </div>
+        {/if}
+
         <!-- Spacer -->
         <div class="flex-grow"></div>
 
@@ -159,6 +177,46 @@
       0 2px 8px rgba(0, 0, 0, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.08),
       inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    border: 1px solid transparent;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .pill-new-eval {
+    background: rgba(173, 137, 253, 0.12); /* dashboard-purple-500 */
+    color: #c8b1ff;
+    border-color: rgba(173, 137, 253, 0.35);
+  }
+
+  .pill-funding {
+    background: rgba(189, 227, 91, 0.12); /* dashboard-yellow-500 */
+    color: #d2eb87;
+    border-color: rgba(189, 227, 91, 0.35);
+  }
+
+  .pill-trending {
+    background: rgba(249, 115, 22, 0.12); /* warm orange — distinct from purple/lime */
+    color: #fdba74;
+    border-color: rgba(249, 115, 22, 0.4);
+  }
+
+  .pill-hot {
+    /* Hot beats Trending visually — saturated red/pink with a subtle glow.
+       Reserved for projects that pass the Heat Score threshold. */
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.18), rgba(244, 114, 182, 0.18));
+    color: #fda4af;
+    border-color: rgba(244, 114, 182, 0.5);
+    font-weight: 700;
   }
 
   .dashboard-badge {
