@@ -3,6 +3,7 @@ import {
   getDocsUrl,
   getIconForStandard,
   getRemediation,
+  getStandardDescription,
   getStandardMeta,
   STANDARD_META,
 } from './dpgStandards.js';
@@ -12,6 +13,14 @@ const REPO = 'https://github.com/owner/repo';
 describe('STANDARD_META', () => {
   it('covers all 9 DPG standards', () => {
     expect(Object.keys(STANDARD_META)).toHaveLength(9);
+  });
+
+  it('has a non-empty description for every standard', () => {
+    for (const [name, meta] of Object.entries(STANDARD_META)) {
+      expect(meta.description, `${name} should have a description`).toBeTruthy();
+      expect(typeof meta.description).toBe('string');
+      expect(meta.description.length).toBeGreaterThan(20);
+    }
   });
 });
 
@@ -83,5 +92,23 @@ describe('getDocsUrl', () => {
 
   it('falls back to the standard index for unknown names', () => {
     expect(getDocsUrl('Bogus')).toBe('https://digitalpublicgoods.net/standard/');
+  });
+});
+
+describe('getStandardDescription', () => {
+  it('returns the plain-English description for a known standard', () => {
+    const desc = getStandardDescription('Documentation');
+    expect(desc).toBeTruthy();
+    expect(desc).toMatch(/document/i);
+  });
+
+  it('resolves the SDGs alias', () => {
+    expect(getStandardDescription('Relevance to Sustainable Development Goals (SDGs)')).toBe(
+      getStandardDescription('Relevance to Sustainable Development Goals'),
+    );
+  });
+
+  it('returns null for an unknown standard', () => {
+    expect(getStandardDescription('Made-up Standard')).toBeNull();
   });
 });

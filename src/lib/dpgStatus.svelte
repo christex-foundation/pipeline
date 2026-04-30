@@ -3,7 +3,12 @@
   import { page } from '$app/stores';
   import { toast } from 'svelte-sonner';
   import * as Popover from '$lib/components/ui/popover';
-  import { getDocsUrl, getIconForStandard, getRemediation } from '$lib/utils/dpgStandards.js';
+  import {
+    getDocsUrl,
+    getIconForStandard,
+    getRemediation,
+    getStandardDescription,
+  } from '$lib/utils/dpgStandards.js';
   import { buildBadgeHtml, buildBadgeMarkdown } from '$lib/utils/dpgBadge.js';
 
   export let project;
@@ -140,6 +145,7 @@
           {#each incompleteItems as item}
             {@const remediation = getRemediation(item.name, project.github)}
             {@const docsUrl = getDocsUrl(item.name)}
+            {@const description = getStandardDescription(item.name)}
             <Popover.Root>
               <Popover.Trigger
                 class="group rounded-xl border border-red-500/30 bg-red-500/5 p-4 text-left transition-all duration-200 hover:border-red-500/50 hover:bg-red-500/10"
@@ -173,6 +179,20 @@
                 </div>
 
                 <div class="space-y-4">
+                  {#if description}
+                    <div
+                      class="rounded-xl border border-dashboard-gray-600 bg-dashboard-gray-900 p-4"
+                    >
+                      <div class="mb-3 flex items-center gap-2">
+                        <Icon icon="mdi:help-circle-outline" class="h-5 w-5 text-gray-400" />
+                        <span class="text-label-md font-medium text-gray-300"
+                          >About this standard</span
+                        >
+                      </div>
+                      <p class="text-body-md leading-relaxed text-gray-300">{description}</p>
+                    </div>
+                  {/if}
+
                   <div
                     class="rounded-xl border border-dashboard-gray-600 bg-dashboard-gray-900 p-4"
                   >
@@ -246,6 +266,7 @@
 
         <div class="grid gap-3 md:grid-cols-3">
           {#each completedItems as item}
+            {@const description = getStandardDescription(item.name)}
             <Popover.Root>
               <Popover.Trigger
                 class="group rounded-xl border border-green-500/30 bg-green-500/5 p-4 text-left transition-all duration-200 hover:bg-green-500/10"
@@ -276,6 +297,20 @@
                 </div>
 
                 <div class="space-y-4">
+                  {#if description}
+                    <div
+                      class="rounded-xl border border-dashboard-gray-600 bg-dashboard-gray-900 p-4"
+                    >
+                      <div class="mb-3 flex items-center gap-2">
+                        <Icon icon="mdi:help-circle-outline" class="h-5 w-5 text-gray-400" />
+                        <span class="text-label-md font-medium text-gray-300"
+                          >About this standard</span
+                        >
+                      </div>
+                      <p class="text-body-md leading-relaxed text-gray-300">{description}</p>
+                    </div>
+                  {/if}
+
                   <div class="rounded-xl border border-green-500/30 bg-green-500/5 p-4">
                     <div class="mb-2 flex items-center gap-2">
                       <Icon icon="mdi:check-circle" class="h-5 w-5 text-green-400" />
