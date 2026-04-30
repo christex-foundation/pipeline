@@ -300,15 +300,12 @@ These weren't in the V2 blueprint — they're real bugs we hit while shipping th
 
 ## What we did not build
 
-These are pulled from the V2 blueprint and remain out of scope.
+These are pulled from the V2 blueprint and remain out of scope after this round.
 
-| Feature                                  | Status after Slice 3                         | Why deferred                                                                                                                                                                                                                                               |
+| Feature                                  | Status                                       | Why deferred                                                                                                                                                                                                                                               |
 | ---------------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | "Evaluate Now" / Evaluator API wrapper   | Queue infrastructure exists; worker does not | The `evaluation_queue` table, queueing service, and `/api/projects/[id]/evaluate` endpoint were already in place. What is missing is the worker that actually processes queued rows. Needs LLM integration and probably a separate runtime — its own plan. |
-| GitHub webhook sync hardening            | Handler exists, not audited                  | A `/api/github/webhook` endpoint exists and triggers re-evaluations on PR merges. It needs a signature-verification audit and an `apiProtection` exception before we trust it on every PR merge.                                                           |
-| Momentum ranking ("Heat Score")          | Not started                                  | Depends on signals we are not yet capturing — `dpg_score_improvement` over time, comment activity, last-commit dates.                                                                                                                                      |
 | Interactive support / contributor widget | Not started                                  | Comments today are scoped to project _updates_, not projects directly. A "support widget" needs either a new comments-on-projects table or a clean GitHub Discussions handoff. Decision pending.                                                           |
-| `[Trending]` pill on the feed            | Not started                                  | Same dependency as momentum ranking.                                                                                                                                                                                                                       |
 
 ---
 
@@ -320,15 +317,13 @@ These are pulled from the V2 blueprint and remain out of scope.
 
 ---
 
-## Field notes (things we noticed but did not fix)
+## Field notes (small things resolved alongside the slices)
 
-These are pre-existing conditions worth knowing about but outside any specific slice's scope. Each should become its own ticket.
+Pre-existing conditions noted during this round. Each was either fixed in-line or is now tracked as its own item in the ✅ list at the top of this doc.
 
-- **`apiProtection` is unwired.** `src/hooks.server.js` defines an `apiProtection` hook (origin check + auth gate) but does not include it in the active middleware chain (`sequence(supabase, authGuard)` — no `apiProtection`). New endpoints we added are unauthenticated as a result, which is fine for read-only public data but worth knowing.
-- **`projects.github_repo` vs `project.github` mismatch.** `db/schema/schema.sql` declares a `github_repo` column. Application code (validator, queries, UI) reads `github`. The deployed schema must differ from the SQL file. Our endpoint handles both names defensively; the SQL file should be reconciled with what production actually runs.
-- **`CLAUDE.md` mentions a BullMQ worker that does not exist in the repo.** The Evaluator API Wrapper task will need a worker; the doc-vs-code drift just needs cleaning up.
-- **Vitest picks up Playwright `e2e/*.spec.js` files.** Eight pre-existing "FAIL" lines in `npm run test` come from this. Unrelated to anything we shipped.
-- **Stale `<!-- Email -->` comment removed from `LinksSection.svelte`.** Now mentioned only here for traceability.
+- **Stale `<!-- Email -->` comment removed from `LinksSection.svelte`** — minor cleanup, mentioned only here for traceability.
+
+The four other items previously listed here (`apiProtection` unwired, `github_repo` schema drift, BullMQ doc reference, Vitest picking up Playwright e2e files) were all resolved in Slice 5 — see the ✅ "Pre-existing issues — resolved in this round" section above.
 
 ---
 
