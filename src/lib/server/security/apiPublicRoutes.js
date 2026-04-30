@@ -53,6 +53,9 @@ export function isPublicApiRoute(pathname, method) {
   const idIssues = pathname.match(/^\/api\/projects\/([^/]+)\/github\/issues$/);
   if (idIssues && isProjectIdSegment(idIssues[1])) return true;
 
+  const idActivity = pathname.match(/^\/api\/projects\/([^/]+)\/github\/activity$/);
+  if (idActivity && isProjectIdSegment(idActivity[1])) return true;
+
   const idEvals = pathname.match(/^\/api\/projects\/([^/]+)\/evaluations$/);
   if (idEvals && isProjectIdSegment(idEvals[1])) return true;
 

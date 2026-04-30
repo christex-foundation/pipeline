@@ -49,6 +49,19 @@ describe('isPublicApiRoute - per-project reads', () => {
     expect(isPublicApiRoute('/api/projects/abc-123/github/issues', 'GET')).toBe(true);
   });
 
+  it('allows GET on /api/projects/{id}/github/activity', () => {
+    expect(isPublicApiRoute('/api/projects/abc-123/github/activity', 'GET')).toBe(true);
+  });
+
+  it('rejects writes on /api/projects/{id}/github/activity', () => {
+    expect(isPublicApiRoute('/api/projects/abc-123/github/activity', 'POST')).toBe(false);
+    expect(isPublicApiRoute('/api/projects/abc-123/github/activity', 'PUT')).toBe(false);
+  });
+
+  it('rejects /api/projects/store/github/activity (reserved segment)', () => {
+    expect(isPublicApiRoute('/api/projects/store/github/activity', 'GET')).toBe(false);
+  });
+
   it('allows GET on /api/projects/{id}/evaluations', () => {
     expect(isPublicApiRoute('/api/projects/abc-123/evaluations', 'GET')).toBe(true);
   });

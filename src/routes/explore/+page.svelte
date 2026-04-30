@@ -8,6 +8,9 @@
     AccordionContent,
   } from '$lib/components/ui/accordion';
   import { Button } from '$lib/components/ui/button';
+  import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
 
   export let data;
   let loadedProjects = data.allProjects;
@@ -31,12 +34,17 @@
   let searchResultsLoaded = false;
   let categoryResultLoaded = false;
 
+  const initialSort = $page.url.searchParams.get('sort');
+  let currentSort = initialSort === 'heat' ? 'heat' : 'newest';
+  $: sortDisabled = Boolean(searchTerm) || Boolean(selectedTag);
+
   // TODO: we would find a way around it later
   async function fetchAllProjects() {
     try {
       const excludeParam = topProjectIds.length ? `&excludeIds=${topProjectIds.join(',')}` : '';
+      const sortParam = currentSort === 'heat' ? '&sort=heat' : '';
       const response = await fetch(
-        `/api/projects?page=${currentPage}&limit=${itemsPerPage}${excludeParam}`,
+        `/api/projects?page=${currentPage}&limit=${itemsPerPage}${excludeParam}${sortParam}`,
         {
           method: 'GET',
           headers: {
@@ -62,6 +70,24 @@
     } finally {
       loading = false;
     }
+  }
+
+  async function handleSortChange(event) {
+    const next = event.target.value === 'heat' ? 'heat' : 'newest';
+    if (next === currentSort) return;
+    currentSort = next;
+
+    // Reflect to URL so deep-links and back/forward work, without reloading.
+    const url = new URL($page.url);
+    if (next === 'heat') url.searchParams.set('sort', 'heat');
+    else url.searchParams.delete('sort');
+    goto(url.pathname + url.search, { replaceState: true, keepFocus: true, noScroll: true });
+
+    // Reset pagination so we don't appended pages from the previous ordering.
+    currentPage = 1;
+    allProjectsLoaded = false;
+    loadedProjects = [];
+    await fetchAllProjects();
   }
 
   async function projectByCategory(tag) {
@@ -105,6 +131,17 @@
     categoryPage += 1;
     projectByCategory(selectedTag);
   }
+
+  onMount(async () => {
+    // The server load returns `created_at` desc. If the user landed on
+    // `/explore?sort=heat`, replace the initial page with a heat-ordered fetch.
+    if (currentSort === 'heat') {
+      currentPage = 1;
+      allProjectsLoaded = false;
+      loadedProjects = [];
+      await fetchAllProjects();
+    }
+  });
 
   function handleCategorySelected(event) {
     const selectedCategories = event.detail;
@@ -258,11 +295,33 @@
             {/each}
 
             <!-- All Projects Section -->
-            <div class="col-span-full mt-8">
-              <h2 class="text-heading-xl text-white">All Projects</h2>
-              <p class="mt-2 text-body-lg text-gray-400">
-                Discover and support projects across all categories
-              </p>
+            <div class="col-span-full mt-8 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <h2 class="text-heading-xl text-white">All Projects</h2>
+                <p class="mt-2 text-body-lg text-gray-400">
+                  Discover and support projects across all categories
+                </p>
+              </div>
+              <div class="flex items-center gap-3">
+                <label
+                  for="explore-sort"
+                  class="text-label-md font-medium text-gray-400"
+                  class:opacity-50={sortDisabled}
+                >
+                  Sort by
+                </label>
+                <select
+                  id="explore-sort"
+                  on:change={handleSortChange}
+                  value={currentSort}
+                  disabled={sortDisabled}
+                  title={sortDisabled ? 'Sorting applies to All Projects only.' : ''}
+                  class="cursor-pointer rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-3 py-2 text-body-md text-white transition-colors hover:border-dashboard-gray-500 focus:border-dashboard-purple-500 focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <option value="newest">Newest</option>
+                  <option value="heat">🔥 Hot</option>
+                </select>
+              </div>
             </div>
 
             {#if data.isAuthenticated}
