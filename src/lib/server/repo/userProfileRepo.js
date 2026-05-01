@@ -14,7 +14,7 @@ export async function getProfile(userId, supabase) {
       'name, bio, country, interests, skills, image, points, banner, github, discord, twitter, web',
     )
     .eq('user_id', userId)
-    .single();
+    .maybeSingle();
 
   if (error) throw new Error(error.message);
   return data || {};

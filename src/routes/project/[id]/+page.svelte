@@ -15,9 +15,11 @@
   import CategoryTag from '$lib/CategoryTag.svelte';
   import { amountFormat } from '$lib/utils/amountFormat.js';
   import { dateFormat } from '$lib/utils/dateTimeFormat.js';
+  import { parseGithubRepo } from '$lib/utils/github.js';
   import Icon from '@iconify/svelte';
   import { onMount } from 'svelte';
   import Issues from '$lib/Issues.svelte';
+  import RecentActivity from '$lib/RecentActivity.svelte';
   import { Dialog, DialogHeader, DialogContent, DialogTitle } from '$lib/components/ui/dialog';
   import { Input } from '$lib/components/ui/input';
   import { Label } from '$lib/components/ui/label';
@@ -41,12 +43,14 @@
   const project = data.project;
   const totalResources = data.totalResources;
 
-  const githubLinkSplit = project?.github?.split('/') || [];
-  const concat = githubLinkSplit[3] + '/' + githubLinkSplit[4];
+  const githubRepo = parseGithubRepo(project?.github);
 
   const fetchContribs = async () => {
+    if (!githubRepo) return [];
     try {
-      const res = await fetch(`https://api.github.com/repos/${concat}/contributors`);
+      const res = await fetch(
+        `https://api.github.com/repos/${githubRepo.owner}/${githubRepo.repo}/contributors`,
+      );
       const data = await res.json();
       return data;
     } catch (_e) {
@@ -92,6 +96,7 @@
   const navItems = [
     { id: 'dpgStatus', label: 'DPG Assessment', width: '150px' },
     { id: 'tasks', label: 'Issues & Tasks', width: '120px' },
+    { id: 'activity', label: 'Recent Activity', width: '140px' },
   ];
 
   function handleNavChange(event) {
@@ -405,6 +410,16 @@
               <p class="text-body-lg text-gray-300">Open issues and development tasks</p>
             </div>
             <Issues />
+          </div>
+        {:else if activeNavItem === 'activity'}
+          <div class="space-y-6">
+            <div>
+              <h2 class="mb-2 text-display-md font-semibold text-white lg:text-display-xl">
+                Recent Activity
+              </h2>
+              <p class="text-body-lg text-gray-300">Latest commits and pull requests from GitHub</p>
+            </div>
+            <RecentActivity />
           </div>
         {/if}
       </section>

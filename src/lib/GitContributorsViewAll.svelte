@@ -6,6 +6,7 @@
   import { Input } from '$lib/components/ui/input';
   import { Card } from '$lib/components/ui/card';
   import Icon from '@iconify/svelte';
+  import { parseGithubRepo } from '$lib/utils/github.js';
 
   const dispatch = createEventDispatcher();
 
@@ -13,12 +14,14 @@
     dispatch('goBack');
   }
 
-  const githubLinkSplit = $page.data?.project?.github?.split('/') || [];
-  const concat = githubLinkSplit[3] + '/' + githubLinkSplit[4];
+  const githubRepo = parseGithubRepo($page.data?.project?.github);
 
   const fetchContribs = async () => {
+    if (!githubRepo) return [];
     try {
-      const res = await fetch(`https://api.github.com/repos/${concat}/contributors`);
+      const res = await fetch(
+        `https://api.github.com/repos/${githubRepo.owner}/${githubRepo.repo}/contributors`,
+      );
       const data = await res.json();
       return data;
     } catch (_e) {

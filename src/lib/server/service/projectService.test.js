@@ -46,6 +46,23 @@ vi.mock('$lib/server/service/evaluationQueueService.js', () => ({
   requestEvaluation: vi.fn(),
 }));
 
+vi.mock('$lib/server/repo/evaluationQueueRepo.js', () => ({
+  getLastCompletedByProjectIds: vi.fn().mockResolvedValue(new Map()),
+}));
+
+vi.mock('$lib/server/repo/projectUpdatesRepo.js', () => ({
+  getRecentUpdateCountsByProjectIds: vi.fn().mockResolvedValue(new Map()),
+}));
+
+vi.mock('$lib/server/repo/projectUpdateCommentRepo.js', () => ({
+  getRecentCommentCountsByProjectIds: vi.fn().mockResolvedValue(new Map()),
+}));
+
+vi.mock('$lib/server/repo/projectDpgHistoryRepo.js', () => ({
+  getDpgScoreDeltasByProjectIds: vi.fn().mockResolvedValue(new Map()),
+  recordDpgScore: vi.fn().mockResolvedValue(undefined),
+}));
+
 import { getPublishedProjectsWithDpgStatus } from '$lib/server/repo/projectRepo.js';
 import { getTopProjectsByReadiness } from './projectService.js';
 

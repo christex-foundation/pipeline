@@ -1,15 +1,17 @@
 import { getProfileByUserId } from '$lib/server/service/profileService.js';
 
-export async function load({ locals }) {
+export async function load({ locals, url }) {
   const { authUser, session, supabase } = locals;
 
   let error = null;
+  const pathname = url.pathname;
 
   if (!authUser) {
     return {
       isAuthenticated: false,
       user: null,
       error,
+      pathname,
     };
   }
 
@@ -38,5 +40,6 @@ export async function load({ locals }) {
     isAuthenticated: !!session,
     user,
     error,
+    pathname,
   };
 }
