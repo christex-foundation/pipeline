@@ -46,17 +46,32 @@ export const createProjectSchema = z.object({
     .trim()
     .min(5, { message: 'details is too short' }),
   email: z.string().optional(),
-  github: z
-    .string()
-    .regex(
-      new RegExp(/^https?:\/\/(?:www\.)?github\.com\/([\w-]+)\/([\w.-]+)(?:\/.*)?$/),
-      'This is not a real github url',
-    )
-    .optional(),
-  linkedin: z.string().optional(),
-  twitter: z.string().optional(),
-  website: z.string().optional(),
-  other: z.string().optional(),
+  github: z.preprocess(
+    (v) => (typeof v === 'string' ? v.trim() || undefined : v),
+    z
+      .string()
+      .regex(
+        new RegExp(/^https?:\/\/(?:www\.)?github\.com\/([\w-]+)\/([\w.-]+)(?:\/.*)?$/),
+        'This is not a real github url',
+      )
+      .optional(),
+  ),
+  linkedin: z.preprocess(
+    (v) => (typeof v === 'string' ? v.trim() || undefined : v),
+    z.string().optional(),
+  ),
+  twitter: z.preprocess(
+    (v) => (typeof v === 'string' ? v.trim() || undefined : v),
+    z.string().optional(),
+  ),
+  website: z.preprocess(
+    (v) => (typeof v === 'string' ? v.trim() || undefined : v),
+    z.string().optional(),
+  ),
+  other: z.preprocess(
+    (v) => (typeof v === 'string' ? v.trim() || undefined : v),
+    z.string().optional(),
+  ),
   funding_goal: z
     .number({ coerce: true, required_error: 'funding_goal is required' })
     .min(0, { message: 'number is low' })

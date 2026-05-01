@@ -44,7 +44,7 @@ Three hooks run via `sequence()`:
 
 ### Async Job Processing
 
-BullMQ worker in `hooks.server.js` processes a `projectEvaluation` queue. When a project is created, a job is queued that fetches GitHub repo files and evaluates against 9 DPG criteria using OpenAI GPT-4o (via `aiService.js`).
+Evaluation requests are persisted to the `evaluation_queue` table (`requestEvaluation` in `evaluationQueueService.js`). Today there is **no in-process worker**: queued rows wait for an out-of-band evaluator to pick them up and write results back. Slice 5's webhook hardening lays the groundwork for the evaluator API wrapper described in `docs/V2_QUICK_WINS.md`.
 
 ### State Management
 

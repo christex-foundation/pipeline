@@ -84,6 +84,38 @@ export async function getEvaluationHistory(projectId, supabase, limit = 10) {
 }
 
 /**
+ * Get the latest completed `completed_at` per project for a batch of project IDs.
+ * Single round-trip — used by list endpoints to attach a "New Evaluation" pill
+ * without an N+1 fan-out.
+ *
+ * @param {string[]} projectIds
+ * @param {import('@supabase/supabase-js').SupabaseClient} supabase
+ * @returns {Promise<Map<string, string>>} Map of projectId -> ISO timestamp
+ */
+export async function getLastCompletedByProjectIds(projectIds, supabase) {
+  const result = new Map();
+  if (!Array.isArray(projectIds) || projectIds.length === 0) return result;
+
+  const { data, error } = await supabase
+    .from('evaluation_queue')
+    .select('project_id, completed_at')
+    .in('project_id', projectIds)
+    .eq('status', 'completed')
+    .order('completed_at', { ascending: false });
+
+  if (error) throw new Error(error.message);
+
+  // First-seen wins (rows arrive newest-first per the order clause).
+  for (const row of data ?? []) {
+    if (!row?.project_id || !row?.completed_at) continue;
+    if (!result.has(row.project_id)) {
+      result.set(row.project_id, row.completed_at);
+    }
+  }
+  return result;
+}
+
+/**
  * Get the latest completed evaluation for a project.
  * @param {string} projectId
  * @param {import('@supabase/supabase-js').SupabaseClient} supabase

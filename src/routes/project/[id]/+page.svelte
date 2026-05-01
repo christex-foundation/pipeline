@@ -15,6 +15,7 @@
   import CategoryTag from '$lib/CategoryTag.svelte';
   import { amountFormat } from '$lib/utils/amountFormat.js';
   import { dateFormat } from '$lib/utils/dateTimeFormat.js';
+  import { parseGithubRepo } from '$lib/utils/github.js';
   import Icon from '@iconify/svelte';
   import { onMount } from 'svelte';
   import Issues from '$lib/Issues.svelte';
@@ -41,12 +42,14 @@
   const project = data.project;
   const totalResources = data.totalResources;
 
-  const githubLinkSplit = project?.github?.split('/') || [];
-  const concat = githubLinkSplit[3] + '/' + githubLinkSplit[4];
+  const githubRepo = parseGithubRepo(project?.github);
 
   const fetchContribs = async () => {
+    if (!githubRepo) return [];
     try {
-      const res = await fetch(`https://api.github.com/repos/${concat}/contributors`);
+      const res = await fetch(
+        `https://api.github.com/repos/${githubRepo.owner}/${githubRepo.repo}/contributors`,
+      );
       const data = await res.json();
       return data;
     } catch (_e) {
