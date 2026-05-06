@@ -59,6 +59,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "lucide-react": "^0.479.0",
+    "octokit": "^5.0.5",
     "svelte-sonner": "^0.3.28",
     "tailwindcss-animate": "^1.0.7"
   },

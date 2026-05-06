@@ -277,7 +277,7 @@ export async function storeProject(user, projectData, supabase) {
   // It must not reach the projects insert — the column does not exist.
   let { tags, matchedDPGs: _matchedDPGs, ...projectFields } = projectData.data;
 
-  const normalizedGithubUrl = projectFields.github?.trim();
+  const normalizedGithubUrl = projectFields.github_repo?.trim() || projectFields.github?.trim();
 
   if (normalizedGithubUrl) {
     const existingProject = await getProjectByGithub(normalizedGithubUrl, supabase);
@@ -299,7 +299,7 @@ export async function storeProject(user, projectData, supabase) {
   }
 
   const project = await createProject(
-    { ...projectFields, github: normalizedGithubUrl, user_id: user.id },
+    { ...projectFields, github_repo: normalizedGithubUrl, user_id: user.id },
     supabase,
   );
 
@@ -309,8 +309,8 @@ export async function storeProject(user, projectData, supabase) {
     tags.map((tag) => assignCategory({ project_id: project.id, category_id: tag.id }, supabase)),
   );
 
-  if (project.github) {
-    await requestEvaluation(project.id, project.github, 'auto', user.id, supabase);
+  if (project.github_repo) {
+    await requestEvaluation(project.id, project.github_repo, 'auto', user.id, supabase);
   }
 
   return { success: true, projectId: project.id };
@@ -319,6 +319,7 @@ export async function storeProject(user, projectData, supabase) {
 export async function updateProject(userId, projectId, projectData, supabase) {
   let { tags, ...projectFields } = projectData.data;
   let updatedTimestamp = new Date().toISOString();
+  const normalizedGithubUrl = projectFields.github_repo?.trim() || projectFields.github?.trim();
 
   if (typeof tags === 'string') {
     try {
@@ -333,7 +334,12 @@ export async function updateProject(userId, projectId, projectData, supabase) {
 
   await updateDetails(
     projectId,
-    { ...projectFields, user_id: userId, updated_at: updatedTimestamp },
+    {
+      ...projectFields,
+      github_repo: normalizedGithubUrl,
+      user_id: userId,
+      updated_at: updatedTimestamp,
+    },
     supabase,
   );
 

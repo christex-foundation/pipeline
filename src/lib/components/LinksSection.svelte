@@ -22,31 +22,36 @@
 <div class="space-y-6">
   <!-- GitHub -->
   <div class="space-y-2">
-    <Label for="github" class="block text-label-lg font-medium text-gray-300">
+    <Label for="github_repo" class="block text-label-lg font-medium text-gray-300">
       GitHub Repository
     </Label>
     <Input
       type="url"
-      id="github"
-      name="github"
-      bind:value={project.github}
+      id="github_repo"
+      name="github_repo"
+      value={project.github_repo || project.github || ''}
       placeholder="https://github.com/username/repo"
-      class={inputClass}
+      class="w-full rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-body-lg text-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500"
+      required
     />
     <p class="text-body-sm text-gray-400">
-      Optional. Want re-evaluation to run automatically when you merge PRs?
+      Follow
       <a
         href="https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks"
         target="_blank"
-        rel="noopener noreferrer"
         class="font-medium text-dashboard-purple-500 underline hover:text-dashboard-purple-400"
       >
         Set up a webhook
       </a>
-      pointing at
-      <code class="rounded bg-dashboard-gray-800 px-1 py-0.5 text-body-sm text-gray-300">
-        https://pipeline-tau.vercel.app/api/github/webhook
-      </code>.
+      to add the
+      <a
+        href="https://pipeline-tau.vercel.app/api/github/webhook"
+        target="_blank"
+        class="font-medium text-dashboard-purple-500 underline hover:text-dashboard-purple-400"
+      >
+        webhook
+      </a>
+      for automatic updates
     </p>
   </div>
 
@@ -59,10 +64,10 @@
       name="website"
       bind:value={project.website}
       placeholder="https://yourwebsite.com"
-      class={inputClass}
+      class="w-full rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-body-lg text-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500"
     />
     {#if !isEdit}
-      <p class="text-body-sm text-gray-400">Official project website or landing page.</p>
+      <p class="text-body-sm text-gray-400">Official project website or landing page</p>
     {/if}
   </div>
 

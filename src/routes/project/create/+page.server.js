@@ -1,10 +1,62 @@
+import { allCategories } from '$lib/server/service/categoryService.js';
 import { createProjectSchema } from '$lib/server/validator/projectSchema.js';
 import { uploadImageAndReturnUrl } from '$lib/server/service/imageUploadService.js';
 import { error, fail, json, redirect } from '@sveltejs/kit';
 
+export async function load({ locals }) {
+  try {
+    return {
+      categories: await allCategories(locals.supabase),
+    };
+  } catch (error) {
+    console.error('Failed to load categories for project creation:', error);
+
+    return {
+      categories: [],
+    };
+  }
+}
+
 /** @type {import('./$types').Actions} */
 export const actions = {
   default: async ({ request, locals, fetch }) => {
+    let supabase = locals.supabase;
+    const formData = await request.formData();
+    const tags = formData.get('tags');
+    const bannerImage = formData.get('banner_image');
+    const image = formData.get('image');
+    const form = Object.fromEntries(
+      [...formData.entries()].filter(
+        ([key]) => !['tags', 'banner_image', 'image', 'matchedDPGs'].includes(key),
+      ),
+    );
+
+    const {
+      data: validatedData,
+      error: validationError,
+      success,
+    } = createProjectSchema.safeParse(form);
+
+    if (!success) {
+      const errors = validationError.flatten().fieldErrors;
+      const firstError = Object.values(errors).flat().at(0);
+      return fail(400, { error: firstError });
+    }
+
+    /** @type {Record<string, any>} */
+    const data = {
+      ...validatedData,
+      tags,
+    };
+
+    if (bannerImage instanceof File && bannerImage.size > 0) {
+      data.banner_image = await uploadImageAndReturnUrl(bannerImage, supabase);
+    }
+
+    if (image instanceof File && image.size > 0) {
+      data.image = await uploadImageAndReturnUrl(image, supabase);
+    }
+
     try {
       let supabase = locals.supabase;
       const { tags, banner_image, image, matchedDPGs, ...form } = Object.fromEntries(
@@ -73,20 +125,15 @@ export const actions = {
       const projectId = responseBody?.response?.projectId;
 
       if (!response.ok) {
-        return fail(response.status, {
-          error: responseBody?.error ?? 'Failed to save project',
-        });
+        return fail(400, { error: 'Failed to save project' });
       }
 
       return {
         type: 'success',
         redirectTo: `/project/${projectId}`,
       };
-    } catch (err) {
-      console.error('[create project action] unexpected failure:', err);
-      return fail(500, {
-        error: err?.message ?? 'Failed to save project. Please try again later.',
-      });
+    } catch (_) {
+      return fail(500, { error: 'Failed to save project. Please try again later.' });
     }
   },
 };

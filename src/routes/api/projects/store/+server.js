@@ -13,10 +13,7 @@ export async function POST({ request, locals }) {
 
     return json({ success: true, response }, { status: 200 });
   } catch (error) {
-    console.error('[POST /api/projects/store] storeProject failed:', error);
-    return json(
-      { error: error?.message ?? 'Something went wrong creating the project' },
-      { status: 500 },
-    );
+    console.error('Failed to store project:', error);
+    return json({ erorr: 'Something went wrong' }, { status: 500 });
   }
 }
