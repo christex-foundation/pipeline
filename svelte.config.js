@@ -3,28 +3,17 @@ import adapter from '@sveltejs/adapter-auto';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   kit: {
-    alias: {
-      '$stores/*': './src/stores/*',
-    },
     // adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
     // If your environment is not supported, or you settled on a specific environment, switch out the adapter.
     // See https://kit.svelte.dev/docs/adapters for more information about adapters.
     adapter: adapter(),
 
-    // PERFORMANCE OPTIMIZATIONS
-    serviceWorker: {
-      register: true,
-      files: (filename) => !/\.DS_Store/.test(filename),
-    },
-
     prerender: {
-      // Prerender static pages for better performance
       handleMissingId: 'warn',
       handleHttpError: 'warn',
-      entries: ['/'], // Add specific routes you want prerendered
+      entries: ['/'],
     },
 
-    // SECURITY CONFIGURATIONS
     csp: {
       mode: 'hash',
       directives: {
@@ -61,24 +50,6 @@ const config = {
         'upgrade-insecure-requests': true,
       },
     },
-
-    csrf: {
-      checkOrigin: true,
-    },
-
-    // Additional security and performance headers
-    embedded: false,
-
-    // Environment-specific optimizations
-    env: {
-      publicPrefix: 'PUBLIC_',
-    },
-  },
-
-  // COMPILER OPTIMIZATIONS
-  compilerOptions: {
-    // Enable runtime checks in development only
-    dev: process.env.NODE_ENV === 'development',
   },
 };
 

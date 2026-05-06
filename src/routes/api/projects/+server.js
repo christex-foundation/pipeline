@@ -14,12 +14,10 @@ export async function GET({ url, locals, setHeaders }) {
       ?.split(',')
       .map((s) => s.trim())
       .filter(Boolean) || [];
-  const sortParam = url.searchParams.get('sort');
-  const sort = sortParam === 'heat' ? 'heat' : 'created_at';
   let supabase = locals.supabase;
 
   try {
-    const projects = await getProjectsWithDetails(term, page, limit, supabase, excludeIds, sort);
+    const projects = await getProjectsWithDetails(term, page, limit, supabase, excludeIds);
 
     return json({ projects: projects }, { status: 200 });
   } catch (error) {

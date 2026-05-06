@@ -14,9 +14,6 @@
   project.linkedin ??= '';
   project.twitter ??= '';
   project.other ??= '';
-
-  const inputClass =
-    'w-full rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-body-lg text-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500';
 </script>
 
 <div class="space-y-6">
@@ -81,7 +78,7 @@
         name="linkedin"
         bind:value={project.linkedin}
         placeholder="https://linkedin.com/company/your-project"
-        class={inputClass}
+        class="w-full rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-body-lg text-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500"
       />
     </div>
 
@@ -93,7 +90,7 @@
         name="twitter"
         bind:value={project.twitter}
         placeholder="https://x.com/yourhandle"
-        class={inputClass}
+        class="w-full rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-body-lg text-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500"
       />
     </div>
   </div>
@@ -109,7 +106,7 @@
       name="other"
       bind:value={project.other}
       placeholder="https://"
-      class={inputClass}
+      class="w-full rounded-lg border border-dashboard-gray-600 bg-dashboard-gray-800 px-4 py-3 text-body-lg text-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-dashboard-purple-500"
     />
     <p class="text-body-sm text-gray-400">
       Anywhere else you want to point people — Discord, docs site, demo, etc.

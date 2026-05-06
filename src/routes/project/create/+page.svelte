@@ -115,7 +115,7 @@
               </p>
             </div>
 
-            <LinksSection bind:project />
+            <LinksSection {project} />
           </div>
 
           <!-- Funding Section -->

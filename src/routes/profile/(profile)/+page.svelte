@@ -15,12 +15,12 @@
   <div class="flex min-h-[400px] items-center justify-center">
     <div class="max-w-md text-center">
       <div
-        class="mb-6 rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900/50 p-8 backdrop-blur-sm"
+        class="p-8 mb-6 border rounded-2xl border-dashboard-gray-700 bg-dashboard-gray-900/50 backdrop-blur-sm"
       >
         <div
-          class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-dashboard-gray-800"
+          class="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-dashboard-gray-800"
         >
-          <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -30,17 +30,17 @@
           </svg>
         </div>
 
-        <h3 class="mb-2 text-heading-lg text-white">No projects yet</h3>
-        <p class="mb-6 text-body-md text-gray-400">
+        <h3 class="mb-2 text-white text-heading-lg">No projects yet</h3>
+        <p class="mb-6 text-gray-400 text-body-md">
           Start building something amazing! Create your first project and share it with the
           community.
         </p>
 
         <a href="/project/create">
           <button
-            class="focus-ring mx-auto flex items-center justify-center gap-2 rounded-xl bg-dashboard-purple-500 px-6 py-3 text-label-lg font-medium text-white transition-all duration-200 hover:scale-105 hover:bg-dashboard-purple-600"
+            class="flex items-center justify-center gap-2 px-6 py-3 mx-auto font-medium text-white transition-all duration-200 focus-ring rounded-xl bg-dashboard-purple-500 text-label-lg hover:scale-105 hover:bg-dashboard-purple-600"
           >
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -53,10 +53,10 @@
         </a>
       </div>
 
-      <p class="text-body-sm text-gray-500">
+      <p class="text-gray-500 text-body-sm">
         Need inspiration? <a
           href="/explore"
-          class="text-dashboard-yellow-400 transition-colors hover:text-dashboard-yellow-300"
+          class="transition-colors text-dashboard-yellow-400 hover:text-dashboard-yellow-300"
           >Browse existing projects</a
         >
       </p>

@@ -44,7 +44,7 @@ Three hooks run via `sequence()`:
 
 ### Async Job Processing
 
-Evaluation requests are persisted to the `evaluation_queue` table (`requestEvaluation` in `evaluationQueueService.js`). Today there is **no in-process worker**: queued rows wait for an out-of-band evaluator to pick them up and write results back. Slice 5's webhook hardening lays the groundwork for the evaluator API wrapper described in `docs/V2_QUICK_WINS.md`.
+Evaluation requests are persisted to the `evaluation_queue` table (`requestEvaluation` in `evaluationQueueService.js`). Today there is **no in-process worker**: queued rows wait for an out-of-band evaluator to pick them up and write results back. Slice 5's webhook hardening lays the groundwork for the evaluator API.
 
 ### State Management
 

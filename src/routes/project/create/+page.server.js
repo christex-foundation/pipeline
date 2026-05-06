@@ -43,6 +43,16 @@ export const actions = {
       return fail(400, { error: firstError });
     }
 
+    let parsedTags;
+    try {
+      parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags;
+    } catch {
+      parsedTags = [];
+    }
+    if (!Array.isArray(parsedTags) || parsedTags.length === 0) {
+      return fail(400, { error: 'Please pick at least one SDG tag' });
+    }
+
     /** @type {Record<string, any>} */
     const data = {
       ...validatedData,
@@ -58,70 +68,13 @@ export const actions = {
     }
 
     try {
-      let supabase = locals.supabase;
-      const { tags, banner_image, image, matchedDPGs, ...form } = Object.fromEntries(
-        await request.formData(),
-      );
-
-      const { data, error: validationError, success } = createProjectSchema.safeParse(form);
-
-      if (!success) {
-        const errors = validationError.flatten().fieldErrors;
-        const firstError = Object.values(errors).flat().at(0);
-        return fail(400, { error: firstError });
-      }
-
-      let parsedMatchedDPGs = [];
-      if (matchedDPGs) {
-        try {
-          parsedMatchedDPGs = JSON.parse(matchedDPGs);
-        } catch (_) {
-          parsedMatchedDPGs = [];
-        }
-      }
-
-      let parsedTags = [];
-      if (tags) {
-        try {
-          parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags;
-        } catch (_) {
-          parsedTags = [];
-        }
-      }
-      if (!Array.isArray(parsedTags) || parsedTags.length === 0) {
-        return fail(400, { error: 'Please pick at least one SDG tag' });
-      }
-
-      data.tags = parsedTags;
-      data.matchedDPGs = parsedMatchedDPGs;
-
-      if (banner_image?.name) {
-        try {
-          data.banner_image = await uploadImageAndReturnUrl(banner_image, supabase);
-        } catch (err) {
-          console.error('[create project action] banner upload failed:', err);
-          return fail(400, { error: `Banner upload failed: ${err?.message ?? 'unknown error'}` });
-        }
-      }
-
-      if (image?.name) {
-        try {
-          data.image = await uploadImageAndReturnUrl(image, supabase);
-        } catch (err) {
-          console.error('[create project action] profile image upload failed:', err);
-          return fail(400, {
-            error: `Profile image upload failed: ${err?.message ?? 'unknown error'}`,
-          });
-        }
-      }
-
       const response = await fetch(`/api/projects/store`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data }),
       });
 
-      const responseBody = await response.json();
+      const responseBody = await response.json(); // Parse response body
       const projectId = responseBody?.response?.projectId;
 
       if (!response.ok) {

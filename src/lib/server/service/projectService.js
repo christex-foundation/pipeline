@@ -4,7 +4,6 @@ import {
   getProjects,
   createProject,
   updateDetails,
-  updateProjectDpg,
   getProjectsByUserId,
   getProjectsByIds,
   getProjectByGithub,
@@ -29,128 +28,13 @@ import { getMultipleProfiles } from '$lib/server/repo/userProfileRepo.js';
 import { getExistingBookmarksByUserId } from '$lib/server/repo/bookmarkRepo.js';
 import { mapProjectsWithTagsAndStatus } from './helpers/projectHelpers.js';
 import { requestEvaluation } from '$lib/server/service/evaluationQueueService.js';
-import { getLastCompletedByProjectIds } from '$lib/server/repo/evaluationQueueRepo.js';
-import { getRecentUpdateCountsByProjectIds } from '$lib/server/repo/projectUpdatesRepo.js';
-import { getRecentCommentCountsByProjectIds } from '$lib/server/repo/projectUpdateCommentRepo.js';
-import {
-  getDpgScoreDeltasByProjectIds,
-  recordDpgScore,
-} from '$lib/server/repo/projectDpgHistoryRepo.js';
-import { derivePills } from '$lib/server/service/pillsService.js';
-import { computeHeatScore, daysSinceLastActivity } from '$lib/server/service/momentumService.js';
 
-const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
-const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
-
-/**
- * Attach a `pills` field and a `heatScore` number to each project, derived
- * from four batched lookups: latest completed evaluation, recent project
- * updates, recent comments, and dpg-score deltas over the last 30 days.
- * Safe to call with an empty list.
- *
- * @template {{ id: string }} P
- * @param {P[]} projects
- * @param {import('@supabase/supabase-js').SupabaseClient} supabase
- * @returns {Promise<(P & { pills: ReturnType<typeof derivePills>, heatScore: number })[]>}
- */
-async function withPills(projects, supabase) {
-  if (!Array.isArray(projects) || projects.length === 0) return projects;
-  const ids = projects.map((p) => p.id).filter(Boolean);
-  if (ids.length === 0) return projects;
-
-  const now = new Date();
-  const sevenDaysAgo = new Date(now.getTime() - SEVEN_DAYS_MS);
-  const thirtyDaysAgo = new Date(now.getTime() - THIRTY_DAYS_MS);
-
-  const [evalMap, updateMap, commentMap, deltaMap] = await Promise.all([
-    getLastCompletedByProjectIds(ids, supabase),
-    getRecentUpdateCountsByProjectIds(ids, sevenDaysAgo, supabase),
-    getRecentCommentCountsByProjectIds(ids, sevenDaysAgo, supabase),
-    getDpgScoreDeltasByProjectIds(ids, thirtyDaysAgo, supabase),
-  ]);
-
-  return projects.map((project) => {
-    const lastEval = evalMap.get(project.id) ?? null;
-    const recentUpdateCount = updateMap.get(project.id) ?? 0;
-    const recentCommentCount = commentMap.get(project.id) ?? 0;
-    const dpgScoreDelta30d = deltaMap.get(project.id) ?? 0;
-
-    const heatScore = computeHeatScore({
-      dpgScoreDelta30d,
-      recentCommentCount,
-      recentUpdateCount,
-      daysSinceLastActivity: daysSinceLastActivity(project.updated_at, lastEval, now),
-    });
-
-    return {
-      ...project,
-      heatScore,
-      pills: derivePills({
-        project,
-        lastEvaluationCompletedAt: lastEval,
-        recentUpdateCount,
-        recentCommentCount,
-        heatScore,
-        now,
-      }),
-    };
-  });
-}
-
-/**
- * Update a project's `dpgStatus` jsonb AND record a snapshot to
- * `project_dpg_history` so Heat Score has data to work with. Use this from
- * the evaluator wrapper (and any other code path that mutates dpgStatus).
- * The history insert is best-effort and won't fail the update.
- *
- * @param {string} projectId
- * @param {object} dpgStatus - the full jsonb to write
- * @param {import('@supabase/supabase-js').SupabaseClient} supabase
- */
-export async function updateProjectDpgWithHistory(projectId, dpgStatus, supabase) {
-  const updated = await updateProjectDpg(projectId, dpgStatus, supabase);
-  const score = countDpgScore(dpgStatus);
-  await recordDpgScore(projectId, score, supabase); // logs + swallows on failure
-  return updated;
-}
-
-function countDpgScore(dpgStatus) {
-  const status = dpgStatus?.status;
-  if (!Array.isArray(status)) return 0;
-  return status.reduce((sum, item) => sum + (Number(item?.overallScore) === 1 ? 1 : 0), 0);
-}
-
-/**
- * @param {string} term
- * @param {number} page
- * @param {number} limit
- * @param {import('@supabase/supabase-js').SupabaseClient} supabase
- * @param {string[]} [excludeIds]
- * @param {'created_at'|'heat'} [sort] - server-side ordering. 'created_at' (default) preserves
- *   the existing newest-first behavior; 'heat' reorders by computed Heat Score descending.
- */
-export async function getProjectsWithDetails(
-  term,
-  page,
-  limit,
-  supabase,
-  excludeIds = [],
-  sort = 'created_at',
-) {
+export async function getProjectsWithDetails(term, page, limit, supabase, excludeIds = []) {
   const start = (page - 1) * limit;
   const end = start + limit - 1;
 
   const projects = await getProjectsWithCategories(term, start, end, supabase, excludeIds);
-  const enriched = await withPills(mapProjectsWithDetails(projects), supabase);
-
-  if (sort === 'heat') {
-    // Stable sort: heat desc, with the original (created_at desc) order preserved on ties.
-    return enriched
-      .map((p, i) => ({ p, i }))
-      .sort((a, b) => b.p.heatScore - a.p.heatScore || a.i - b.i)
-      .map((x) => x.p);
-  }
-  return enriched;
+  return mapProjectsWithDetails(projects);
 }
 
 function mapProjectsWithDetails(projects) {
@@ -185,7 +69,7 @@ export async function getTopProjectsByReadiness(limit, supabase) {
   // Stable sort by dpgCount DESC; ties preserve repo ordering (created_at DESC).
   notYetReady.sort((a, b) => b.dpgCount - a.dpgCount);
 
-  return withPills(notYetReady.slice(0, limit), supabase);
+  return notYetReady.slice(0, limit);
 }
 
 export async function getUserProjects(userId, page, limit, supabase) {
@@ -193,7 +77,7 @@ export async function getUserProjects(userId, page, limit, supabase) {
   const end = start + limit - 1;
 
   const projects = await getProjectsByUserIdWithCategories(userId, start, end, supabase);
-  return withPills(mapProjectsWithDetails(projects), supabase);
+  return mapProjectsWithDetails(projects);
 }
 
 export async function getProjectsByCategory(categoryIds, page, limit, supabase) {
@@ -207,7 +91,7 @@ export async function getProjectsByCategory(categoryIds, page, limit, supabase) 
     supabase,
   );
 
-  return withPills(mapProjectsWithDetails(categoryProjects), supabase);
+  return mapProjectsWithDetails(categoryProjects);
 }
 
 export async function getProjectById(id, supabase) {
@@ -217,8 +101,7 @@ export async function getProjectById(id, supabase) {
     return null;
   }
 
-  const [withPillsAttached] = await withPills(mapProjectsWithDetails([project]), supabase);
-  return withPillsAttached;
+  return mapProjectsWithDetails([project])[0];
 }
 
 export async function getProjectByGithubUrl(githubUrl, supabase) {
@@ -264,18 +147,16 @@ export async function getUserBookmarkedProjects(userId, page, limit, supabase) {
   const projects = await getProjectsByIds(projectIds, supabase);
 
   //additional data
-  return withPills(mapProjectsWithDetails(projects), supabase);
+  return mapProjectsWithDetails(projects);
 }
 
 export async function getUserContributedProjects(userId, supabase) {
   const projects = await getProjectsByUserIdWithContributions(userId, supabase);
-  return withPills(mapProjectsWithDetails(projects), supabase);
+  return mapProjectsWithDetails(projects);
 }
 
 export async function storeProject(user, projectData, supabase) {
-  // `matchedDPGs` is a UI-only field from a half-built DPG-matching feature.
-  // It must not reach the projects insert — the column does not exist.
-  let { tags, matchedDPGs: _matchedDPGs, ...projectFields } = projectData.data;
+  let { tags, ...projectFields } = projectData.data;
 
   const normalizedGithubUrl = projectFields.github_repo?.trim() || projectFields.github?.trim();
 

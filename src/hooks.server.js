@@ -2,7 +2,6 @@ import { redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
 import { createSessionClient, getSessionAndUser } from '$lib/server/providers/authProvider.js';
-import { isPublicApiRoute, skipsOriginCheck } from '$lib/server/security/apiPublicRoutes.js';
 
 const supabase = async ({ event, resolve }) => {
   /**
@@ -47,31 +46,43 @@ const authGuard = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-/**
- * API gate: rejects unauthenticated requests to non-public endpoints, and
- * blocks cross-origin requests in production. The public-route table lives
- * in `$lib/server/security/apiPublicRoutes.js` so it can be unit-tested.
- */
 const apiProtection = async ({ event, resolve }) => {
-  if (!event.url.pathname.startsWith('/api/')) return resolve(event);
+  if (event.url.pathname.startsWith('/api/')) {
+    // Define public API routes with allowed methods
+    const publicRoutes = [
+      { path: '/api/projects/singleProject', methods: ['GET'] },
+      { path: '/api/projects', methods: ['GET'] },
+      { path: '/api/signIn', methods: ['POST'] },
+      { path: '/api/signUp', methods: ['POST'] },
+    ];
 
-  const pathname = event.url.pathname;
-  const method = event.request.method;
+    const matchedRoute = publicRoutes.find((route) => event.url.pathname.startsWith(route.path));
 
-  if (!isPublicApiRoute(pathname, method)) {
-    if (!event.locals.session) {
+    const isPublicRoute = matchedRoute !== undefined;
+
+    // Check if the HTTP method is allowed for public routes
+    if (isPublicRoute && !matchedRoute.methods.includes(event.request.method)) {
+      return new Response('Method Not Allowed', { status: 405 });
+    }
+
+    // For protected routes, require authentication.
+    // `event.locals.session` is already populated by `authGuard`; reuse it
+    // instead of re-validating the JWT here. Note: if `apiProtection` is added
+    // back to `sequence(...)`, it must run after `authGuard` for this to be defined.
+    if (!isPublicRoute && !event.locals.session) {
       return new Response('Unauthorized', { status: 401 });
     }
-  }
 
-  if (!skipsOriginCheck(pathname)) {
+    // Apply origin check for all API routes (public or protected)
     const origin = event.request.headers.get('origin');
     const host = event.request.headers.get('host');
     const isDevelopment = process.env.NODE_ENV === 'development';
 
     if (origin) {
       const expectedOrigin = `${event.url.protocol}//${host}`;
-      if (origin !== expectedOrigin && !isDevelopment) {
+      const isValidOrigin = origin === expectedOrigin;
+
+      if (!isValidOrigin && !isDevelopment) {
         return new Response('Forbidden', { status: 403 });
       }
     }
@@ -80,4 +91,4 @@ const apiProtection = async ({ event, resolve }) => {
   return resolve(event);
 };
 
-export const handle = sequence(supabase, authGuard, apiProtection);
+export const handle = sequence(supabase, authGuard);
