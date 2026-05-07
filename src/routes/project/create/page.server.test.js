@@ -11,7 +11,7 @@ describe('create project action', () => {
       country: 'Andorra',
       tags: JSON.stringify([{ id: '1', title: 'No Poverty' }]),
       email: 'test@example.com',
-      github: 'https://github.com/christex-foundation/pipeline',
+      github_repo: 'https://github.com/christex-foundation/pipeline',
       funding_goal: '5000',
       matchedDPGs: '[]',
       // banner_image and image can be omitted or mocked as needed
@@ -52,7 +52,7 @@ describe('create project action', () => {
       details: 'This is a detailed description for testing.',
       country: 'Andorra',
       tags: JSON.stringify([{ id: '1', title: 'No Poverty' }]),
-      github: 'https://github.com/christex-foundation/pipeline',
+      github_repo: 'https://github.com/christex-foundation/pipeline',
       funding_goal: '5000',
     };
 
@@ -94,7 +94,7 @@ describe('create project action', () => {
       country: 'Andorra',
       tags: JSON.stringify([{ id: '1', title: 'No Poverty' }]),
       email: 'test@example.com',
-      github: 'https://github.com/christex-foundation/pipeline',
+      github_repo: 'https://github.com/christex-foundation/pipeline',
       funding_goal: '5000',
       matchedDPGs: '[]',
     };

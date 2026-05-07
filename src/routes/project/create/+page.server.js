@@ -1,16 +1,41 @@
+import { allCategories } from '$lib/server/service/categoryService.js';
 import { createProjectSchema } from '$lib/server/validator/projectSchema.js';
 import { uploadImageAndReturnUrl } from '$lib/server/service/imageUploadService.js';
 import { error, fail, json, redirect } from '@sveltejs/kit';
+
+export async function load({ locals }) {
+  try {
+    return {
+      categories: await allCategories(locals.supabase),
+    };
+  } catch (error) {
+    console.error('Failed to load categories for project creation:', error);
+
+    return {
+      categories: [],
+    };
+  }
+}
 
 /** @type {import('./$types').Actions} */
 export const actions = {
   default: async ({ request, locals, fetch }) => {
     let supabase = locals.supabase;
-    const { tags, banner_image, image, matchedDPGs, ...form } = Object.fromEntries(
-      await request.formData(),
+    const formData = await request.formData();
+    const tags = formData.get('tags');
+    const bannerImage = formData.get('banner_image');
+    const image = formData.get('image');
+    const form = Object.fromEntries(
+      [...formData.entries()].filter(
+        ([key]) => !['tags', 'banner_image', 'image', 'matchedDPGs'].includes(key),
+      ),
     );
 
-    const { data, error: validationError, success } = createProjectSchema.safeParse(form);
+    const {
+      data: validatedData,
+      error: validationError,
+      success,
+    } = createProjectSchema.safeParse(form);
 
     if (!success) {
       const errors = validationError.flatten().fieldErrors;
@@ -18,16 +43,27 @@ export const actions = {
       return fail(400, { error: firstError });
     }
 
-    const parsedMatchedDPGs = matchedDPGs ? JSON.parse(matchedDPGs) : [];
-
-    data.tags = tags;
-    data.matchedDPGs = parsedMatchedDPGs;
-
-    if (banner_image?.name) {
-      data.banner_image = await uploadImageAndReturnUrl(banner_image, supabase);
+    let parsedTags;
+    try {
+      parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags;
+    } catch {
+      parsedTags = [];
+    }
+    if (!Array.isArray(parsedTags) || parsedTags.length === 0) {
+      return fail(400, { error: 'Please pick at least one SDG tag' });
     }
 
-    if (image?.name) {
+    /** @type {Record<string, any>} */
+    const data = {
+      ...validatedData,
+      tags,
+    };
+
+    if (bannerImage instanceof File && bannerImage.size > 0) {
+      data.banner_image = await uploadImageAndReturnUrl(bannerImage, supabase);
+    }
+
+    if (image instanceof File && image.size > 0) {
       data.image = await uploadImageAndReturnUrl(image, supabase);
     }
 
@@ -42,7 +78,7 @@ export const actions = {
       const projectId = responseBody?.response?.projectId;
 
       if (!response.ok) {
-        return fail(400, 'Failed to save project');
+        return fail(400, { error: 'Failed to save project' });
       }
 
       return {
@@ -50,7 +86,7 @@ export const actions = {
         redirectTo: `/project/${projectId}`,
       };
     } catch (_) {
-      return fail(500, 'Failed to save project. Please try again later.');
+      return fail(500, { error: 'Failed to save project. Please try again later.' });
     }
   },
 };

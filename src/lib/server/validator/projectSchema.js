@@ -1,6 +1,8 @@
 import { countries } from 'countries-list';
 import { z } from 'zod';
 
+const countryNames = Object.values(countries).map((country) => country.name);
+
 export const projectSchema = z.object({
   title: z.string().min(1),
   bio: z.string().min(1),
@@ -9,14 +11,15 @@ export const projectSchema = z.object({
   email: z.string().email(),
   portfolio: z.string().url('Invalid portfolio URL').optional(),
   tags: z.string().array().nonempty(),
-  github: z
-    .string()
+  github_repo: z
+    .string({ required_error: 'GitHub repository is required' })
+    .trim()
+    .min(1, 'GitHub repository is required')
     .url('Invalid GitHub URL')
     .regex(
       new RegExp(/^https?:\/\/(?:www\.)?github\.com\/([\w-]+)\/([\w.-]+)(?:\/.*)?$/),
       'Invalid GitHub URL',
-    )
-    .optional(),
+    ),
   linkedin: z.string().url('Invalid LinkedIn URL').optional(),
   twitter: z.string().url('Invalid Twitter URL').optional(),
   website: z.string().url('Invalid Website URL').optional(),
@@ -37,22 +40,22 @@ export const createProjectSchema = z.object({
     .trim()
     .min(5, { message: 'bio is too short' })
     .optional(),
-  country: z.enum(
-    Object.values(countries).map((country) => country.name),
-    { required_error: 'country is required' },
-  ),
+  country: z
+    .string({ required_error: 'country is required' })
+    .refine((value) => countryNames.includes(value), { message: 'country is required' }),
   details: z
     .string({ required_error: 'details is required' })
     .trim()
     .min(5, { message: 'details is too short' }),
   email: z.string().optional(),
-  github: z
-    .string()
+  github_repo: z
+    .string({ required_error: 'GitHub repository is required' })
+    .trim()
+    .min(1, 'GitHub repository is required')
     .regex(
       new RegExp(/^https?:\/\/(?:www\.)?github\.com\/([\w-]+)\/([\w.-]+)(?:\/.*)?$/),
       'This is not a real github url',
-    )
-    .optional(),
+    ),
   linkedin: z.string().optional(),
   twitter: z.string().optional(),
   website: z.string().optional(),

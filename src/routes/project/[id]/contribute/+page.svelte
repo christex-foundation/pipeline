@@ -3,6 +3,7 @@
   import Issues from '$lib/Issues.svelte';
   import DpgStatus from '$lib/dpgStatus.svelte';
   import { page } from '$app/stores';
+  import { parseGithubRepo } from '$lib/utils/github.js';
   import { ChevronRight, ArrowLeft, GitBranch, Award, CheckCircle, Circle } from 'lucide-svelte';
   import Icon from '@iconify/svelte';
   import { fly, fade, scale } from 'svelte/transition';
@@ -166,10 +167,10 @@
               class="rounded-2xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-4 shadow-card md:p-6"
             >
               {#await (async () => {
-                const githubLinkSplit = project?.github?.split('/') || [];
-                const concat = githubLinkSplit[3] + '/' + githubLinkSplit[4];
+                const repo = parseGithubRepo(project?.github);
+                if (!repo) return [];
                 try {
-                  const res = await fetch(`https://api.github.com/repos/${concat}/issues`);
+                  const res = await fetch(`https://api.github.com/repos/${repo.owner}/${repo.repo}/issues`);
                   return await res.json();
                 } catch (_e) {
                   return [];

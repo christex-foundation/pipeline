@@ -1,7 +1,8 @@
 <script>
   import Icon from '@iconify/svelte';
   import * as Popover from '$lib/components/ui/popover';
-  import { getIconForStandard, isFileBasedCriterion } from '$lib/utils/dpgStandards.js';
+  import { page } from '$app/stores';
+  import { buildBadgeMarkdown, buildBadgeHtml } from '$lib/utils/dpgBadge.js';
 
   export let project;
   export let isOwner = false;
@@ -114,6 +115,21 @@
   }
 
   $: dpgStatuses = project.dpgStatus?.status;
+  $: badgeMarkdown = buildBadgeMarkdown($page.url.origin, project.id);
+  $: badgeHtml = buildBadgeHtml($page.url.origin, project.id);
+
+  let copiedFormat = null;
+  async function copyBadge(text, format) {
+    try {
+      await navigator.clipboard.writeText(text);
+      copiedFormat = format;
+      setTimeout(() => {
+        if (copiedFormat === format) copiedFormat = null;
+      }, 1500);
+    } catch (_) {
+      // clipboard write failed silently — user can still select the text manually
+    }
+  }
 
   // Separate completed and incomplete items for better focus
   $: completedItems = dpgStatuses?.filter((item) => item.overallScore === 1) || [];
@@ -210,6 +226,40 @@
           class="h-4 bg-gradient-to-r from-dashboard-yellow-400 to-dashboard-purple-500 transition-all duration-700 ease-out"
           style="width: {(project.dpgCount / 9) * 100}%"
         ></div>
+      </div>
+    </div>
+
+    <!-- Embed badge -->
+    <div
+      class="mx-auto max-w-md space-y-3 rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900/50 p-4"
+    >
+      <div class="flex items-center gap-2">
+        <Icon icon="mdi:code-tags" class="h-4 w-4 text-dashboard-purple-400" />
+        <span class="text-label-md font-medium text-gray-300">Embed in your README</span>
+      </div>
+      <div class="flex items-stretch gap-2">
+        <input
+          type="text"
+          readonly
+          value={badgeMarkdown}
+          on:focus={(e) => e.currentTarget.select()}
+          class="min-w-0 flex-1 truncate rounded-md border border-dashboard-gray-600 bg-dashboard-gray-800 px-3 py-2 font-mono text-body-sm text-gray-300 focus:border-dashboard-purple-500 focus:outline-none"
+          aria-label="Markdown snippet for the DPG score badge"
+        />
+        <button
+          type="button"
+          on:click={() => copyBadge(badgeMarkdown, 'md')}
+          class="rounded-md border border-dashboard-gray-600 bg-dashboard-gray-800 px-3 text-label-sm font-medium text-gray-300 transition-colors hover:border-dashboard-purple-500 hover:text-white"
+        >
+          {copiedFormat === 'md' ? 'Copied' : 'Copy MD'}
+        </button>
+        <button
+          type="button"
+          on:click={() => copyBadge(badgeHtml, 'html')}
+          class="rounded-md border border-dashboard-gray-600 bg-dashboard-gray-800 px-3 text-label-sm font-medium text-gray-300 transition-colors hover:border-dashboard-purple-500 hover:text-white"
+        >
+          {copiedFormat === 'html' ? 'Copied' : 'Copy HTML'}
+        </button>
       </div>
     </div>
 

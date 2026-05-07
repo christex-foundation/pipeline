@@ -65,13 +65,12 @@ const apiProtection = async ({ event, resolve }) => {
       return new Response('Method Not Allowed', { status: 405 });
     }
 
-    // For protected routes, require authentication
-    if (!isPublicRoute) {
-      const { session } = await event.locals.safeGetSession();
-
-      if (!session) {
-        return new Response('Unauthorized', { status: 401 });
-      }
+    // For protected routes, require authentication.
+    // `event.locals.session` is already populated by `authGuard`; reuse it
+    // instead of re-validating the JWT here. Note: if `apiProtection` is added
+    // back to `sequence(...)`, it must run after `authGuard` for this to be defined.
+    if (!isPublicRoute && !event.locals.session) {
+      return new Response('Unauthorized', { status: 401 });
     }
 
     // Apply origin check for all API routes (public or protected)
