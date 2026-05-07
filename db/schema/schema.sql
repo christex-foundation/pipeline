@@ -211,143 +211,143 @@ CREATE POLICY "Users can delete own connection"
 INSERT INTO
   public.categories (title, description, created_at, sdg_id, image)
 VALUES
-  ('No Poverty', 
-   'End poverty in all its forms everywhere', 
-   NOW(), 
-   1, 
+  ('No Poverty',
+   'End poverty in all its forms everywhere',
+   NOW(),
+   1,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-01.jpg?t=2024-11-18T16%3A05%3A17.510Z'),
-   
-  ('Zero Hunger', 
-   'End hunger, achieve food security, improve nutrition, and promote sustainable agriculture', 
-   NOW(), 
-   2, 
+
+  ('Zero Hunger',
+   'End hunger, achieve food security, improve nutrition, and promote sustainable agriculture',
+   NOW(),
+   2,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-02.jpg?t=2024-11-18T16%3A07%3A24.534Z'),
-   
-  ('Good Health and Well-being', 
-   'Ensure healthy lives and promote well-being for all at all ages', 
-   NOW(), 
-   3, 
+
+  ('Good Health and Well-being',
+   'Ensure healthy lives and promote well-being for all at all ages',
+   NOW(),
+   3,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-03.jpg?t=2024-11-18T16%3A07%3A45.633Z'),
-   
-  ('Quality Education', 
-   'Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all', 
-   NOW(), 
-   4, 
+
+  ('Quality Education',
+   'Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all',
+   NOW(),
+   4,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-04.jpg?t=2024-11-18T16%3A08%3A10.025Z'),
-   
-  ('Gender Equality', 
-   'Achieve gender equality and empower all women and girls.', 
-   NOW(), 
-   5, 
+
+  ('Gender Equality',
+   'Achieve gender equality and empower all women and girls.',
+   NOW(),
+   5,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-05.jpg'),
-   
-  ('Clean Water and Sanitation', 
-   'Ensure availability and sustainable management of water and sanitation for all', 
-   NOW(), 
-   6, 
+
+  ('Clean Water and Sanitation',
+   'Ensure availability and sustainable management of water and sanitation for all',
+   NOW(),
+   6,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-06.jpg'),
-   
-  ('Affordable and Clean Energy', 
-   'Ensure access to affordable, reliable, sustainable, and modern energy for all.', 
-   NOW(), 
-   7, 
+
+  ('Affordable and Clean Energy',
+   'Ensure access to affordable, reliable, sustainable, and modern energy for all.',
+   NOW(),
+   7,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-07.jpg'),
-   
-  ('Decent Work and Economic Growth', 
-   'Promote sustained, inclusive, and sustainable economic growth, full and productive employment, and decent work for all.', 
-   NOW(), 
-   8, 
+
+  ('Decent Work and Economic Growth',
+   'Promote sustained, inclusive, and sustainable economic growth, full and productive employment, and decent work for all.',
+   NOW(),
+   8,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-08.jpg'),
-   
-  ('Industry, Innovation, and Infrastructure', 
-   'Build resilient infrastructure, promote inclusive and sustainable industrialisation, and foster innovation.', 
-   NOW(), 
-   9, 
+
+  ('Industry, Innovation, and Infrastructure',
+   'Build resilient infrastructure, promote inclusive and sustainable industrialisation, and foster innovation.',
+   NOW(),
+   9,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-09.jpg'),
-   
-  ('Reduce Inequality', 
-   'Reduce inequality within and among countries.', 
-   NOW(), 
-   10, 
+
+  ('Reduce Inequality',
+   'Reduce inequality within and among countries.',
+   NOW(),
+   10,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-10.jpg'),
-   
-  ('Sustainable Cities and Communities', 
-   'Make cities and human settlements inclusive, safe, resilient, and sustainable.', 
-   NOW(), 
-   11, 
+
+  ('Sustainable Cities and Communities',
+   'Make cities and human settlements inclusive, safe, resilient, and sustainable.',
+   NOW(),
+   11,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-11.jpg'),
-   
-  ('Responsible Consumption and Production', 
-   'Ensure sustainable consumption and production patterns.', 
-   NOW(), 
-   12, 
+
+  ('Responsible Consumption and Production',
+   'Ensure sustainable consumption and production patterns.',
+   NOW(),
+   12,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-12.jpg'),
-   
-  ('Climate Action', 
-   'Take urgent action to combat climate change and its impacts.', 
-   NOW(), 
-   13, 
+
+  ('Climate Action',
+   'Take urgent action to combat climate change and its impacts.',
+   NOW(),
+   13,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-13.jpg'),
-   
-  ('Life Below Water', 
-   'Conserve and sustainably use the oceans, seas, and marine resources for sustainable development.', 
-   NOW(), 
-   14, 
+
+  ('Life Below Water',
+   'Conserve and sustainably use the oceans, seas, and marine resources for sustainable development.',
+   NOW(),
+   14,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-14.jpg'),
-   
-  ('Life on Land', 
-   'Protect, restore, and promote sustainable use of terrestrial ecosystems, manage forests, combat desertification, halt and reverse land degradation, and halt biodiversity loss.', 
-   NOW(), 
-   15, 
+
+  ('Life on Land',
+   'Protect, restore, and promote sustainable use of terrestrial ecosystems, manage forests, combat desertification, halt and reverse land degradation, and halt biodiversity loss.',
+   NOW(),
+   15,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-15.jpg'),
-   
-  ('Peace, Justice, and Strong Institutions', 
-   'Promote peaceful and inclusive societies, provide access to justice for all, and build effective, accountable, and inclusive institutions.', 
-   NOW(), 
-   16, 
+
+  ('Peace, Justice, and Strong Institutions',
+   'Promote peaceful and inclusive societies, provide access to justice for all, and build effective, accountable, and inclusive institutions.',
+   NOW(),
+   16,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-16.jpg'),
-   
-  ('Partnerships for the Goals', 
-   'Strengthen the means of implementation and revitalise the global partnership for sustainable development.', 
-   NOW(), 
-   17, 
+
+  ('Partnerships for the Goals',
+   'Strengthen the means of implementation and revitalise the global partnership for sustainable development.',
+   NOW(),
+   17,
    'https://zyfpmpmcpzmickajgkwp.supabase.co/storage/v1/object/public/pipeline-images/SDGs/E_SDG_Icons-17.jpg');
 
 INSERT INTO
   public.dpg_status (NAME, criteria, created_at)
 VALUES
-  ('Platform Independence', 
-   'The solution can operate across different platforms without significant modifications.', 
+  ('Platform Independence',
+   'The solution can operate across different platforms without significant modifications.',
    NOW()),
 
-  ('Clear Ownership', 
-   'The ownership and management structure of the solution are clearly defined.', 
+  ('Clear Ownership',
+   'The ownership and management structure of the solution are clearly defined.',
    NOW()),
 
-  ('Relevance to Sustainable Development Goals', 
-   'The solution directly contributes to achieving one or more Sustainable Development Goals.', 
+  ('Relevance to Sustainable Development Goals',
+   'The solution directly contributes to achieving one or more Sustainable Development Goals.',
    NOW()),
 
-  ('Adherence to Privacy and Applicable Laws', 
-   'The solution complies with all relevant privacy regulations and legal frameworks.', 
+  ('Adherence to Privacy and Applicable Laws',
+   'The solution complies with all relevant privacy regulations and legal frameworks.',
    NOW()),
 
-  ('Documentation', 
-   'Comprehensive and accessible documentation is provided for users and developers.', 
+  ('Documentation',
+   'Comprehensive and accessible documentation is provided for users and developers.',
    NOW()),
 
-  ('Adherence to Standards & Best Practices', 
-   'The solution follows recognized standards and best practices to ensure quality and reliability.', 
+  ('Adherence to Standards & Best Practices',
+   'The solution follows recognized standards and best practices to ensure quality and reliability.',
    NOW()),
 
-  ('Use of Approved Open Licenses', 
-   'The solution is released under an approved open-source license.', 
+  ('Use of Approved Open Licenses',
+   'The solution is released under an approved open-source license.',
    NOW()),
 
-  ('Do No Harm By Design', 
-   'The solution is intentionally designed to avoid causing harm to users or society.', 
+  ('Do No Harm By Design',
+   'The solution is intentionally designed to avoid causing harm to users or society.',
    NOW()),
 
-  ('Mechanism for Extracting Data and Content', 
-   'Users can extract their data and content easily without vendor lock-in.', 
+  ('Mechanism for Extracting Data and Content',
+   'Users can extract their data and content easily without vendor lock-in.',
    NOW());

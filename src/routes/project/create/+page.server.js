@@ -43,6 +43,16 @@ export const actions = {
       return fail(400, { error: firstError });
     }
 
+    let parsedTags;
+    try {
+      parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags;
+    } catch {
+      parsedTags = [];
+    }
+    if (!Array.isArray(parsedTags) || parsedTags.length === 0) {
+      return fail(400, { error: 'Please pick at least one SDG tag' });
+    }
+
     /** @type {Record<string, any>} */
     const data = {
       ...validatedData,
