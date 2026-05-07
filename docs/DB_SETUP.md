@@ -28,3 +28,7 @@ Follow these steps to set up your Supabase database for the project.
     VITE_SUPABASE_ANON_KEY=your_anon_key
     PRIVATE_SUPABASE_SERVICE_KEY=your_service_role_key
     ```
+
+---
+
+Once the database is ready, set up image uploads — see [Storage Setup](./STORAGE_SETUP.md).
