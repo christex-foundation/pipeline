@@ -1,18 +1,23 @@
 //@ts-check
 import { createServerClient } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
-import { SUPABASE_SERVICE_KEY, supabaseUrl, supabaseAnonKey } from '$lib/server/config.js';
+import { SUPABASE_SERVICE_KEY, supabaseUrl } from '$lib/server/config.js';
 
 /**
- * Admin auth client for privileged operations (user creation, deletion).
- * Uses the service key — not request-scoped.
+ * Admin client for privileged operations. Uses the service key and carries no
+ * user session, so database writes bypass RLS. Used for server-side operations
+ * whose authorization has already been verified out-of-band (e.g. OAuth
+ * identity linking).
  */
-const adminAuthClient = createClient(supabaseUrl, SUPABASE_SERVICE_KEY, {
+const adminClient = createClient(supabaseUrl, SUPABASE_SERVICE_KEY, {
   auth: {
     autoRefreshToken: false,
     persistSession: false,
   },
-}).auth.admin;
+});
+const adminAuthClient = adminClient.auth.admin;
+
+export { adminClient as supabaseAdmin };
 
 /**
  * Creates a new user account with admin privileges.
@@ -101,6 +106,59 @@ export function createSessionClient(cookieHandlers) {
  * @param {any} supabaseClient - Request-scoped Supabase client
  * @returns {Promise<{ session: any, user: any }>}
  */
+/**
+ * Initiates linking a social identity provider to the current user.
+ * Returns a URL to redirect the user to for OAuth authorization.
+ *
+ * @param {any} supabaseClient - Request-scoped Supabase client
+ * @param {{ provider: string, redirectTo: string, scopes: string }} options
+ * @returns {Promise<{ url: string|null }>}
+ */
+export async function linkIdentity(supabaseClient, { provider, redirectTo, scopes }) {
+  const { data, error } = await supabaseClient.auth.linkIdentity({
+    provider,
+    options: { redirectTo, scopes },
+  });
+  if (error) throw new Error(error.message);
+  return { url: data?.url || null };
+}
+
+/**
+ * Exchanges an OAuth code for a session. Used in OAuth callback routes.
+ *
+ * @param {any} supabaseClient - Request-scoped Supabase client
+ * @param {string} code - The authorization code from the OAuth callback
+ * @returns {Promise<{ session: any }>}
+ */
+export async function exchangeCodeForSession(supabaseClient, code) {
+  const { data, error } = await supabaseClient.auth.exchangeCodeForSession(code);
+  if (error) throw new Error(error.message);
+  return { session: data.session };
+}
+
+/**
+ * Unlinks the current user's identity for a specific OAuth provider.
+ * Returns false when no identity for that provider is linked.
+ *
+ * @param {any} supabaseClient - Request-scoped Supabase client
+ * @param {string} provider
+ * @returns {Promise<boolean>}
+ */
+export async function unlinkIdentityByProvider(supabaseClient, provider) {
+  const { data, error } = await supabaseClient.auth.getUserIdentities();
+  if (error) throw new Error(error.message);
+
+  const identity = data?.identities?.find((entry) => entry.provider === provider);
+  if (!identity) {
+    return false;
+  }
+
+  const { error: unlinkError } = await supabaseClient.auth.unlinkIdentity(identity);
+  if (unlinkError) throw new Error(unlinkError.message);
+
+  return true;
+}
+
 export async function getSessionAndUser(supabaseClient) {
   const {
     data: { session },

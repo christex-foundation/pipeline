@@ -1,5 +1,54 @@
 //@ts-check
 
+function normalizeProjectRecord(project) {
+  if (!project) {
+    return project;
+  }
+
+  const githubRepo = project.github_repo ?? project.github ?? null;
+
+  return {
+    ...project,
+    github_repo: githubRepo,
+    github: githubRepo,
+    published_at: project.published_at ?? null,
+    dpgStatus: project.dpgStatus ?? null,
+  };
+}
+
+function normalizeProjectRecords(projects) {
+  return (projects || []).map(normalizeProjectRecord);
+}
+
+function toProjectRow(projectData) {
+  const githubRepo = projectData.github_repo ?? projectData.github;
+
+  return Object.fromEntries(
+    Object.entries({
+      user_id: projectData.user_id,
+      title: projectData.title,
+      bio: projectData.bio,
+      github_repo: githubRepo,
+      funding_goal: projectData.funding_goal,
+      current_funding: projectData.current_funding,
+      status: projectData.status,
+      updated_at: projectData.updated_at,
+      country: projectData.country,
+      details: projectData.details,
+      email: projectData.email,
+      portfolio: projectData.portfolio,
+      linkedin: projectData.linkedin,
+      twitter: projectData.twitter,
+      website: projectData.website,
+      other: projectData.other,
+      bank_acct: projectData.bank_acct,
+      wallet_address: projectData.wallet_address,
+      image: projectData.image,
+      banner_image: projectData.banner_image,
+    }).filter(([, value]) => value !== undefined),
+  );
+}
+
 export async function getProjects(term, start, end, supabase) {
   const { data, error } = await supabase
     .from('projects')
@@ -9,7 +58,7 @@ export async function getProjects(term, start, end, supabase) {
     .order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
-  return data || [];
+  return normalizeProjectRecords(data);
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -24,8 +73,7 @@ export async function getProjectsWithCategories(term, start, end, supabase, excl
       current_funding,
       user_id,
       bio,
-      published_at,
-      dpgStatus,
+      github_repo,
       category_project!inner (
         categories!inner (
           id,
@@ -36,9 +84,6 @@ export async function getProjectsWithCategories(term, start, end, supabase, excl
       )
     `,
   );
-
-  // Only show published projects on explore page
-  query = query.not('published_at', 'is', null);
 
   // Exclude projects already surfaced in the Top Projects hero.
   // Filter to UUID-shaped values so user-supplied strings can't reach PostgREST.
@@ -57,7 +102,7 @@ export async function getProjectsWithCategories(term, start, end, supabase, excl
   const { data, error } = await query.range(start, end).order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
-  return data || [];
+  return normalizeProjectRecords(data);
 }
 
 export async function getPublishedProjectsWithDpgStatus(supabase) {
@@ -72,8 +117,7 @@ export async function getPublishedProjectsWithDpgStatus(supabase) {
       current_funding,
       user_id,
       bio,
-      published_at,
-      dpgStatus,
+      github_repo,
       category_project!inner (
         categories!inner (
           id,
@@ -84,11 +128,10 @@ export async function getPublishedProjectsWithDpgStatus(supabase) {
       )
     `,
     )
-    .not('published_at', 'is', null)
     .order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
-  return data || [];
+  return normalizeProjectRecords(data);
 }
 
 export async function getProject(id, supabase) {
@@ -107,7 +150,7 @@ export async function getProject(id, supabase) {
     .eq('id', id)
     .single();
   if (error) throw new Error(error.message);
-  return data || {};
+  return normalizeProjectRecord(data) || {};
 }
 
 export async function getProjectsByIds(Ids, supabase) {
@@ -123,7 +166,7 @@ export async function getProjectsByIds(Ids, supabase) {
     .in('id', Ids)
     .order('created_at', { ascending: false });
   if (error) throw new Error(error.message);
-  return data || {};
+  return normalizeProjectRecords(data);
 }
 
 export async function getProjectsByUserId(userId, start, end, supabase) {
@@ -134,7 +177,7 @@ export async function getProjectsByUserId(userId, start, end, supabase) {
     .range(start, end)
     .order('created_at', { ascending: false });
   if (error) throw new Error(error.message);
-  return data;
+  return normalizeProjectRecords(data);
 }
 
 export async function getProjectsByUserIdWithCategories(userId, start, end, supabase) {
@@ -148,8 +191,7 @@ export async function getProjectsByUserIdWithCategories(userId, start, end, supa
     funding_goal,
     current_funding,
     user_id,
-    published_at,
-    dpgStatus,
+    github_repo,
     category_project!inner (
       categories!inner (
         id,
@@ -165,7 +207,7 @@ export async function getProjectsByUserIdWithCategories(userId, start, end, supa
     .order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
-  return data;
+  return normalizeProjectRecords(data);
 }
 
 export async function getProjectsByUserIdWithContributions(userId, supabase) {
@@ -184,31 +226,38 @@ export async function getProjectsByUserIdWithContributions(userId, supabase) {
     .eq('project_resource.user_id', userId);
 
   if (error) throw new Error(error.message);
-  return data;
+  return normalizeProjectRecords(data);
 }
 
 export async function getProjectByGithub(url, supabase) {
   const { data, error } = await supabase
     .from('projects')
     .select('*')
-    .eq('github', url)
+    .eq('github_repo', url)
     .order('created_at', { ascending: true })
     .limit(1)
     .maybeSingle();
   if (error) throw new Error(error.message);
-  return data;
+  return normalizeProjectRecord(data);
 }
 
 export async function createProject(projectData, supabase) {
-  const { data, error } = await supabase.from('projects').insert(projectData).select();
+  const { data, error } = await supabase
+    .from('projects')
+    .insert(toProjectRow(projectData))
+    .select();
   if (error) throw new Error(error.message);
-  return data[0];
+  return normalizeProjectRecord(data[0]);
 }
 
 export async function updateDetails(id, projectData, supabase) {
-  const { data, error } = await supabase.from('projects').update(projectData).eq('id', id).select();
+  const { data, error } = await supabase
+    .from('projects')
+    .update(toProjectRow(projectData))
+    .eq('id', id)
+    .select();
   if (error) throw new Error(error.message);
-  return data[0];
+  return normalizeProjectRecord(data[0]);
 }
 
 export async function updateProjectDpg(id, projectData, supabase) {
@@ -232,3 +281,5 @@ export async function deleteProjectsByUserId(userId, supabase) {
   const { error } = await supabase.from('projects').delete().eq('user_id', userId);
   if (error) throw new Error(error.message);
 }
+
+export { normalizeProjectRecord };

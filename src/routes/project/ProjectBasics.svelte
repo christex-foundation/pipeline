@@ -17,6 +17,7 @@
   import { Popover, PopoverContent, PopoverTrigger } from '$lib/components/ui/popover';
 
   export let project = {};
+  export let availableTags = [];
 
   const countryList = Object.values(countries).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -24,8 +25,6 @@
 
   let isOpen = false;
   let inputValue = '';
-
-  let availableTags = [];
 
   function toggleDropdown(event) {
     event.preventDefault();
@@ -88,11 +87,15 @@
 
       const data = await response.json();
       availableTags = data.categories;
-    } catch (error) {}
+    } catch (error) {
+      console.error('Failed to load project categories:', error);
+    }
   }
 
   onMount(async () => {
-    fetchAllCategories();
+    if (!availableTags.length) {
+      await fetchAllCategories();
+    }
   });
 </script>
 

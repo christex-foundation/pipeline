@@ -6,11 +6,23 @@ export const actions = {
   default: async ({ request, locals, params, fetch }) => {
     let id = params.id;
 
-    const { tags, old_image, old_banner, banner_image, image, ...form } = Object.fromEntries(
-      await request.formData(),
+    const formData = await request.formData();
+    const tags = formData.get('tags');
+    const oldImage = formData.get('old_image');
+    const oldBanner = formData.get('old_banner');
+    const bannerImage = formData.get('banner_image');
+    const image = formData.get('image');
+    const form = Object.fromEntries(
+      [...formData.entries()].filter(
+        ([key]) => !['tags', 'old_image', 'old_banner', 'banner_image', 'image'].includes(key),
+      ),
     );
 
-    const { data, error: validationError, success } = createProjectSchema.safeParse(form);
+    const {
+      data: validatedData,
+      error: validationError,
+      success,
+    } = createProjectSchema.safeParse(form);
 
     if (!success) {
       const errors = validationError.flatten().fieldErrors;
@@ -19,26 +31,30 @@ export const actions = {
       return fail(400, { error: firstError });
     }
 
-    data.tags = tags;
+    /** @type {Record<string, any>} */
+    const data = {
+      ...validatedData,
+      tags,
+    };
 
     const supabase = locals.supabase;
 
-    if (banner_image?.size > 0) {
-      if (old_banner) {
-        await removeImage(old_banner, supabase);
+    if (bannerImage instanceof File && bannerImage.size > 0) {
+      if (typeof oldBanner === 'string' && oldBanner) {
+        await removeImage(oldBanner, supabase);
       }
-      data.banner_image = await uploadImageAndReturnUrl(banner_image, supabase);
+      data.banner_image = await uploadImageAndReturnUrl(bannerImage, supabase);
     } else {
-      data.banner_image = old_banner;
+      data.banner_image = typeof oldBanner === 'string' ? oldBanner : '';
     }
 
-    if (image?.size > 0) {
-      if (old_image) {
-        await removeImage(old_image, supabase);
+    if (image instanceof File && image.size > 0) {
+      if (typeof oldImage === 'string' && oldImage) {
+        await removeImage(oldImage, supabase);
       }
       data.image = await uploadImageAndReturnUrl(image, supabase);
     } else {
-      data.image = old_image;
+      data.image = typeof oldImage === 'string' ? oldImage : '';
     }
 
     try {

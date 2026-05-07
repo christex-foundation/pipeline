@@ -14,6 +14,8 @@
 
   import { goto } from '$app/navigation';
 
+  export let data;
+
   let loading = false;
   let loadingMatchingDPGs = false;
   let project = { title: '', bio: '' };
@@ -95,7 +97,7 @@
                 Tell us about your project and what makes it special
               </p>
             </div>
-            <ProjectBasics bind:project />
+            <ProjectBasics bind:project availableTags={data.categories} />
             <input type="hidden" name="matchedDPGs" value={JSON.stringify(matchProjects)} />
           </div>
         </div>
