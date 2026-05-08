@@ -40,12 +40,19 @@
       icon: 'mdi:heart',
       count: data.following?.length || 0,
     },
+    {
+      name: 'Recent Activity',
+      href: '/profile/activity',
+      icon: 'mdi:clock-outline',
+      count: 0,
+    },
   ];
 
   function getActiveTab(pathname) {
     if (pathname === '/profile') return 0;
     if (pathname.endsWith('/contributed')) return 1;
     if (pathname.endsWith('/following')) return 2;
+    if (pathname.endsWith('/activity')) return 3;
     return 0;
   }
 
