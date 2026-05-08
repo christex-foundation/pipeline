@@ -44,7 +44,9 @@ Three hooks run via `sequence()`:
 
 ### Async Job Processing
 
-Evaluation requests are persisted to the `evaluation_queue` table (`requestEvaluation` in `evaluationQueueService.js`). Today there is **no in-process worker**: queued rows wait for an out-of-band evaluator to pick them up and write results back. Slice 5's webhook hardening lays the groundwork for the evaluator API.
+Project evaluation runs **out-of-process**. When a project is created or re-evaluated, a row is inserted into `public.evaluation_queue` (see `db/migrations/001_evaluation_queue.sql`). A separate service (`~/Github/dpg-evaluator`) polls the queue with `service_role` credentials, fetches GitHub repo files, evaluates against the 9 DPG criteria, and writes results back to `projects.dpgStatus`. This app does not run AI or hold the OpenAI key.
+
+Per-criterion results are stored in the `projects.dpgStatus` JSONB column as `{ status: [{ name, overallScore, explanation }, ...], final_recommendation }`. A failed criterion has `overallScore !== 1`.
 
 ### State Management
 
