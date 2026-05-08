@@ -16,11 +16,30 @@ export function getIconForStandard(name) {
   return standardIcons[name] || 'mdi:checkbox-marked-circle';
 }
 
-// Criteria whose failure corresponds to missing repo files. Must stay in sync
-// with CRITERION_REQUIRED_FILES in src/lib/server/service/criterionCheckService.js.
-// The UI uses this to decide whether to show the "Check missing files" button.
+// Criteria whose failure typically corresponds to missing repo files. The UI
+// uses this to decide whether to show the "Recommended files" block sourced
+// from the evaluator's per-criterion recommendation.
 export const fileBasedCriteria = new Set(['Use of Approved Open Licenses', 'Documentation']);
 
 export function isFileBasedCriterion(name) {
   return fileBasedCriteria.has(name);
+}
+
+// 1-based criterion index, matching the order in the dpg-evaluator output
+// (priorityActions[].criterion). Used to look up cross-criterion suggestions
+// from dpgStatus.priorityActions for a given criterion name.
+export const criterionNumber = {
+  'Relevance to Sustainable Development Goals (SDGs)': 1,
+  'Use of Approved Open Licenses': 2,
+  'Clear Ownership': 3,
+  'Platform Independence': 4,
+  Documentation: 5,
+  'Mechanism for Extracting Data and Content': 6,
+  'Adherence to Privacy and Applicable Laws': 7,
+  'Adherence to Standards & Best Practices': 8,
+  'Do No Harm By Design': 9,
+};
+
+export function getCriterionNumber(name) {
+  return criterionNumber[name];
 }

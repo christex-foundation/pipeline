@@ -3,13 +3,35 @@
   import * as Popover from '$lib/components/ui/popover';
   import { page } from '$app/stores';
   import { buildBadgeMarkdown, buildBadgeHtml } from '$lib/utils/dpgBadge.js';
-  import { isFileBasedCriterion, getIconForStandard } from '$lib/utils/dpgStandards.js';
+  import {
+    isFileBasedCriterion,
+    getIconForStandard,
+    getCriterionNumber,
+  } from '$lib/utils/dpgStandards.js';
 
   export let project;
   export let isOwner = false;
   export let evaluations = { active: null, latest: null, history: [] };
 
   $: dpgStatuses = project.dpgStatus?.status;
+  $: priorityActions = project.dpgStatus?.priorityActions || [];
+
+  /**
+   * Returns priorityActions emitted by the evaluator that are tagged to the
+   * given criterion name (via the 1-based criterion index).
+   */
+  function actionsForCriterion(name) {
+    const num = getCriterionNumber(name);
+    if (!num) return [];
+    return priorityActions.filter((a) => a?.criterion === num);
+  }
+
+  const PRIORITY_STYLES = {
+    critical: 'bg-red-500/10 text-red-300',
+    high: 'bg-orange-500/10 text-orange-300',
+    medium: 'bg-yellow-500/10 text-yellow-300',
+    low: 'bg-gray-500/10 text-gray-300',
+  };
   $: badgeMarkdown = buildBadgeMarkdown($page.url.origin, project.id);
   $: badgeHtml = buildBadgeHtml($page.url.origin, project.id);
 
@@ -218,19 +240,42 @@
                     </p>
                   </div>
 
-                  {#if isFileBasedCriterion(item.name) && item.recommendation}
+                  {#if isFileBasedCriterion(item.name) && (item.recommendation || actionsForCriterion(item.name).length > 0)}
+                    {@const actions = actionsForCriterion(item.name)}
                     <div
-                      class="rounded-xl border border-dashboard-purple-500/30 bg-dashboard-purple-500/5 p-4"
+                      class="space-y-3 rounded-xl border border-dashboard-purple-500/30 bg-dashboard-purple-500/5 p-4"
                     >
-                      <div class="mb-2 flex items-center gap-2">
+                      <div class="flex items-center gap-2">
                         <Icon icon="mdi:file-plus" class="h-5 w-5 text-dashboard-purple-400" />
                         <span class="text-label-md font-medium text-dashboard-purple-400">
                           Recommended files
                         </span>
                       </div>
-                      <p class="whitespace-pre-line text-body-sm text-gray-300">
-                        {item.recommendation}
-                      </p>
+
+                      {#if item.recommendation}
+                        <p class="whitespace-pre-line text-body-sm text-gray-300">
+                          {item.recommendation}
+                        </p>
+                      {/if}
+
+                      {#if actions.length > 0}
+                        <ul class="space-y-2 border-t border-dashboard-purple-500/20 pt-3">
+                          {#each actions as action}
+                            <li class="flex items-start gap-2">
+                              {#if action.priority}
+                                <span
+                                  class="text-body-xs mt-0.5 shrink-0 rounded-full px-2 py-0.5 font-medium uppercase {PRIORITY_STYLES[
+                                    action.priority
+                                  ] || PRIORITY_STYLES.low}"
+                                >
+                                  {action.priority}
+                                </span>
+                              {/if}
+                              <span class="text-body-sm text-gray-300">{action.action}</span>
+                            </li>
+                          {/each}
+                        </ul>
+                      {/if}
                     </div>
                   {:else}
                     <div class="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-4">
