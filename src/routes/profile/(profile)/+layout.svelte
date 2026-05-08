@@ -40,12 +40,19 @@
       icon: 'mdi:heart',
       count: data.following?.length || 0,
     },
+    {
+      name: 'Recent Activity',
+      href: '/profile/activity',
+      icon: 'mdi:clock-outline',
+      count: 0,
+    },
   ];
 
   function getActiveTab(pathname) {
     if (pathname === '/profile') return 0;
     if (pathname.endsWith('/contributed')) return 1;
     if (pathname.endsWith('/following')) return 2;
+    if (pathname.endsWith('/activity')) return 3;
     return 0;
   }
 
@@ -203,7 +210,9 @@
                   Download My Data
                   <Icon icon="mdi:chevron-down" class="h-5 w-5" />
                 </DropdownMenu.Trigger>
-                <DropdownMenu.Content class="z-50 min-w-[180px] rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-1 text-white">
+                <DropdownMenu.Content
+                  class="z-50 min-w-[180px] rounded-xl border border-dashboard-gray-700 bg-dashboard-gray-900 p-1 text-white"
+                >
                   <DropdownMenu.Item
                     class="cursor-pointer rounded-lg px-3 py-2 text-sm hover:bg-dashboard-gray-800"
                     on:click={() => downloadMyData('json')}
